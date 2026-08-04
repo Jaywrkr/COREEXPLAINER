@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.15.0";
+export const currentVersion = "0.16.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.16.0",
+    date: "04 ago 2026",
+    title: "Explainer de Backup y Disaster Recovery alineado al portafolio",
+    changes: [
+      "Nuevo tema con cinco escenas sobre RPO/RTO, protección Veeam sobre VMware/VCF y Lenovo, copias protegidas IBM, recuperación y pruebas.",
+      "Escenarios interactivos para job fallido, repositorio no disponible, lag de replicación y restore no probado.",
+      "Se documentó el portafolio de marcas CoreSolutions, la fecha de revisión y la matriz de fuentes técnicas del tema.",
+    ],
+  },
   {
     version: "0.15.0",
     date: "04 ago 2026",
