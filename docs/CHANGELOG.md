@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.10.0] - 2026-08-04
+
+- Nuevo tema independiente con cinco escenas sobre datastore distribuido, objetos y políticas de storage.
+- Escenarios interactivos para fallas de host/disco, capacidad, fault domains y red vSAN.
+- Storyboard y matriz de validación técnica con fuentes oficiales de VMware by Broadcom.
+
 ## [0.9.0] - 2026-08-04
 
 - Nuevo tema independiente con cinco escenas sobre vSphere HA y recuperación ante fallos.

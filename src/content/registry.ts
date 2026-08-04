@@ -6,6 +6,8 @@ import { vcfMeta, vcfSteps } from "./vcf";
 import vcfRawSpec from "../../docs/examples/vcf/animation-spec.json";
 import { vsphereHaMeta, vsphereHaSteps } from "./vsphere-ha";
 import vsphereHaRawSpec from "../../docs/examples/vsphere-ha/animation-spec.json";
+import { vsanMeta, vsanSteps } from "./vsan";
+import vsanRawSpec from "../../docs/examples/vsan/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -38,12 +40,21 @@ const vsphereHaDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(vsphereHaRawSpec),
 };
 
+const vsanDefinition: ExplainerDefinition = {
+  slug: "vsan",
+  category: "Virtualización",
+  meta: vsanMeta,
+  steps: vsanSteps,
+  spec: parseAnimationSpec(vsanRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
 validateExplainerContent(vsphereHaDefinition);
+validateExplainerContent(vsanDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);
