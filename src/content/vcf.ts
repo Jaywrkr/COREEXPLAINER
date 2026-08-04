@@ -46,6 +46,9 @@ export const vcfFailureScenarios: FailureScenario[] = [
 ];
 
 export const vcfMeta: ExplainerMeta = {
+  storyboardDoc: "docs/examples/vcf/storyboard.md",
+  technicalValidationDoc: "docs/ai-context/vcf-technical-validation.md",
+  reviewStatus: "pending",
   failureScenarios: vcfFailureScenarios,
   chip: "Presentación técnica · VCF",
   title: "Cómo funciona VMware Cloud Foundation",

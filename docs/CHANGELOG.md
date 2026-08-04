@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.7.0] - 2026-08-04
+
+- Validación de estructura, profundidad narrativa y referencias visuales antes de registrar un tema.
+- Cada explicación declara storyboard, matriz técnica y estado de revisión.
+- Los errores de contenido hacen fallar la compilación; las revisiones pendientes quedan explícitas.
+
 ## [0.6.0] - 2026-08-04
 
 - Modo presentación con reproducción automática, pausa y reinicio.

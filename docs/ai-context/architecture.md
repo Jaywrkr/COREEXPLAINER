@@ -3,6 +3,7 @@
 ## Stack
 
 El modo presentación está documentado en `docs/ai-context/presentation-mode.md`.
+El gate de contenido está documentado en `docs/ai-context/content-quality-gate.md`.
 
 La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
 Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.
