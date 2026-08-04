@@ -127,6 +127,8 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
 - **`src/content/ransomware-resilience.ts`** — noveno ejemplo de referencia:
   cinco escenas sobre prevención, detección, contención, recuperación limpia y
   validación, separado conceptualmente de Backup/DR.
+- **`src/content/san-storage.ts`** — décimo ejemplo de referencia: cinco escenas
+  sobre capas SAN, pools, LUNs, host mapping, multipath, migración y replicación.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
   fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus

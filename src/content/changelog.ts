@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.19.0";
+export const currentVersion = "0.20.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.20.0",
+    date: "04 ago 2026",
+    title: "Explainer de Storage SAN empresarial",
+    changes: [
+      "Nuevo tema con cinco escenas sobre capas SAN, provisionamiento, host mapping, multipath, migración y replicación.",
+      "Escenarios interactivos para pérdida de fabric, mapping incorrecto, pool al límite y lag de replicación.",
+      "Se añadió la categoría Storage y una matriz técnica basada en documentación IBM y Lenovo revisada el 2026-08-04.",
+    ],
+  },
   {
     version: "0.19.0",
     date: "04 ago 2026",
