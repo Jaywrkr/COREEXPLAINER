@@ -1,5 +1,6 @@
 import type { Scene, SceneEdge, SceneNode } from "@/lib/animation-spec/types";
 import { palette } from "./palette";
+import { drawKindIcon } from "./icons";
 
 /**
  * Canvas simulation engine for animation-spec.json scenes.
@@ -239,10 +240,10 @@ export class SceneEngine {
     ctx.strokeRect(x + 0.5, y + 0.5, CARD_W - 1, CARD_H - 1);
 
     const iconSize = 22;
+    const iconBoxY = y + (CARD_H - iconSize) / 2;
     ctx.fillStyle = `${color}1e`;
-    ctx.fillRect(x + 8, y + (CARD_H - iconSize) / 2, iconSize, iconSize);
-    ctx.fillStyle = color;
-    ctx.fillRect(x + 8 + iconSize / 2 - 3, y + (CARD_H - iconSize) / 2 + iconSize / 2 - 3, 6, 6);
+    ctx.fillRect(x + 8, iconBoxY, iconSize, iconSize);
+    drawKindIcon(ctx, node.kind, x + 8 + 3, iconBoxY + 3, iconSize - 6, color);
 
     const textX = x + 8 + iconSize + 8;
     const nameFont = '600 11px "IBM Plex Sans", sans-serif';

@@ -57,8 +57,15 @@ especial para este caso?". Ver decisión D1 en `decisions.md`.
 
 No inventes un `kind` nuevo sin agregarlo primero a
 `src/lib/animation-spec/types.ts` (tipo `NodeKind`), a
-`src/components/explainer/engine/sceneEngine.ts` (`KIND_COLOR`) y a esta
-tabla.
+`src/components/explainer/engine/sceneEngine.ts` (`KIND_COLOR`), a
+`src/components/explainer/engine/icons.ts` (`ICONS` — necesita su propio
+glifo) y a esta tabla.
+
+Cada `kind` tiene un ícono vectorial fijo, dibujado por el motor
+(`icons.ts`) — no por nodo individual y sin assets externos. Un spec nunca
+debe intentar especificar un ícono por nodo; si un tema necesita
+distinguir visualmente nodos del mismo `kind`, usa `subtitle`, no un campo
+de ícono nuevo.
 
 ### Reglas de contenido de una escena
 

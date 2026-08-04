@@ -3,7 +3,8 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — Fase 0 (base del proyecto) completada.
+**Última actualización**: 2026-08-04 — Fase 0 (base del proyecto) completada +
+íconos por tipo de nodo agregados.
 
 ## Qué está hecho
 
@@ -37,6 +38,12 @@
   arquitectónica clave (D1 en `decisions.md`): la IA generará
   `animation-spec.json`, nunca HTML/JS libre.
 - Landing (`/`) simple con link al ejemplo.
+- **Íconos por `kind` de nodo** (`src/components/explainer/engine/icons.ts`):
+  un glifo vectorial dibujado en canvas por cada `NodeKind` (hub para
+  control-plane, rack para compute, platters para storage, mini-topología
+  para network, play-frame para workload, flecha-boundary para external).
+  No hay íconos por nodo individual ni assets externos — un tema nuevo los
+  hereda automáticamente al usar los `kind` existentes.
 
 ## Qué falta (fuera de alcance de esta fase, deliberadamente)
 
