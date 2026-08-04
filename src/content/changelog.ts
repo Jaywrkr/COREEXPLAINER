@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.13.0";
+export const currentVersion = "0.13.1";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.13.1",
+    date: "04 ago 2026",
+    title: "Trazabilidad técnica por explicación",
+    changes: [
+      "Cada explicación muestra la fecha de última revisión y el alcance de versiones o conceptos comprobado.",
+      "Las fuentes primarias aparecen con enlaces directos y fecha de consulta.",
+      "El quality gate bloquea temas sin metadatos de trazabilidad válidos.",
+    ],
+  },
   {
     version: "0.13.0",
     date: "04 ago 2026",

@@ -61,6 +61,33 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   if (!hasDocumentationPath(meta.technicalValidationDoc)) {
     add("meta.technicalValidationDoc must point to a Markdown file under docs/");
   }
+  if (!meta.technicalReview || typeof meta.technicalReview !== "object") {
+    add("meta.technicalReview must declare review date, scope, and sources");
+  } else {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(meta.technicalReview.lastReviewedAt)) {
+      add("meta.technicalReview.lastReviewedAt must use ISO date format YYYY-MM-DD");
+    }
+    if (!isNonEmptyText(meta.technicalReview.scope)) {
+      add("meta.technicalReview.scope must be a non-empty string");
+    }
+    if (!Array.isArray(meta.technicalReview.sources) || meta.technicalReview.sources.length === 0) {
+      add("meta.technicalReview.sources must contain at least one source");
+    } else {
+      const sourceUrls = new Set<string>();
+      for (const [sourceIndex, source] of meta.technicalReview.sources.entries()) {
+        const sourceLabel = `meta.technicalReview.sources[${sourceIndex}]`;
+        if (!isNonEmptyText(source.title)) add(`${sourceLabel}.title must be a non-empty string`);
+        if (!isNonEmptyText(source.url) || !source.url.startsWith("https://")) {
+          add(`${sourceLabel}.url must be an https URL`);
+        }
+        if (sourceUrls.has(source.url)) add(`${sourceLabel}.url '${source.url}' is duplicated`);
+        sourceUrls.add(source.url);
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(source.accessedAt)) {
+          add(`${sourceLabel}.accessedAt must use ISO date format YYYY-MM-DD`);
+        }
+      }
+    }
+  }
   if (meta.reviewStatus !== "pending" && meta.reviewStatus !== "reviewed") {
     add("meta.reviewStatus must be 'pending' or 'reviewed'");
   }

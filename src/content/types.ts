@@ -19,9 +19,27 @@ export interface ExplainerMeta {
   tagline: string;
   storyboardDoc: string;
   technicalValidationDoc: string;
+  technicalReview: TechnicalReview;
   reviewStatus: "pending" | "reviewed";
   /** Optional interactive scenarios shown when their scene is active. */
   failureScenarios?: FailureScenario[];
+}
+
+/** Traceability metadata shown in the explainer and required by the content gate. */
+export interface TechnicalReview {
+  /** ISO date when the narrative and its source matrix were last reviewed. */
+  lastReviewedAt: string;
+  /** Version, release family, or conceptual scope that was checked. */
+  scope: string;
+  /** Primary sources consulted for the review. */
+  sources: TechnicalSource[];
+}
+
+export interface TechnicalSource {
+  title: string;
+  url: string;
+  /** ISO date when this source was consulted. */
+  accessedAt: string;
 }
 
 /**

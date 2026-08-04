@@ -70,6 +70,18 @@ export const vsanMeta: ExplainerMeta = {
     "Una explicación visual de objetos, políticas de storage, fallos y reconstrucción.",
   storyboardDoc: "docs/examples/vsan/storyboard.md",
   technicalValidationDoc: "docs/ai-context/vsan-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-04",
+    scope: "vSAN conceptual; validar versión, OSA/ESA, fault domains y política aplicada al objeto.",
+    sources: [
+      { title: "vSAN object health: reduced availability with no rebuild", url: "https://knowledge.broadcom.com/external/article/385514/reduced-availability-with-no-rebuild-in.html", accessedAt: "2026-08-04" },
+      { title: "vSAN fault-domain requirements and policy FTT", url: "https://knowledge.broadcom.com/external/article/421094/clarification-on-vsan-fault-domain-failu.html", accessedAt: "2026-08-04" },
+      { title: "vSAN component and object model", url: "https://knowledge.broadcom.com/external/article/315507/vsan-component-limit-per-cluster.html", accessedAt: "2026-08-04" },
+      { title: "vSAN inaccessible objects after exceeding policy tolerance", url: "https://knowledge.broadcom.com/external/article/389599/vsan-skyline-health-data-health-vsan-o.html", accessedAt: "2026-08-04" },
+      { title: "vSAN objects after host failure and insufficient hosts", url: "https://knowledge.broadcom.com/external/article/431247/vsan-objects-in-reduced-availability-wit.html", accessedAt: "2026-08-04" },
+      { title: "vSAN object inaccessibility with FTT=0", url: "https://knowledge.broadcom.com/external/article/409448/vsan-object-inaccessible-after-host-fail.html", accessedAt: "2026-08-04" },
+    ],
+  },
   reviewStatus: "pending",
   failureScenarios: vsanFailureScenarios,
 };

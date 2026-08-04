@@ -17,6 +17,12 @@ La revisión se contrastó con documentación primaria de VMware by Broadcom el
 - [vSphere HA VM failover can stop after maximum restart attempts](https://knowledge.broadcom.com/external/article/432033/vsphere-ha-virtual-machine-failover-fail.html)
 - [Multiple-host failure and admission-control capacity](https://knowledge.broadcom.com/external/article/429590/virtual-machines-fail-to-failover-and-re.html)
 
+## Registro de revisión
+
+- Última revisión: `2026-08-04`.
+- Fecha de consulta de las fuentes enlazadas: `2026-08-04`.
+- La ficha visible en `/explainer/vsphere-ha` replica este alcance y sus enlaces.
+
 ## Matriz de afirmaciones
 
 | Área | Decisión técnica | Tratamiento en la demo |
@@ -40,4 +46,3 @@ La revisión se contrastó con documentación primaria de VMware by Broadcom el
    concreta, añadir una escena y una fuente específica para esa afirmación.
 4. Revisar las reglas de colocación y el modelo de storage con un especialista
    del entorno antes de convertir esta demo en una recomendación de diseño.
-

@@ -3,6 +3,7 @@ import { BrandMark } from "./BrandMark";
 import { PresentationControls } from "./PresentationControls";
 import { ProgressDots } from "./ProgressDots";
 import { StepNav } from "./StepNav";
+import { TechnicalReviewPanel } from "./TechnicalReviewPanel";
 
 interface LeftPanelProps {
   meta: ExplainerMeta;
@@ -44,6 +45,7 @@ export function LeftPanel({
       </span>
       <h1 className="mb-2 text-2xl font-bold leading-tight text-core-text sm:text-[1.65rem]">{meta.title}</h1>
       <p className="mb-6 text-sm leading-relaxed text-core-text-secondary">{meta.tagline}</p>
+      <TechnicalReviewPanel review={meta.technicalReview} />
 
       <div>
         <div className="mb-2 font-mono text-xs font-semibold text-core-accent">

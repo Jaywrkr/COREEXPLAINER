@@ -17,6 +17,12 @@ La revisión se contrastó con documentación primaria de VMware by Broadcom el
 - [vSAN objects after host failure and insufficient hosts](https://knowledge.broadcom.com/external/article/431247/vsan-objects-in-reduced-availability-wit.html)
 - [vSAN object inaccessibility with FTT=0](https://knowledge.broadcom.com/external/article/409448/vsan-object-inaccessible-after-host-fail.html)
 
+## Registro de revisión
+
+- Última revisión: `2026-08-04`.
+- Fecha de consulta de las fuentes enlazadas: `2026-08-04`.
+- La ficha visible en `/explainer/vsan` replica este alcance y sus enlaces.
+
 ## Matriz de afirmaciones
 
 | Área | Decisión técnica | Tratamiento en la demo |
@@ -40,4 +46,3 @@ La revisión se contrastó con documentación primaria de VMware by Broadcom el
    escena y una matriz específica para esa variante.
 4. No publicar porcentajes de capacidad, límites de componentes o requisitos
    de hosts sin asociarlos a una versión y una fuente concreta.
-

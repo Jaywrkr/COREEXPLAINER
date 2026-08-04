@@ -14,6 +14,12 @@ La revisión se contrastó con fuentes primarias el 04-08-2026:
 - [NIST — publicación de SP 800-207](https://www.nist.gov/news-events/news/2020/08/zero-trust-architecture-nist-publishes)
 - [CISA Zero Trust Maturity Model v2](https://www.cisa.gov/sites/default/files/2023-04/CISA_Zero_Trust_Maturity_Model_Version_2_508c.pdf)
 
+## Registro de revisión
+
+- Última revisión: `2026-08-04`.
+- Fecha de consulta de las fuentes enlazadas: `2026-08-04`.
+- La ficha visible en `/explainer/zero-trust` replica este alcance y sus enlaces.
+
 ## Matriz de afirmaciones
 
 | Área | Decisión técnica | Tratamiento en la demo |
@@ -35,4 +41,3 @@ La revisión se contrastó con fuentes primarias el 04-08-2026:
    sin una metodología y fuente explícitas.
 4. Si se agrega IAM, PAM, ZTNA, datos, APIs o workloads machine-to-machine,
    crear una matriz y escenas específicas para ese alcance.
-

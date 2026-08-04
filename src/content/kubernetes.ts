@@ -58,6 +58,18 @@ export const kubernetesMeta: ExplainerMeta = {
     "Una explicación visual de estado deseado, scheduling, Services, rollouts y self-healing.",
   storyboardDoc: "docs/examples/kubernetes/storyboard.md",
   technicalValidationDoc: "docs/ai-context/kubernetes-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-04",
+    scope: "Kubernetes conceptual y provider-neutral; validar versión, CNI, ingress, storage y servicios del clúster.",
+    sources: [
+      { title: "Arquitectura del clúster", url: "https://kubernetes.io/docs/concepts/architecture/", accessedAt: "2026-08-04" },
+      { title: "kube-scheduler", url: "https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/", accessedAt: "2026-08-04" },
+      { title: "Services", url: "https://kubernetes.io/docs/concepts/services-networking/service/", accessedAt: "2026-08-04" },
+      { title: "Ingress", url: "https://kubernetes.io/docs/concepts/services-networking/ingress/", accessedAt: "2026-08-04" },
+      { title: "Deployments", url: "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/", accessedAt: "2026-08-04" },
+      { title: "Liveness, readiness y startup probes", url: "https://kubernetes.io/docs/concepts/workloads/pods/probes/", accessedAt: "2026-08-04" },
+    ],
+  },
   reviewStatus: "pending",
   failureScenarios: kubernetesFailureScenarios,
 };
@@ -129,4 +141,3 @@ export const kubernetesSteps: ExplainerStep[] = [
     caption: "Nodos · Pods · probes · imágenes · capacidad",
   },
 ];
-

@@ -48,6 +48,18 @@ export const vcfFailureScenarios: FailureScenario[] = [
 export const vcfMeta: ExplainerMeta = {
   storyboardDoc: "docs/examples/vcf/storyboard.md",
   technicalValidationDoc: "docs/ai-context/vcf-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-04",
+    scope: "Modelo conceptual de VCF; validar la release objetivo del cliente (incluye referencia VCF 9.1).",
+    sources: [
+      { title: "VMware Cloud Foundation — plataforma y componentes", url: "https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation", accessedAt: "2026-08-04" },
+      { title: "VCF 9.1 — preguntas frecuentes", url: "https://www.vmware.com/docs/vmware-cloud-foundation-9-1-general-faqs", accessedAt: "2026-08-04" },
+      { title: "VCF Networking (NSX)", url: "https://www.vmware.com/products/cloud-infrastructure/vcf-networking", accessedAt: "2026-08-04" },
+      { title: "vSAN — datastore compartido del clúster", url: "https://vdc-download.vmware.com/vmwb-repository/dcr-public/222b124e-7adf-430c-bd3d-fdf3eef99099/976ba686-c3a3-4896-b883-0b01f8acd86b/GUID-21C4005E-CDCF-4FE8-B632-E3D0F5A34483.html", accessedAt: "2026-08-04" },
+      { title: "vSphere HA — condiciones de reinicio tras una falla", url: "https://knowledge.broadcom.com/external/article/316525/determining-why-and-which-virtual-machin.html", accessedAt: "2026-08-04" },
+      { title: "vSphere HA — capacidad y visibilidad de storage", url: "https://knowledge.broadcom.com/external/article/441641/vsphere-ha-failover-fails-with-insuffici.html", accessedAt: "2026-08-04" },
+    ],
+  },
   reviewStatus: "pending",
   failureScenarios: vcfFailureScenarios,
   chip: "Presentación técnica · VCF",

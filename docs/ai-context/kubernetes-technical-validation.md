@@ -7,7 +7,7 @@ clientes. Se basa en la documentación oficial de Kubernetes y evita asumir un
 proveedor gestionado, una CNI, un ingress controller o una estrategia de
 despliegue concreta.
 
-Fuentes primarias revisadas el 04-08-2026:
+Fuentes primarias revisadas y consultadas el `2026-08-04`:
 
 - [Arquitectura del clúster](https://kubernetes.io/docs/concepts/architecture/)
 - [kube-scheduler](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/)
@@ -15,6 +15,12 @@ Fuentes primarias revisadas el 04-08-2026:
 - [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
 - [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 - [Liveness, readiness y startup probes](https://kubernetes.io/docs/concepts/workloads/pods/probes/)
+
+## Registro de revisión
+
+- Última revisión: `2026-08-04`.
+- Fecha de consulta de las fuentes enlazadas: `2026-08-04`.
+- La ficha visible en `/explainer/kubernetes` replica este alcance y sus enlaces.
 
 ## Matriz de afirmaciones
 
@@ -38,4 +44,3 @@ Fuentes primarias revisadas el 04-08-2026:
    negocio; explicar readiness y dependencias.
 4. Si se agrega storage persistente, Ingress, CNI, autoscaling o service mesh,
    crear un satélite y una matriz técnica específicos.
-

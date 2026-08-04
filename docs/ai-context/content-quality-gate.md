@@ -20,6 +20,8 @@ Cada `ExplainerMeta` debe declarar:
 - copy base (`chip`, `title`, `tagline`);
 - `storyboardDoc` bajo `docs/`;
 - `technicalValidationDoc` bajo `docs/`;
+- `technicalReview` con fecha ISO de revisión, alcance y enlaces HTTPS con
+  fecha ISO de consulta;
 - estado `reviewStatus`.
 
 Cada tema debe tener al menos cuatro pasos. Cada paso necesita dos párrafos,
