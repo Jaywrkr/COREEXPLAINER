@@ -3,7 +3,7 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.3.0: canvas navegable +
+**Última actualización**: 2026-08-04 — v0.3.1: precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -60,11 +60,16 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.3.0)**: control flotante global abajo a la
+- **Versión y changelog (v0.3.1)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
   `docs/ai-context/release-versioning.md`.
+- **Auditoría técnica de VCF**: el ejemplo ahora se presenta explícitamente
+  como modelo conceptual. Se corrigieron afirmaciones absolutas sobre consola
+  única, failover, SLA y camino de datos; se separó el clúster de cómputo del
+  plano de gestión y se documentó la matriz de fuentes en
+  `docs/ai-context/vcf-technical-validation.md`.
 - **Detalle de nodos**: al hacer clic en una tarjeta del canvas aparece una
   ficha contextual con su `kind`, función genérica, `subtitle`, capacidad,
   tasa de emisión y posibilidad de simular falla. Clic fuera cierra la ficha;
@@ -97,10 +102,12 @@ changelog visible y versionado documentado.
 - No se ha desplegado a Vercel todavía desde este repo (código listo, sin
   probar el deploy real).
 - **Pulido pendiente del ejemplo VCF** (a pedido explícito del usuario,
-  antes de agregar más temas): más interactividad (candidatas discutidas:
-  hover que resalta conexiones, modo autoplay de pasos y navegación por
-  teclado). El modo claro/oscuro, el pan/zoom y el detalle de nodos ya se
-  resolvieron; sigue lo demás, una cosa a la vez.
+  antes de agregar más temas): cerrar la selección de versión objetivo de VCF
+  y revisar la matriz con un especialista del entorno del cliente. Después
+  siguen las interacciones de modo presentación, autoplay y navegación por
+  teclado. El modo claro/oscuro, pan/zoom y detalle de nodos ya están
+  resueltos; el hover de relaciones se mantiene como una mejora de UI
+  separada hasta que se integre su rama. Sigue lo demás, una cosa a la vez.
 
 ## Cómo continuar (siguiente sesión)
 

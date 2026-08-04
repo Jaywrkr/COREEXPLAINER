@@ -3,6 +3,12 @@
 Cambios relevantes del producto, en orden descendente. La misma información
 visible dentro de la aplicación vive en `src/content/changelog.ts`.
 
+## [0.3.1] — 2026-08-04
+
+- Se revisaron copy, storyboard y topología contra fuentes oficiales.
+- Se eliminaron afirmaciones absolutas sobre consola única, SLA y failover.
+- Se separaron el camino de datos, el clúster de cómputo y la gestión de VCF.
+
 ## [0.3.0] — 2026-08-04
 
 - Clic en una tarjeta para consultar su función y tipo dentro de la

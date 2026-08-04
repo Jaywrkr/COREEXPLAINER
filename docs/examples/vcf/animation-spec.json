@@ -17,8 +17,8 @@
         { "id": "compute", "name": "Cómputo", "x": 0.16, "y": 0.22, "kind": "compute" },
         { "id": "storage", "name": "vSAN", "x": 0.16, "y": 0.5, "kind": "storage" },
         { "id": "network", "name": "NSX", "x": 0.16, "y": 0.78, "kind": "network" },
-        { "id": "vcf", "name": "VMware Cloud Foundation", "subtitle": "Plataforma unificada", "x": 0.62, "y": 0.5, "kind": "control-plane", "capacity": 100 },
-        { "id": "app", "name": "Apps del negocio", "x": 0.92, "y": 0.5, "kind": "workload", "capacity": 60, "rps": 3 }
+        { "id": "vcf", "name": "VMware Cloud Foundation", "subtitle": "Servicios integrados", "x": 0.62, "y": 0.5, "kind": "control-plane" },
+        { "id": "app", "name": "Apps del negocio", "x": 0.92, "y": 0.5, "kind": "workload" }
       ],
       "edges": [
         { "from": "compute", "to": "vcf" },
@@ -32,34 +32,37 @@
         { "id": "host1", "name": "Host ESXi 1", "x": 0.14, "y": 0.2, "kind": "compute", "killable": true },
         { "id": "host2", "name": "Host ESXi 2", "x": 0.14, "y": 0.5, "kind": "compute", "killable": true },
         { "id": "host3", "name": "Host ESXi 3", "x": 0.14, "y": 0.8, "kind": "compute", "killable": true },
-        { "id": "vsan", "name": "vSAN", "subtitle": "Storage compartido", "x": 0.46, "y": 0.28, "kind": "storage" },
-        { "id": "nsx", "name": "NSX", "subtitle": "Red virtual", "x": 0.46, "y": 0.72, "kind": "network" },
-        { "id": "vcenter", "name": "vCenter", "subtitle": "Panel de control", "x": 0.78, "y": 0.5, "kind": "control-plane", "capacity": 100, "rps": 2 }
+        { "id": "vsan", "name": "vSAN", "subtitle": "Datastore distribuido", "x": 0.46, "y": 0.28, "kind": "storage" },
+        { "id": "nsx", "name": "NSX", "subtitle": "Networking y seguridad", "x": 0.46, "y": 0.72, "kind": "network" },
+        { "id": "vcenter", "name": "vCenter", "subtitle": "Gestión de vSphere", "x": 0.78, "y": 0.5, "kind": "control-plane" }
       ],
       "edges": [
+        { "from": "vcenter", "to": "host1" },
+        { "from": "vcenter", "to": "host2" },
+        { "from": "vcenter", "to": "host3" },
         { "from": "host1", "to": "vsan" },
         { "from": "host2", "to": "vsan" },
         { "from": "host3", "to": "vsan" },
         { "from": "host1", "to": "nsx" },
         { "from": "host2", "to": "nsx" },
-        { "from": "host3", "to": "nsx" },
-        { "from": "vsan", "to": "vcenter" },
-        { "from": "nsx", "to": "vcenter" }
+        { "from": "host3", "to": "nsx" }
       ]
     },
     "workloads": {
       "nodes": [
         { "id": "client", "name": "Usuarios", "subtitle": "5 r/s", "x": 0.12, "y": 0.5, "kind": "external", "rps": 5 },
-        { "id": "vcf", "name": "Clúster VCF", "x": 0.48, "y": 0.5, "kind": "control-plane" },
+        { "id": "vcf", "name": "Gestión VCF", "subtitle": "Gestión y ciclo de vida", "x": 0.48, "y": 0.2, "kind": "control-plane" },
+        { "id": "cluster", "name": "Clúster de cómputo", "subtitle": "vSphere + hosts", "x": 0.48, "y": 0.58, "kind": "compute", "capacity": 100 },
         { "id": "app1", "name": "App / VM 1", "x": 0.82, "y": 0.18, "kind": "workload", "capacity": 40, "killable": true },
         { "id": "app2", "name": "App / VM 2", "x": 0.82, "y": 0.5, "kind": "workload", "capacity": 40, "killable": true },
         { "id": "app3", "name": "App / VM 3", "x": 0.82, "y": 0.82, "kind": "workload", "capacity": 40, "killable": true }
       ],
       "edges": [
-        { "from": "client", "to": "vcf" },
-        { "from": "vcf", "to": "app1" },
-        { "from": "vcf", "to": "app2" },
-        { "from": "vcf", "to": "app3" }
+        { "from": "client", "to": "cluster" },
+        { "from": "vcf", "to": "cluster" },
+        { "from": "cluster", "to": "app1" },
+        { "from": "cluster", "to": "app2" },
+        { "from": "cluster", "to": "app3" }
       ]
     }
   }

@@ -9,6 +9,7 @@ desplegable en Vercel.
 - **¿Buscas contexto de producto?** [`docs/product/vision.md`](./docs/product/vision.md).
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
 - **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
+- **¿Vas a revisar el ejemplo VCF?** [`docs/ai-context/vcf-technical-validation.md`](./docs/ai-context/vcf-technical-validation.md).
 
 ## Correr localmente
 
