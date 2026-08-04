@@ -4,7 +4,7 @@
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
 **Última actualización**: 2026-08-04 — Fase 0 (base del proyecto) completada +
-íconos por tipo de nodo agregados.
+íconos por tipo de nodo + dashboard de temas con categorías.
 
 ## Qué está hecho
 
@@ -44,6 +44,14 @@
   para network, play-frame para workload, flecha-boundary para external).
   No hay íconos por nodo individual ni assets externos — un tema nuevo los
   hereda automáticamente al usar los `kind` existentes.
+- **Catálogo de temas con categorías**: `src/content/registry.ts` centraliza
+  todos los temas (`ExplainerDefinition[]`: slug, category, meta, steps,
+  spec ya validado). `/explainer` es un dashboard que agrupa por categoría
+  (`ExplainerCategory` en `src/content/types.ts`) y enlaza a
+  `/explainer/[slug]` (ruta dinámica única, con `generateStaticParams` —
+  reemplazó la carpeta `app/explainer/vcf/`). Agregar un tema nuevo ya no
+  requiere crear una ruta: solo una entrada en el registro (ver
+  `docs/ai-context/architecture.md`).
 
 ## Qué falta (fuera de alcance de esta fase, deliberadamente)
 

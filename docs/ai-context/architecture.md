@@ -32,9 +32,9 @@ tener un dato, va en `src/lib/animation-spec/types.ts`.
 │  ExplainerStep[])    │   │ (Record<string, Scene>)       │
 └──────────┬───────────┘   └───────────────┬───────────────┘
            │                                │
-           │        app/explainer/vcf/page.tsx
-           │        importa ambos, valida el spec con
-           │        parseAnimationSpec(), y los pasa a
+           │     src/content/registry.ts registra ambos
+           │     (spec ya validado con parseAnimationSpec)
+           │     app/explainer/[slug]/page.tsx los lee de ahí
            v                                v
         ┌───────────────────────────────────────────┐
         │        ExplainerLayout.tsx (client)        │
@@ -85,6 +85,11 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
 - **`src/content/vcf.ts`** — ejemplo de contenido. Un tema nuevo agrega un
   archivo hermano (`src/content/<tema>.ts`) con la misma forma
   (`ExplainerMeta` + `ExplainerStep[]`).
+- **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
+  con `{ slug, category, meta, steps, spec }`. Es lo único que conoce la
+  lista completa de temas. `app/explainer/page.tsx` (dashboard) y
+  `app/explainer/[slug]/page.tsx` (ruta dinámica) leen de aquí — no hay una
+  carpeta de ruta por tema.
 
 ## Cómo agregar un tema nuevo manualmente (sin IA todavía)
 
@@ -93,8 +98,14 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
    prosa (sirve de puente entre el guion comercial y el JSON).
 3. Crear `src/content/<tema>.ts` exportando `metaTema` y `stepsTema`
    (mismos tipos que `vcf.ts`).
-4. Crear `app/explainer/<tema>/page.tsx` copiando
-   `app/explainer/vcf/page.tsx` y cambiando los imports.
-5. No tocar `ExplainerLayout`, `LeftPanel`, `VisualCanvas` ni `SceneEngine`
-   — si sientes que necesitas tocarlos para tu tema, probablemente falta
-   algo en el esquema (`types.ts`), no en el motor.
+4. Agregar una entrada en `src/content/registry.ts`
+   (`explainerRegistry`): `slug`, `category` (una de
+   `ExplainerCategory` en `src/content/types.ts` — agrega una categoría
+   nueva ahí si de verdad hace falta, no una por tema), y los imports de
+   `meta`/`steps`/spec parseado. No se crea ninguna ruta nueva — el tema
+   aparece automáticamente en `/explainer` (dashboard) y en
+   `/explainer/<slug>`.
+5. No tocar `ExplainerLayout`, `LeftPanel`, `VisualCanvas`, `SceneEngine`
+   ni las rutas — si sientes que necesitas tocarlos para tu tema,
+   probablemente falta algo en el esquema (`types.ts`), no en el motor ni
+   en el catálogo.
