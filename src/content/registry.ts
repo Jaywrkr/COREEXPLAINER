@@ -1,5 +1,6 @@
 import { parseAnimationSpec } from "@/lib/animation-spec/loadSpec";
 import type { AnimationSpec } from "@/lib/animation-spec/types";
+import { validateExplainerContent } from "@/lib/content-validation/validateExplainer";
 import type { ExplainerCategory, ExplainerMeta, ExplainerStep } from "./types";
 import { vcfMeta, vcfSteps } from "./vcf";
 import vcfRawSpec from "../../docs/examples/vcf/animation-spec.json";
@@ -19,15 +20,19 @@ export interface ExplainerDefinition {
   spec: AnimationSpec;
 }
 
-export const explainerRegistry: ExplainerDefinition[] = [
-  {
-    slug: "vcf",
-    category: "Virtualización",
-    meta: vcfMeta,
-    steps: vcfSteps,
-    spec: parseAnimationSpec(vcfRawSpec),
-  },
-];
+const vcfDefinition: ExplainerDefinition = {
+  slug: "vcf",
+  category: "Virtualización",
+  meta: vcfMeta,
+  steps: vcfSteps,
+  spec: parseAnimationSpec(vcfRawSpec),
+};
+
+// The registry is the publication boundary: malformed or incomplete content
+// fails during build instead of reaching the client as a partial explainer.
+validateExplainerContent(vcfDefinition);
+
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

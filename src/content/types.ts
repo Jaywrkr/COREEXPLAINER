@@ -18,6 +18,9 @@ export interface ExplainerMeta {
   title: string;
   tagline: string;
   ctaLabel: string;
+  storyboardDoc: string;
+  technicalValidationDoc: string;
+  reviewStatus: "pending" | "reviewed";
   /** Optional interactive scenarios shown when their scene is active. */
   failureScenarios?: FailureScenario[];
 }
