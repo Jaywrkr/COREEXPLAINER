@@ -14,6 +14,8 @@ import { zeroTrustMeta, zeroTrustSteps } from "./zero-trust";
 import zeroTrustRawSpec from "../../docs/examples/zero-trust/animation-spec.json";
 import { kubernetesMeta, kubernetesSteps } from "./kubernetes";
 import kubernetesRawSpec from "../../docs/examples/kubernetes/animation-spec.json";
+import { observabilityMeta, observabilitySteps } from "./observability";
+import observabilityRawSpec from "../../docs/examples/observability/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -78,6 +80,14 @@ const kubernetesDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(kubernetesRawSpec),
 };
 
+const observabilityDefinition: ExplainerDefinition = {
+  slug: "observability",
+  category: "Cloud",
+  meta: observabilityMeta,
+  steps: observabilitySteps,
+  spec: parseAnimationSpec(observabilityRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
@@ -86,8 +96,9 @@ validateExplainerContent(vsanDefinition);
 validateExplainerContent(nsxDefinition);
 validateExplainerContent(zeroTrustDefinition);
 validateExplainerContent(kubernetesDefinition);
+validateExplainerContent(observabilityDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

@@ -116,6 +116,8 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   sobre decisiones de acceso, contexto y enforcement.
 - **`src/content/kubernetes.ts`** — sexto ejemplo de referencia: cinco escenas
   sobre estado deseado, scheduling, Services y rollouts.
+- **`src/content/observability.ts`** — séptimo ejemplo de referencia: cinco
+  escenas sobre recorridos distribuidos, señales, Collector y diagnóstico.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
   fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus
