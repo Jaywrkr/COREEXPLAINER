@@ -68,7 +68,6 @@ export const vsanMeta: ExplainerMeta = {
   title: "Cómo protege vSAN los objetos de una VM",
   tagline:
     "Una explicación visual de objetos, políticas de storage, fallos y reconstrucción.",
-  ctaLabel: "Evaluar política de storage →",
   storyboardDoc: "docs/examples/vsan/storyboard.md",
   technicalValidationDoc: "docs/ai-context/vsan-technical-validation.md",
   reviewStatus: "pending",
@@ -142,4 +141,3 @@ export const vsanSteps: ExplainerStep[] = [
     caption: "Capacidad · dominios de fallo · red · política",
   },
 ];
-

@@ -18,7 +18,7 @@ cambiar el color de un tema solo requiere tocar `globals.css`.
 
 | Token | Hex (oscuro) | Uso |
 |---|---|---|
-| Navy (ancla) | `#01095C` | Marca, elementos de control-plane en el canvas, CTA principal |
+| Navy (ancla) | `#01095C` | Marca y elementos de control-plane en el canvas |
 | Accent | `#3B4CCE` | Elementos interactivos, links, chip activo, hosts/cómputo |
 | Fondo | `#0A0B14` | Fondo de página y canvas |
 | Panel / card | `#10111C` | Tarjetas, paneles, nodos del diagrama |

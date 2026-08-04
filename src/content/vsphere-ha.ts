@@ -56,7 +56,6 @@ export const vsphereHaMeta: ExplainerMeta = {
   title: "Cómo responde vSphere HA ante una falla",
   tagline:
     "Una explicación visual del reinicio de VMs protegidas, sus condiciones y sus límites.",
-  ctaLabel: "Evaluar clúster →",
   storyboardDoc: "docs/examples/vsphere-ha/storyboard.md",
   technicalValidationDoc: "docs/ai-context/vsphere-ha-technical-validation.md",
   reviewStatus: "pending",

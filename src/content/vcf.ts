@@ -54,7 +54,6 @@ export const vcfMeta: ExplainerMeta = {
   title: "Cómo funciona VMware Cloud Foundation",
   tagline:
     "Una explicación conceptual de la plataforma, sus dependencias y sus condiciones de resiliencia.",
-  ctaLabel: "Agendar evaluación →",
 };
 
 export const vcfSteps: ExplainerStep[] = [

@@ -56,7 +56,6 @@ export const nsxMeta: ExplainerMeta = {
   title: "Cómo viaja y se protege el tráfico con NSX",
   tagline:
     "Una explicación visual de segmentos, overlay, firewall distribuido y gateways.",
-  ctaLabel: "Seguir un flujo →",
   storyboardDoc: "docs/examples/nsx/storyboard.md",
   technicalValidationDoc: "docs/ai-context/nsx-technical-validation.md",
   reviewStatus: "pending",
@@ -130,4 +129,3 @@ export const nsxSteps: ExplainerStep[] = [
     caption: "Política · overlay · underlay · gateway · dependencias",
   },
 ];
-

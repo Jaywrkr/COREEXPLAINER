@@ -51,7 +51,6 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
     chip: meta.chip,
     title: meta.title,
     tagline: meta.tagline,
-    ctaLabel: meta.ctaLabel,
   })) {
     if (!isNonEmptyText(value)) add(`meta.${field} must be a non-empty string`);
   }

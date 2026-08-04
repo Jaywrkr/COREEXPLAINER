@@ -17,7 +17,7 @@ especialista del producto. Por eso cada tema declara `reviewStatus`:
 
 Cada `ExplainerMeta` debe declarar:
 
-- copy base (`chip`, `title`, `tagline`, `ctaLabel`);
+- copy base (`chip`, `title`, `tagline`);
 - `storyboardDoc` bajo `docs/`;
 - `technicalValidationDoc` bajo `docs/`;
 - estado `reviewStatus`.

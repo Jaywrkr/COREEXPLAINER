@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.1] - 2026-08-04
+
+- El panel de escenarios de fallo ahora puede minimizarse sin perder el escenario activo.
+- Se retiraron los CTAs comerciales de todos los ejemplos y del contrato de contenido.
+- Se actualizaron las guías de contenido, marca y contexto para reflejar la navegación técnica.
+
 ## [0.11.0] - 2026-08-04
 
 - Nuevo tema independiente con cinco escenas sobre segmentos, overlay, firewall distribuido y gateways.

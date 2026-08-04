@@ -17,7 +17,6 @@ export interface ExplainerMeta {
   chip: string;
   title: string;
   tagline: string;
-  ctaLabel: string;
   storyboardDoc: string;
   technicalValidationDoc: string;
   reviewStatus: "pending" | "reviewed";
