@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.18.0] - 2026-08-04
+
+- Nuevo tema de resiliencia frente a ransomware con cinco escenas: prevención, detección, contención, recuperación limpia y validación.
+- Escenarios interactivos para movimiento lateral, detección tardía, backups expuestos y restore sin validar.
+- Matriz técnica con fuentes CISA, Check Point, Veeam e IBM FlashSystem y límites frente a Backup/DR.
+
 ## [0.17.0] - 2026-08-04
 
 - Cada explicación declara las marcas CoreSolutions relacionadas, su función y el límite técnico del patrón.

@@ -123,6 +123,9 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
 - **`src/content/backup-dr.ts`** — octavo ejemplo de referencia: cinco escenas
   sobre objetivos RPO/RTO, protección Veeam, copias IBM, recuperación y pruebas,
   alineado al portafolio CoreSolutions.
+- **`src/content/ransomware-resilience.ts`** — noveno ejemplo de referencia:
+  cinco escenas sobre prevención, detección, contención, recuperación limpia y
+  validación, separado conceptualmente de Backup/DR.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
   fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus

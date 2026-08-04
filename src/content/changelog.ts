@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.17.0";
+export const currentVersion = "0.18.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.18.0",
+    date: "04 ago 2026",
+    title: "Explainer de resiliencia frente a ransomware",
+    changes: [
+      "Nuevo tema con cinco escenas sobre prevención, detección, contención, recuperación limpia y validación.",
+      "Escenarios interactivos para movimiento lateral, detección tardía, backups expuestos y restore sin validar.",
+      "Matriz técnica basada en CISA, Check Point, Veeam e IBM FlashSystem, con límites explícitos frente al tema Backup/DR.",
+    ],
+  },
   {
     version: "0.17.0",
     date: "04 ago 2026",

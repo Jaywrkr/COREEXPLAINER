@@ -19,6 +19,7 @@ desplegable en Vercel.
 - **¿Vas a revisar la vigencia y las fuentes de un tema?** [`docs/ai-context/technical-traceability.md`](./docs/ai-context/technical-traceability.md).
 - **¿Vas a revisar Observabilidad?** [`docs/ai-context/observability-technical-validation.md`](./docs/ai-context/observability-technical-validation.md).
 - **¿Vas a revisar Backup/DR?** [`docs/ai-context/backup-dr-technical-validation.md`](./docs/ai-context/backup-dr-technical-validation.md).
+- **¿Vas a revisar ransomware?** [`docs/ai-context/ransomware-resilience-technical-validation.md`](./docs/ai-context/ransomware-resilience-technical-validation.md).
 - **¿Vas a preparar una demo para cliente o técnico?** [`docs/ai-context/audience-modes-and-deep-links.md`](./docs/ai-context/audience-modes-and-deep-links.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 
@@ -26,7 +27,8 @@ desplegable en Vercel.
 
 Temas disponibles: `/explainer/vcf`, `/explainer/vsphere-ha`, `/explainer/vsan`,
 `/explainer/nsx`, `/explainer/zero-trust`, `/explainer/kubernetes` y
-`/explainer/observability` y `/explainer/backup-dr`.
+`/explainer/observability`, `/explainer/backup-dr` y
+`/explainer/ransomware-resilience`.
 La validación técnica de vSphere HA está en
 [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 La validación técnica de vSAN está en
@@ -41,6 +43,8 @@ La validación técnica de Observabilidad está en
 [`docs/ai-context/observability-technical-validation.md`](./docs/ai-context/observability-technical-validation.md).
 La validación técnica de Backup/DR está en
 [`docs/ai-context/backup-dr-technical-validation.md`](./docs/ai-context/backup-dr-technical-validation.md).
+La validación técnica de ransomware está en
+[`docs/ai-context/ransomware-resilience-technical-validation.md`](./docs/ai-context/ransomware-resilience-technical-validation.md).
 En cada explicación, abre “Trazabilidad técnica” para ver la fecha de última
 revisión, el alcance comprobado y las fuentes primarias con su fecha de consulta.
 
@@ -88,4 +92,5 @@ docs/examples/zero-trust/  quinto tema: decisiones de acceso
 docs/examples/kubernetes/   sexto tema: viaje de una aplicación
 docs/examples/observability/ séptimo tema: de la petición a la evidencia
 docs/examples/backup-dr/       octavo tema: de una copia a una recuperación comprobable
+docs/examples/ransomware-resilience/ noveno tema: resiliencia frente a ransomware
 ```
