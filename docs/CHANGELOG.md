@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.0] - 2026-08-04
+
+- Nuevo tema independiente con cinco escenas sobre segmentos, overlay, firewall distribuido y gateways.
+- Escenarios interactivos para underlay/MTU, scope de reglas, gateway y seguridad de segmentos.
+- Storyboard y matriz de validación técnica con fuentes oficiales de VMware by Broadcom.
+
 ## [0.10.0] - 2026-08-04
 
 - Nuevo tema independiente con cinco escenas sobre datastore distribuido, objetos y políticas de storage.

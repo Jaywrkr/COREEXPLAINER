@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.10.0";
+export const currentVersion = "0.11.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.11.0",
+    date: "04 ago 2026",
+    title: "Explainer independiente de NSX",
+    changes: [
+      "Nuevo tema con cinco escenas sobre segmentos, overlay, firewall distribuido y gateways.",
+      "Escenarios interactivos para underlay/MTU, scope de reglas, gateway y seguridad de segmentos.",
+      "Storyboard y matriz de validación técnica con fuentes oficiales de VMware by Broadcom.",
+    ],
+  },
   {
     version: "0.10.0",
     date: "04 ago 2026",

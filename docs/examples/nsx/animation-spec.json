@@ -1,0 +1,91 @@
+{
+  "version": "1.0",
+  "id": "nsx-traffic-and-microsegmentation",
+  "title": "Cómo viaja y se protege el tráfico con NSX",
+  "scenes": {
+    "segments": {
+      "nodes": [
+        { "id": "client", "name": "Cliente", "subtitle": "Solicitud", "x": 0.08, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "web", "name": "Web", "subtitle": "Segmento frontend", "x": 0.3, "y": 0.25, "kind": "workload", "capacity": 40 },
+        { "id": "app", "name": "Aplicación", "subtitle": "Segmento app", "x": 0.3, "y": 0.75, "kind": "workload", "capacity": 40 },
+        { "id": "db", "name": "Base de datos", "subtitle": "Segmento datos", "x": 0.62, "y": 0.5, "kind": "workload", "capacity": 40 },
+        { "id": "segments", "name": "Segmentos lógicos", "subtitle": "Red definida por software", "x": 0.9, "y": 0.5, "kind": "network" },
+        { "id": "manager", "name": "NSX Manager", "subtitle": "Control y políticas", "x": 0.62, "y": 0.12, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "client", "to": "web", "kind": "data" },
+        { "from": "web", "to": "app", "kind": "data" },
+        { "from": "app", "to": "db", "kind": "data" },
+        { "from": "manager", "to": "segments", "kind": "control" },
+        { "from": "segments", "to": "web", "kind": "dependency" },
+        { "from": "segments", "to": "app", "kind": "dependency" },
+        { "from": "segments", "to": "db", "kind": "dependency" }
+      ]
+    },
+    "overlay": {
+      "nodes": [
+        { "id": "web", "name": "Web VM", "subtitle": "Host ESXi 1", "x": 0.1, "y": 0.25, "kind": "workload", "rps": 4 },
+        { "id": "app", "name": "App VM", "subtitle": "Host ESXi 2", "x": 0.1, "y": 0.75, "kind": "workload", "capacity": 40 },
+        { "id": "host1", "name": "Transport Node 1", "subtitle": "TEP", "x": 0.38, "y": 0.25, "kind": "compute" },
+        { "id": "host2", "name": "Transport Node 2", "subtitle": "TEP", "x": 0.38, "y": 0.75, "kind": "compute" },
+        { "id": "geneve", "name": "Overlay GENEVE", "subtitle": "Túnel lógico", "x": 0.68, "y": 0.5, "kind": "network" },
+        { "id": "underlay", "name": "Underlay IP", "subtitle": "Red física", "x": 0.92, "y": 0.5, "kind": "network" }
+      ],
+      "edges": [
+        { "from": "web", "to": "app", "kind": "data" },
+        { "from": "host1", "to": "geneve", "kind": "dependency" },
+        { "from": "host2", "to": "geneve", "kind": "dependency" },
+        { "from": "geneve", "to": "underlay", "kind": "dependency" }
+      ]
+    },
+    "east-west": {
+      "nodes": [
+        { "id": "web", "name": "Web", "subtitle": "Origen", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "dfw", "name": "Distributed Firewall", "subtitle": "Enforcement distribuido", "x": 0.35, "y": 0.5, "kind": "control-plane", "capacity": 100 },
+        { "id": "app", "name": "Aplicación", "subtitle": "Destino permitido", "x": 0.62, "y": 0.3, "kind": "workload", "capacity": 40 },
+        { "id": "db", "name": "Base de datos", "subtitle": "Destino condicionado", "x": 0.62, "y": 0.7, "kind": "workload", "capacity": 40 },
+        { "id": "policy", "name": "Política / grupos", "subtitle": "Quién puede hablar", "x": 0.9, "y": 0.5, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "web", "to": "dfw", "kind": "data" },
+        { "from": "dfw", "to": "app", "kind": "data" },
+        { "from": "dfw", "to": "db", "kind": "failure" },
+        { "from": "policy", "to": "dfw", "kind": "control" }
+      ]
+    },
+    "north-south": {
+      "nodes": [
+        { "id": "client", "name": "Cliente externo", "subtitle": "Red fuera del SDDC", "x": 0.08, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "tier0", "name": "Tier-0 Gateway", "subtitle": "Frontera north-south", "x": 0.3, "y": 0.5, "kind": "network" },
+        { "id": "tier1", "name": "Tier-1 Gateway", "subtitle": "Routing de workloads", "x": 0.52, "y": 0.5, "kind": "network" },
+        { "id": "segment", "name": "Segmento lógico", "subtitle": "Red de aplicación", "x": 0.72, "y": 0.5, "kind": "network" },
+        { "id": "app", "name": "Aplicación", "subtitle": "Workload", "x": 0.92, "y": 0.5, "kind": "workload", "capacity": 50 },
+        { "id": "dfw", "name": "DFW", "subtitle": "Control east-west", "x": 0.72, "y": 0.15, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "client", "to": "tier0", "kind": "data" },
+        { "from": "tier0", "to": "tier1", "kind": "data" },
+        { "from": "tier1", "to": "segment", "kind": "data" },
+        { "from": "segment", "to": "app", "kind": "data" },
+        { "from": "dfw", "to": "app", "kind": "control" }
+      ]
+    },
+    "limits": {
+      "nodes": [
+        { "id": "client", "name": "Cliente", "subtitle": "Tráfico", "x": 0.08, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "underlay", "name": "Underlay físico", "subtitle": "TEP / MTU / VLAN", "x": 0.32, "y": 0.18, "kind": "network", "killable": true },
+        { "id": "policy", "name": "Regla DFW", "subtitle": "Scope / Applied To", "x": 0.32, "y": 0.5, "kind": "control-plane", "killable": true },
+        { "id": "segment-policy", "name": "Política del segmento", "subtitle": "DHCP / seguridad", "x": 0.32, "y": 0.82, "kind": "control-plane", "killable": true },
+        { "id": "gateway", "name": "Gateway Tier-1", "subtitle": "Salida north-south", "x": 0.62, "y": 0.5, "kind": "network", "killable": true },
+        { "id": "app", "name": "Aplicación", "subtitle": "Resultado observable", "x": 0.92, "y": 0.5, "kind": "workload" }
+      ],
+      "edges": [
+        { "from": "client", "to": "gateway", "kind": "data" },
+        { "from": "gateway", "to": "app", "kind": "data" },
+        { "from": "underlay", "to": "gateway", "kind": "failure" },
+        { "from": "policy", "to": "app", "kind": "failure" },
+        { "from": "segment-policy", "to": "app", "kind": "failure" }
+      ]
+    }
+  }
+}
