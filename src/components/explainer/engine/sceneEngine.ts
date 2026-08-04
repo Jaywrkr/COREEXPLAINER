@@ -184,8 +184,8 @@ export class SceneEngine {
     }
   }
 
-  /** Toggle a killable node dead/alive if (x, y) — in canvas pixel space — hits its control. */
-  handleClick(x: number, y: number) {
+  /** Handle a click in scene coordinates and return the selected node, if any. */
+  handleClick(x: number, y: number): SceneNode | null {
     for (const node of this.nodes) {
       if (!node.killButton) continue;
       const dx = x - node.killButton.x;
@@ -193,8 +193,24 @@ export class SceneEngine {
       if (dx * dx + dy * dy < node.killButton.r * node.killButton.r) {
         node.dead = !node.dead;
         if (node.dead) node.rx = 0;
+        return node;
       }
     }
+
+    for (let index = this.nodes.length - 1; index >= 0; index -= 1) {
+      const node = this.nodes[index]!;
+      const center = this.toPixels(node);
+      if (
+        x >= center.x - CARD_W / 2 &&
+        x <= center.x + CARD_W / 2 &&
+        y >= center.y - CARD_H / 2 &&
+        y <= center.y + CARD_H / 2
+      ) {
+        return node;
+      }
+    }
+
+    return null;
   }
 
   draw(ctx: CanvasRenderingContext2D, clear = true) {

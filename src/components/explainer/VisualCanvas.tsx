@@ -1,12 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Scene } from "@/lib/animation-spec/types";
+import type { Scene, SceneNode } from "@/lib/animation-spec/types";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { SceneEngine } from "./engine/sceneEngine";
+import { NodeDetailCard } from "./NodeDetailCard";
 
 interface VisualCanvasProps {
   scene: Scene;
+  selectedNode: SceneNode | null;
+  onNodeSelect: (node: SceneNode | null) => void;
 }
 
 interface Viewport {
@@ -40,7 +43,7 @@ function clamp(value: number, min: number, max: number) {
  * via CSS like everything else; only what SceneEngine draws needs to be
  * told the theme explicitly (canvas can't read CSS variables).
  */
-export function VisualCanvas({ scene }: VisualCanvasProps) {
+export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<SceneEngine>(new SceneEngine());
   const viewportRef = useRef<Viewport>(DEFAULT_VIEWPORT);
@@ -143,18 +146,23 @@ export function VisualCanvas({ scene }: VisualCanvasProps) {
       if (!drag.moved) {
         const rect = canvas.getBoundingClientRect();
         const current = viewportRef.current;
-        engine.handleClick(
+        const node = engine.handleClick(
           (event.clientX - rect.left - current.x) / current.scale,
           (event.clientY - rect.top - current.y) / current.scale,
         );
+        onNodeSelect(node);
       }
+    };
+
+    const handlePointerCancel = (event: PointerEvent) => {
+      if (pointerRef.current?.pointerId === event.pointerId) pointerRef.current = null;
     };
 
     canvas.addEventListener("wheel", handleWheel, { passive: false });
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("pointermove", handlePointerMove);
     canvas.addEventListener("pointerup", handlePointerEnd);
-    canvas.addEventListener("pointercancel", handlePointerEnd);
+    canvas.addEventListener("pointercancel", handlePointerCancel);
 
     let last = performance.now();
     let frameId = 0;
@@ -183,9 +191,9 @@ export function VisualCanvas({ scene }: VisualCanvasProps) {
       canvas.removeEventListener("pointerdown", handlePointerDown);
       canvas.removeEventListener("pointermove", handlePointerMove);
       canvas.removeEventListener("pointerup", handlePointerEnd);
-      canvas.removeEventListener("pointercancel", handlePointerEnd);
+      canvas.removeEventListener("pointercancel", handlePointerCancel);
     };
-  }, [updateViewport, zoomAt]);
+  }, [onNodeSelect, updateViewport, zoomAt]);
 
   return (
     <div className="relative h-full w-full">
@@ -194,6 +202,7 @@ export function VisualCanvas({ scene }: VisualCanvasProps) {
         aria-label="Diagrama interactivo: arrastra para mover y usa la rueda para acercar o alejar."
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
+      {selectedNode ? <NodeDetailCard node={selectedNode} onClose={() => onNodeSelect(null)} /> : null}
       <div className="absolute left-4 top-4 flex border border-core-border/[0.14] bg-core-panel font-mono text-xs text-core-text-secondary shadow-sm">
         <button
           type="button"

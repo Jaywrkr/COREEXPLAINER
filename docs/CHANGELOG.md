@@ -3,6 +3,15 @@
 Cambios relevantes del producto, en orden descendente. La misma información
 visible dentro de la aplicación vive en `src/content/changelog.ts`.
 
+## [0.3.0] — 2026-08-04
+
+- Clic en una tarjeta para consultar su función y tipo dentro de la
+  arquitectura.
+- Ficha contextual con capacidades, emisión y simulación de falla cuando
+  aplica.
+- La selección se reinicia al cambiar de escena y el clic fuera de un nodo
+  la cierra.
+
 ## [0.2.0] — 2026-08-04
 
 - Navegación del canvas: pan con arrastre, zoom con rueda/trackpad y
