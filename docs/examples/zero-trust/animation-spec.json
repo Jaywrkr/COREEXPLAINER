@@ -1,0 +1,89 @@
+{
+  "version": "1.0",
+  "id": "zero-trust-access-decision",
+  "title": "Cómo se decide cada acceso en Zero Trust",
+  "scenes": {
+    "request": {
+      "nodes": [
+        { "id": "subject", "name": "Usuario / servicio", "subtitle": "Sujeto", "x": 0.1, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "device", "name": "Dispositivo", "subtitle": "Origen de la solicitud", "x": 0.3, "y": 0.22, "kind": "compute" },
+        { "id": "request", "name": "Solicitud", "subtitle": "Acción + recurso", "x": 0.38, "y": 0.5, "kind": "network" },
+        { "id": "pep", "name": "Punto de enforcement", "subtitle": "Protege el recurso", "x": 0.64, "y": 0.5, "kind": "network" },
+        { "id": "resource", "name": "Recurso", "subtitle": "Aplicación / datos", "x": 0.9, "y": 0.5, "kind": "workload", "capacity": 50 },
+        { "id": "identity", "name": "Identidad", "subtitle": "Señal autenticada", "x": 0.3, "y": 0.78, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "subject", "to": "request", "kind": "data" },
+        { "from": "device", "to": "request", "kind": "dependency" },
+        { "from": "identity", "to": "request", "kind": "control" },
+        { "from": "request", "to": "pep", "kind": "data" },
+        { "from": "pep", "to": "resource", "kind": "data" }
+      ]
+    },
+    "context": {
+      "nodes": [
+        { "id": "identity", "name": "Identidad", "subtitle": "Quién solicita", "x": 0.12, "y": 0.2, "kind": "control-plane" },
+        { "id": "device", "name": "Postura del dispositivo", "subtitle": "Estado y cumplimiento", "x": 0.12, "y": 0.5, "kind": "compute" },
+        { "id": "resource", "name": "Recurso", "subtitle": "Sensibilidad y acción", "x": 0.12, "y": 0.8, "kind": "workload" },
+        { "id": "telemetry", "name": "Telemetría", "subtitle": "Riesgo y comportamiento", "x": 0.45, "y": 0.5, "kind": "storage" },
+        { "id": "policy", "name": "Motor de política", "subtitle": "Evalúa contexto", "x": 0.75, "y": 0.5, "kind": "control-plane" },
+        { "id": "decision", "name": "Contexto evaluado", "subtitle": "Señales combinadas", "x": 0.95, "y": 0.5, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "identity", "to": "policy", "kind": "control" },
+        { "from": "device", "to": "policy", "kind": "dependency" },
+        { "from": "resource", "to": "policy", "kind": "dependency" },
+        { "from": "telemetry", "to": "policy", "kind": "data" },
+        { "from": "policy", "to": "decision", "kind": "control" }
+      ]
+    },
+    "decision": {
+      "nodes": [
+        { "id": "request", "name": "Solicitud", "subtitle": "Acción solicitada", "x": 0.1, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "policy", "name": "Policy Engine", "subtitle": "Decide", "x": 0.36, "y": 0.5, "kind": "control-plane", "capacity": 100 },
+        { "id": "administrator", "name": "Policy Administrator", "subtitle": "Traduce decisión", "x": 0.62, "y": 0.5, "kind": "control-plane" },
+        { "id": "allow", "name": "Permitir / limitar", "subtitle": "Resultado contextual", "x": 0.9, "y": 0.25, "kind": "network" },
+        { "id": "deny", "name": "Denegar / step-up", "subtitle": "Resultado contextual", "x": 0.9, "y": 0.75, "kind": "network" }
+      ],
+      "edges": [
+        { "from": "request", "to": "policy", "kind": "data" },
+        { "from": "policy", "to": "administrator", "kind": "control" },
+        { "from": "administrator", "to": "allow", "kind": "control" },
+        { "from": "administrator", "to": "deny", "kind": "failure" }
+      ]
+    },
+    "enforcement": {
+      "nodes": [
+        { "id": "subject", "name": "Sujeto", "subtitle": "Sesión", "x": 0.1, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "pep", "name": "PEP", "subtitle": "Proxy / gateway / agente", "x": 0.38, "y": 0.5, "kind": "network", "capacity": 80 },
+        { "id": "resource", "name": "Aplicación", "subtitle": "Recurso protegido", "x": 0.68, "y": 0.5, "kind": "workload", "capacity": 50 },
+        { "id": "telemetry", "name": "Observación continua", "subtitle": "Eventos de sesión", "x": 0.9, "y": 0.2, "kind": "storage" },
+        { "id": "revoke", "name": "Reevaluar / revocar", "subtitle": "Cambio de contexto", "x": 0.9, "y": 0.8, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "subject", "to": "pep", "kind": "data" },
+        { "from": "pep", "to": "resource", "kind": "data" },
+        { "from": "resource", "to": "telemetry", "kind": "dependency" },
+        { "from": "telemetry", "to": "revoke", "kind": "control" },
+        { "from": "revoke", "to": "pep", "kind": "failure" }
+      ]
+    },
+    "limits": {
+      "nodes": [
+        { "id": "subject", "name": "Sujeto", "subtitle": "Solicita acceso", "x": 0.08, "y": 0.5, "kind": "external" },
+        { "id": "identity", "name": "Identidad", "subtitle": "Credencial / sesión", "x": 0.32, "y": 0.18, "kind": "control-plane", "killable": true },
+        { "id": "device", "name": "Dispositivo", "subtitle": "Postura", "x": 0.32, "y": 0.5, "kind": "compute", "killable": true },
+        { "id": "telemetry", "name": "Telemetría de riesgo", "subtitle": "Señales disponibles", "x": 0.32, "y": 0.82, "kind": "storage", "killable": true },
+        { "id": "policy", "name": "Motor de política", "subtitle": "Reglas y privilegios", "x": 0.62, "y": 0.5, "kind": "control-plane", "killable": true },
+        { "id": "resource", "name": "Recurso protegido", "subtitle": "Resultado del acceso", "x": 0.92, "y": 0.5, "kind": "workload" }
+      ],
+      "edges": [
+        { "from": "subject", "to": "policy", "kind": "data" },
+        { "from": "identity", "to": "policy", "kind": "dependency" },
+        { "from": "device", "to": "policy", "kind": "dependency" },
+        { "from": "telemetry", "to": "policy", "kind": "dependency" },
+        { "from": "policy", "to": "resource", "kind": "failure" }
+      ]
+    }
+  }
+}

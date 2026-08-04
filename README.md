@@ -18,14 +18,16 @@ desplegable en Vercel.
 
 ## Correr localmente
 
-Temas disponibles: `/explainer/vcf`, `/explainer/vsphere-ha`, `/explainer/vsan`
-y `/explainer/nsx`.
+Temas disponibles: `/explainer/vcf`, `/explainer/vsphere-ha`, `/explainer/vsan`,
+`/explainer/nsx` y `/explainer/zero-trust`.
 La validación técnica de vSphere HA está en
 [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 La validación técnica de vSAN está en
 [`docs/ai-context/vsan-technical-validation.md`](./docs/ai-context/vsan-technical-validation.md).
 La validación técnica de NSX está en
 [`docs/ai-context/nsx-technical-validation.md`](./docs/ai-context/nsx-technical-validation.md).
+La validación técnica de Zero Trust está en
+[`docs/ai-context/zero-trust-technical-validation.md`](./docs/ai-context/zero-trust-technical-validation.md).
 
 ```bash
 npm install
@@ -67,4 +69,5 @@ docs/examples/vcf/         ejemplo de referencia completo
 docs/examples/vsphere-ha/  segundo tema: recuperación ante fallos con HA
 docs/examples/vsan/        tercer tema: objetos y protección de storage
 docs/examples/nsx/         cuarto tema: tráfico y microsegmentación
+docs/examples/zero-trust/  quinto tema: decisiones de acceso
 ```

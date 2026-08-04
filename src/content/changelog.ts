@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.11.1";
+export const currentVersion = "0.12.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.12.0",
+    date: "04 ago 2026",
+    title: "Explainer independiente de Zero Trust",
+    changes: [
+      "Nuevo tema con cinco escenas sobre solicitudes, contexto, decisión, enforcement y límites.",
+      "Escenarios interactivos para identidad comprometida, dispositivo no confiable, política amplia y telemetría ausente.",
+      "Storyboard y matriz de validación basados en NIST SP 800-207 y CISA Zero Trust Maturity Model.",
+    ],
+  },
   {
     version: "0.11.1",
     date: "04 ago 2026",
