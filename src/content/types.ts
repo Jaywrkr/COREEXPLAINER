@@ -11,7 +11,7 @@
  * the dashboard grouping stays predictable. Extend when a genuinely new
  * category of topic is added, not per-topic.
  */
-export type ExplainerCategory = "Virtualización" | "Redes" | "Seguridad" | "Cloud";
+export type ExplainerCategory = "Virtualización" | "Storage" | "Redes" | "Seguridad" | "Cloud";
 
 export interface ExplainerMeta {
   chip: string;

@@ -20,6 +20,8 @@ import { backupDrMeta, backupDrSteps } from "./backup-dr";
 import backupDrRawSpec from "../../docs/examples/backup-dr/animation-spec.json";
 import { ransomwareResilienceMeta, ransomwareResilienceSteps } from "./ransomware-resilience";
 import ransomwareResilienceRawSpec from "../../docs/examples/ransomware-resilience/animation-spec.json";
+import { sanStorageMeta, sanStorageSteps } from "./san-storage";
+import sanStorageRawSpec from "../../docs/examples/san-storage/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -108,6 +110,14 @@ const ransomwareResilienceDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(ransomwareResilienceRawSpec),
 };
 
+const sanStorageDefinition: ExplainerDefinition = {
+  slug: "san-storage",
+  category: "Storage",
+  meta: sanStorageMeta,
+  steps: sanStorageSteps,
+  spec: parseAnimationSpec(sanStorageRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
@@ -119,8 +129,9 @@ validateExplainerContent(kubernetesDefinition);
 validateExplainerContent(observabilityDefinition);
 validateExplainerContent(backupDrDefinition);
 validateExplainerContent(ransomwareResilienceDefinition);
+validateExplainerContent(sanStorageDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

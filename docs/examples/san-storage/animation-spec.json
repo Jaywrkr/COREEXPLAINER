@@ -1,0 +1,96 @@
+{
+  "version": "1.0",
+  "id": "san-storage-to-application",
+  "title": "Cómo llega un volumen SAN hasta una aplicación",
+  "scenes": {
+    "foundation": {
+      "nodes": [
+        { "id": "application", "name": "Aplicación", "subtitle": "VMware, AIX u otra carga", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "host", "name": "Host Lenovo / IBM Power", "subtitle": "SO, hipervisor y HBA", "x": 0.28, "y": 0.5, "kind": "compute", "capacity": 85 },
+        { "id": "fabric-a", "name": "Fabric FC A", "subtitle": "Camino independiente", "x": 0.5, "y": 0.28, "kind": "network", "capacity": 80 },
+        { "id": "fabric-b", "name": "Fabric FC B", "subtitle": "Camino independiente", "x": 0.5, "y": 0.72, "kind": "network", "capacity": 80 },
+        { "id": "array", "name": "IBM FlashSystem", "subtitle": "Nodos y puertos de storage", "x": 0.75, "y": 0.5, "kind": "storage", "capacity": 90 },
+        { "id": "management", "name": "Red de gestión", "subtitle": "LAN separada del I/O SAN", "x": 0.92, "y": 0.18, "kind": "network", "capacity": 60 }
+      ],
+      "edges": [
+        { "from": "application", "to": "host", "kind": "dependency" },
+        { "from": "host", "to": "fabric-a", "kind": "data" },
+        { "from": "host", "to": "fabric-b", "kind": "data" },
+        { "from": "fabric-a", "to": "array", "kind": "storage" },
+        { "from": "fabric-b", "to": "array", "kind": "storage" },
+        { "from": "management", "to": "array", "kind": "control" }
+      ]
+    },
+    "provisioning": {
+      "nodes": [
+        { "id": "disks", "name": "Discos / MDisk", "subtitle": "Capacidad física", "x": 0.08, "y": 0.5, "kind": "storage", "capacity": 90 },
+        { "id": "pool", "name": "Pool", "subtitle": "RAID / DRAID y capacidad", "x": 0.28, "y": 0.5, "kind": "storage", "capacity": 85 },
+        { "id": "volume", "name": "Volumen / LUN", "subtitle": "Objeto consumible", "x": 0.48, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "mapping", "name": "Host mapping / masking", "subtitle": "WWPN y acceso", "x": 0.7, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+        { "id": "host", "name": "Host o host cluster", "subtitle": "Descubre el dispositivo", "x": 0.92, "y": 0.5, "kind": "compute", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "disks", "to": "pool", "kind": "storage" },
+        { "from": "pool", "to": "volume", "kind": "storage" },
+        { "from": "volume", "to": "mapping", "kind": "control" },
+        { "from": "mapping", "to": "host", "kind": "dependency" }
+      ]
+    },
+    "multipath": {
+      "nodes": [
+        { "id": "host", "name": "Host", "subtitle": "Multipath policy", "x": 0.1, "y": 0.5, "kind": "compute", "capacity": 85 },
+        { "id": "hba-a", "name": "HBA A", "subtitle": "WWPN A", "x": 0.3, "y": 0.25, "kind": "compute", "capacity": 70 },
+        { "id": "hba-b", "name": "HBA B", "subtitle": "WWPN B", "x": 0.3, "y": 0.75, "kind": "compute", "capacity": 70 },
+        { "id": "fabric-a", "name": "Fabric A", "subtitle": "Zoning A", "x": 0.52, "y": 0.25, "kind": "network", "capacity": 80 },
+        { "id": "fabric-b", "name": "Fabric B", "subtitle": "Zoning B", "x": 0.52, "y": 0.75, "kind": "network", "capacity": 80 },
+        { "id": "array-a", "name": "Array node A", "subtitle": "Target port", "x": 0.76, "y": 0.25, "kind": "storage", "capacity": 80 },
+        { "id": "array-b", "name": "Array node B", "subtitle": "Target port", "x": 0.76, "y": 0.75, "kind": "storage", "capacity": 80 },
+        { "id": "volume", "name": "Mismo volumen", "subtitle": "Paths agrupados", "x": 0.94, "y": 0.5, "kind": "storage", "capacity": 85 }
+      ],
+      "edges": [
+        { "from": "host", "to": "hba-a", "kind": "dependency" },
+        { "from": "host", "to": "hba-b", "kind": "dependency" },
+        { "from": "hba-a", "to": "fabric-a", "kind": "data" },
+        { "from": "hba-b", "to": "fabric-b", "kind": "data" },
+        { "from": "fabric-a", "to": "array-a", "kind": "storage" },
+        { "from": "fabric-b", "to": "array-b", "kind": "storage" },
+        { "from": "array-a", "to": "volume", "kind": "storage" },
+        { "from": "array-b", "to": "volume", "kind": "storage" }
+      ]
+    },
+    "migration": {
+      "nodes": [
+        { "id": "old-array", "name": "Storage origen", "subtitle": "Datos existentes", "x": 0.1, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "migration", "name": "Migración / mirror", "subtitle": "Plan y ventana", "x": 0.34, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+        { "id": "new-array", "name": "IBM FlashSystem", "subtitle": "Pool y volumen destino", "x": 0.58, "y": 0.5, "kind": "storage", "capacity": 90 },
+        { "id": "replication", "name": "Replicación", "subtitle": "Sesión y RPO", "x": 0.78, "y": 0.25, "kind": "network", "capacity": 75 },
+        { "id": "application", "name": "Aplicación validada", "subtitle": "Host, datos y dependencias", "x": 0.9, "y": 0.72, "kind": "workload", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "old-array", "to": "migration", "kind": "storage" },
+        { "from": "migration", "to": "new-array", "kind": "data" },
+        { "from": "new-array", "to": "application", "kind": "dependency" },
+        { "from": "new-array", "to": "replication", "kind": "storage" },
+        { "from": "replication", "to": "application", "kind": "control" }
+      ]
+    },
+    "limits": {
+      "nodes": [
+        { "id": "host", "name": "Host / hipervisor", "subtitle": "Paths y drivers", "x": 0.08, "y": 0.5, "kind": "compute", "capacity": 80, "killable": true },
+        { "id": "fabric-a", "name": "Fabric FC A", "subtitle": "Zoning y camino", "x": 0.28, "y": 0.28, "kind": "network", "capacity": 75, "killable": true },
+        { "id": "mapping", "name": "Mapping / masking", "subtitle": "WWPN y LUN", "x": 0.48, "y": 0.5, "kind": "control-plane", "capacity": 75, "killable": true },
+        { "id": "pool", "name": "Pool", "subtitle": "Capacidad y rendimiento", "x": 0.68, "y": 0.28, "kind": "storage", "capacity": 75, "killable": true },
+        { "id": "replication", "name": "Replicación", "subtitle": "Estado y lag", "x": 0.68, "y": 0.72, "kind": "storage", "capacity": 70, "killable": true },
+        { "id": "remote-array", "name": "Destino remoto", "subtitle": "Continuidad", "x": 0.9, "y": 0.5, "kind": "storage", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "host", "to": "fabric-a", "kind": "data" },
+        { "from": "host", "to": "mapping", "kind": "control" },
+        { "from": "mapping", "to": "pool", "kind": "storage" },
+        { "from": "pool", "to": "replication", "kind": "storage" },
+        { "from": "replication", "to": "remote-array", "kind": "storage" },
+        { "from": "host", "to": "remote-array", "kind": "dependency" }
+      ]
+    }
+  }
+}

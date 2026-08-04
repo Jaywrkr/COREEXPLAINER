@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.20.0] - 2026-08-04
+
+- Nuevo tema independiente de Storage SAN empresarial con cinco escenas sobre capas SAN, provisionamiento, host mapping, multipath, migración y replicación.
+- Escenarios interactivos para pérdida de fabric, mapping incorrecto, pool al límite y lag de replicación.
+- Nueva categoría Storage y matriz técnica basada en documentación IBM y Lenovo revisada el 2026-08-04.
+
 ## [0.19.0] - 2026-08-04
 
 - Se documentaron patrones sanitizados de proyectos reales de CoreSolutions: storage, SAN, VMware, Veeam, redes, seguridad, IBM Power, NAS y alta disponibilidad.

@@ -46,4 +46,10 @@ export const brandContext = {
     { name: "IBM", role: "Detección y copias protegidas de storage", scope: "FlashSystem puede detectar anomalías y conservar copias; confirmar modelo y código." },
     { name: "Lenovo", role: "Plataforma de reconstrucción", scope: "ThinkSystem representa capacidad para recuperar; validar modelo, firmware y sizing." },
   ] satisfies BrandContextItem[],
+  san: [
+    { name: "IBM", role: "Storage empresarial", scope: "FlashSystem/Storwize aporta pools, volúmenes y servicios de copia; validar familia y código." },
+    { name: "Lenovo", role: "Servidores y HBA", scope: "ThinkSystem representa hosts posibles; validar HBA, firmware, HCL y sizing." },
+    { name: "VMware/Broadcom", role: "Consumidor de storage", scope: "vSphere/VCF puede consumir datastores SAN; validar versión, SATP/PSP y soporte." },
+    { name: "Aruba HPE", role: "Red LAN y gestión", scope: "La SAN FC puede ser una fabric separada; no se asume que el switching LAN transporte FC." },
+  ] satisfies BrandContextItem[],
 };
