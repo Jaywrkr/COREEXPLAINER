@@ -116,6 +116,7 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
     const handlePointerDown = (event: PointerEvent) => {
       if (event.button !== 0) return;
       canvas.setPointerCapture(event.pointerId);
+      canvas.style.cursor = "grabbing";
       pointerRef.current = {
         pointerId: event.pointerId,
         startX: event.clientX,
@@ -128,13 +129,25 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
 
     const handlePointerMove = (event: PointerEvent) => {
       const drag = pointerRef.current;
-      if (!drag || drag.pointerId !== event.pointerId) return;
+      if (!drag || drag.pointerId !== event.pointerId) {
+        const rect = canvas.getBoundingClientRect();
+        const current = viewportRef.current;
+        const node = engine.getNodeAt(
+          (event.clientX - rect.left - current.x) / current.scale,
+          (event.clientY - rect.top - current.y) / current.scale,
+        );
+        engine.setHoveredNode(node?.id ?? null);
+        canvas.style.cursor = node ? "pointer" : "grab";
+        return;
+      }
 
       const deltaX = event.clientX - drag.startX;
       const deltaY = event.clientY - drag.startY;
       if (Math.abs(deltaX) > 3 || Math.abs(deltaY) > 3) drag.moved = true;
       if (!drag.moved) return;
 
+      engine.setHoveredNode(null);
+      canvas.style.cursor = "grabbing";
       updateViewport({ scale: viewportRef.current.scale, x: drag.originX + deltaX, y: drag.originY + deltaY });
     };
 
@@ -142,20 +155,36 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
       const drag = pointerRef.current;
       if (!drag || drag.pointerId !== event.pointerId) return;
       pointerRef.current = null;
+      const rect = canvas.getBoundingClientRect();
+      const current = viewportRef.current;
 
       if (!drag.moved) {
-        const rect = canvas.getBoundingClientRect();
-        const current = viewportRef.current;
         const node = engine.handleClick(
           (event.clientX - rect.left - current.x) / current.scale,
           (event.clientY - rect.top - current.y) / current.scale,
         );
         onNodeSelect(node);
       }
+
+      const hoveredNode = engine.getNodeAt(
+        (event.clientX - rect.left - current.x) / current.scale,
+        (event.clientY - rect.top - current.y) / current.scale,
+      );
+      engine.setHoveredNode(hoveredNode?.id ?? null);
+      canvas.style.cursor = hoveredNode ? "pointer" : "grab";
     };
 
     const handlePointerCancel = (event: PointerEvent) => {
       if (pointerRef.current?.pointerId === event.pointerId) pointerRef.current = null;
+      engine.setHoveredNode(null);
+      canvas.style.cursor = "grab";
+    };
+
+    const handlePointerLeave = () => {
+      if (!pointerRef.current) {
+        engine.setHoveredNode(null);
+        canvas.style.cursor = "grab";
+      }
     };
 
     canvas.addEventListener("wheel", handleWheel, { passive: false });
@@ -163,6 +192,7 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
     canvas.addEventListener("pointermove", handlePointerMove);
     canvas.addEventListener("pointerup", handlePointerEnd);
     canvas.addEventListener("pointercancel", handlePointerCancel);
+    canvas.addEventListener("pointerleave", handlePointerLeave);
 
     let last = performance.now();
     let frameId = 0;
@@ -192,6 +222,7 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
       canvas.removeEventListener("pointermove", handlePointerMove);
       canvas.removeEventListener("pointerup", handlePointerEnd);
       canvas.removeEventListener("pointercancel", handlePointerCancel);
+      canvas.removeEventListener("pointerleave", handlePointerLeave);
     };
   }, [onNodeSelect, updateViewport, zoomAt]);
 
