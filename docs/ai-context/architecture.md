@@ -82,6 +82,10 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
 - **`docs/ai-context/canvas-navigation.md`** — contrato de interacción del
   viewport (pan, zoom, reset y conversión de clics). Leer antes de modificar
   la navegación del canvas.
+- **`docs/ai-context/node-details.md`** — contrato de selección e información
+  contextual de las tarjetas del canvas.
+- **`src/components/explainer/NodeDetailCard.tsx`** — ficha genérica de un
+  nodo seleccionado; usa solo campos ya definidos en el spec.
 - **`src/components/explainer/VersionChangelog.tsx`** — control global
   cliente que abre/cierra el historial de versiones. Su contenido estático
   viene de `src/content/changelog.ts`; ver también
