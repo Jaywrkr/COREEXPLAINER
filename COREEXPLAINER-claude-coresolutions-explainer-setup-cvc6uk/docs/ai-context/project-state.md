@@ -62,6 +62,14 @@ claro/oscuro.
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
 
+## Navegación de canvas recién incorporada
+
+- **Pan/zoom del diagrama**: el ejemplo VCF ya permite arrastrar para mover,
+  usar rueda/trackpad o controles `−`/`+` para zoom (65%–250%) y restablecer
+  el encuadre. Cambiar de escena reinicia el viewport. Un clic sin arrastre
+  conserva la simulación de matar/revivir nodos. Ver
+  `docs/ai-context/canvas-navigation.md` antes de tocar esta capa.
+
 ## Qué falta (fuera de alcance de esta fase, deliberadamente)
 
 - **Generador con IA** (fase 1): no hay API de OpenAI/Claude conectada, no

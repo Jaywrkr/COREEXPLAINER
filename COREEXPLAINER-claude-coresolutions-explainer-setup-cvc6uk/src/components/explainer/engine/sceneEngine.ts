@@ -197,8 +197,8 @@ export class SceneEngine {
     }
   }
 
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.clearRect(0, 0, this.width, this.height);
+  draw(ctx: CanvasRenderingContext2D, clear = true) {
+    if (clear) ctx.clearRect(0, 0, this.width, this.height);
 
     for (const edge of this.edges) {
       const from = this.nodeById(edge.from);
