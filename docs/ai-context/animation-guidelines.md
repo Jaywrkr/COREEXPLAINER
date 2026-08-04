@@ -67,6 +67,23 @@ debe intentar especificar un ícono por nodo; si un tema necesita
 distinguir visualmente nodos del mismo `kind`, usa `subtitle`, no un campo
 de ícono nuevo.
 
+### Relaciones semánticas
+
+Cada arista debe declarar `kind` para que el diagrama explique qué significa
+la conexión, no solo que existe:
+
+| kind | Significado visual |
+| --- | --- |
+| `data` | Camino de datos de usuarios, aplicaciones o servicios |
+| `control` | Gestión, orquestación o configuración |
+| `storage` | Relación con almacenamiento o persistencia |
+| `dependency` | Dependencia conceptual entre componentes |
+| `failure` | Relación o impacto asociado a un escenario de fallo |
+
+El canvas usa estilos de línea distintos y ofrece una leyenda con filtros de
+capas y relaciones. Si una conexión es pedagógica y no representa un camino
+de paquetes real, debe explicarse también en el storyboard.
+
 ### Reglas de contenido de una escena
 
 - Toda posición (`x`, `y`) es una fracción 0–1 del tamaño del canvas en ese

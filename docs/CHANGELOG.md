@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.8.0] - 2026-08-04
+
+- Relaciones semánticas para distinguir datos, control, storage, dependencias y fallos.
+- Leyenda interactiva con filtros de capas y relaciones por escena.
+- Validación del tipo de cada arista antes de publicar una explicación.
+
 ## [0.7.0] - 2026-08-04
 
 - Validación de estructura, profundidad narrativa y referencias visuales antes de registrar un tema.

@@ -22,6 +22,9 @@ export type NodeKind =
   | "workload" // apps / VMs / consumers of the platform — success green
   | "external"; // clients, users, third parties outside the platform — accent blue
 
+/** Semantic relationship shown by an arrow in the diagram. */
+export type EdgeKind = "data" | "control" | "storage" | "dependency" | "failure";
+
 export interface SceneNode {
   id: string;
   name: string;
@@ -44,6 +47,7 @@ export interface SceneNode {
 export interface SceneEdge {
   from: string;
   to: string;
+  kind: EdgeKind;
 }
 
 export interface Scene {

@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import type { Scene, SceneNode } from "@/lib/animation-spec/types";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { EdgeKind, NodeKind, Scene, SceneNode } from "@/lib/animation-spec/types";
 import type { FailureScenario } from "@/content/types";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { SceneEngine } from "./engine/sceneEngine";
 import { FailureScenarioPanel } from "./FailureScenarioPanel";
+import { DiagramLegend } from "./DiagramLegend";
 import { NodeDetailCard } from "./NodeDetailCard";
 
 interface VisualCanvasProps {
@@ -36,6 +37,7 @@ const MIN_ZOOM = 0.65;
 const MAX_ZOOM = 2.5;
 const DEFAULT_VIEWPORT: Viewport = { scale: 1, x: 0, y: 0 };
 const NOOP_SCENARIO_CHANGE = () => {};
+const ALL_NODE_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -63,7 +65,13 @@ export function VisualCanvas({
   const pointerRef = useRef<PointerDrag | null>(null);
   const preserveManualFailureRef = useRef(false);
   const [viewport, setViewport] = useState<Viewport>(DEFAULT_VIEWPORT);
+  const [activeNodeKinds, setActiveNodeKinds] = useState<Set<NodeKind>>(() => new Set(ALL_NODE_KINDS));
+  const [activeEdgeKinds, setActiveEdgeKinds] = useState<Set<EdgeKind>>(() => new Set());
   const { theme } = useTheme();
+  const edgeKinds = useMemo(
+    () => Array.from(new Set(scene.edges.map((edge) => edge.kind))),
+    [scene],
+  );
 
   const updateViewport = useCallback((next: Viewport) => {
     viewportRef.current = next;
@@ -90,11 +98,42 @@ export function VisualCanvas({
     zoomAt(rect.width / 2, rect.height / 2, viewportRef.current.scale * factor);
   }, [zoomAt]);
 
+  const toggleNodeKind = useCallback((kind: NodeKind) => {
+    setActiveNodeKinds((current) => {
+      const next = new Set(current);
+      if (next.has(kind)) next.delete(kind);
+      else next.add(kind);
+      return next;
+    });
+  }, []);
+
+  const toggleEdgeKind = useCallback((kind: EdgeKind) => {
+    setActiveEdgeKinds((current) => {
+      const next = new Set(current);
+      if (next.has(kind)) next.delete(kind);
+      else next.add(kind);
+      return next;
+    });
+  }, []);
+
+  const resetVisibility = useCallback(() => {
+    setActiveNodeKinds(new Set(ALL_NODE_KINDS));
+    setActiveEdgeKinds(new Set(edgeKinds));
+  }, [edgeKinds]);
+
   useEffect(() => {
     engineRef.current.loadScene(scene);
     preserveManualFailureRef.current = false;
+    setActiveNodeKinds(new Set(ALL_NODE_KINDS));
+    setActiveEdgeKinds(new Set(edgeKinds));
     resetViewport();
-  }, [scene, resetViewport]);
+  }, [edgeKinds, resetViewport, scene]);
+
+  useEffect(() => {
+    const hiddenNodeKinds = new Set(ALL_NODE_KINDS.filter((kind) => !activeNodeKinds.has(kind)));
+    const hiddenEdgeKinds = new Set(edgeKinds.filter((kind) => !activeEdgeKinds.has(kind)));
+    engineRef.current.setVisibility(hiddenNodeKinds, hiddenEdgeKinds);
+  }, [activeEdgeKinds, activeNodeKinds, edgeKinds]);
 
   useEffect(() => {
     if (preserveManualFailureRef.current) {
@@ -262,6 +301,14 @@ export function VisualCanvas({
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
       {selectedNode ? <NodeDetailCard node={selectedNode} onClose={() => onNodeSelect(null)} /> : null}
+      <DiagramLegend
+        edgeKinds={edgeKinds}
+        activeNodeKinds={activeNodeKinds}
+        activeEdgeKinds={activeEdgeKinds}
+        onToggleNodeKind={toggleNodeKind}
+        onToggleEdgeKind={toggleEdgeKind}
+        onReset={resetVisibility}
+      />
       <FailureScenarioPanel
         scenarios={failureScenarios}
         activeScenarioId={activeFailureScenarioId}
