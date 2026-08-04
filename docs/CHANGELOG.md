@@ -3,6 +3,13 @@
 Cambios relevantes del producto, en orden descendente. La misma información
 visible dentro de la aplicación vive en `src/content/changelog.ts`.
 
+## [0.4.0] — 2026-08-04
+
+- Hover sobre un nodo para resaltar sus conexiones y componentes
+  relacionados.
+- Los elementos no relacionados se atenúan para concentrar la atención.
+- El resaltado funciona con pan, zoom y escenas independientes.
+
 ## [0.3.0] — 2026-08-04
 
 - Clic en una tarjeta para consultar su función y tipo dentro de la

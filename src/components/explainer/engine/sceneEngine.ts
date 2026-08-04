@@ -91,11 +91,13 @@ export class SceneEngine {
   private width = 0;
   private height = 0;
   private palette: Palette = palettes.dark;
+  private hoveredNodeId: string | null = null;
 
   loadScene(scene: Scene) {
     this.nodes = scene.nodes.map((n) => ({ ...n, rx: 0, dead: false, emitAccumMs: 0, decayAccumMs: 0 }));
     this.edges = scene.edges;
     this.packets = [];
+    this.hoveredNodeId = null;
   }
 
   setSize(width: number, height: number) {
@@ -105,6 +107,10 @@ export class SceneEngine {
 
   setTheme(theme: Theme) {
     this.palette = palettes[theme];
+  }
+
+  setHoveredNode(nodeId: string | null) {
+    this.hoveredNodeId = nodeId;
   }
 
   private nodeById(id: string) {
@@ -120,6 +126,26 @@ export class SceneEngine {
       .filter((e) => e.from === node.id)
       .map((e) => this.nodeById(e.to))
       .filter((n): n is RuntimeNode => Boolean(n) && !n!.dead);
+  }
+
+  private nodeAt(x: number, y: number): RuntimeNode | null {
+    for (let index = this.nodes.length - 1; index >= 0; index -= 1) {
+      const node = this.nodes[index]!;
+      const center = this.toPixels(node);
+      if (
+        x >= center.x - CARD_W / 2 &&
+        x <= center.x + CARD_W / 2 &&
+        y >= center.y - CARD_H / 2 &&
+        y <= center.y + CARD_H / 2
+      ) {
+        return node;
+      }
+    }
+    return null;
+  }
+
+  getNodeAt(x: number, y: number): SceneNode | null {
+    return this.nodeAt(x, y);
   }
 
   private spawnPacket(from: RuntimeNode, to: RuntimeNode) {
@@ -197,20 +223,7 @@ export class SceneEngine {
       }
     }
 
-    for (let index = this.nodes.length - 1; index >= 0; index -= 1) {
-      const node = this.nodes[index]!;
-      const center = this.toPixels(node);
-      if (
-        x >= center.x - CARD_W / 2 &&
-        x <= center.x + CARD_W / 2 &&
-        y >= center.y - CARD_H / 2 &&
-        y <= center.y + CARD_H / 2
-      ) {
-        return node;
-      }
-    }
-
-    return null;
+    return this.nodeAt(x, y);
   }
 
   draw(ctx: CanvasRenderingContext2D, clear = true) {
@@ -232,15 +245,22 @@ export class SceneEngine {
     const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y);
     const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y);
 
-    ctx.strokeStyle = withAlpha(this.palette.text, 0.14);
-    ctx.lineWidth = 1.2;
+    const hasHover = this.hoveredNodeId !== null;
+    const highlighted = this.hoveredNodeId === a.id || this.hoveredNodeId === b.id;
+
+    ctx.strokeStyle = highlighted
+      ? withAlpha(this.palette.accent, 0.7)
+      : withAlpha(this.palette.text, hasHover ? 0.06 : 0.14);
+    ctx.lineWidth = highlighted ? 2 : 1.2;
     ctx.beginPath();
     ctx.moveTo(p1.x, p1.y);
     ctx.lineTo(p2.x, p2.y);
     ctx.stroke();
 
     const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-    ctx.fillStyle = withAlpha(this.palette.text, 0.3);
+    ctx.fillStyle = highlighted
+      ? withAlpha(this.palette.accent, 0.85)
+      : withAlpha(this.palette.text, hasHover ? 0.14 : 0.3);
     ctx.beginPath();
     ctx.moveTo(p2.x, p2.y);
     ctx.lineTo(p2.x - 6 * Math.cos(angle - 0.5), p2.y - 6 * Math.sin(angle - 0.5));
@@ -254,14 +274,26 @@ export class SceneEngine {
     const x = center.x - CARD_W / 2;
     const y = center.y - CARD_H / 2;
     const color = kindColor(node.kind, this.palette);
+    const hasHover = this.hoveredNodeId !== null;
+    const isHovered = node.id === this.hoveredNodeId;
+    const isRelated =
+      isHovered ||
+      this.edges.some(
+        (edge) =>
+          (edge.from === this.hoveredNodeId && edge.to === node.id) ||
+          (edge.to === this.hoveredNodeId && edge.from === node.id),
+      );
 
     ctx.save();
     if (node.dead) ctx.globalAlpha = 0.4;
+    if (hasHover && !isRelated) ctx.globalAlpha *= 0.32;
 
     ctx.fillStyle = this.palette.panel;
     ctx.fillRect(x, y, CARD_W, CARD_H);
-    ctx.strokeStyle = withAlpha(this.palette.text, 0.09);
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = isHovered
+      ? withAlpha(this.palette.accent, 0.9)
+      : withAlpha(this.palette.text, isRelated ? 0.09 : 0.04);
+    ctx.lineWidth = isHovered ? 1.6 : 1;
     ctx.strokeRect(x + 0.5, y + 0.5, CARD_W - 1, CARD_H - 1);
 
     const iconSize = 22;

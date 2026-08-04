@@ -3,7 +3,7 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.3.0: canvas navegable +
+**Última actualización**: 2026-08-04 — v0.4.0: canvas navegable +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -60,11 +60,15 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.3.0)**: control flotante global abajo a la
+- **Versión y changelog (v0.4.0)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
   `docs/ai-context/release-versioning.md`.
+- **Hover de relaciones**: al mover el cursor sobre un nodo, sus aristas y
+  vecinos directos se resaltan y los elementos no relacionados se atenúan.
+  Funciona con pan/zoom y se limpia al salir o cambiar de escena. Ver
+  `docs/ai-context/hover-highlighting.md`.
 - **Detalle de nodos**: al hacer clic en una tarjeta del canvas aparece una
   ficha contextual con su `kind`, función genérica, `subtitle`, capacidad,
   tasa de emisión y posibilidad de simular falla. Clic fuera cierra la ficha;
@@ -98,9 +102,9 @@ changelog visible y versionado documentado.
   probar el deploy real).
 - **Pulido pendiente del ejemplo VCF** (a pedido explícito del usuario,
   antes de agregar más temas): más interactividad (candidatas discutidas:
-  hover que resalta conexiones, modo autoplay de pasos y navegación por
-  teclado). El modo claro/oscuro, el pan/zoom y el detalle de nodos ya se
-  resolvieron; sigue lo demás, una cosa a la vez.
+  modo autoplay de pasos y navegación por teclado). El modo claro/oscuro,
+  el pan/zoom, el detalle de nodos y el hover de relaciones ya se resolvieron;
+  sigue lo demás, una cosa a la vez.
 
 ## Cómo continuar (siguiente sesión)
 

@@ -84,6 +84,8 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   la navegación del canvas.
 - **`docs/ai-context/node-details.md`** — contrato de selección e información
   contextual de las tarjetas del canvas.
+- **`docs/ai-context/hover-highlighting.md`** — comportamiento del hover,
+  hit-test y resaltado de vecinos/aristas.
 - **`src/components/explainer/NodeDetailCard.tsx`** — ficha genérica de un
   nodo seleccionado; usa solo campos ya definidos en el spec.
 - **`src/components/explainer/VersionChangelog.tsx`** — control global
