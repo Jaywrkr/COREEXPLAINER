@@ -82,6 +82,10 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
 - **`docs/ai-context/canvas-navigation.md`** — contrato de interacción del
   viewport (pan, zoom, reset y conversión de clics). Leer antes de modificar
   la navegación del canvas.
+- **`src/components/explainer/VersionChangelog.tsx`** — control global
+  cliente que abre/cierra el historial de versiones. Su contenido estático
+  viene de `src/content/changelog.ts`; ver también
+  `docs/ai-context/release-versioning.md`.
 - **`src/components/explainer/ExplainerLayout.tsx`** — orquesta el estado
   de "paso actual" y compone `LeftPanel` + `VisualCanvas`. Este es el único
   componente que un nuevo tema (que no sea VCF) reutiliza tal cual.

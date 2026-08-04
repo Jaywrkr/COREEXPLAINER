@@ -8,6 +8,7 @@ desplegable en Vercel.
   Empieza por [`AI_WORKFLOW.md`](./AI_WORKFLOW.md).
 - **¿Buscas contexto de producto?** [`docs/product/vision.md`](./docs/product/vision.md).
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
+- **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
 
 ## Correr localmente
 

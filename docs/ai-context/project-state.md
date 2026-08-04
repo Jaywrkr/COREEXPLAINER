@@ -3,9 +3,8 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — Fase 0 (base del proyecto) completada +
-íconos por tipo de nodo + dashboard de temas con categorías + modo
-claro/oscuro.
+**Última actualización**: 2026-08-04 — v0.2.0: canvas navegable +
+changelog visible y versionado documentado.
 
 ## Qué está hecho
 
@@ -61,6 +60,11 @@ claro/oscuro.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
+- **Versión y changelog (v0.2.0)**: control flotante global abajo a la
+  izquierda. Abre un panel con historial, se cierra con Escape y toma sus
+  datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
+  y el registro Markdown se actualizan de forma coordinada; ver
+  `docs/ai-context/release-versioning.md`.
 
 ## Navegación de canvas recién incorporada
 
@@ -88,11 +92,10 @@ claro/oscuro.
 - No se ha desplegado a Vercel todavía desde este repo (código listo, sin
   probar el deploy real).
 - **Pulido pendiente del ejemplo VCF** (a pedido explícito del usuario,
-  antes de agregar más temas): pan/zoom en el diagrama del canvas, y más
-  interactividad (candidatas discutidas: click en nodo para ver detalle,
-  hover que resalta conexiones, modo autoplay de pasos, navegación por
-  teclado). El modo claro/oscuro (arriba) ya se resolvió; sigue lo demás,
-  una cosa a la vez.
+  antes de agregar más temas): más interactividad (candidatas discutidas:
+  click en nodo para ver detalle, hover que resalta conexiones, modo
+  autoplay de pasos y navegación por teclado). El modo claro/oscuro y el
+  pan/zoom del canvas ya se resolvieron; sigue lo demás, una cosa a la vez.
 
 ## Cómo continuar (siguiente sesión)
 
