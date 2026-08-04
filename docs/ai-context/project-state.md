@@ -3,7 +3,7 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.4.0: canvas navegable +
+**Última actualización**: 2026-08-04 — v0.4.0: hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -65,6 +65,11 @@ changelog visible y versionado documentado.
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
   `docs/ai-context/release-versioning.md`.
+- **Auditoría técnica de VCF**: el ejemplo ahora se presenta explícitamente
+  como modelo conceptual. Se corrigieron afirmaciones absolutas sobre consola
+  única, failover, SLA y camino de datos; se separó el clúster de cómputo del
+  plano de gestión y se documentó la matriz de fuentes en
+  `docs/ai-context/vcf-technical-validation.md`.
 - **Hover de relaciones**: al mover el cursor sobre un nodo, sus aristas y
   vecinos directos se resaltan y los elementos no relacionados se atenúan.
   Funciona con pan/zoom y se limpia al salir o cambiar de escena. Ver
@@ -101,10 +106,12 @@ changelog visible y versionado documentado.
 - No se ha desplegado a Vercel todavía desde este repo (código listo, sin
   probar el deploy real).
 - **Pulido pendiente del ejemplo VCF** (a pedido explícito del usuario,
-  antes de agregar más temas): más interactividad (candidatas discutidas:
-  modo autoplay de pasos y navegación por teclado). El modo claro/oscuro,
-  el pan/zoom, el detalle de nodos y el hover de relaciones ya se resolvieron;
-  sigue lo demás, una cosa a la vez.
+  antes de agregar más temas): cerrar la selección de versión objetivo de VCF
+  y revisar la matriz con un especialista del entorno del cliente. Después
+  siguen las interacciones de modo presentación, autoplay y navegación por
+  teclado. El modo claro/oscuro, pan/zoom y detalle de nodos ya están
+  resueltos, incluido el hover de relaciones. Sigue lo demás, una cosa a la
+  vez.
 
 ## Cómo continuar (siguiente sesión)
 

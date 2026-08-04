@@ -2,6 +2,8 @@
 
 ## Stack
 
+La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
+
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en
   esta fase. Todo el contenido es estático y vive en el repositorio.
@@ -84,8 +86,9 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   la navegación del canvas.
 - **`docs/ai-context/node-details.md`** — contrato de selección e información
   contextual de las tarjetas del canvas.
-- **`docs/ai-context/hover-highlighting.md`** — comportamiento del hover,
-  hit-test y resaltado de vecinos/aristas.
+- **`docs/ai-context/vcf-technical-validation.md`** — matriz de afirmaciones,
+  fuentes y límites técnicos del ejemplo VCF. Leer antes de cambiar copy o
+  topología de este tema.
 - **`src/components/explainer/NodeDetailCard.tsx`** — ficha genérica de un
   nodo seleccionado; usa solo campos ya definidos en el spec.
 - **`src/components/explainer/VersionChangelog.tsx`** — control global
