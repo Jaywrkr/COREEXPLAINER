@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.16.0";
+export const currentVersion = "0.17.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.17.0",
+    date: "04 ago 2026",
+    title: "Contexto de marcas por explicación",
+    changes: [
+      "Cada tema declara las marcas CoreSolutions relacionadas, su función y el límite de la afirmación.",
+      "La interfaz muestra una ficha Marcas del patrón en todos los explainers.",
+      "El quality gate bloquea temas sin contexto de marca completo y se documentó el contrato para futuras sesiones.",
+    ],
+  },
   {
     version: "0.16.0",
     date: "04 ago 2026",

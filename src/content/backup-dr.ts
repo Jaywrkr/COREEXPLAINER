@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const backupDrFailureScenarios: FailureScenario[] = [
   {
@@ -52,6 +53,7 @@ export const backupDrFailureScenarios: FailureScenario[] = [
 ];
 
 export const backupDrMeta: ExplainerMeta = {
+  brandContext: brandContext.backupDr,
   chip: "Continuidad · Backup y DR",
   title: "De una copia a una recuperación comprobable",
   tagline:

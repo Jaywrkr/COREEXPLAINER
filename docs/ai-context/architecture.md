@@ -9,6 +9,7 @@ El lenguaje visual de relaciones y capas está documentado en `docs/ai-context/v
 La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
 Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.
 La alineación comercial de marcas está documentada en `docs/product/portfolio.md`.
+El contrato de marcas por tema está documentado en `docs/ai-context/brand-context.md`.
 
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en
@@ -130,7 +131,11 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   `app/explainer/[slug]/page.tsx` (ruta dinámica) leen de aquí — no hay una
   carpeta de ruta por tema. La ruta dinámica acepta `scene`, `scenario` y
   `mode` para compartir el contexto de una demo; ver
-  `docs/ai-context/audience-modes-and-deep-links.md`.
+   `docs/ai-context/audience-modes-and-deep-links.md`.
+- **`src/content/brand-context.ts`** — presets reutilizables de marca para que
+  cada `ExplainerMeta` declare función y límite sin repetir el catálogo.
+- **`src/components/explainer/BrandContextPanel.tsx`** — ficha visible de las
+  marcas asociadas al patrón; no sustituye la trazabilidad técnica.
 
 ## Cómo agregar un tema nuevo manualmente (sin IA todavía)
 

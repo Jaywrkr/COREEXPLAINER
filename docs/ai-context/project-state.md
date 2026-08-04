@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Estado v0.16.0 (04-08-2026)**: cada explicación puede alternar entre modo
+**Estado v0.17.0 (04-08-2026)**: cada explicación puede alternar entre modo
 Cliente y Técnico y compartir enlaces directos a escenas y escenarios. Se mantiene
 el séptimo tema independiente
 `/explainer/observability` sobre recorrido de peticiones, señales,
@@ -15,11 +15,16 @@ Check Point como dependencias de red/seguridad. El portafolio canónico está en
 `docs/product/portfolio.md`; toda nueva sesión debe leerlo antes de crear un
 tema.
 
+Todos los explainers declaran ahora `brandContext` y muestran la ficha “Marcas
+del patrón”. El contrato está en `docs/ai-context/brand-context.md` y el
+registro comercial en `docs/product/portfolio.md`.
+
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
 **Última actualización**: 2026-08-04 — v0.15.0: modos de audiencia Cliente/Técnico y enlaces directos a escenas y escenarios + explainer independiente de Observabilidad basado en OpenTelemetry y Prometheus + evidencia técnica por escena mediante referencias a fuentes concretas + trazabilidad técnica visible por explicación, con fecha de revisión, alcance y fuentes enlazadas + explainers independientes de Zero Trust y Kubernetes + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
+Actualización adicional 2026-08-04 — v0.17.0: contexto de marcas declarado y visible por explicación.
 **Actualización adicional 2026-08-04 — v0.16.0:** se añadió el explainer de Backup/DR y el registro canónico del portafolio de marcas CoreSolutions.
 
 ## Qué está hecho

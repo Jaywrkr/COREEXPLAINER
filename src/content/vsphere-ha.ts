@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const vsphereHaFailureScenarios: FailureScenario[] = [
   {
@@ -52,6 +53,7 @@ export const vsphereHaFailureScenarios: FailureScenario[] = [
 ];
 
 export const vsphereHaMeta: ExplainerMeta = {
+  brandContext: brandContext.virtualization,
   chip: "Disponibilidad · vSphere HA",
   title: "Cómo responde vSphere HA ante una falla",
   tagline:

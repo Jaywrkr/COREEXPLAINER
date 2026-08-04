@@ -8,6 +8,7 @@ import { StepNav } from "./StepNav";
 import { TechnicalReviewPanel } from "./TechnicalReviewPanel";
 import { TechnicalSceneSummary } from "./TechnicalSceneSummary";
 import { SceneShareControl } from "./SceneShareControl";
+import { BrandContextPanel } from "./BrandContextPanel";
 
 interface LeftPanelProps {
   meta: ExplainerMeta;
@@ -63,6 +64,7 @@ export function LeftPanel({
         scenarioId={activeFailureScenarioId}
         audienceMode={audienceMode}
       />
+      <BrandContextPanel items={meta.brandContext} />
       <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
 
       {audienceMode === "technical" ? (

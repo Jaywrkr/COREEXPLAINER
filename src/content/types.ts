@@ -17,12 +17,20 @@ export interface ExplainerMeta {
   chip: string;
   title: string;
   tagline: string;
+  /** Marcas del portafolio que contextualizan este patrón y sus límites. */
+  brandContext: BrandContextItem[];
   storyboardDoc: string;
   technicalValidationDoc: string;
   technicalReview: TechnicalReview;
   reviewStatus: "pending" | "reviewed";
   /** Optional interactive scenarios shown when their scene is active. */
   failureScenarios?: FailureScenario[];
+}
+
+export interface BrandContextItem {
+  name: string;
+  role: string;
+  scope: string;
 }
 
 /** Traceability metadata shown in the explainer and required by the content gate. */

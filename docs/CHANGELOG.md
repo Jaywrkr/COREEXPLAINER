@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.0] - 2026-08-04
+
+- Cada explicación declara las marcas CoreSolutions relacionadas, su función y el límite técnico del patrón.
+- La interfaz muestra la ficha “Marcas del patrón” y el quality gate valida el contexto de marca.
+- Se documentó el contrato para que futuras sesiones mantengan el contexto comercial.
+
 ## [0.16.0] - 2026-08-04
 
 - Nuevo tema independiente de Backup y Disaster Recovery con cinco escenas sobre RPO/RTO, protección Veeam sobre VMware/VCF y Lenovo, copias protegidas IBM, recuperación y pruebas.
