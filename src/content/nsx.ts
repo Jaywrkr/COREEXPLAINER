@@ -62,12 +62,12 @@ export const nsxMeta: ExplainerMeta = {
     lastReviewedAt: "2026-08-04",
     scope: "NSX conceptual; validar release, transport nodes, TEP/underlay, DFW y gateways del entorno.",
     sources: [
-      { title: "Gateway Firewalls y Distributed Firewall", url: "https://www.vmware.com/docs/well-architected-design-gateway-firewalls-use-cases-and-scope", accessedAt: "2026-08-04" },
-      { title: "NSX transport node profiles y overlay en VCF", url: "https://knowledge.broadcom.com/external/article/316037/cloud-foundation-cluster-nsx-transport-n.html", accessedAt: "2026-08-04" },
-      { title: "GENEVE/TEP y underlay incorrecto", url: "https://knowledge.broadcom.com/external/article/436129/traffic-from-virtual-machines-fails-to-r.html", accessedAt: "2026-08-04" },
-      { title: "Distributed Firewall: reglas, scope y Applied To", url: "https://knowledge.broadcom.com/external/article/395504", accessedAt: "2026-08-04" },
-      { title: "DFW bloqueando tráfico en el punto de enforcement", url: "https://knowledge.broadcom.com/external/article/425834/network-connectivity-issues-on-vms-with.html", accessedAt: "2026-08-04" },
-      { title: "Política de seguridad de segmento y DHCP", url: "https://knowledge.broadcom.com/external/article/433269/virtual-machine-network-connectivity-los.html", accessedAt: "2026-08-04" },
+      { id: "nsx-firewall-well-architected", title: "Gateway Firewalls y Distributed Firewall", url: "https://www.vmware.com/docs/well-architected-design-gateway-firewalls-use-cases-and-scope", accessedAt: "2026-08-04" },
+      { id: "nsx-transport-nodes", title: "NSX transport node profiles y overlay en VCF", url: "https://knowledge.broadcom.com/external/article/316037/cloud-foundation-cluster-nsx-transport-n.html", accessedAt: "2026-08-04" },
+      { id: "nsx-geneve-underlay", title: "GENEVE/TEP y underlay incorrecto", url: "https://knowledge.broadcom.com/external/article/436129/traffic-from-virtual-machines-fails-to-r.html", accessedAt: "2026-08-04" },
+      { id: "nsx-dfw-scope", title: "Distributed Firewall: reglas, scope y Applied To", url: "https://knowledge.broadcom.com/external/article/395504", accessedAt: "2026-08-04" },
+      { id: "nsx-dfw-connectivity", title: "DFW bloqueando tráfico en el punto de enforcement", url: "https://knowledge.broadcom.com/external/article/425834/network-connectivity-issues-on-vms-with.html", accessedAt: "2026-08-04" },
+      { id: "nsx-segment-dhcp", title: "Política de seguridad de segmento y DHCP", url: "https://knowledge.broadcom.com/external/article/433269/virtual-machine-network-connectivity-los.html", accessedAt: "2026-08-04" },
     ],
   },
   reviewStatus: "pending",
@@ -87,6 +87,7 @@ export const nsxSteps: ExplainerStep[] = [
       "Separar la aplicación por función hace visibles sus dependencias y permite aplicar controles más precisos que una única red plana.",
     sceneId: "segments",
     caption: "Web · aplicación · base de datos · segmentos lógicos",
+    sourceIds: ["nsx-transport-nodes", "nsx-firewall-well-architected"],
   },
   {
     id: "overlay",
@@ -100,6 +101,7 @@ export const nsxSteps: ExplainerStep[] = [
       "La virtualización de red acelera cambios de topología, pero no elimina la responsabilidad sobre el underlay que sostiene los túneles.",
     sceneId: "overlay",
     caption: "Segmento lógico → TEP/GENEVE → underlay IP",
+    sourceIds: ["nsx-transport-nodes", "nsx-geneve-underlay"],
   },
   {
     id: "east-west",
@@ -113,6 +115,7 @@ export const nsxSteps: ExplainerStep[] = [
       "La microsegmentación puede limitar el movimiento lateral, pero su resultado depende de grupos correctos, reglas publicadas y una política que refleje las dependencias reales.",
     sceneId: "east-west",
     caption: "Web → DFW → aplicación → base de datos",
+    sourceIds: ["nsx-dfw-scope", "nsx-dfw-connectivity", "nsx-firewall-well-architected"],
   },
   {
     id: "north-south",
@@ -126,6 +129,7 @@ export const nsxSteps: ExplainerStep[] = [
       "Separar east-west de north-south ayuda a ubicar controles, dependencias y puntos de fallo sin confundir un gateway con el firewall de cada VM.",
     sceneId: "north-south",
     caption: "Cliente externo → Tier-0 → Tier-1 → segmento → aplicación",
+    sourceIds: ["nsx-firewall-well-architected", "nsx-transport-nodes"],
   },
   {
     id: "limits",
@@ -139,5 +143,6 @@ export const nsxSteps: ExplainerStep[] = [
       "La conversación madura pasa de “NSX bloquea o permite” a “¿en qué punto se aplica la política y qué dependencia de transporte o routing puede impedirla?”.",
     sceneId: "limits",
     caption: "Política · overlay · underlay · gateway · dependencias",
+    sourceIds: ["nsx-geneve-underlay", "nsx-dfw-scope", "nsx-dfw-connectivity", "nsx-segment-dhcp"],
   },
 ];

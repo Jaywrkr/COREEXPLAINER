@@ -62,10 +62,10 @@ export const zeroTrustMeta: ExplainerMeta = {
     lastReviewedAt: "2026-08-04",
     scope: "Arquitectura Zero Trust conceptual basada en NIST SP 800-207 y CISA ZTMM v2; sin producto específico.",
     sources: [
-      { title: "NIST SP 800-207 — Zero Trust Architecture", url: "https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.SP.800-207.pdf", accessedAt: "2026-08-04" },
-      { title: "NIST — componentes y builds de Zero Trust", url: "https://pages.nist.gov/zero-trust-architecture/VolumeB/architecture.html", accessedAt: "2026-08-04" },
-      { title: "NIST — publicación de SP 800-207", url: "https://www.nist.gov/news-events/news/2020/08/zero-trust-architecture-nist-publishes", accessedAt: "2026-08-04" },
-      { title: "CISA Zero Trust Maturity Model v2", url: "https://www.cisa.gov/sites/default/files/2023-04/CISA_Zero_Trust_Maturity_Model_Version_2_508c.pdf", accessedAt: "2026-08-04" },
+      { id: "nist-800-207", title: "NIST SP 800-207 — Zero Trust Architecture", url: "https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.SP.800-207.pdf", accessedAt: "2026-08-04" },
+      { id: "nist-components", title: "NIST — componentes y builds de Zero Trust", url: "https://pages.nist.gov/zero-trust-architecture/VolumeB/architecture.html", accessedAt: "2026-08-04" },
+      { id: "nist-publication", title: "NIST — publicación de SP 800-207", url: "https://www.nist.gov/news-events/news/2020/08/zero-trust-architecture-nist-publishes", accessedAt: "2026-08-04" },
+      { id: "cisa-ztmm", title: "CISA Zero Trust Maturity Model v2", url: "https://www.cisa.gov/sites/default/files/2023-04/CISA_Zero_Trust_Maturity_Model_Version_2_508c.pdf", accessedAt: "2026-08-04" },
     ],
   },
   reviewStatus: "pending",
@@ -85,6 +85,7 @@ export const zeroTrustSteps: ExplainerStep[] = [
       "El acceso se puede expresar como una decisión sobre una acción concreta, no como una llave permanente para toda la red.",
     sceneId: "request",
     caption: "Sujeto · dispositivo · acción · recurso",
+    sourceIds: ["nist-800-207", "cisa-ztmm"],
   },
   {
     id: "context",
@@ -98,6 +99,7 @@ export const zeroTrustSteps: ExplainerStep[] = [
       "La seguridad deja de depender de una única frontera y puede adaptarse al riesgo de cada solicitud.",
     sceneId: "context",
     caption: "Identidad + dispositivo + recurso + riesgo",
+    sourceIds: ["nist-800-207", "nist-components", "cisa-ztmm"],
   },
   {
     id: "decision",
@@ -111,6 +113,7 @@ export const zeroTrustSteps: ExplainerStep[] = [
       "Separar decisión y enforcement ayuda a cambiar políticas sin convertir cada aplicación en una lógica de seguridad aislada.",
     sceneId: "decision",
     caption: "Policy Engine → Policy Administrator → enforcement",
+    sourceIds: ["nist-800-207", "nist-components"],
   },
   {
     id: "enforcement",
@@ -124,6 +127,7 @@ export const zeroTrustSteps: ExplainerStep[] = [
       "La política acompaña al recurso y a la sesión, en lugar de confiar solo en el segmento de red desde el que llegó la petición.",
     sceneId: "enforcement",
     caption: "Decisión aplicada cerca del recurso · sesión observada",
+    sourceIds: ["nist-800-207", "nist-components"],
   },
   {
     id: "limits",
@@ -137,5 +141,6 @@ export const zeroTrustSteps: ExplainerStep[] = [
       "La madurez se demuestra midiendo qué recursos están protegidos, qué decisiones se explican y cuánto tarda la organización en responder a una señal de riesgo.",
     sceneId: "limits",
     caption: "Identidad · dispositivo · política · telemetría · respuesta",
+    sourceIds: ["nist-800-207", "cisa-ztmm", "nist-publication"],
   },
 ];

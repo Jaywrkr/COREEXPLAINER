@@ -21,6 +21,7 @@ technicalReview: {
   scope: "Producto, versión o alcance conceptual revisado",
   sources: [
     {
+      id: "fuente-estable",
       title: "Nombre legible de la fuente primaria",
       url: "https://...",
       accessedAt: "YYYY-MM-DD",
@@ -34,8 +35,20 @@ technicalReview: {
 - `scope` evita que una fecha parezca una afirmación universal: debe indicar
   la versión, release family o alcance conceptual que se comprobó.
 - `sources` contiene enlaces HTTPS directos a documentación primaria o
-  normativa. `accessedAt` es la fecha en que se consultó cada enlace; no se
+  normativa. Cada fuente tiene un `id` estable para que las escenas puedan
+  citarla. `accessedAt` es la fecha en que se consultó cada enlace; no se
   inventan fechas de publicación o actualización que la fuente no exponga.
+
+Cada `ExplainerStep` debe citar las fuentes que respaldan su narrativa y
+diagrama:
+
+```ts
+sourceIds: ["fuente-estable"]
+```
+
+La interfaz muestra primero las fuentes de la escena activa y después el
+catálogo general del tema. Así el cliente puede seguir la evidencia de una
+afirmación concreta sin perder el contexto completo de la revisión.
 
 ## Cuándo actualizarlo
 
@@ -49,8 +62,9 @@ comprobó y permite detectar rápidamente qué necesita una nueva revisión.
 
 ## Validación y documentación
 
-`validateExplainerContent()` exige fecha ISO, alcance no vacío, al menos una
-fuente HTTPS, URLs únicas y fecha ISO por fuente. Los documentos
+`validateExplainerContent()` exige fecha ISO, alcance no vacío, IDs únicos,
+al menos una fuente HTTPS, URLs únicas y fecha ISO por fuente. También exige
+que cada escena cite al menos una fuente existente en su catálogo. Los documentos
 `docs/ai-context/*-technical-validation.md` conservan el detalle de las
 afirmaciones y enlazan las mismas fuentes con la fecha de consulta.
 

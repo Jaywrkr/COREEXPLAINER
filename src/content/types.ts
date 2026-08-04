@@ -36,6 +36,8 @@ export interface TechnicalReview {
 }
 
 export interface TechnicalSource {
+  /** Stable key used by each narrated step to cite its supporting sources. */
+  id: string;
   title: string;
   url: string;
   /** ISO date when this source was consulted. */
@@ -70,4 +72,6 @@ export interface ExplainerStep {
   sceneId: string;
   /** Caption shown under the canvas while this step is active. */
   caption: string;
+  /** Stable source IDs supporting the claims and diagram in this step. */
+  sourceIds: string[];
 }

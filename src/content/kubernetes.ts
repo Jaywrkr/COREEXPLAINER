@@ -62,12 +62,12 @@ export const kubernetesMeta: ExplainerMeta = {
     lastReviewedAt: "2026-08-04",
     scope: "Kubernetes conceptual y provider-neutral; validar versión, CNI, ingress, storage y servicios del clúster.",
     sources: [
-      { title: "Arquitectura del clúster", url: "https://kubernetes.io/docs/concepts/architecture/", accessedAt: "2026-08-04" },
-      { title: "kube-scheduler", url: "https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/", accessedAt: "2026-08-04" },
-      { title: "Services", url: "https://kubernetes.io/docs/concepts/services-networking/service/", accessedAt: "2026-08-04" },
-      { title: "Ingress", url: "https://kubernetes.io/docs/concepts/services-networking/ingress/", accessedAt: "2026-08-04" },
-      { title: "Deployments", url: "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/", accessedAt: "2026-08-04" },
-      { title: "Liveness, readiness y startup probes", url: "https://kubernetes.io/docs/concepts/workloads/pods/probes/", accessedAt: "2026-08-04" },
+      { id: "k8s-architecture", title: "Arquitectura del clúster", url: "https://kubernetes.io/docs/concepts/architecture/", accessedAt: "2026-08-04" },
+      { id: "k8s-scheduler", title: "kube-scheduler", url: "https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/", accessedAt: "2026-08-04" },
+      { id: "k8s-services", title: "Services", url: "https://kubernetes.io/docs/concepts/services-networking/service/", accessedAt: "2026-08-04" },
+      { id: "k8s-ingress", title: "Ingress", url: "https://kubernetes.io/docs/concepts/services-networking/ingress/", accessedAt: "2026-08-04" },
+      { id: "k8s-deployments", title: "Deployments", url: "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/", accessedAt: "2026-08-04" },
+      { id: "k8s-probes", title: "Liveness, readiness y startup probes", url: "https://kubernetes.io/docs/concepts/workloads/pods/probes/", accessedAt: "2026-08-04" },
     ],
   },
   reviewStatus: "pending",
@@ -87,6 +87,7 @@ export const kubernetesSteps: ExplainerStep[] = [
       "La plataforma convierte parte de la operación en una relación observable entre intención, estado actual y acciones de reconciliación.",
     sceneId: "desired-state",
     caption: "Manifiesto → API → controlador → Pods deseados",
+    sourceIds: ["k8s-architecture", "k8s-deployments"],
   },
   {
     id: "scheduling",
@@ -100,6 +101,7 @@ export const kubernetesSteps: ExplainerStep[] = [
       "La capacidad útil depende de cómo se distribuyen las cargas y de las restricciones, no solo de sumar recursos del clúster.",
     sceneId: "scheduling",
     caption: "Pod pendiente → filtros y scoring → nodo elegido",
+    sourceIds: ["k8s-scheduler", "k8s-architecture"],
   },
   {
     id: "service",
@@ -113,6 +115,7 @@ export const kubernetesSteps: ExplainerStep[] = [
       "La aplicación puede escalar o reemplazar réplicas sin obligar a cada consumidor a conocer la identidad de cada Pod.",
     sceneId: "service",
     caption: "Cliente → Service → endpoints listos → Pods",
+    sourceIds: ["k8s-services", "k8s-probes"],
   },
   {
     id: "rollout",
@@ -126,6 +129,7 @@ export const kubernetesSteps: ExplainerStep[] = [
       "La entrega continua gana una unidad de control y rollback, pero necesita probes, capacidad y observabilidad para saber cuándo avanzar.",
     sceneId: "rollout",
     caption: "Deployment → ReplicaSets → versión anterior / nueva",
+    sourceIds: ["k8s-deployments", "k8s-probes"],
   },
   {
     id: "failure",
@@ -139,5 +143,6 @@ export const kubernetesSteps: ExplainerStep[] = [
       "La operación madura observa estados, eventos, probes y dependencias; no confunde “objeto deseado” con “servicio de negocio saludable”.",
     sceneId: "failure",
     caption: "Nodos · Pods · probes · imágenes · capacidad",
+    sourceIds: ["k8s-architecture", "k8s-scheduler", "k8s-probes", "k8s-deployments"],
   },
 ];
