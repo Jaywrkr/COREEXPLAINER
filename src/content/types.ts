@@ -5,6 +5,14 @@
  * none of the three know about each other's internals.
  */
 
+/**
+ * Fixed category list for the /explainer dashboard. Adding a category
+ * means adding it here — not inventing a free-text string per topic — so
+ * the dashboard grouping stays predictable. Extend when a genuinely new
+ * category of topic is added, not per-topic.
+ */
+export type ExplainerCategory = "Virtualización" | "Redes" | "Seguridad" | "Cloud";
+
 export interface ExplainerMeta {
   chip: string;
   title: string;

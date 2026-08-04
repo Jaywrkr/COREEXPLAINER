@@ -18,10 +18,10 @@ export default function HomePage() {
       </div>
 
       <Link
-        href="/explainer/vcf"
+        href="/explainer"
         className="border border-core-accent bg-core-accent/10 px-6 py-3 font-mono text-sm uppercase tracking-wide text-core-text transition-colors hover:bg-core-accent hover:text-core-text"
       >
-        Ver ejemplo: VMware Cloud Foundation →
+        Ver explicadores →
       </Link>
 
       <p className="font-mono text-xs text-core-text-muted">
