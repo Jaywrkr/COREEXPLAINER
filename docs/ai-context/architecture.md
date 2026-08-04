@@ -108,6 +108,8 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   (`ExplainerMeta` + `ExplainerStep[]`).
 - **`src/content/vsphere-ha.ts`** — segundo ejemplo de referencia: cinco
   escenas sobre protección y reinicio condicional de VMs con vSphere HA.
+- **`src/content/vsan.ts`** — tercer ejemplo de referencia: cinco escenas
+  sobre objetos, políticas de storage y reconstrucción condicional.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. Es lo único que conoce la
   lista completa de temas. `app/explainer/page.tsx` (dashboard) y

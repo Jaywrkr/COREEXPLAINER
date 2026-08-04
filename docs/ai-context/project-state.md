@@ -1,13 +1,13 @@
 # Estado del proyecto
 
-**Estado v0.9.0 (04-08-2026)**: se incorporó el tema independiente
-`/explainer/vsphere-ha` con cinco escenas, cuatro escenarios de límites y
-documentación técnica en `docs/ai-context/vsphere-ha-technical-validation.md`.
+**Estado v0.10.0 (04-08-2026)**: se incorporó el tema independiente
+`/explainer/vsan` con cinco escenas, cinco escenarios de límites y
+documentación técnica en `docs/ai-context/vsan-technical-validation.md`.
 
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.9.0: explainer independiente de vSphere HA + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.10.0: explainers independientes de vSphere HA y vSAN + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -64,7 +64,7 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.9.0)**: control flotante global abajo a la
+- **Versión y changelog (v0.10.0)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
@@ -97,6 +97,8 @@ changelog visible y versionado documentado.
   `docs/ai-context/visual-language.md`.
 - **Segundo tema**: vSphere HA y recuperación ante fallos está disponible en
   `/explainer/vsphere-ha`, con storyboard y matriz técnica propios.
+- **Tercer tema**: vSAN y protección de objetos está disponible en `/explainer/vsan`,
+  con cinco escenas, escenarios de fallo y matriz técnica propios.
 - **Detalle de nodos**: al hacer clic en una tarjeta del canvas aparece una
   ficha contextual con su `kind`, función genérica, `subtitle`, capacidad,
   tasa de emisión y posibilidad de simular falla. Clic fuera cierra la ficha;
@@ -120,7 +122,7 @@ changelog visible y versionado documentado.
 - **Validación de contenido** (`ExplainerStep[]`) equivalente a
   `parseAnimationSpec()` — hoy el contenido de ejemplo se confía porque se
   escribió a mano. Necesaria antes de aceptar contenido generado.
-- Hay dos temas conceptuales (VCF y vSphere HA). No hay galería ni persistencia.
+- Hay tres temas conceptuales (VCF, vSphere HA y vSAN). No hay galería ni persistencia.
 - Logo real de CoreSolutions (hoy es un bloque de texto "COI" provisional,
   ver `src/components/explainer/BrandMark.tsx`).
 - El layout de dos columnas oculta el canvas en pantallas angostas
@@ -135,7 +137,7 @@ changelog visible y versionado documentado.
 
 ## Cómo continuar (siguiente sesión)
 
-La base ya contiene dos temas conceptuales (VCF y vSphere HA). El siguiente
+La base ya contiene tres temas conceptuales (VCF, vSphere HA y vSAN). El siguiente
 tema debe reutilizar el registro, el quality gate y la gramática visual; no
 debe mezclar detalles especializados dentro del grafo principal de VCF.
 
