@@ -118,7 +118,8 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   sobre estado deseado, scheduling, Services y rollouts.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
-  fecha, alcance y fuentes consultadas visibles por tema. Es lo único que conoce la
+  fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus
+  `sourceIds` con ese catálogo para mostrar evidencia por escena. Es lo único que conoce la
   lista completa de temas. `app/explainer/page.tsx` (dashboard) y
   `app/explainer/[slug]/page.tsx` (ruta dinámica) leen de aquí — no hay una
   carpeta de ruta por tema.

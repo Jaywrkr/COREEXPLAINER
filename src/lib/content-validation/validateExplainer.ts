@@ -45,6 +45,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   const errors: string[] = [];
   const warnings: string[] = [];
   const add = (message: string) => errors.push(message);
+  const technicalSourceIds = new Set<string>();
 
   if (!isNonEmptyText(slug)) add("slug must be a non-empty string");
   for (const [field, value] of Object.entries({
@@ -76,6 +77,9 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
       const sourceUrls = new Set<string>();
       for (const [sourceIndex, source] of meta.technicalReview.sources.entries()) {
         const sourceLabel = `meta.technicalReview.sources[${sourceIndex}]`;
+        if (!isNonEmptyText(source.id)) add(`${sourceLabel}.id must be a non-empty string`);
+        if (technicalSourceIds.has(source.id)) add(`${sourceLabel}.id '${source.id}' is duplicated`);
+        technicalSourceIds.add(source.id);
         if (!isNonEmptyText(source.title)) add(`${sourceLabel}.title must be a non-empty string`);
         if (!isNonEmptyText(source.url) || !source.url.startsWith("https://")) {
           add(`${sourceLabel}.url must be an https URL`);
@@ -118,6 +122,19 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
     }
     if (!sceneIds.has(step.sceneId)) {
       add(`${label}.sceneId '${step.sceneId}' does not exist in the animation spec`);
+    }
+    if (!Array.isArray(step.sourceIds) || step.sourceIds.length === 0) {
+      add(`${label}.sourceIds must cite at least one technical source`);
+    } else {
+      const stepSourceIds = new Set<string>();
+      for (const sourceId of step.sourceIds) {
+        if (!isNonEmptyText(sourceId)) add(`${label}.sourceIds cannot contain empty IDs`);
+        if (stepSourceIds.has(sourceId)) add(`${label}.sourceIds '${sourceId}' is duplicated`);
+        stepSourceIds.add(sourceId);
+        if (!technicalSourceIds.has(sourceId)) {
+          add(`${label}.sourceIds references unknown technical source '${sourceId}'`);
+        }
+      }
     }
     referencedSceneIds.add(step.sceneId);
   }

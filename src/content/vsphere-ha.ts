@@ -62,11 +62,11 @@ export const vsphereHaMeta: ExplainerMeta = {
     lastReviewedAt: "2026-08-04",
     scope: "vSphere HA conceptual; validar release, configuración de clúster, storage y políticas del cliente.",
     sources: [
-      { title: "Determining why and which virtual machines vSphere HA restarts", url: "https://knowledge.broadcom.com/external/article/316525/determining-why-and-which-virtual-machin.html", accessedAt: "2026-08-04" },
-      { title: "vSphere HA failover: recursos o storage inaccesible", url: "https://knowledge.broadcom.com/external/article/441641/vsphere-ha-failover-fails-with-insuffici.html", accessedAt: "2026-08-04" },
-      { title: "vSphere HA y reglas de clúster", url: "https://knowledge.broadcom.com/external/article/439262/vsphere-ha-fails-to-restart-vms-in-a-clu.html", accessedAt: "2026-08-04" },
-      { title: "vSphere HA y máximo de reintentos de reinicio", url: "https://knowledge.broadcom.com/external/article/432033/vsphere-ha-virtual-machine-failover-fail.html", accessedAt: "2026-08-04" },
-      { title: "Falla de múltiples hosts y capacidad de admission control", url: "https://knowledge.broadcom.com/external/article/429590/virtual-machines-fail-to-failover-and-re.html", accessedAt: "2026-08-04" },
+      { id: "vsphere-ha-restart", title: "Determining why and which virtual machines vSphere HA restarts", url: "https://knowledge.broadcom.com/external/article/316525/determining-why-and-which-virtual-machin.html", accessedAt: "2026-08-04" },
+      { id: "vsphere-ha-capacity", title: "vSphere HA failover: recursos o storage inaccesible", url: "https://knowledge.broadcom.com/external/article/441641/vsphere-ha-failover-fails-with-insuffici.html", accessedAt: "2026-08-04" },
+      { id: "vsphere-ha-rules", title: "vSphere HA y reglas de clúster", url: "https://knowledge.broadcom.com/external/article/439262/vsphere-ha-fails-to-restart-vms-in-a-clu.html", accessedAt: "2026-08-04" },
+      { id: "vsphere-ha-retries", title: "vSphere HA y máximo de reintentos de reinicio", url: "https://knowledge.broadcom.com/external/article/432033/vsphere-ha-virtual-machine-failover-fail.html", accessedAt: "2026-08-04" },
+      { id: "vsphere-ha-multi-host", title: "Falla de múltiples hosts y capacidad de admission control", url: "https://knowledge.broadcom.com/external/article/429590/virtual-machines-fail-to-failover-and-re.html", accessedAt: "2026-08-04" },
     ],
   },
   reviewStatus: "pending",
@@ -86,6 +86,7 @@ export const vsphereHaSteps: ExplainerStep[] = [
       "La protección depende de haber diseñado el clúster, el storage y las políticas para que exista un destino compatible.",
     sceneId: "normal",
     caption: "VM protegida · host activo · storage accesible",
+    sourceIds: ["vsphere-ha-restart", "vsphere-ha-capacity"],
   },
   {
     id: "failure",
@@ -99,6 +100,7 @@ export const vsphereHaSteps: ExplainerStep[] = [
       "La detección de una falla no significa por sí sola que todas las VMs serán recuperadas; comienza una decisión condicionada.",
     sceneId: "host-failure",
     caption: "Falla del host · HA evalúa si puede actuar",
+    sourceIds: ["vsphere-ha-restart", "vsphere-ha-retries"],
   },
   {
     id: "decision",
@@ -112,6 +114,7 @@ export const vsphereHaSteps: ExplainerStep[] = [
       "La capacidad de failover debe reservarse y comprobarse como parte del diseño, no suponerse después de la falla.",
     sceneId: "decision",
     caption: "Capacidad · storage visible · políticas compatibles",
+    sourceIds: ["vsphere-ha-capacity", "vsphere-ha-rules", "vsphere-ha-multi-host"],
   },
   {
     id: "restart",
@@ -125,6 +128,7 @@ export const vsphereHaSteps: ExplainerStep[] = [
       "El resultado esperado es recuperar la ejecución bajo las condiciones configuradas, no prometer cero interrupción.",
     sceneId: "restart",
     caption: "Reinicio en host alterno · la aplicación vuelve a atender",
+    sourceIds: ["vsphere-ha-restart", "vsphere-ha-retries"],
   },
   {
     id: "limits",
@@ -138,5 +142,6 @@ export const vsphereHaSteps: ExplainerStep[] = [
       "Una arquitectura resiliente se demuestra revisando los escenarios de fallo y sus dependencias, no solo dibujando hosts redundantes.",
     sceneId: "limits",
     caption: "Sin capacidad o compatibilidad, el reinicio puede quedar pendiente",
+    sourceIds: ["vsphere-ha-capacity", "vsphere-ha-rules", "vsphere-ha-multi-host"],
   },
 ];

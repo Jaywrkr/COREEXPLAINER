@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.13.2] - 2026-08-04
+
+- Cada escena declara las fuentes concretas que respaldan su narrativa y diagrama.
+- La ficha de trazabilidad separa las fuentes de la escena de las fuentes generales del tema.
+- El quality gate valida IDs únicos y referencias existentes antes de publicar.
+
 ## [0.13.1] - 2026-08-04
 
 - Cada explicación muestra la fecha de última revisión y el alcance de versiones o conceptos comprobado.

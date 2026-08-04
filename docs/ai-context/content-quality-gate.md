@@ -22,6 +22,7 @@ Cada `ExplainerMeta` debe declarar:
 - `technicalValidationDoc` bajo `docs/`;
 - `technicalReview` con fecha ISO de revisión, alcance y enlaces HTTPS con
   fecha ISO de consulta;
+- cada paso con `sourceIds` que cite fuentes existentes del `technicalReview`;
 - estado `reviewStatus`.
 
 Cada tema debe tener al menos cuatro pasos. Cada paso necesita dos párrafos,
