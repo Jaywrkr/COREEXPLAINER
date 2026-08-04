@@ -79,6 +79,9 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   monta el `<canvas>`, corre el loop de `requestAnimationFrame`, maneja
   resize (con `ResizeObserver` y `devicePixelRatio`) y clics. Delega toda
   la lógica a `SceneEngine`.
+- **`docs/ai-context/canvas-navigation.md`** — contrato de interacción del
+  viewport (pan, zoom, reset y conversión de clics). Leer antes de modificar
+  la navegación del canvas.
 - **`src/components/explainer/ExplainerLayout.tsx`** — orquesta el estado
   de "paso actual" y compone `LeftPanel` + `VisualCanvas`. Este es el único
   componente que un nuevo tema (que no sea VCF) reutiliza tal cual.
