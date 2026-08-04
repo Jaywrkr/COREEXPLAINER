@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.14.0] - 2026-08-04
+
+- Nuevo tema independiente con cinco escenas sobre recorridos distribuidos, señales, Collector, correlación y límites operativos.
+- Escenarios interactivos para latencia, caída del Collector, descarte de telemetría y cardinalidad excesiva.
+- Storyboard y matriz de validación basados en la documentación oficial actual de OpenTelemetry y Prometheus.
+
 ## [0.13.2] - 2026-08-04
 
 - Cada escena declara las fuentes concretas que respaldan su narrativa y diagrama.

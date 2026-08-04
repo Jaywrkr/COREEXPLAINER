@@ -1,0 +1,105 @@
+{
+  "version": "1.0",
+  "id": "observability-request-to-evidence",
+  "title": "Cómo se entiende una aplicación distribuida",
+  "scenes": {
+    "request-path": {
+      "nodes": [
+        { "id": "client", "name": "Usuario / cliente", "subtitle": "Solicitud HTTP", "x": 0.07, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "gateway", "name": "API Gateway", "subtitle": "Entrada del tráfico", "x": 0.28, "y": 0.5, "kind": "network", "capacity": 100 },
+        { "id": "checkout", "name": "Servicio checkout", "subtitle": "Orquesta la compra", "x": 0.5, "y": 0.5, "kind": "workload", "capacity": 80 },
+        { "id": "payment", "name": "Servicio pagos", "subtitle": "Autoriza la operación", "x": 0.7, "y": 0.3, "kind": "workload", "capacity": 60 },
+        { "id": "database", "name": "Base de datos", "subtitle": "Persistencia", "x": 0.88, "y": 0.7, "kind": "storage", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "client", "to": "gateway", "kind": "data" },
+        { "from": "gateway", "to": "checkout", "kind": "data" },
+        { "from": "checkout", "to": "payment", "kind": "dependency" },
+        { "from": "checkout", "to": "database", "kind": "storage" },
+        { "from": "payment", "to": "database", "kind": "storage" }
+      ]
+    },
+    "signals": {
+      "nodes": [
+        { "id": "service", "name": "Servicio instrumentado", "subtitle": "Emite señales", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "sdk", "name": "SDK / instrumentación", "subtitle": "Captura contexto", "x": 0.34, "y": 0.5, "kind": "control-plane", "capacity": 100 },
+        { "id": "traces", "name": "Traces / spans", "subtitle": "Recorrido de una petición", "x": 0.67, "y": 0.2, "kind": "network", "capacity": 60 },
+        { "id": "metrics", "name": "Métricas", "subtitle": "Comportamiento agregado", "x": 0.67, "y": 0.5, "kind": "network", "capacity": 60 },
+        { "id": "logs", "name": "Logs", "subtitle": "Eventos y contexto", "x": 0.67, "y": 0.8, "kind": "network", "capacity": 60 },
+        { "id": "question", "name": "Pregunta operativa", "subtitle": "¿Qué está pasando?", "x": 0.92, "y": 0.5, "kind": "external" }
+      ],
+      "edges": [
+        { "from": "service", "to": "sdk", "kind": "dependency" },
+        { "from": "sdk", "to": "traces", "kind": "data" },
+        { "from": "sdk", "to": "metrics", "kind": "data" },
+        { "from": "sdk", "to": "logs", "kind": "data" },
+        { "from": "traces", "to": "question", "kind": "dependency" },
+        { "from": "metrics", "to": "question", "kind": "dependency" },
+        { "from": "logs", "to": "question", "kind": "dependency" }
+      ]
+    },
+    "collection": {
+      "nodes": [
+        { "id": "services", "name": "Servicios / agentes", "subtitle": "OTLP", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "collector", "name": "Collector", "subtitle": "Receivers", "x": 0.28, "y": 0.5, "kind": "control-plane", "capacity": 100 },
+        { "id": "processor", "name": "Processor", "subtitle": "Enriquece / filtra", "x": 0.48, "y": 0.5, "kind": "control-plane", "capacity": 90 },
+        { "id": "exporter-traces", "name": "Exporter traces", "subtitle": "Pipeline de trazas", "x": 0.7, "y": 0.2, "kind": "control-plane", "capacity": 70 },
+        { "id": "exporter-metrics", "name": "Exporter metrics", "subtitle": "Pipeline de métricas", "x": 0.7, "y": 0.5, "kind": "control-plane", "capacity": 70 },
+        { "id": "exporter-logs", "name": "Exporter logs", "subtitle": "Pipeline de logs", "x": 0.7, "y": 0.8, "kind": "control-plane", "capacity": 70 },
+        { "id": "backends", "name": "Backends", "subtitle": "Consulta y almacenamiento", "x": 0.94, "y": 0.5, "kind": "storage", "capacity": 100 }
+      ],
+      "edges": [
+        { "from": "services", "to": "collector", "kind": "data" },
+        { "from": "collector", "to": "processor", "kind": "control" },
+        { "from": "processor", "to": "exporter-traces", "kind": "control" },
+        { "from": "processor", "to": "exporter-metrics", "kind": "control" },
+        { "from": "processor", "to": "exporter-logs", "kind": "control" },
+        { "from": "exporter-traces", "to": "backends", "kind": "data" },
+        { "from": "exporter-metrics", "to": "backends", "kind": "data" },
+        { "from": "exporter-logs", "to": "backends", "kind": "data" }
+      ]
+    },
+    "correlation": {
+      "nodes": [
+        { "id": "symptom", "name": "Alerta / síntoma", "subtitle": "Error rate o latencia", "x": 0.1, "y": 0.5, "kind": "external", "rps": 2 },
+        { "id": "metrics-backend", "name": "Backend métricas", "subtitle": "Series agregadas", "x": 0.33, "y": 0.25, "kind": "storage", "capacity": 70 },
+        { "id": "alerting", "name": "Alerting", "subtitle": "Regla y notificación", "x": 0.55, "y": 0.5, "kind": "control-plane", "capacity": 60 },
+        { "id": "trace-backend", "name": "Backend trazas", "subtitle": "Trace ID y spans", "x": 0.78, "y": 0.25, "kind": "storage", "capacity": 70 },
+        { "id": "logs-backend", "name": "Backend logs", "subtitle": "Evento correlacionado", "x": 0.78, "y": 0.75, "kind": "storage", "capacity": 70 },
+        { "id": "operator", "name": "Operador", "subtitle": "Investiga el incidente", "x": 0.95, "y": 0.5, "kind": "external" }
+      ],
+      "edges": [
+        { "from": "symptom", "to": "metrics-backend", "kind": "data" },
+        { "from": "metrics-backend", "to": "alerting", "kind": "control" },
+        { "from": "alerting", "to": "trace-backend", "kind": "dependency" },
+        { "from": "alerting", "to": "logs-backend", "kind": "dependency" },
+        { "from": "trace-backend", "to": "operator", "kind": "data" },
+        { "from": "logs-backend", "to": "operator", "kind": "data" }
+      ]
+    },
+    "incident": {
+      "nodes": [
+        { "id": "client", "name": "Cliente", "subtitle": "Solicitudes", "x": 0.05, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "gateway", "name": "API Gateway", "subtitle": "Entrada", "x": 0.2, "y": 0.5, "kind": "network", "capacity": 100 },
+        { "id": "checkout", "name": "Checkout", "subtitle": "Orquestación", "x": 0.38, "y": 0.5, "kind": "workload", "capacity": 80 },
+        { "id": "payment", "name": "Servicio de pagos", "subtitle": "Latencia inyectable", "x": 0.56, "y": 0.3, "kind": "workload", "capacity": 50, "killable": true },
+        { "id": "collector", "name": "Collector", "subtitle": "Recepción", "x": 0.56, "y": 0.75, "kind": "control-plane", "capacity": 70, "killable": true },
+        { "id": "processor", "name": "Processor", "subtitle": "Procesamiento", "x": 0.74, "y": 0.75, "kind": "control-plane", "capacity": 60, "killable": true },
+        { "id": "metrics-backend", "name": "Backend de métricas", "subtitle": "Cardinalidad / alertas", "x": 0.93, "y": 0.25, "kind": "storage", "capacity": 70, "killable": true },
+        { "id": "trace-backend", "name": "Backend de trazas", "subtitle": "Evidencia del recorrido", "x": 0.93, "y": 0.5, "kind": "storage", "capacity": 70 },
+        { "id": "logs-backend", "name": "Backend de logs", "subtitle": "Eventos", "x": 0.93, "y": 0.75, "kind": "storage", "capacity": 70 }
+      ],
+      "edges": [
+        { "from": "client", "to": "gateway", "kind": "data" },
+        { "from": "gateway", "to": "checkout", "kind": "data" },
+        { "from": "checkout", "to": "payment", "kind": "dependency" },
+        { "from": "checkout", "to": "collector", "kind": "data" },
+        { "from": "payment", "to": "collector", "kind": "data" },
+        { "from": "collector", "to": "processor", "kind": "control" },
+        { "from": "processor", "to": "metrics-backend", "kind": "data" },
+        { "from": "processor", "to": "trace-backend", "kind": "data" },
+        { "from": "processor", "to": "logs-backend", "kind": "data" }
+      ]
+    }
+  }
+}

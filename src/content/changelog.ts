@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.13.2";
+export const currentVersion = "0.14.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.14.0",
+    date: "04 ago 2026",
+    title: "Explainer independiente de Observabilidad",
+    changes: [
+      "Nuevo tema con cinco escenas sobre recorridos distribuidos, señales, Collector, correlación y límites operativos.",
+      "Escenarios interactivos para latencia, caída del Collector, descarte de telemetría y cardinalidad excesiva.",
+      "Storyboard y matriz de validación basados en la documentación oficial actual de OpenTelemetry y Prometheus.",
+    ],
+  },
   {
     version: "0.13.2",
     date: "04 ago 2026",
