@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { ThemeToggle } from "@/components/explainer/ThemeToggle";
+import { VersionChangelog } from "@/components/explainer/VersionChangelog";
 import "./globals.css";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -41,6 +42,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <ThemeProvider>
           <ThemeToggle />
+          <VersionChangelog />
           {children}
         </ThemeProvider>
       </body>
