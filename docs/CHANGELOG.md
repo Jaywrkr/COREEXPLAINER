@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.12.0] - 2026-08-04
+
+- Nuevo tema independiente con cinco escenas sobre solicitudes, contexto, decisión, enforcement y límites.
+- Escenarios interactivos para identidad comprometida, dispositivo no confiable, política amplia y telemetría ausente.
+- Storyboard y matriz de validación basados en NIST SP 800-207 y CISA Zero Trust Maturity Model.
+
 ## [0.11.1] - 2026-08-04
 
 - El panel de escenarios de fallo ahora puede minimizarse sin perder el escenario activo.

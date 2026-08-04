@@ -10,6 +10,8 @@ import { vsanMeta, vsanSteps } from "./vsan";
 import vsanRawSpec from "../../docs/examples/vsan/animation-spec.json";
 import { nsxMeta, nsxSteps } from "./nsx";
 import nsxRawSpec from "../../docs/examples/nsx/animation-spec.json";
+import { zeroTrustMeta, zeroTrustSteps } from "./zero-trust";
+import zeroTrustRawSpec from "../../docs/examples/zero-trust/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -58,14 +60,23 @@ const nsxDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(nsxRawSpec),
 };
 
+const zeroTrustDefinition: ExplainerDefinition = {
+  slug: "zero-trust",
+  category: "Seguridad",
+  meta: zeroTrustMeta,
+  steps: zeroTrustSteps,
+  spec: parseAnimationSpec(zeroTrustRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
 validateExplainerContent(vsphereHaDefinition);
 validateExplainerContent(vsanDefinition);
 validateExplainerContent(nsxDefinition);
+validateExplainerContent(zeroTrustDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);
