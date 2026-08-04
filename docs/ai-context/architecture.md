@@ -114,6 +114,8 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   segmentos, overlay, firewall distribuido y gateways.
 - **`src/content/zero-trust.ts`** — quinto ejemplo de referencia: cinco escenas
   sobre decisiones de acceso, contexto y enforcement.
+- **`src/content/kubernetes.ts`** — sexto ejemplo de referencia: cinco escenas
+  sobre estado deseado, scheduling, Services y rollouts.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. Es lo único que conoce la
   lista completa de temas. `app/explainer/page.tsx` (dashboard) y
