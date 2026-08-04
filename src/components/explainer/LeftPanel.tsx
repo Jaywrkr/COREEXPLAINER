@@ -1,13 +1,18 @@
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import type { Scene } from "@/lib/animation-spec/types";
+import { AudienceModeToggle, type AudienceMode } from "./AudienceModeToggle";
 import { BrandMark } from "./BrandMark";
 import { PresentationControls } from "./PresentationControls";
 import { ProgressDots } from "./ProgressDots";
 import { StepNav } from "./StepNav";
 import { TechnicalReviewPanel } from "./TechnicalReviewPanel";
+import { TechnicalSceneSummary } from "./TechnicalSceneSummary";
+import { SceneShareControl } from "./SceneShareControl";
 
 interface LeftPanelProps {
   meta: ExplainerMeta;
   steps: ExplainerStep[];
+  scene: Scene;
   current: number;
   onSelectStep: (index: number) => void;
   onPrev: () => void;
@@ -18,11 +23,15 @@ interface LeftPanelProps {
   onExitPresentation: () => void;
   onTogglePresentation: () => void;
   onResetPresentation: () => void;
+  audienceMode: AudienceMode;
+  onAudienceModeChange: (mode: AudienceMode) => void;
+  activeFailureScenarioId: string | null;
 }
 
 export function LeftPanel({
   meta,
   steps,
+  scene,
   current,
   onSelectStep,
   onPrev,
@@ -33,6 +42,9 @@ export function LeftPanel({
   onExitPresentation,
   onTogglePresentation,
   onResetPresentation,
+  audienceMode,
+  onAudienceModeChange,
+  activeFailureScenarioId,
 }: LeftPanelProps) {
   const step = steps[current]!;
 
@@ -45,7 +57,17 @@ export function LeftPanel({
       </span>
       <h1 className="mb-2 text-2xl font-bold leading-tight text-core-text sm:text-[1.65rem]">{meta.title}</h1>
       <p className="mb-6 text-sm leading-relaxed text-core-text-secondary">{meta.tagline}</p>
+      <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
+      <SceneShareControl
+        sceneId={step.sceneId}
+        scenarioId={activeFailureScenarioId}
+        audienceMode={audienceMode}
+      />
       <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
+
+      {audienceMode === "technical" ? (
+        <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
+      ) : null}
 
       <div>
         <div className="mb-2 font-mono text-xs font-semibold text-core-accent">

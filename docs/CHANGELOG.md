@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.15.0] - 2026-08-04
+
+- Cada explicación puede alternar entre una vista orientada a cliente y una ficha técnica de la escena.
+- Los enlaces pueden abrir una escena y un escenario de fallo concretos.
+- El botón de compartir copia el contexto actual, incluido el modo de audiencia.
+
 ## [0.14.0] - 2026-08-04
 
 - Nuevo tema independiente con cinco escenas sobre recorridos distribuidos, señales, Collector, correlación y límites operativos.

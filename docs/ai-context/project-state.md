@@ -1,6 +1,8 @@
 # Estado del proyecto
 
-**Estado v0.14.0 (04-08-2026)**: se incorporó el séptimo tema independiente
+**Estado v0.15.0 (04-08-2026)**: cada explicación puede alternar entre modo
+Cliente y Técnico y compartir enlaces directos a escenas y escenarios. Se mantiene
+el séptimo tema independiente
 `/explainer/observability` sobre recorrido de peticiones, señales,
 OpenTelemetry Collector y diagnóstico. Cada explicación muestra trazabilidad técnica
 con fecha de revisión, alcance y fuentes consultadas. Se mantiene el tema independiente
@@ -10,7 +12,7 @@ documentación técnica en `docs/ai-context/kubernetes-technical-validation.md`.
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.14.0: explainer independiente de Observabilidad basado en OpenTelemetry y Prometheus + evidencia técnica por escena mediante referencias a fuentes concretas + trazabilidad técnica visible por explicación, con fecha de revisión, alcance y fuentes enlazadas + explainers independientes de Zero Trust y Kubernetes + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.15.0: modos de audiencia Cliente/Técnico y enlaces directos a escenas y escenarios + explainer independiente de Observabilidad basado en OpenTelemetry y Prometheus + evidencia técnica por escena mediante referencias a fuentes concretas + trazabilidad técnica visible por explicación, con fecha de revisión, alcance y fuentes enlazadas + explainers independientes de Zero Trust y Kubernetes + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -72,12 +74,15 @@ changelog visible y versionado documentado.
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
   `docs/ai-context/release-versioning.md`.
-- **Trazabilidad técnica (v0.14.0)**: cada tema declara `lastReviewedAt`, un
+- **Trazabilidad técnica (v0.15.0)**: cada tema declara `lastReviewedAt`, un
   alcance explícito y una lista de fuentes HTTPS con su fecha de consulta. La
   ficha desplegable “Trazabilidad técnica” lo muestra junto al guion y el gate
   de contenido valida que no falte ni tenga fechas o enlaces inválidos.
-- **Evidencia por escena (v0.14.0)**: cada paso declara `sourceIds` y la ficha
+- **Evidencia por escena (v0.15.0)**: cada paso declara `sourceIds` y la ficha
   muestra primero las fuentes que respaldan la escena activa.
+- **Audiencias y enlaces profundos (v0.15.0)**: el selector Cliente/Técnico
+  cambia el nivel de detalle y la URL conserva `scene`, `scenario` y `mode`.
+  Ver `docs/ai-context/audience-modes-and-deep-links.md`.
 - **Auditoría técnica de VCF**: el ejemplo ahora se presenta explícitamente
   como modelo conceptual. Se corrigieron afirmaciones absolutas sobre consola
   única, failover, SLA y camino de datos; se separó el clúster de cómputo del
