@@ -8,6 +8,7 @@ El lenguaje visual de relaciones y capas está documentado en `docs/ai-context/v
 
 La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
 Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.
+La alineación comercial de marcas está documentada en `docs/product/portfolio.md`.
 
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en
@@ -118,6 +119,9 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   sobre estado deseado, scheduling, Services y rollouts.
 - **`src/content/observability.ts`** — séptimo ejemplo de referencia: cinco
   escenas sobre recorridos distribuidos, señales, Collector y diagnóstico.
+- **`src/content/backup-dr.ts`** — octavo ejemplo de referencia: cinco escenas
+  sobre objetivos RPO/RTO, protección Veeam, copias IBM, recuperación y pruebas,
+  alineado al portafolio CoreSolutions.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
   fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus

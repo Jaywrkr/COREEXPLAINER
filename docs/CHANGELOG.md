@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.16.0] - 2026-08-04
+
+- Nuevo tema independiente de Backup y Disaster Recovery con cinco escenas sobre RPO/RTO, protección Veeam sobre VMware/VCF y Lenovo, copias protegidas IBM, recuperación y pruebas.
+- Escenarios interactivos para job fallido, repositorio no disponible, lag de replicación y restauración no probada.
+- Registro permanente del portafolio CoreSolutions, fecha de revisión, fuentes y límites técnicos.
+
 ## [0.15.0] - 2026-08-04
 
 - Cada explicación puede alternar entre una vista orientada a cliente y una ficha técnica de la escena.

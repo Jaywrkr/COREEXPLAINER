@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "id": "backup-dr-to-recovery",
+  "title": "De una copia a una recuperación comprobable",
+  "scenes": {
+    "objectives": {
+      "nodes": [
+        { "id": "business", "name": "Servicio crítico", "subtitle": "Impacto de negocio", "x": 0.12, "y": 0.5, "kind": "external", "rps": 2 },
+        { "id": "bia", "name": "BIA / política", "subtitle": "RPO y RTO", "x": 0.38, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+        { "id": "protection-plan", "name": "Plan de protección", "subtitle": "Frecuencia y retención", "x": 0.64, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+        { "id": "evidence", "name": "Criterio de aceptación", "subtitle": "Prueba de restauración", "x": 0.88, "y": 0.5, "kind": "external" }
+      ],
+      "edges": [
+        { "from": "business", "to": "bia", "kind": "dependency" },
+        { "from": "bia", "to": "protection-plan", "kind": "control" },
+        { "from": "protection-plan", "to": "evidence", "kind": "dependency" }
+      ]
+    },
+    "protection": {
+      "nodes": [
+        { "id": "vmware", "name": "VMware vSphere / VCF", "subtitle": "Cargas virtualizadas", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "lenovo", "name": "Lenovo ThinkSystem", "subtitle": "Hosts de cómputo", "x": 0.3, "y": 0.5, "kind": "compute", "capacity": 90 },
+        { "id": "backup-job", "name": "Veeam Backup & Replication 13", "subtitle": "Job y data mover", "x": 0.55, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+        { "id": "veeam-repository", "name": "Repositorio Veeam", "subtitle": "Punto de recuperación", "x": 0.82, "y": 0.5, "kind": "storage", "capacity": 90 }
+      ],
+      "edges": [
+        { "from": "vmware", "to": "lenovo", "kind": "dependency" },
+        { "from": "lenovo", "to": "backup-job", "kind": "data" },
+        { "from": "backup-job", "to": "veeam-repository", "kind": "data" }
+      ]
+    },
+    "copies": {
+      "nodes": [
+        { "id": "veeam-repository", "name": "Repositorio Veeam", "subtitle": "Copia operativa", "x": 0.12, "y": 0.5, "kind": "storage", "capacity": 90 },
+        { "id": "hardened", "name": "Repositorio endurecido", "subtitle": "Inmutabilidad / aislamiento", "x": 0.38, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "ibm-flashsystem", "name": "IBM FlashSystem 9.1.1", "subtitle": "Safeguarded Copy", "x": 0.66, "y": 0.5, "kind": "storage", "capacity": 85 },
+        { "id": "security", "name": "Credenciales y retención", "subtitle": "Control administrativo", "x": 0.9, "y": 0.5, "kind": "control-plane", "capacity": 70 }
+      ],
+      "edges": [
+        { "from": "veeam-repository", "to": "hardened", "kind": "data" },
+        { "from": "hardened", "to": "ibm-flashsystem", "kind": "storage" },
+        { "from": "security", "to": "hardened", "kind": "control" },
+        { "from": "security", "to": "ibm-flashsystem", "kind": "control" }
+      ]
+    },
+    "recovery": {
+      "nodes": [
+        { "id": "incident", "name": "Incidente", "subtitle": "Origen no disponible", "x": 0.08, "y": 0.5, "kind": "external", "rps": 2 },
+        { "id": "decision", "name": "Decisión de recuperación", "subtitle": "Punto y estrategia", "x": 0.3, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+        { "id": "replication", "name": "Replicación / restore", "subtitle": "Datos hacia destino", "x": 0.55, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "alternate-site", "name": "Sitio alterno", "subtitle": "Lenovo + IBM + red", "x": 0.77, "y": 0.3, "kind": "compute", "capacity": 85 },
+        { "id": "application", "name": "Aplicación utilizable", "subtitle": "Servicio validado", "x": 0.91, "y": 0.7, "kind": "workload", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "incident", "to": "decision", "kind": "failure" },
+        { "from": "decision", "to": "replication", "kind": "control" },
+        { "from": "replication", "to": "alternate-site", "kind": "storage" },
+        { "from": "alternate-site", "to": "application", "kind": "dependency" }
+      ]
+    },
+    "limits": {
+      "nodes": [
+        { "id": "backup-job", "name": "Job de backup", "subtitle": "¿Terminó con éxito?", "x": 0.08, "y": 0.28, "kind": "control-plane", "capacity": 75, "killable": true },
+        { "id": "veeam-repository", "name": "Repositorio", "subtitle": "Disponible e inmutable", "x": 0.28, "y": 0.28, "kind": "storage", "capacity": 80, "killable": true },
+        { "id": "replication", "name": "Enlace de replicación", "subtitle": "RPO medible", "x": 0.48, "y": 0.28, "kind": "network", "capacity": 70, "killable": true },
+        { "id": "alternate-site", "name": "Capacidad destino", "subtitle": "Compute, storage y red", "x": 0.68, "y": 0.28, "kind": "compute", "capacity": 80 },
+        { "id": "verification", "name": "Prueba de restore", "subtitle": "Evidencia operativa", "x": 0.88, "y": 0.28, "kind": "control-plane", "capacity": 70, "killable": true },
+        { "id": "application", "name": "Aplicación", "subtitle": "Dependencias completas", "x": 0.5, "y": 0.75, "kind": "workload", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "backup-job", "to": "veeam-repository", "kind": "data" },
+        { "from": "veeam-repository", "to": "replication", "kind": "storage" },
+        { "from": "replication", "to": "alternate-site", "kind": "data" },
+        { "from": "alternate-site", "to": "verification", "kind": "dependency" },
+        { "from": "verification", "to": "application", "kind": "control" },
+        { "from": "alternate-site", "to": "application", "kind": "dependency" }
+      ]
+    }
+  }
+}

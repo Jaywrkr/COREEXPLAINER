@@ -7,6 +7,7 @@ desplegable en Vercel.
 - **¿Vas a desarrollar esto con ayuda de una IA (Claude, ChatGPT, etc.)?**
   Empieza por [`AI_WORKFLOW.md`](./AI_WORKFLOW.md).
 - **¿Buscas contexto de producto?** [`docs/product/vision.md`](./docs/product/vision.md).
+- **¿Qué marcas deben guiar los ejemplos?** [`docs/product/portfolio.md`](./docs/product/portfolio.md).
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
 - **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
 - **¿Vas a revisar el ejemplo VCF?** [`docs/ai-context/vcf-technical-validation.md`](./docs/ai-context/vcf-technical-validation.md).
@@ -16,6 +17,7 @@ desplegable en Vercel.
 - **¿Vas a crear un tema nuevo?** [`docs/ai-context/content-quality-gate.md`](./docs/ai-context/content-quality-gate.md).
 - **¿Vas a revisar la vigencia y las fuentes de un tema?** [`docs/ai-context/technical-traceability.md`](./docs/ai-context/technical-traceability.md).
 - **¿Vas a revisar Observabilidad?** [`docs/ai-context/observability-technical-validation.md`](./docs/ai-context/observability-technical-validation.md).
+- **¿Vas a revisar Backup/DR?** [`docs/ai-context/backup-dr-technical-validation.md`](./docs/ai-context/backup-dr-technical-validation.md).
 - **¿Vas a preparar una demo para cliente o técnico?** [`docs/ai-context/audience-modes-and-deep-links.md`](./docs/ai-context/audience-modes-and-deep-links.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 
@@ -23,7 +25,7 @@ desplegable en Vercel.
 
 Temas disponibles: `/explainer/vcf`, `/explainer/vsphere-ha`, `/explainer/vsan`,
 `/explainer/nsx`, `/explainer/zero-trust`, `/explainer/kubernetes` y
-`/explainer/observability`.
+`/explainer/observability` y `/explainer/backup-dr`.
 La validación técnica de vSphere HA está en
 [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 La validación técnica de vSAN está en
@@ -36,6 +38,8 @@ La validación técnica de Kubernetes está en
 [`docs/ai-context/kubernetes-technical-validation.md`](./docs/ai-context/kubernetes-technical-validation.md).
 La validación técnica de Observabilidad está en
 [`docs/ai-context/observability-technical-validation.md`](./docs/ai-context/observability-technical-validation.md).
+La validación técnica de Backup/DR está en
+[`docs/ai-context/backup-dr-technical-validation.md`](./docs/ai-context/backup-dr-technical-validation.md).
 En cada explicación, abre “Trazabilidad técnica” para ver la fecha de última
 revisión, el alcance comprobado y las fuentes primarias con su fecha de consulta.
 
@@ -82,4 +86,5 @@ docs/examples/nsx/         cuarto tema: tráfico y microsegmentación
 docs/examples/zero-trust/  quinto tema: decisiones de acceso
 docs/examples/kubernetes/   sexto tema: viaje de una aplicación
 docs/examples/observability/ séptimo tema: de la petición a la evidencia
+docs/examples/backup-dr/       octavo tema: de una copia a una recuperación comprobable
 ```
