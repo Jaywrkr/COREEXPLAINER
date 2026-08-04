@@ -10,6 +10,7 @@ La interacción de hover está documentada en `docs/ai-context/hover-highlightin
 Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.
 La alineación comercial de marcas está documentada en `docs/product/portfolio.md`.
 El contrato de marcas por tema está documentado en `docs/ai-context/brand-context.md`.
+Los patrones reales de implementación se resumen en `docs/product/coresolutions-project-patterns.md`.
 
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.19.0] - 2026-08-04
+
+- Se documentaron patrones sanitizados de proyectos reales de CoreSolutions: storage, SAN, VMware, Veeam, redes, seguridad, IBM Power, NAS y alta disponibilidad.
+- Se añadió un backlog priorizado de explainers basado en tareas recurrentes de implementación.
+- El resumen evita nombres de clientes, correos y enlaces operativos del CSV original.
+
 ## [0.18.0] - 2026-08-04
 
 - Nuevo tema de resiliencia frente a ransomware con cinco escenas: prevención, detección, contención, recuperación limpia y validación.

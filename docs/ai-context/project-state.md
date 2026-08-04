@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Estado v0.18.0 (04-08-2026)**: cada explicación puede alternar entre modo
+**Estado v0.19.0 (04-08-2026)**: cada explicación puede alternar entre modo
 Cliente y Técnico y compartir enlaces directos a escenas y escenarios. Se mantiene
 el séptimo tema independiente
 `/explainer/observability` sobre recorrido de peticiones, señales,
@@ -23,6 +23,10 @@ El noveno tema `/explainer/ransomware-resilience` explica prevención, detecció
 contención, recuperación limpia y validación frente a ransomware. Se mantiene
 separado de Backup/DR para no presentar una copia como prevención o detección.
 
+Se incorporó el resumen sanitizado de proyectos reales en
+`docs/product/coresolutions-project-patterns.md`, con capacidades observadas y
+backlog de explainers derivados del CSV de planificación.
+
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
@@ -30,6 +34,7 @@ separado de Backup/DR para no presentar una copia como prevención o detección.
 changelog visible y versionado documentado.
 Actualización adicional 2026-08-04 — v0.17.0: contexto de marcas declarado y visible por explicación.
 Actualización adicional 2026-08-04 — v0.18.0: nuevo explainer de resiliencia frente a ransomware.
+Actualización adicional 2026-08-04 — v0.19.0: patrones reales de proyectos y backlog comercial-técnico.
 **Actualización adicional 2026-08-04 — v0.16.0:** se añadió el explainer de Backup/DR y el registro canónico del portafolio de marcas CoreSolutions.
 
 ## Qué está hecho

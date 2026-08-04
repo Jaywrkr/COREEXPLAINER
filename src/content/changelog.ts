@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.18.0";
+export const currentVersion = "0.19.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.19.0",
+    date: "04 ago 2026",
+    title: "Contexto de proyectos reales de CoreSolutions",
+    changes: [
+      "Se documentaron patrones sanitizados de implementaciones reales: storage, SAN, VMware, Veeam, redes, seguridad, IBM Power, NAS y alta disponibilidad.",
+      "Se añadió un backlog priorizado de explainers basado en tareas recurrentes de proyectos.",
+      "El resumen evita nombres de clientes, correos y enlaces operativos del CSV original.",
+    ],
+  },
   {
     version: "0.18.0",
     date: "04 ago 2026",
