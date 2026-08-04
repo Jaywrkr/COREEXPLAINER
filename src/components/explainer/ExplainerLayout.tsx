@@ -6,6 +6,8 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { LeftPanel } from "./LeftPanel";
 import { VisualCanvas } from "./VisualCanvas";
 
+const AUTOPLAY_STEP_MS = 6500;
+
 interface ExplainerLayoutProps {
   meta: ExplainerMeta;
   steps: ExplainerStep[];
@@ -23,6 +25,8 @@ export function ExplainerLayout({ meta, steps, spec, onCta }: ExplainerLayoutPro
   const [current, setCurrent] = useState(0);
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [activeFailureScenarioId, setActiveFailureScenarioId] = useState<string | null>(null);
+  const [presentationActive, setPresentationActive] = useState(false);
+  const [presentationPlaying, setPresentationPlaying] = useState(false);
   const step = steps[current]!;
   const scene = spec.scenes[step.sceneId];
 
@@ -40,19 +44,124 @@ export function ExplainerLayout({ meta, steps, spec, onCta }: ExplainerLayoutPro
     setActiveFailureScenarioId(null);
   }, [scene]);
 
-  const goPrev = () => setCurrent((c) => Math.max(0, c - 1));
-  const goNext = () => setCurrent((c) => Math.min(steps.length - 1, c + 1));
+  useEffect(() => {
+    if (!presentationActive || !presentationPlaying) return;
+    if (current >= steps.length - 1) {
+      setPresentationPlaying(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setCurrent((c) => Math.min(steps.length - 1, c + 1));
+    }, AUTOPLAY_STEP_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [current, presentationActive, presentationPlaying, steps.length]);
+
+  useEffect(() => {
+    if (!presentationActive) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (
+        target?.isContentEditable ||
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement
+      ) {
+        return;
+      }
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setPresentationActive(false);
+        setPresentationPlaying(false);
+        return;
+      }
+
+      if (event.key === " " || event.code === "Space") {
+        event.preventDefault();
+        setPresentationPlaying((playing) => !playing);
+        return;
+      }
+
+      if (event.key === "ArrowRight" || event.key === "PageDown") {
+        event.preventDefault();
+        setPresentationPlaying(false);
+        setCurrent((c) => Math.min(steps.length - 1, c + 1));
+        return;
+      }
+
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        setPresentationPlaying(false);
+        setCurrent((c) => Math.max(0, c - 1));
+        return;
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault();
+        setPresentationPlaying(false);
+        setCurrent(0);
+        return;
+      }
+
+      if (event.key === "End") {
+        event.preventDefault();
+        setPresentationPlaying(false);
+        setCurrent(steps.length - 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [presentationActive, steps.length]);
+
+  const goPrev = () => {
+    setPresentationPlaying(false);
+    setCurrent((c) => Math.max(0, c - 1));
+  };
+  const goNext = () => {
+    setPresentationPlaying(false);
+    setCurrent((c) => Math.min(steps.length - 1, c + 1));
+  };
+  const selectStep = (index: number) => {
+    setPresentationPlaying(false);
+    setCurrent(index);
+  };
+  const enterPresentation = () => setPresentationActive(true);
+  const exitPresentation = () => {
+    setPresentationActive(false);
+    setPresentationPlaying(false);
+  };
+  const togglePresentation = () => {
+    setPresentationActive(true);
+    setPresentationPlaying((playing) => !playing);
+  };
+  const resetPresentation = () => {
+    setCurrent(0);
+    setPresentationPlaying(false);
+  };
 
   return (
-    <div className="grid h-screen grid-cols-1 md:grid-cols-[440px_1fr]">
+    <div
+      className="grid h-screen grid-cols-1 md:grid-cols-[440px_1fr]"
+      data-presentation-mode={presentationActive ? "active" : "inactive"}
+    >
       <LeftPanel
         meta={meta}
         steps={steps}
         current={current}
-        onSelectStep={setCurrent}
+        onSelectStep={selectStep}
         onPrev={goPrev}
         onNext={goNext}
         onCta={onCta ?? (() => {})}
+        presentationActive={presentationActive}
+        presentationPlaying={presentationPlaying}
+        onEnterPresentation={enterPresentation}
+        onExitPresentation={exitPresentation}
+        onTogglePresentation={togglePresentation}
+        onResetPresentation={resetPresentation}
       />
       <div className="relative hidden min-h-[320px] md:block">
         <VisualCanvas

@@ -1,5 +1,6 @@
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { BrandMark } from "./BrandMark";
+import { PresentationControls } from "./PresentationControls";
 import { ProgressDots } from "./ProgressDots";
 import { StepNav } from "./StepNav";
 
@@ -11,9 +12,29 @@ interface LeftPanelProps {
   onPrev: () => void;
   onNext: () => void;
   onCta: () => void;
+  presentationActive: boolean;
+  presentationPlaying: boolean;
+  onEnterPresentation: () => void;
+  onExitPresentation: () => void;
+  onTogglePresentation: () => void;
+  onResetPresentation: () => void;
 }
 
-export function LeftPanel({ meta, steps, current, onSelectStep, onPrev, onNext, onCta }: LeftPanelProps) {
+export function LeftPanel({
+  meta,
+  steps,
+  current,
+  onSelectStep,
+  onPrev,
+  onNext,
+  onCta,
+  presentationActive,
+  presentationPlaying,
+  onEnterPresentation,
+  onExitPresentation,
+  onTogglePresentation,
+  onResetPresentation,
+}: LeftPanelProps) {
   const step = steps[current]!;
 
   return (
@@ -52,6 +73,16 @@ export function LeftPanel({ meta, steps, current, onSelectStep, onPrev, onNext, 
         onCta={onCta}
       />
       <ProgressDots count={steps.length} current={current} onSelect={onSelectStep} />
+      <PresentationControls
+        active={presentationActive}
+        playing={presentationPlaying}
+        current={current}
+        total={steps.length}
+        onEnter={onEnterPresentation}
+        onExit={onExitPresentation}
+        onTogglePlaying={onTogglePresentation}
+        onReset={onResetPresentation}
+      />
     </div>
   );
 }

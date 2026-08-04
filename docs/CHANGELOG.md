@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.0] - 2026-08-04
+
+- Modo presentación con reproducción automática, pausa y reinicio.
+- Navegación por teclado para avanzar, retroceder y salir de la presentación.
+- La reproducción se detiene al cambiar manualmente de paso o llegar al final.
+
 ## [0.5.0] - 2026-08-04
 
 - Escenarios guiados para fallas de uno o varios hosts y del plano de gestión.
