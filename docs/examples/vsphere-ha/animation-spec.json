@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "id": "vsphere-ha-failover",
+  "title": "Cómo responde vSphere HA ante una falla",
+  "scenes": {
+    "normal": {
+      "nodes": [
+        { "id": "client", "name": "Usuarios", "subtitle": "Solicitudes", "x": 0.1, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "vm", "name": "VM protegida", "subtitle": "Aplicación", "x": 0.42, "y": 0.5, "kind": "workload", "capacity": 35 },
+        { "id": "host1", "name": "Host ESXi 1", "subtitle": "Ejecuta la VM", "x": 0.7, "y": 0.25, "kind": "compute", "capacity": 60 },
+        { "id": "host2", "name": "Host ESXi 2", "subtitle": "Candidato alterno", "x": 0.7, "y": 0.75, "kind": "compute", "capacity": 60 },
+        { "id": "datastore", "name": "Datastore compartido", "subtitle": "Archivos de la VM", "x": 0.9, "y": 0.5, "kind": "storage" },
+        { "id": "ha", "name": "vSphere HA", "subtitle": "Observa el clúster", "x": 0.42, "y": 0.14, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "client", "to": "vm", "kind": "data" },
+        { "from": "vm", "to": "host1", "kind": "dependency" },
+        { "from": "host1", "to": "datastore", "kind": "storage" },
+        { "from": "host2", "to": "datastore", "kind": "storage" },
+        { "from": "ha", "to": "host1", "kind": "control" },
+        { "from": "ha", "to": "host2", "kind": "control" }
+      ]
+    },
+    "host-failure": {
+      "nodes": [
+        { "id": "vm", "name": "VM protegida", "subtitle": "Debe reiniciarse", "x": 0.35, "y": 0.5, "kind": "workload", "capacity": 35 },
+        { "id": "host1", "name": "Host ESXi 1", "subtitle": "Falla detectada", "x": 0.66, "y": 0.25, "kind": "compute", "killable": true },
+        { "id": "host2", "name": "Host ESXi 2", "subtitle": "Host alterno", "x": 0.66, "y": 0.75, "kind": "compute", "capacity": 60 },
+        { "id": "datastore", "name": "Datastore compartido", "subtitle": "Debe seguir visible", "x": 0.9, "y": 0.5, "kind": "storage" },
+        { "id": "ha", "name": "vSphere HA", "subtitle": "Evalúa la falla", "x": 0.35, "y": 0.14, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "vm", "to": "host1", "kind": "dependency" },
+        { "from": "host1", "to": "datastore", "kind": "storage" },
+        { "from": "host2", "to": "datastore", "kind": "storage" },
+        { "from": "ha", "to": "host1", "kind": "control" },
+        { "from": "ha", "to": "host2", "kind": "control" },
+        { "from": "ha", "to": "vm", "kind": "failure" }
+      ]
+    },
+    "decision": {
+      "nodes": [
+        { "id": "ha", "name": "vSphere HA", "subtitle": "Decide placement", "x": 0.15, "y": 0.5, "kind": "control-plane" },
+        { "id": "capacity", "name": "Capacidad disponible", "subtitle": "Recursos suficientes", "x": 0.45, "y": 0.18, "kind": "compute", "capacity": 100, "killable": true },
+        { "id": "datastore", "name": "Datastore compartido", "subtitle": "Visible en el destino", "x": 0.45, "y": 0.5, "kind": "storage", "killable": true },
+        { "id": "policy", "name": "Políticas compatibles", "subtitle": "Placement permitido", "x": 0.45, "y": 0.82, "kind": "control-plane" },
+        { "id": "host2", "name": "Host ESXi 2", "subtitle": "Candidato", "x": 0.78, "y": 0.5, "kind": "compute", "capacity": 60 },
+        { "id": "vm", "name": "VM protegida", "subtitle": "Esperando destino", "x": 0.95, "y": 0.5, "kind": "workload" }
+      ],
+      "edges": [
+        { "from": "ha", "to": "capacity", "kind": "control" },
+        { "from": "ha", "to": "datastore", "kind": "control" },
+        { "from": "ha", "to": "policy", "kind": "control" },
+        { "from": "capacity", "to": "host2", "kind": "dependency" },
+        { "from": "datastore", "to": "host2", "kind": "storage" },
+        { "from": "policy", "to": "host2", "kind": "dependency" },
+        { "from": "host2", "to": "vm", "kind": "control" }
+      ]
+    },
+    "restart": {
+      "nodes": [
+        { "id": "client", "name": "Usuarios", "subtitle": "Solicitudes", "x": 0.1, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "host2", "name": "Host ESXi 2", "subtitle": "Host alterno", "x": 0.38, "y": 0.22, "kind": "compute" },
+        { "id": "datastore", "name": "Datastore compartido", "subtitle": "Archivos accesibles", "x": 0.38, "y": 0.78, "kind": "storage" },
+        { "id": "vm", "name": "VM reiniciándose", "subtitle": "Arranque de la aplicación", "x": 0.7, "y": 0.5, "kind": "workload", "capacity": 35 },
+        { "id": "app", "name": "Servicio disponible", "subtitle": "Después del arranque", "x": 0.93, "y": 0.5, "kind": "workload", "capacity": 30 }
+      ],
+      "edges": [
+        { "from": "client", "to": "vm", "kind": "data" },
+        { "from": "host2", "to": "vm", "kind": "control" },
+        { "from": "datastore", "to": "vm", "kind": "storage" },
+        { "from": "vm", "to": "app", "kind": "data" }
+      ]
+    },
+    "limits": {
+      "nodes": [
+        { "id": "ha", "name": "vSphere HA", "subtitle": "Intenta colocar la VM", "x": 0.14, "y": 0.5, "kind": "control-plane" },
+        { "id": "vm", "name": "VM protegida", "subtitle": "Reinicio pendiente", "x": 0.84, "y": 0.5, "kind": "workload" },
+        { "id": "capacity", "name": "Recursos insuficientes", "subtitle": "No hay margen", "x": 0.42, "y": 0.18, "kind": "compute" },
+        { "id": "datastore", "name": "Storage no accesible", "subtitle": "No visible en destino", "x": 0.42, "y": 0.5, "kind": "storage" },
+        { "id": "policy", "name": "Políticas de placement", "subtitle": "Regla incompatible", "x": 0.42, "y": 0.82, "kind": "control-plane", "killable": true }
+      ],
+      "edges": [
+        { "from": "ha", "to": "capacity", "kind": "control" },
+        { "from": "ha", "to": "datastore", "kind": "control" },
+        { "from": "ha", "to": "policy", "kind": "control" },
+        { "from": "capacity", "to": "vm", "kind": "failure" },
+        { "from": "datastore", "to": "vm", "kind": "failure" },
+        { "from": "policy", "to": "vm", "kind": "failure" }
+      ]
+    }
+  }
+}

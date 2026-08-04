@@ -4,6 +4,8 @@ import { validateExplainerContent } from "@/lib/content-validation/validateExpla
 import type { ExplainerCategory, ExplainerMeta, ExplainerStep } from "./types";
 import { vcfMeta, vcfSteps } from "./vcf";
 import vcfRawSpec from "../../docs/examples/vcf/animation-spec.json";
+import { vsphereHaMeta, vsphereHaSteps } from "./vsphere-ha";
+import vsphereHaRawSpec from "../../docs/examples/vsphere-ha/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -28,11 +30,20 @@ const vcfDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(vcfRawSpec),
 };
 
+const vsphereHaDefinition: ExplainerDefinition = {
+  slug: "vsphere-ha",
+  category: "Virtualización",
+  meta: vsphereHaMeta,
+  steps: vsphereHaSteps,
+  spec: parseAnimationSpec(vsphereHaRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
+validateExplainerContent(vsphereHaDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

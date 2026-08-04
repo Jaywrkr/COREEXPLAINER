@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0] - 2026-08-04
+
+- Nuevo tema independiente con cinco escenas sobre vSphere HA y recuperación ante fallos.
+- Escenarios interactivos para capacidad, visibilidad de storage y restricciones de políticas.
+- Storyboard y matriz de validación técnica con fuentes oficiales de VMware by Broadcom.
+
 ## [0.8.0] - 2026-08-04
 
 - Relaciones semánticas para distinguir datos, control, storage, dependencias y fallos.

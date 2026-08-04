@@ -10,12 +10,17 @@ desplegable en Vercel.
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
 - **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
 - **¿Vas a revisar el ejemplo VCF?** [`docs/ai-context/vcf-technical-validation.md`](./docs/ai-context/vcf-technical-validation.md).
+- **¿Vas a revisar vSphere HA?** [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 - **¿Vas a añadir fallos interactivos?** [`docs/ai-context/failure-scenarios.md`](./docs/ai-context/failure-scenarios.md).
 - **¿Vas a presentar una explicación?** [`docs/ai-context/presentation-mode.md`](./docs/ai-context/presentation-mode.md).
 - **¿Vas a crear un tema nuevo?** [`docs/ai-context/content-quality-gate.md`](./docs/ai-context/content-quality-gate.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 
 ## Correr localmente
+
+Temas disponibles: `/explainer/vcf` y `/explainer/vsphere-ha`. La validación
+técnica de vSphere HA está en
+[`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 
 ```bash
 npm install
@@ -54,4 +59,5 @@ src/components/explainer/  layout + motor visual del canvas
 src/lib/animation-spec/    esquema y validación de animation-spec.json
 docs/                      documentación de producto y para IA
 docs/examples/vcf/         ejemplo de referencia completo
+docs/examples/vsphere-ha/  segundo tema: recuperación ante fallos con HA
 ```
