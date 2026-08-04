@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const zeroTrustFailureScenarios: FailureScenario[] = [
   {
@@ -52,6 +53,7 @@ export const zeroTrustFailureScenarios: FailureScenario[] = [
 ];
 
 export const zeroTrustMeta: ExplainerMeta = {
+  brandContext: brandContext.security,
   chip: "Seguridad · Zero Trust",
   title: "Cómo se decide cada acceso en Zero Trust",
   tagline:

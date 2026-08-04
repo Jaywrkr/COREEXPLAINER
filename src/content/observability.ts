@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const observabilityFailureScenarios: FailureScenario[] = [
   {
@@ -52,6 +53,7 @@ export const observabilityFailureScenarios: FailureScenario[] = [
 ];
 
 export const observabilityMeta: ExplainerMeta = {
+  brandContext: brandContext.cloud,
   chip: "Cloud native · Observabilidad",
   title: "Cómo se entiende una aplicación distribuida",
   tagline:

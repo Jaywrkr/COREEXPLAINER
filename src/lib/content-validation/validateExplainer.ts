@@ -62,6 +62,19 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   if (!hasDocumentationPath(meta.technicalValidationDoc)) {
     add("meta.technicalValidationDoc must point to a Markdown file under docs/");
   }
+  if (!Array.isArray(meta.brandContext) || meta.brandContext.length === 0) {
+    add("meta.brandContext must declare at least one portfolio brand");
+  } else {
+    const brandNames = new Set<string>();
+    for (const [brandIndex, brand] of meta.brandContext.entries()) {
+      const brandLabel = `meta.brandContext[${brandIndex}]`;
+      for (const field of ["name", "role", "scope"] as const) {
+        if (!isNonEmptyText(brand[field])) add(`${brandLabel}.${field} must be a non-empty string`);
+      }
+      if (brandNames.has(brand.name)) add(`${brandLabel}.name '${brand.name}' is duplicated`);
+      brandNames.add(brand.name);
+    }
+  }
   if (!meta.technicalReview || typeof meta.technicalReview !== "object") {
     add("meta.technicalReview must declare review date, scope, and sources");
   } else {

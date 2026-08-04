@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const kubernetesFailureScenarios: FailureScenario[] = [
   {
@@ -52,6 +53,7 @@ export const kubernetesFailureScenarios: FailureScenario[] = [
 ];
 
 export const kubernetesMeta: ExplainerMeta = {
+  brandContext: brandContext.cloud,
   chip: "Cloud native · Kubernetes",
   title: "Cómo llega una aplicación a estar disponible en Kubernetes",
   tagline:

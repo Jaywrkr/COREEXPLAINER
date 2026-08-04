@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const nsxFailureScenarios: FailureScenario[] = [
   {
@@ -52,6 +53,7 @@ export const nsxFailureScenarios: FailureScenario[] = [
 ];
 
 export const nsxMeta: ExplainerMeta = {
+  brandContext: brandContext.networkSecurity,
   chip: "Red y seguridad · NSX",
   title: "Cómo viaja y se protege el tráfico con NSX",
   tagline:

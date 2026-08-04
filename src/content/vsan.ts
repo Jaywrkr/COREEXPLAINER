@@ -1,4 +1,5 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
 
 export const vsanFailureScenarios: FailureScenario[] = [
   {
@@ -64,6 +65,7 @@ export const vsanFailureScenarios: FailureScenario[] = [
 ];
 
 export const vsanMeta: ExplainerMeta = {
+  brandContext: brandContext.storage,
   chip: "Storage distribuido · vSAN",
   title: "Cómo protege vSAN los objetos de una VM",
   tagline:

@@ -24,6 +24,7 @@ Cada `ExplainerMeta` debe declarar:
   fecha ISO de consulta;
 - cada paso con `sourceIds` que cite fuentes existentes del `technicalReview`;
 - estado `reviewStatus`.
+- `brandContext` con al menos una marca, su papel y su límite técnico.
 
 Cada tema debe tener al menos cuatro pasos. Cada paso necesita dos párrafos,
 impacto de negocio, caption, etiqueta y una escena existente.
