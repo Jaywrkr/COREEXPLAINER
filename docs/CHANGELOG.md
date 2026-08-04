@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.24.0] - 2026-08-04
+
+- Batch de cuatro nuevos explainers: protección heterogénea con Veeam, data center activo-activo, integración LAN/SAN y NAS como servicio de archivos.
+- Cada tema incluye cinco escenas, cuatro escenarios de fallo, storyboard y matriz técnica con fuentes revisadas el 2026-08-04.
+- El batch amplía el catálogo desde Storage SAN hacia backup, continuidad, redes y servicios de archivos basados en proyectos reales.
+
 ## [0.20.0] - 2026-08-04
 
 - Nuevo tema independiente de Storage SAN empresarial con cinco escenas sobre capas SAN, provisionamiento, host mapping, multipath, migración y replicación.

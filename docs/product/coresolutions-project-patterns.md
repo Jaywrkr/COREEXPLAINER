@@ -137,7 +137,12 @@ Prioridad media:
    replicación y continuidad.
 9. **SD-WAN y conectividad multisede** — underlay, overlay, QoS y operación.
 10. **Del rack a la aceptación** — ciclo completo de implementación,
-    documentación, capacitación y soporte.
+   documentación, capacitación y soporte.
+
+El batch inicial de este backlog ya implementó los temas 1, 2, 3 y 4 como
+`/explainer/san-storage`, `/explainer/veeam-protection`,
+`/explainer/active-active-dc` y `/explainer/lan-san`. El tema de migración y
+los siguientes permanecen como la próxima tanda.
 
 ## Regla para futuros explainers
 

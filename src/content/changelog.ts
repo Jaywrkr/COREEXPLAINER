@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.20.0";
+export const currentVersion = "0.24.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.24.0",
+    date: "04 ago 2026",
+    title: "Batch de explainers de infraestructura",
+    changes: [
+      "Se añadieron cuatro temas: protección heterogénea con Veeam, data center activo-activo, integración LAN/SAN y NAS como servicio de archivos.",
+      "Cada tema incluye cinco escenas, cuatro escenarios de fallo, storyboard y matriz técnica con fuentes revisadas el 2026-08-04.",
+      "El batch amplía el catálogo desde Storage SAN hacia backup, continuidad, redes y servicios de archivos basados en proyectos reales.",
+    ],
+  },
   {
     version: "0.20.0",
     date: "04 ago 2026",

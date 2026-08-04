@@ -22,6 +22,14 @@ import { ransomwareResilienceMeta, ransomwareResilienceSteps } from "./ransomwar
 import ransomwareResilienceRawSpec from "../../docs/examples/ransomware-resilience/animation-spec.json";
 import { sanStorageMeta, sanStorageSteps } from "./san-storage";
 import sanStorageRawSpec from "../../docs/examples/san-storage/animation-spec.json";
+import { veeamProtectionMeta, veeamProtectionSteps } from "./veeam-protection";
+import veeamProtectionRawSpec from "../../docs/examples/veeam-protection/animation-spec.json";
+import { activeActiveMeta, activeActiveSteps } from "./active-active-dc";
+import activeActiveRawSpec from "../../docs/examples/active-active-dc/animation-spec.json";
+import { lanSanMeta, lanSanSteps } from "./lan-san";
+import lanSanRawSpec from "../../docs/examples/lan-san/animation-spec.json";
+import { nasPrivateCloudMeta, nasPrivateCloudSteps } from "./nas-private-cloud";
+import nasPrivateCloudRawSpec from "../../docs/examples/nas-private-cloud/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -118,6 +126,38 @@ const sanStorageDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(sanStorageRawSpec),
 };
 
+const veeamProtectionDefinition: ExplainerDefinition = {
+  slug: "veeam-protection",
+  category: "Cloud",
+  meta: veeamProtectionMeta,
+  steps: veeamProtectionSteps,
+  spec: parseAnimationSpec(veeamProtectionRawSpec),
+};
+
+const activeActiveDefinition: ExplainerDefinition = {
+  slug: "active-active-dc",
+  category: "Virtualización",
+  meta: activeActiveMeta,
+  steps: activeActiveSteps,
+  spec: parseAnimationSpec(activeActiveRawSpec),
+};
+
+const lanSanDefinition: ExplainerDefinition = {
+  slug: "lan-san",
+  category: "Redes",
+  meta: lanSanMeta,
+  steps: lanSanSteps,
+  spec: parseAnimationSpec(lanSanRawSpec),
+};
+
+const nasPrivateCloudDefinition: ExplainerDefinition = {
+  slug: "nas-private-cloud",
+  category: "Cloud",
+  meta: nasPrivateCloudMeta,
+  steps: nasPrivateCloudSteps,
+  spec: parseAnimationSpec(nasPrivateCloudRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
@@ -130,8 +170,12 @@ validateExplainerContent(observabilityDefinition);
 validateExplainerContent(backupDrDefinition);
 validateExplainerContent(ransomwareResilienceDefinition);
 validateExplainerContent(sanStorageDefinition);
+validateExplainerContent(veeamProtectionDefinition);
+validateExplainerContent(activeActiveDefinition);
+validateExplainerContent(lanSanDefinition);
+validateExplainerContent(nasPrivateCloudDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition, veeamProtectionDefinition, activeActiveDefinition, lanSanDefinition, nasPrivateCloudDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

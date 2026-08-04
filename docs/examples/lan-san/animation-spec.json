@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "id": "lan-san-data-center",
+  "title": "Cómo conviven tráfico de usuarios, VMs y almacenamiento",
+  "scenes": {
+    "planes": { "nodes": [
+      { "id": "users", "name": "Usuarios", "subtitle": "Aplicaciones", "x": 0.08, "y": 0.25, "kind": "external", "rps": 3 },
+      { "id": "management", "name": "Gestión", "subtitle": "OOB / administración", "x": 0.08, "y": 0.75, "kind": "control-plane", "rps": 2 },
+      { "id": "lan", "name": "LAN Ethernet", "subtitle": "VLAN y routing", "x": 0.35, "y": 0.28, "kind": "network", "capacity": 85 },
+      { "id": "vmware", "name": "VMware / hosts", "subtitle": "VMs y vMotion", "x": 0.55, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "san", "name": "SAN FC", "subtitle": "Storage I/O", "x": 0.35, "y": 0.72, "kind": "network", "capacity": 85 },
+      { "id": "storage", "name": "IBM FlashSystem", "subtitle": "Datastores / LUNs", "x": 0.82, "y": 0.5, "kind": "storage", "capacity": 90 }
+    ], "edges": [
+      { "from": "users", "to": "lan", "kind": "data" }, { "from": "management", "to": "lan", "kind": "control" }, { "from": "lan", "to": "vmware", "kind": "data" }, { "from": "vmware", "to": "san", "kind": "storage" }, { "from": "san", "to": "storage", "kind": "storage" }, { "from": "management", "to": "storage", "kind": "control" }
+    ] },
+    "lan": { "nodes": [
+      { "id": "host", "name": "Host Lenovo", "subtitle": "NICs", "x": 0.1, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "switching", "name": "Switching Aruba HPE", "subtitle": "VSX/VSF según familia", "x": 0.35, "y": 0.5, "kind": "network", "capacity": 85 },
+      { "id": "vlan", "name": "VLAN / VRF", "subtitle": "Segmentación", "x": 0.58, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "routing", "name": "Gateway / routing", "subtitle": "Inter-VLAN", "x": 0.8, "y": 0.28, "kind": "network", "capacity": 75 },
+      { "id": "firewall", "name": "Check Point", "subtitle": "Inspección", "x": 0.8, "y": 0.72, "kind": "control-plane", "capacity": 75 },
+      { "id": "service", "name": "Servicio", "subtitle": "Destino", "x": 0.96, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "host", "to": "switching", "kind": "data" }, { "from": "switching", "to": "vlan", "kind": "control" }, { "from": "vlan", "to": "routing", "kind": "data" }, { "from": "vlan", "to": "firewall", "kind": "data" }, { "from": "routing", "to": "service", "kind": "dependency" }, { "from": "firewall", "to": "service", "kind": "dependency" }
+    ] },
+    "san": { "nodes": [
+      { "id": "hba", "name": "HBA / WWPN", "subtitle": "Host", "x": 0.1, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "fabric", "name": "Fabric FC", "subtitle": "Zoning", "x": 0.35, "y": 0.5, "kind": "network", "capacity": 85 },
+      { "id": "array-ports", "name": "Puertos del array", "subtitle": "Targets", "x": 0.58, "y": 0.5, "kind": "storage", "capacity": 80 },
+      { "id": "mapping", "name": "Host mapping", "subtitle": "LUN masking", "x": 0.78, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "volume", "name": "LUN / volumen", "subtitle": "Dispositivo visible", "x": 0.96, "y": 0.5, "kind": "storage", "capacity": 80 }
+    ], "edges": [
+      { "from": "hba", "to": "fabric", "kind": "data" }, { "from": "fabric", "to": "array-ports", "kind": "storage" }, { "from": "array-ports", "to": "mapping", "kind": "control" }, { "from": "mapping", "to": "volume", "kind": "storage" }
+    ] },
+    "integration": { "nodes": [
+      { "id": "application", "name": "Aplicación", "subtitle": "VM / servicio", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 4 },
+      { "id": "lan", "name": "LAN", "subtitle": "Usuarios y dependencias", "x": 0.32, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "san", "name": "SAN", "subtitle": "Datastore / LUN", "x": 0.32, "y": 0.75, "kind": "network", "capacity": 80 },
+      { "id": "firewall", "name": "Firewall", "subtitle": "Norte-sur / este-oeste", "x": 0.58, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "identity", "name": "Identidad / DNS", "subtitle": "Dependencia", "x": 0.8, "y": 0.25, "kind": "external", "capacity": 70 },
+      { "id": "storage", "name": "Storage", "subtitle": "Datos", "x": 0.8, "y": 0.75, "kind": "storage", "capacity": 80 }
+    ], "edges": [
+      { "from": "application", "to": "lan", "kind": "data" }, { "from": "application", "to": "san", "kind": "storage" }, { "from": "lan", "to": "firewall", "kind": "data" }, { "from": "firewall", "to": "identity", "kind": "dependency" }, { "from": "san", "to": "storage", "kind": "storage" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "host", "name": "Host", "subtitle": "NIC / HBA", "x": 0.08, "y": 0.3, "kind": "compute", "capacity": 80 },
+      { "id": "vlan", "name": "VLAN / trunk", "subtitle": "LAN", "x": 0.28, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "underlay", "name": "Underlay / MTU", "subtitle": "Camino físico", "x": 0.48, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "fabric", "name": "Fabric FC", "subtitle": "Zoning", "x": 0.68, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "routing", "name": "Routing / firewall", "subtitle": "Retorno", "x": 0.88, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "service", "name": "Servicio", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "host", "to": "vlan", "kind": "data" }, { "from": "vlan", "to": "underlay", "kind": "dependency" }, { "from": "host", "to": "fabric", "kind": "storage" }, { "from": "underlay", "to": "routing", "kind": "data" }, { "from": "fabric", "to": "service", "kind": "storage" }, { "from": "routing", "to": "service", "kind": "dependency" }
+    ] }
+  }
+}
