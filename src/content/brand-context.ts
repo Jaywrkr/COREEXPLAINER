@@ -38,4 +38,12 @@ export const brandContext = {
     { name: "Aruba HPE", role: "Red del sitio alterno", scope: "La recuperación depende de conectividad; el diagrama no diseña el underlay." },
     { name: "Check Point", role: "Seguridad de recuperación", scope: "Las reglas deben probarse junto con identidad, DNS y tráfico de aplicación." },
   ] satisfies BrandContextItem[],
+  ransomware: [
+    { name: "Check Point", role: "Prevención, detección y contención", scope: "La protección combina exposición, endpoint, segmentación y políticas; validar productos y cobertura." },
+    { name: "VMware/Broadcom", role: "Workloads virtualizados", scope: "La segmentación y las cargas dependen de vSphere/VCF/NSX y su configuración real." },
+    { name: "Aruba HPE", role: "Conectividad y aislamiento", scope: "El underlay y los controles de red deben diseñarse y probarse por separado." },
+    { name: "Veeam", role: "Copia inmutable y recuperación", scope: "La inmutabilidad depende del repositorio, política, credenciales y licencia." },
+    { name: "IBM", role: "Detección y copias protegidas de storage", scope: "FlashSystem puede detectar anomalías y conservar copias; confirmar modelo y código." },
+    { name: "Lenovo", role: "Plataforma de reconstrucción", scope: "ThinkSystem representa capacidad para recuperar; validar modelo, firmware y sizing." },
+  ] satisfies BrandContextItem[],
 };

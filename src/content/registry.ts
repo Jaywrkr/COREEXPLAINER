@@ -18,6 +18,8 @@ import { observabilityMeta, observabilitySteps } from "./observability";
 import observabilityRawSpec from "../../docs/examples/observability/animation-spec.json";
 import { backupDrMeta, backupDrSteps } from "./backup-dr";
 import backupDrRawSpec from "../../docs/examples/backup-dr/animation-spec.json";
+import { ransomwareResilienceMeta, ransomwareResilienceSteps } from "./ransomware-resilience";
+import ransomwareResilienceRawSpec from "../../docs/examples/ransomware-resilience/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -98,6 +100,14 @@ const backupDrDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(backupDrRawSpec),
 };
 
+const ransomwareResilienceDefinition: ExplainerDefinition = {
+  slug: "ransomware-resilience",
+  category: "Seguridad",
+  meta: ransomwareResilienceMeta,
+  steps: ransomwareResilienceSteps,
+  spec: parseAnimationSpec(ransomwareResilienceRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
@@ -108,8 +118,9 @@ validateExplainerContent(zeroTrustDefinition);
 validateExplainerContent(kubernetesDefinition);
 validateExplainerContent(observabilityDefinition);
 validateExplainerContent(backupDrDefinition);
+validateExplainerContent(ransomwareResilienceDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);
