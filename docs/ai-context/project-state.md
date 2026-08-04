@@ -3,7 +3,7 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.4.0: hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.5.0: escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -60,7 +60,7 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.4.0)**: control flotante global abajo a la
+- **Versión y changelog (v0.5.0)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
@@ -74,6 +74,10 @@ changelog visible y versionado documentado.
   vecinos directos se resaltan y los elementos no relacionados se atenúan.
   Funciona con pan/zoom y se limpia al salir o cambiar de escena. Ver
   `docs/ai-context/hover-highlighting.md`.
+- **Escenarios interactivos de fallo**: el contenido puede declarar escenarios
+  guiados por escena, con nodos afectados, explicación y limitaciones. VCF
+  incluye fallas de uno o varios hosts y pérdida del plano de gestión. Ver
+  `docs/ai-context/failure-scenarios.md`.
 - **Detalle de nodos**: al hacer clic en una tarjeta del canvas aparece una
   ficha contextual con su `kind`, función genérica, `subtitle`, capacidad,
   tasa de emisión y posibilidad de simular falla. Clic fuera cierra la ficha;
@@ -110,8 +114,9 @@ changelog visible y versionado documentado.
   y revisar la matriz con un especialista del entorno del cliente. Después
   siguen las interacciones de modo presentación, autoplay y navegación por
   teclado. El modo claro/oscuro, pan/zoom y detalle de nodos ya están
-  resueltos, incluido el hover de relaciones. Sigue lo demás, una cosa a la
-  vez.
+  resueltos, incluido el hover de relaciones. El siguiente pulido es el modo
+  presentación/autoplay y la navegación por teclado. Sigue lo demás, una cosa
+  a la vez.
 
 ## Cómo continuar (siguiente sesión)
 

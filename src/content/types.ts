@@ -18,6 +18,24 @@ export interface ExplainerMeta {
   title: string;
   tagline: string;
   ctaLabel: string;
+  /** Optional interactive scenarios shown when their scene is active. */
+  failureScenarios?: FailureScenario[];
+}
+
+/**
+ * A guided, conceptual failure simulation. The engine only applies the
+ * declared dead nodes; all user-facing meaning and limitations belong here
+ * so the same interaction can be reused by future explainers.
+ */
+export interface FailureScenario {
+  id: string;
+  sceneId: string;
+  label: string;
+  summary: string;
+  detail: string;
+  limitation: string;
+  affectedNodes: string[];
+  deadNodeIds: string[];
 }
 
 export interface ExplainerStep {

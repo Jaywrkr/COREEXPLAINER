@@ -1,4 +1,4 @@
-import type { ExplainerMeta, ExplainerStep } from "./types";
+import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
 
 /**
  * Conceptual VCF explainer, framed for a CoreSolutions consultative sales
@@ -6,7 +6,47 @@ import type { ExplainerMeta, ExplainerStep } from "./types";
  * reviewed against the validation matrix before this copy is used externally.
  */
 
+export const vcfFailureScenarios: FailureScenario[] = [
+  {
+    id: "host-failure",
+    sceneId: "cluster",
+    label: "Falla de un host",
+    summary: "Host ESXi 1 deja de responder.",
+    detail:
+      "El host deja de participar en el clúster. vSphere HA puede intentar reiniciar VMs protegidas en otro host si existe capacidad, storage visible y políticas compatibles.",
+    limitation:
+      "La simulación no representa una migración en vivo ni garantiza que todas las VMs se recuperen.",
+    affectedNodes: ["Host ESXi 1"],
+    deadNodeIds: ["host1"],
+  },
+  {
+    id: "multiple-host-failure",
+    sceneId: "cluster",
+    label: "Falla de dos hosts",
+    summary: "Dos hosts quedan fuera del clúster.",
+    detail:
+      "La capacidad disponible se reduce y el margen para reiniciar VMs protegidas es menor. El resultado depende de la reserva, las políticas y la capacidad restante.",
+    limitation:
+      "No implica que el sistema pueda mantener todas las cargas ante cualquier combinación de fallos.",
+    affectedNodes: ["Host ESXi 1", "Host ESXi 2"],
+    deadNodeIds: ["host1", "host2"],
+  },
+  {
+    id: "management-plane-loss",
+    sceneId: "cluster",
+    label: "Pérdida del plano de gestión",
+    summary: "vCenter deja de estar disponible.",
+    detail:
+      "La escena separa la gestión del camino de datos: las VMs que ya están ejecutándose no equivalen automáticamente a una caída, pero las operaciones de administración quedan afectadas.",
+    limitation:
+      "Es una simplificación conceptual; el impacto real depende de la arquitectura y del estado de cada servicio.",
+    affectedNodes: ["vCenter"],
+    deadNodeIds: ["vcenter"],
+  },
+];
+
 export const vcfMeta: ExplainerMeta = {
+  failureScenarios: vcfFailureScenarios,
   chip: "Presentación técnica · VCF",
   title: "Cómo funciona VMware Cloud Foundation",
   tagline:

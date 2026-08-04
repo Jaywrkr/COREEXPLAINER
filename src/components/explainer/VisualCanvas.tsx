@@ -2,14 +2,19 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Scene, SceneNode } from "@/lib/animation-spec/types";
+import type { FailureScenario } from "@/content/types";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { SceneEngine } from "./engine/sceneEngine";
+import { FailureScenarioPanel } from "./FailureScenarioPanel";
 import { NodeDetailCard } from "./NodeDetailCard";
 
 interface VisualCanvasProps {
   scene: Scene;
   selectedNode: SceneNode | null;
   onNodeSelect: (node: SceneNode | null) => void;
+  failureScenarios?: FailureScenario[];
+  activeFailureScenarioId?: string | null;
+  onFailureScenarioChange?: (scenarioId: string | null) => void;
 }
 
 interface Viewport {
@@ -30,6 +35,7 @@ interface PointerDrag {
 const MIN_ZOOM = 0.65;
 const MAX_ZOOM = 2.5;
 const DEFAULT_VIEWPORT: Viewport = { scale: 1, x: 0, y: 0 };
+const NOOP_SCENARIO_CHANGE = () => {};
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -43,11 +49,19 @@ function clamp(value: number, min: number, max: number) {
  * via CSS like everything else; only what SceneEngine draws needs to be
  * told the theme explicitly (canvas can't read CSS variables).
  */
-export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvasProps) {
+export function VisualCanvas({
+  scene,
+  selectedNode,
+  onNodeSelect,
+  failureScenarios = [],
+  activeFailureScenarioId = null,
+  onFailureScenarioChange = NOOP_SCENARIO_CHANGE,
+}: VisualCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<SceneEngine>(new SceneEngine());
   const viewportRef = useRef<Viewport>(DEFAULT_VIEWPORT);
   const pointerRef = useRef<PointerDrag | null>(null);
+  const preserveManualFailureRef = useRef(false);
   const [viewport, setViewport] = useState<Viewport>(DEFAULT_VIEWPORT);
   const { theme } = useTheme();
 
@@ -78,8 +92,18 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
 
   useEffect(() => {
     engineRef.current.loadScene(scene);
+    preserveManualFailureRef.current = false;
     resetViewport();
   }, [scene, resetViewport]);
+
+  useEffect(() => {
+    if (preserveManualFailureRef.current) {
+      preserveManualFailureRef.current = false;
+      return;
+    }
+    const scenario = failureScenarios.find((item) => item.id === activeFailureScenarioId);
+    engineRef.current.setFailureState(scenario?.deadNodeIds ?? []);
+  }, [activeFailureScenarioId, failureScenarios]);
 
   useEffect(() => {
     engineRef.current.setTheme(theme);
@@ -164,6 +188,10 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
           (event.clientY - rect.top - current.y) / current.scale,
         );
         onNodeSelect(node);
+        if (engine.didToggleFailure()) {
+          preserveManualFailureRef.current = true;
+          onFailureScenarioChange(null);
+        }
       }
 
       const hoveredNode = engine.getNodeAt(
@@ -224,7 +252,7 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
       canvas.removeEventListener("pointercancel", handlePointerCancel);
       canvas.removeEventListener("pointerleave", handlePointerLeave);
     };
-  }, [onNodeSelect, updateViewport, zoomAt]);
+  }, [onFailureScenarioChange, onNodeSelect, updateViewport, zoomAt]);
 
   return (
     <div className="relative h-full w-full">
@@ -234,6 +262,11 @@ export function VisualCanvas({ scene, selectedNode, onNodeSelect }: VisualCanvas
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
       {selectedNode ? <NodeDetailCard node={selectedNode} onClose={() => onNodeSelect(null)} /> : null}
+      <FailureScenarioPanel
+        scenarios={failureScenarios}
+        activeScenarioId={activeFailureScenarioId}
+        onSelectScenario={onFailureScenarioChange}
+      />
       <div className="absolute left-4 top-4 flex border border-core-border/[0.14] bg-core-panel font-mono text-xs text-core-text-secondary shadow-sm">
         <button
           type="button"
