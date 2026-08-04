@@ -1,13 +1,13 @@
 # Estado del proyecto
 
-**Estado v0.12.0 (04-08-2026)**: se incorporó el tema independiente
-`/explainer/zero-trust` con cinco escenas, cuatro escenarios de límites y
-documentación técnica en `docs/ai-context/zero-trust-technical-validation.md`.
+**Estado v0.13.0 (04-08-2026)**: se incorporó el tema independiente
+`/explainer/kubernetes` con cinco escenas, cuatro escenarios de límites y
+documentación técnica en `docs/ai-context/kubernetes-technical-validation.md`.
 
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.12.0: explainer independiente de Zero Trust + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.13.0: explainers independientes de Zero Trust y Kubernetes + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -107,6 +107,9 @@ changelog visible y versionado documentado.
 - **Quinto tema**: Zero Trust y decisiones de acceso está disponible en
   `/explainer/zero-trust`, con cinco escenas, escenarios de fallo y matriz
   técnica basados en NIST/CISA.
+- **Sexto tema**: Kubernetes y el viaje de una aplicación está disponible en
+  `/explainer/kubernetes`, con cinco escenas, escenarios de fallo y matriz
+  técnica basada en documentación oficial de Kubernetes.
 - **Detalle de nodos**: al hacer clic en una tarjeta del canvas aparece una
   ficha contextual con su `kind`, función genérica, `subtitle`, capacidad,
   tasa de emisión y posibilidad de simular falla. Clic fuera cierra la ficha;
@@ -130,7 +133,7 @@ changelog visible y versionado documentado.
 - **Validación de contenido** (`ExplainerStep[]`) equivalente a
   `parseAnimationSpec()` — hoy el contenido de ejemplo se confía porque se
   escribió a mano. Necesaria antes de aceptar contenido generado.
-- Hay cinco temas conceptuales (VCF, vSphere HA, vSAN, NSX y Zero Trust). No hay galería ni persistencia.
+- Hay seis temas conceptuales (VCF, vSphere HA, vSAN, NSX, Zero Trust y Kubernetes). No hay galería ni persistencia.
 - Logo real de CoreSolutions (hoy es un bloque de texto "COI" provisional,
   ver `src/components/explainer/BrandMark.tsx`).
 - El layout de dos columnas oculta el canvas en pantallas angostas
@@ -145,7 +148,7 @@ changelog visible y versionado documentado.
 
 ## Cómo continuar (siguiente sesión)
 
-La base ya contiene cinco temas conceptuales (VCF, vSphere HA, vSAN, NSX y Zero Trust). El siguiente
+La base ya contiene seis temas conceptuales (VCF, vSphere HA, vSAN, NSX, Zero Trust y Kubernetes). El siguiente
 tema debe reutilizar el registro, el quality gate y la gramática visual; no
 debe mezclar detalles especializados dentro del grafo principal de VCF.
 

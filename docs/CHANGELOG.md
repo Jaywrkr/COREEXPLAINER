@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.13.0] - 2026-08-04
+
+- Nuevo tema independiente con cinco escenas sobre estado deseado, scheduling, Services, rollouts y recuperación.
+- Escenarios interactivos para falla de nodo, readiness, descarga de imágenes y recursos insuficientes.
+- Storyboard y matriz de validación basados en la documentación oficial de Kubernetes.
+
 ## [0.12.0] - 2026-08-04
 
 - Nuevo tema independiente con cinco escenas sobre solicitudes, contexto, decisión, enforcement y límites.
