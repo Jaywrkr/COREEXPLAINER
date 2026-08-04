@@ -17,6 +17,12 @@ La revisión se contrastó con documentación primaria de VMware by Broadcom el
 - [DFW bloqueando tráfico en el punto de enforcement](https://knowledge.broadcom.com/external/article/425834/network-connectivity-issues-on-vms-with.html)
 - [Política de seguridad de segmento y DHCP](https://knowledge.broadcom.com/external/article/433269/virtual-machine-network-connectivity-los.html)
 
+## Registro de revisión
+
+- Última revisión: `2026-08-04`.
+- Fecha de consulta de las fuentes enlazadas: `2026-08-04`.
+- La ficha visible en `/explainer/nsx` replica este alcance y sus enlaces.
+
 ## Matriz de afirmaciones
 
 | Área | Decisión técnica | Tratamiento en la demo |
@@ -40,4 +46,3 @@ La revisión se contrastó con documentación primaria de VMware by Broadcom el
    plataforma y fuente concretas.
 4. Si se agrega NAT, BGP, load balancing, VPN, IDS/IPS o Federation, crear un
    satélite específico en lugar de sobrecargar este ejemplo.
-

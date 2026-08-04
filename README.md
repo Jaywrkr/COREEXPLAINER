@@ -14,6 +14,7 @@ desplegable en Vercel.
 - **¿Vas a añadir fallos interactivos?** [`docs/ai-context/failure-scenarios.md`](./docs/ai-context/failure-scenarios.md).
 - **¿Vas a presentar una explicación?** [`docs/ai-context/presentation-mode.md`](./docs/ai-context/presentation-mode.md).
 - **¿Vas a crear un tema nuevo?** [`docs/ai-context/content-quality-gate.md`](./docs/ai-context/content-quality-gate.md).
+- **¿Vas a revisar la vigencia y las fuentes de un tema?** [`docs/ai-context/technical-traceability.md`](./docs/ai-context/technical-traceability.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 
 ## Correr localmente
@@ -30,6 +31,8 @@ La validación técnica de Zero Trust está en
 [`docs/ai-context/zero-trust-technical-validation.md`](./docs/ai-context/zero-trust-technical-validation.md).
 La validación técnica de Kubernetes está en
 [`docs/ai-context/kubernetes-technical-validation.md`](./docs/ai-context/kubernetes-technical-validation.md).
+En cada explicación, abre “Trazabilidad técnica” para ver la fecha de última
+revisión, el alcance comprobado y las fuentes primarias con su fecha de consulta.
 
 ```bash
 npm install

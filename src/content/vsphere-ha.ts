@@ -58,6 +58,17 @@ export const vsphereHaMeta: ExplainerMeta = {
     "Una explicación visual del reinicio de VMs protegidas, sus condiciones y sus límites.",
   storyboardDoc: "docs/examples/vsphere-ha/storyboard.md",
   technicalValidationDoc: "docs/ai-context/vsphere-ha-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-04",
+    scope: "vSphere HA conceptual; validar release, configuración de clúster, storage y políticas del cliente.",
+    sources: [
+      { title: "Determining why and which virtual machines vSphere HA restarts", url: "https://knowledge.broadcom.com/external/article/316525/determining-why-and-which-virtual-machin.html", accessedAt: "2026-08-04" },
+      { title: "vSphere HA failover: recursos o storage inaccesible", url: "https://knowledge.broadcom.com/external/article/441641/vsphere-ha-failover-fails-with-insuffici.html", accessedAt: "2026-08-04" },
+      { title: "vSphere HA y reglas de clúster", url: "https://knowledge.broadcom.com/external/article/439262/vsphere-ha-fails-to-restart-vms-in-a-clu.html", accessedAt: "2026-08-04" },
+      { title: "vSphere HA y máximo de reintentos de reinicio", url: "https://knowledge.broadcom.com/external/article/432033/vsphere-ha-virtual-machine-failover-fail.html", accessedAt: "2026-08-04" },
+      { title: "Falla de múltiples hosts y capacidad de admission control", url: "https://knowledge.broadcom.com/external/article/429590/virtual-machines-fail-to-failover-and-re.html", accessedAt: "2026-08-04" },
+    ],
+  },
   reviewStatus: "pending",
   failureScenarios: vsphereHaFailureScenarios,
 };

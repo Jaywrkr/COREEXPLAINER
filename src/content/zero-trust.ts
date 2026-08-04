@@ -58,6 +58,16 @@ export const zeroTrustMeta: ExplainerMeta = {
     "Una explicación visual de identidad, contexto, política, enforcement y respuesta.",
   storyboardDoc: "docs/examples/zero-trust/storyboard.md",
   technicalValidationDoc: "docs/ai-context/zero-trust-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-04",
+    scope: "Arquitectura Zero Trust conceptual basada en NIST SP 800-207 y CISA ZTMM v2; sin producto específico.",
+    sources: [
+      { title: "NIST SP 800-207 — Zero Trust Architecture", url: "https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.SP.800-207.pdf", accessedAt: "2026-08-04" },
+      { title: "NIST — componentes y builds de Zero Trust", url: "https://pages.nist.gov/zero-trust-architecture/VolumeB/architecture.html", accessedAt: "2026-08-04" },
+      { title: "NIST — publicación de SP 800-207", url: "https://www.nist.gov/news-events/news/2020/08/zero-trust-architecture-nist-publishes", accessedAt: "2026-08-04" },
+      { title: "CISA Zero Trust Maturity Model v2", url: "https://www.cisa.gov/sites/default/files/2023-04/CISA_Zero_Trust_Maturity_Model_Version_2_508c.pdf", accessedAt: "2026-08-04" },
+    ],
+  },
   reviewStatus: "pending",
   failureScenarios: zeroTrustFailureScenarios,
 };
@@ -129,4 +139,3 @@ export const zeroTrustSteps: ExplainerStep[] = [
     caption: "Identidad · dispositivo · política · telemetría · respuesta",
   },
 ];
-

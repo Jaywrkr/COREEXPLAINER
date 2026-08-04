@@ -17,6 +17,12 @@ Broadcom disponible el 04-08-2026:
 - [vSphere HA — condiciones de reinicio tras una falla](https://knowledge.broadcom.com/external/article/316525/determining-why-and-which-virtual-machin.html)
 - [vSphere HA — fallos por capacidad o visibilidad de storage](https://knowledge.broadcom.com/external/article/441641/vsphere-ha-failover-fails-with-insuffici.html)
 
+## Registro de revisión
+
+- Última revisión: `2026-08-04`.
+- Fecha de consulta de las fuentes enlazadas: `2026-08-04`.
+- La ficha visible en `/explainer/vcf` replica este alcance y sus enlaces.
+
 ## Matriz de afirmaciones
 
 | Área | Tratamiento anterior | Decisión técnica | Estado |

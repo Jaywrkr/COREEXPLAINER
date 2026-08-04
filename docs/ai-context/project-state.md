@@ -1,13 +1,14 @@
 # Estado del proyecto
 
-**Estado v0.13.0 (04-08-2026)**: se incorporó el tema independiente
+**Estado v0.13.1 (04-08-2026)**: cada explicación muestra trazabilidad técnica
+con fecha de revisión, alcance y fuentes consultadas. Se mantiene el tema independiente
 `/explainer/kubernetes` con cinco escenas, cuatro escenarios de límites y
 documentación técnica en `docs/ai-context/kubernetes-technical-validation.md`.
 
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.13.0: explainers independientes de Zero Trust y Kubernetes + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.13.1: trazabilidad técnica visible por explicación, con fecha de revisión, alcance y fuentes enlazadas + explainers independientes de Zero Trust y Kubernetes + panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -64,11 +65,15 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.11.1)**: control flotante global abajo a la
+- **Versión y changelog (v0.13.1)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
   `docs/ai-context/release-versioning.md`.
+- **Trazabilidad técnica (v0.13.1)**: cada tema declara `lastReviewedAt`, un
+  alcance explícito y una lista de fuentes HTTPS con su fecha de consulta. La
+  ficha desplegable “Trazabilidad técnica” lo muestra junto al guion y el gate
+  de contenido valida que no falte ni tenga fechas o enlaces inválidos.
 - **Auditoría técnica de VCF**: el ejemplo ahora se presenta explícitamente
   como modelo conceptual. Se corrigieron afirmaciones absolutas sobre consola
   única, failover, SLA y camino de datos; se separó el clúster de cómputo del
@@ -93,7 +98,8 @@ changelog visible y versionado documentado.
   referencias a escenas, IDs, escenarios de fallo y documentación técnica.
   Los errores bloquean el build; `reviewStatus` distingue estructura completa
   de revisión especialista pendiente. Ver
-  `docs/ai-context/content-quality-gate.md`.
+  `docs/ai-context/content-quality-gate.md`. Cada tema también declara la
+  fecha de revisión, alcance y fuentes consultadas, visibles en su ficha.
 - **Lenguaje visual de diagramas**: cada relación declara si representa datos,
   control, storage, dependencia o fallo. La leyenda permite filtrar capas y
   relaciones sin cambiar la simulación interna. Ver

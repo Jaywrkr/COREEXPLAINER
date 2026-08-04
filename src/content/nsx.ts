@@ -58,6 +58,18 @@ export const nsxMeta: ExplainerMeta = {
     "Una explicación visual de segmentos, overlay, firewall distribuido y gateways.",
   storyboardDoc: "docs/examples/nsx/storyboard.md",
   technicalValidationDoc: "docs/ai-context/nsx-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-04",
+    scope: "NSX conceptual; validar release, transport nodes, TEP/underlay, DFW y gateways del entorno.",
+    sources: [
+      { title: "Gateway Firewalls y Distributed Firewall", url: "https://www.vmware.com/docs/well-architected-design-gateway-firewalls-use-cases-and-scope", accessedAt: "2026-08-04" },
+      { title: "NSX transport node profiles y overlay en VCF", url: "https://knowledge.broadcom.com/external/article/316037/cloud-foundation-cluster-nsx-transport-n.html", accessedAt: "2026-08-04" },
+      { title: "GENEVE/TEP y underlay incorrecto", url: "https://knowledge.broadcom.com/external/article/436129/traffic-from-virtual-machines-fails-to-r.html", accessedAt: "2026-08-04" },
+      { title: "Distributed Firewall: reglas, scope y Applied To", url: "https://knowledge.broadcom.com/external/article/395504", accessedAt: "2026-08-04" },
+      { title: "DFW bloqueando tráfico en el punto de enforcement", url: "https://knowledge.broadcom.com/external/article/425834/network-connectivity-issues-on-vms-with.html", accessedAt: "2026-08-04" },
+      { title: "Política de seguridad de segmento y DHCP", url: "https://knowledge.broadcom.com/external/article/433269/virtual-machine-network-connectivity-los.html", accessedAt: "2026-08-04" },
+    ],
+  },
   reviewStatus: "pending",
   failureScenarios: nsxFailureScenarios,
 };

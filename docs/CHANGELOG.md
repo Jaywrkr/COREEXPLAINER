@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.13.1] - 2026-08-04
+
+- Cada explicación muestra la fecha de última revisión y el alcance de versiones o conceptos comprobado.
+- Las fuentes primarias aparecen con enlaces directos y fecha de consulta.
+- El quality gate bloquea temas sin metadatos de trazabilidad válidos.
+
 ## [0.13.0] - 2026-08-04
 
 - Nuevo tema independiente con cinco escenas sobre estado deseado, scheduling, Services, rollouts y recuperación.
