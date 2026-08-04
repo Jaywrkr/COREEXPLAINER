@@ -3,7 +3,7 @@
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.7.0: control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.8.0: lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -60,7 +60,7 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.7.0)**: control flotante global abajo a la
+- **Versión y changelog (v0.8.0)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
@@ -87,6 +87,10 @@ changelog visible y versionado documentado.
   Los errores bloquean el build; `reviewStatus` distingue estructura completa
   de revisión especialista pendiente. Ver
   `docs/ai-context/content-quality-gate.md`.
+- **Lenguaje visual de diagramas**: cada relación declara si representa datos,
+  control, storage, dependencia o fallo. La leyenda permite filtrar capas y
+  relaciones sin cambiar la simulación interna. Ver
+  `docs/ai-context/visual-language.md`.
 - **Detalle de nodos**: al hacer clic en una tarjeta del canvas aparece una
   ficha contextual con su `kind`, función genérica, `subtitle`, capacidad,
   tasa de emisión y posibilidad de simular falla. Clic fuera cierra la ficha;
@@ -123,9 +127,9 @@ changelog visible y versionado documentado.
   y revisar la matriz con un especialista del entorno del cliente. Después
   siguen las interacciones de modo presentación, autoplay y navegación por
   teclado. El modo claro/oscuro, pan/zoom y detalle de nodos ya están
-  resueltos, incluido el hover de relaciones y el modo presentación guiada. El
-  siguiente paso es crear un segundo tema usando el nuevo gate como prueba.
-  Sigue lo demás, una cosa a la vez.
+  resueltos, incluido el hover de relaciones, el modo presentación guiada y el
+  lenguaje visual. El siguiente paso es crear un segundo tema usando el gate y
+  la gramática visual como prueba. Sigue lo demás, una cosa a la vez.
 
 ## Cómo continuar (siguiente sesión)
 

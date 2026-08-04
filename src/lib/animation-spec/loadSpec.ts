@@ -1,4 +1,6 @@
-import type { AnimationSpec, Scene } from "./types";
+import type { AnimationSpec, EdgeKind, Scene } from "./types";
+
+const EDGE_KINDS: EdgeKind[] = ["data", "control", "storage", "dependency", "failure"];
 
 export class AnimationSpecError extends Error {}
 
@@ -37,7 +39,13 @@ export function parseAnimationSpec(raw: unknown): AnimationSpec {
       throw new AnimationSpecError(`scene '${sceneId}' 'edges' must be an array`);
     }
 
-    const nodeIds = new Set(scene.nodes.map((n) => n.id));
+    const nodeIds = new Set<string>();
+    for (const node of scene.nodes) {
+      if (nodeIds.has(node.id)) {
+        throw new AnimationSpecError(`scene '${sceneId}': duplicate node id '${node.id}'`);
+      }
+      nodeIds.add(node.id);
+    }
     for (const edge of scene.edges) {
       if (!nodeIds.has(edge.from)) {
         throw new AnimationSpecError(
@@ -46,6 +54,11 @@ export function parseAnimationSpec(raw: unknown): AnimationSpec {
       }
       if (!nodeIds.has(edge.to)) {
         throw new AnimationSpecError(`scene '${sceneId}': edge references unknown node '${edge.to}'`);
+      }
+      if (!EDGE_KINDS.includes(edge.kind)) {
+        throw new AnimationSpecError(
+          `scene '${sceneId}': edge '${edge.from}' -> '${edge.to}' has unsupported kind '${String(edge.kind)}'`,
+        );
       }
     }
   }

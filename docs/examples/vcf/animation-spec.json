@@ -21,10 +21,10 @@
         { "id": "app", "name": "Apps del negocio", "x": 0.92, "y": 0.5, "kind": "workload" }
       ],
       "edges": [
-        { "from": "compute", "to": "vcf" },
-        { "from": "storage", "to": "vcf" },
-        { "from": "network", "to": "vcf" },
-        { "from": "vcf", "to": "app" }
+        { "from": "compute", "to": "vcf", "kind": "dependency" },
+        { "from": "storage", "to": "vcf", "kind": "storage" },
+        { "from": "network", "to": "vcf", "kind": "dependency" },
+        { "from": "vcf", "to": "app", "kind": "data" }
       ]
     },
     "cluster": {
@@ -37,15 +37,15 @@
         { "id": "vcenter", "name": "vCenter", "subtitle": "Gestión de vSphere", "x": 0.78, "y": 0.5, "kind": "control-plane" }
       ],
       "edges": [
-        { "from": "vcenter", "to": "host1" },
-        { "from": "vcenter", "to": "host2" },
-        { "from": "vcenter", "to": "host3" },
-        { "from": "host1", "to": "vsan" },
-        { "from": "host2", "to": "vsan" },
-        { "from": "host3", "to": "vsan" },
-        { "from": "host1", "to": "nsx" },
-        { "from": "host2", "to": "nsx" },
-        { "from": "host3", "to": "nsx" }
+        { "from": "vcenter", "to": "host1", "kind": "control" },
+        { "from": "vcenter", "to": "host2", "kind": "control" },
+        { "from": "vcenter", "to": "host3", "kind": "control" },
+        { "from": "host1", "to": "vsan", "kind": "storage" },
+        { "from": "host2", "to": "vsan", "kind": "storage" },
+        { "from": "host3", "to": "vsan", "kind": "storage" },
+        { "from": "host1", "to": "nsx", "kind": "dependency" },
+        { "from": "host2", "to": "nsx", "kind": "dependency" },
+        { "from": "host3", "to": "nsx", "kind": "dependency" }
       ]
     },
     "workloads": {
@@ -58,11 +58,11 @@
         { "id": "app3", "name": "App / VM 3", "x": 0.82, "y": 0.82, "kind": "workload", "capacity": 40, "killable": true }
       ],
       "edges": [
-        { "from": "client", "to": "cluster" },
-        { "from": "vcf", "to": "cluster" },
-        { "from": "cluster", "to": "app1" },
-        { "from": "cluster", "to": "app2" },
-        { "from": "cluster", "to": "app3" }
+        { "from": "client", "to": "cluster", "kind": "data" },
+        { "from": "vcf", "to": "cluster", "kind": "control" },
+        { "from": "cluster", "to": "app1", "kind": "data" },
+        { "from": "cluster", "to": "app2", "kind": "data" },
+        { "from": "cluster", "to": "app3", "kind": "data" }
       ]
     }
   }

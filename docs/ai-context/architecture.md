@@ -4,6 +4,7 @@
 
 El modo presentación está documentado en `docs/ai-context/presentation-mode.md`.
 El gate de contenido está documentado en `docs/ai-context/content-quality-gate.md`.
+El lenguaje visual de relaciones y capas está documentado en `docs/ai-context/visual-language.md`.
 
 La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
 Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.

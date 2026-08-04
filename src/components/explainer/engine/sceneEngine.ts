@@ -1,4 +1,4 @@
-import type { Scene, SceneEdge, SceneNode } from "@/lib/animation-spec/types";
+import type { EdgeKind, NodeKind, Scene, SceneEdge, SceneNode } from "@/lib/animation-spec/types";
 import type { Theme } from "@/lib/theme/ThemeProvider";
 import { palettes, withAlpha, type Palette } from "./palette";
 import { drawKindIcon } from "./icons";
@@ -45,6 +45,7 @@ interface RuntimeNode extends SceneNode {
 }
 
 interface Packet {
+  fromId: string;
   fromX: number;
   fromY: number;
   toX: number;
@@ -57,6 +58,27 @@ interface Packet {
 interface Point {
   x: number;
   y: number;
+}
+
+interface EdgeStyle {
+  color: string;
+  dash: number[];
+  width: number;
+}
+
+function edgeStyle(kind: EdgeKind, palette: Palette): EdgeStyle {
+  switch (kind) {
+    case "data":
+      return { color: palette.accent, dash: [], width: 1.4 };
+    case "control":
+      return { color: palette.navy, dash: [5, 4], width: 1.2 };
+    case "storage":
+      return { color: palette.textMuted, dash: [2, 3], width: 1.4 };
+    case "failure":
+      return { color: palette.error, dash: [7, 3], width: 1.4 };
+    case "dependency":
+      return { color: palette.textSecondary, dash: [1, 4], width: 1.2 };
+  }
 }
 
 function edgePoint(fromX: number, fromY: number, toX: number, toY: number): Point {
@@ -93,6 +115,8 @@ export class SceneEngine {
   private palette: Palette = palettes.dark;
   private hoveredNodeId: string | null = null;
   private lastClickToggledFailure = false;
+  private hiddenNodeKinds = new Set<NodeKind>();
+  private hiddenEdgeKinds = new Set<EdgeKind>();
 
   loadScene(scene: Scene) {
     this.nodes = scene.nodes.map((n) => ({ ...n, rx: 0, dead: false, emitAccumMs: 0, decayAccumMs: 0 }));
@@ -115,6 +139,16 @@ export class SceneEngine {
     this.hoveredNodeId = nodeId;
   }
 
+  setVisibility(hiddenNodeKinds: ReadonlySet<NodeKind>, hiddenEdgeKinds: ReadonlySet<EdgeKind>) {
+    this.hiddenNodeKinds = new Set(hiddenNodeKinds);
+    this.hiddenEdgeKinds = new Set(hiddenEdgeKinds);
+    const hovered = this.hoveredNodeId ? this.nodeById(this.hoveredNodeId) : null;
+    if (hovered && this.hiddenNodeKinds.has(hovered.kind)) this.hoveredNodeId = null;
+    for (const node of this.nodes) {
+      if (this.hiddenNodeKinds.has(node.kind)) node.killButton = undefined;
+    }
+  }
+
   /** Apply a guided scenario by setting the declared nodes unavailable. */
   setFailureState(deadNodeIds: readonly string[]) {
     const dead = new Set(deadNodeIds);
@@ -127,6 +161,22 @@ export class SceneEngine {
 
   private nodeById(id: string) {
     return this.nodes.find((n) => n.id === id);
+  }
+
+  private isNodeVisible(node: SceneNode) {
+    return !this.hiddenNodeKinds.has(node.kind);
+  }
+
+  private isEdgeVisible(edge: SceneEdge) {
+    const from = this.nodeById(edge.from);
+    const to = this.nodeById(edge.to);
+    return Boolean(
+      from &&
+        to &&
+        !this.hiddenEdgeKinds.has(edge.kind) &&
+        this.isNodeVisible(from) &&
+        this.isNodeVisible(to),
+    );
   }
 
   private toPixels(node: SceneNode): Point {
@@ -143,6 +193,7 @@ export class SceneEngine {
   private nodeAt(x: number, y: number): RuntimeNode | null {
     for (let index = this.nodes.length - 1; index >= 0; index -= 1) {
       const node = this.nodes[index]!;
+      if (!this.isNodeVisible(node)) continue;
       const center = this.toPixels(node);
       if (
         x >= center.x - CARD_W / 2 &&
@@ -166,6 +217,7 @@ export class SceneEngine {
     const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y);
     const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y);
     this.packets.push({
+      fromId: from.id,
       fromX: p1.x,
       fromY: p1.y,
       toX: p2.x,
@@ -248,16 +300,17 @@ export class SceneEngine {
     if (clear) ctx.clearRect(0, 0, this.width, this.height);
 
     for (const edge of this.edges) {
+      if (!this.isEdgeVisible(edge)) continue;
       const from = this.nodeById(edge.from);
       const to = this.nodeById(edge.to);
-      if (from && to) this.drawEdge(ctx, from, to);
+      if (from && to) this.drawEdge(ctx, edge, from, to);
     }
 
     for (const packet of this.packets) this.drawPacket(ctx, packet);
     for (const node of this.nodes) this.drawNode(ctx, node);
   }
 
-  private drawEdge(ctx: CanvasRenderingContext2D, a: SceneNode, b: SceneNode) {
+  private drawEdge(ctx: CanvasRenderingContext2D, edge: SceneEdge, a: SceneNode, b: SceneNode) {
     const pa = this.toPixels(a);
     const pb = this.toPixels(b);
     const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y);
@@ -266,19 +319,22 @@ export class SceneEngine {
     const hasHover = this.hoveredNodeId !== null;
     const highlighted = this.hoveredNodeId === a.id || this.hoveredNodeId === b.id;
 
+    const style = edgeStyle(edge.kind, this.palette);
     ctx.strokeStyle = highlighted
       ? withAlpha(this.palette.accent, 0.7)
-      : withAlpha(this.palette.text, hasHover ? 0.06 : 0.14);
-    ctx.lineWidth = highlighted ? 2 : 1.2;
+      : withAlpha(style.color, hasHover ? 0.12 : 0.7);
+    ctx.lineWidth = highlighted ? Math.max(2, style.width + 0.6) : style.width;
+    ctx.setLineDash(style.dash);
     ctx.beginPath();
     ctx.moveTo(p1.x, p1.y);
     ctx.lineTo(p2.x, p2.y);
     ctx.stroke();
+    ctx.setLineDash([]);
 
     const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
     ctx.fillStyle = highlighted
       ? withAlpha(this.palette.accent, 0.85)
-      : withAlpha(this.palette.text, hasHover ? 0.14 : 0.3);
+      : withAlpha(style.color, hasHover ? 0.18 : 0.75);
     ctx.beginPath();
     ctx.moveTo(p2.x, p2.y);
     ctx.lineTo(p2.x - 6 * Math.cos(angle - 0.5), p2.y - 6 * Math.sin(angle - 0.5));
@@ -288,6 +344,7 @@ export class SceneEngine {
   }
 
   private drawNode(ctx: CanvasRenderingContext2D, node: RuntimeNode) {
+    if (!this.isNodeVisible(node)) return;
     const center = this.toPixels(node);
     const x = center.x - CARD_W / 2;
     const y = center.y - CARD_H / 2;
@@ -394,6 +451,9 @@ export class SceneEngine {
   }
 
   private drawPacket(ctx: CanvasRenderingContext2D, packet: Packet) {
+    const from = this.nodeById(packet.fromId);
+    const to = this.nodeById(packet.toId);
+    if (!from || !to || !this.isNodeVisible(from) || !this.isNodeVisible(to)) return;
     const x = packet.fromX + (packet.toX - packet.fromX) * packet.progress;
     const y = packet.fromY + (packet.toY - packet.fromY) * packet.progress;
 
