@@ -1,5 +1,6 @@
 import type { Scene, SceneEdge, SceneNode } from "@/lib/animation-spec/types";
-import { palette } from "./palette";
+import type { Theme } from "@/lib/theme/ThemeProvider";
+import { palettes, withAlpha, type Palette } from "./palette";
 import { drawKindIcon } from "./icons";
 
 /**
@@ -22,14 +23,17 @@ const TRAVEL_MS = 1000;
 const CAPACITY_DECAY_MS = 300;
 const KILL_BUTTON_RADIUS = 10;
 
-const KIND_COLOR: Record<SceneNode["kind"], string> = {
-  "control-plane": palette.navy,
-  compute: palette.accent,
-  storage: palette.textMuted,
-  network: palette.textSecondary,
-  workload: palette.success,
-  external: palette.accent,
-};
+function kindColor(kind: SceneNode["kind"], palette: Palette): string {
+  const map: Record<SceneNode["kind"], string> = {
+    "control-plane": palette.navy,
+    compute: palette.accent,
+    storage: palette.textMuted,
+    network: palette.textSecondary,
+    workload: palette.success,
+    external: palette.accent,
+  };
+  return map[kind];
+}
 
 interface RuntimeNode extends SceneNode {
   rx: number;
@@ -86,6 +90,7 @@ export class SceneEngine {
   private packets: Packet[] = [];
   private width = 0;
   private height = 0;
+  private palette: Palette = palettes.dark;
 
   loadScene(scene: Scene) {
     this.nodes = scene.nodes.map((n) => ({ ...n, rx: 0, dead: false, emitAccumMs: 0, decayAccumMs: 0 }));
@@ -96,6 +101,10 @@ export class SceneEngine {
   setSize(width: number, height: number) {
     this.width = width;
     this.height = height;
+  }
+
+  setTheme(theme: Theme) {
+    this.palette = palettes[theme];
   }
 
   private nodeById(id: string) {
@@ -125,7 +134,7 @@ export class SceneEngine {
       toY: p2.y,
       progress: 0,
       toId: to.id,
-      color: KIND_COLOR[from.kind],
+      color: kindColor(from.kind, this.palette),
     });
   }
 
@@ -207,7 +216,7 @@ export class SceneEngine {
     const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y);
     const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y);
 
-    ctx.strokeStyle = "rgba(245,246,250,0.14)";
+    ctx.strokeStyle = withAlpha(this.palette.text, 0.14);
     ctx.lineWidth = 1.2;
     ctx.beginPath();
     ctx.moveTo(p1.x, p1.y);
@@ -215,7 +224,7 @@ export class SceneEngine {
     ctx.stroke();
 
     const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
-    ctx.fillStyle = "rgba(245,246,250,0.3)";
+    ctx.fillStyle = withAlpha(this.palette.text, 0.3);
     ctx.beginPath();
     ctx.moveTo(p2.x, p2.y);
     ctx.lineTo(p2.x - 6 * Math.cos(angle - 0.5), p2.y - 6 * Math.sin(angle - 0.5));
@@ -228,14 +237,14 @@ export class SceneEngine {
     const center = this.toPixels(node);
     const x = center.x - CARD_W / 2;
     const y = center.y - CARD_H / 2;
-    const color = KIND_COLOR[node.kind];
+    const color = kindColor(node.kind, this.palette);
 
     ctx.save();
     if (node.dead) ctx.globalAlpha = 0.4;
 
-    ctx.fillStyle = palette.panel;
+    ctx.fillStyle = this.palette.panel;
     ctx.fillRect(x, y, CARD_W, CARD_H);
-    ctx.strokeStyle = "rgba(245,246,250,0.09)";
+    ctx.strokeStyle = withAlpha(this.palette.text, 0.09);
     ctx.lineWidth = 1;
     ctx.strokeRect(x + 0.5, y + 0.5, CARD_W - 1, CARD_H - 1);
 
@@ -247,7 +256,7 @@ export class SceneEngine {
 
     const textX = x + 8 + iconSize + 8;
     const nameFont = '600 11px "IBM Plex Sans", sans-serif';
-    ctx.fillStyle = palette.text;
+    ctx.fillStyle = this.palette.text;
     ctx.font = nameFont;
     ctx.textBaseline = "middle";
     ctx.fillText(
@@ -261,13 +270,13 @@ export class SceneEngine {
       const barW = CARD_W - (textX - x) - 10;
       const barX = textX;
       const barY = y + CARD_H - 11;
-      ctx.fillStyle = "rgba(245,246,250,0.08)";
+      ctx.fillStyle = withAlpha(this.palette.text, 0.08);
       ctx.fillRect(barX, barY, barW, 2.5);
-      ctx.fillStyle = pct > 1 ? palette.error : pct > 0.85 ? palette.warning : palette.success;
+      ctx.fillStyle = pct > 1 ? this.palette.error : pct > 0.85 ? this.palette.warning : this.palette.success;
       ctx.fillRect(barX, barY, barW * Math.min(1, pct), 2.5);
     } else if (node.subtitle) {
       const subFont = '500 9px "IBM Plex Mono", monospace';
-      ctx.fillStyle = palette.textMuted;
+      ctx.fillStyle = this.palette.textMuted;
       ctx.font = subFont;
       ctx.fillText(fitText(ctx, node.subtitle, CARD_W - (textX - x) - 8, subFont), textX, y + 29);
     }
@@ -275,7 +284,7 @@ export class SceneEngine {
     ctx.restore();
 
     if (node.dead) {
-      ctx.strokeStyle = "rgba(194,59,59,0.6)";
+      ctx.strokeStyle = withAlpha(this.palette.error, 0.6);
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       ctx.moveTo(x + 10, y + 10);
@@ -288,11 +297,11 @@ export class SceneEngine {
     if (node.killable) {
       const bx = x + CARD_W - 1;
       const by = y + 1;
-      ctx.fillStyle = node.dead ? palette.success : palette.error;
+      ctx.fillStyle = node.dead ? this.palette.success : this.palette.error;
       ctx.beginPath();
       ctx.arc(bx, by, KILL_BUTTON_RADIUS, 0, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = palette.bg;
+      ctx.strokeStyle = this.palette.bg;
       ctx.lineWidth = 1.6;
       ctx.stroke();
 

@@ -4,7 +4,8 @@
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
 **Última actualización**: 2026-08-04 — Fase 0 (base del proyecto) completada +
-íconos por tipo de nodo + dashboard de temas con categorías.
+íconos por tipo de nodo + dashboard de temas con categorías + modo
+claro/oscuro.
 
 ## Qué está hecho
 
@@ -52,6 +53,14 @@
   reemplazó la carpeta `app/explainer/vcf/`). Agregar un tema nuevo ya no
   requiere crear una ruta: solo una entrada en el registro (ver
   `docs/ai-context/architecture.md`).
+- **Modo claro/oscuro**: toggle global (esquina superior derecha, en todas
+  las páginas), sin flash del tema incorrecto al cargar, persistido en
+  `localStorage`. Paleta como variables CSS por tema
+  (`app/globals.css`) + `src/components/explainer/engine/palette.ts` para
+  el canvas (que no puede leer CSS). Navy/accent/éxito/advertencia/error
+  son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
+  `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
+  color.
 
 ## Qué falta (fuera de alcance de esta fase, deliberadamente)
 
@@ -70,6 +79,12 @@
   para esta fase (uso previsto es laptop/proyector en reunión).
 - No se ha desplegado a Vercel todavía desde este repo (código listo, sin
   probar el deploy real).
+- **Pulido pendiente del ejemplo VCF** (a pedido explícito del usuario,
+  antes de agregar más temas): pan/zoom en el diagrama del canvas, y más
+  interactividad (candidatas discutidas: click en nodo para ver detalle,
+  hover que resalta conexiones, modo autoplay de pasos, navegación por
+  teclado). El modo claro/oscuro (arriba) ya se resolvió; sigue lo demás,
+  una cosa a la vez.
 
 ## Cómo continuar (siguiente sesión)
 

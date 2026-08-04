@@ -17,7 +17,7 @@ export function LeftPanel({ meta, steps, current, onSelectStep, onPrev, onNext, 
   const step = steps[current]!;
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r border-white/[0.09] p-8">
+    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-8">
       <BrandMark />
 
       <span className="mb-4 block font-mono text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-core-accent">

@@ -16,7 +16,7 @@ export function ProgressDots({ count, current, onSelect }: ProgressDotsProps) {
           aria-label={`Ir al paso ${index + 1}`}
           onClick={() => onSelect(index)}
           className={`h-[2px] flex-1 cursor-pointer border-none p-0 transition-colors ${
-            index === current ? "bg-core-accent" : "bg-white/[0.14]"
+            index === current ? "bg-core-accent" : "bg-core-border/[0.14]"
           }`}
         />
       ))}

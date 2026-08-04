@@ -14,7 +14,7 @@ export function StepNav({ canGoPrev, canGoNext, onPrev, onNext, ctaLabel, onCta 
         type="button"
         onClick={onPrev}
         disabled={!canGoPrev}
-        className="border border-white/[0.09] bg-core-panel px-4 py-2 font-sans text-sm font-semibold text-core-text-secondary transition-colors hover:border-white/25 hover:text-core-text disabled:cursor-default disabled:opacity-30 disabled:hover:border-white/[0.09] disabled:hover:text-core-text-secondary"
+        className="border border-core-border/[0.09] bg-core-panel px-4 py-2 font-sans text-sm font-semibold text-core-text-secondary transition-colors hover:border-core-accent hover:text-core-text disabled:cursor-default disabled:opacity-30 disabled:hover:border-core-border/[0.09] disabled:hover:text-core-text-secondary"
       >
         ← Anterior
       </button>
@@ -22,7 +22,7 @@ export function StepNav({ canGoPrev, canGoNext, onPrev, onNext, ctaLabel, onCta 
         type="button"
         onClick={onNext}
         disabled={!canGoNext}
-        className="border border-white/[0.09] bg-core-panel px-4 py-2 font-sans text-sm font-semibold text-core-text-secondary transition-colors hover:border-white/25 hover:text-core-text disabled:cursor-default disabled:opacity-30 disabled:hover:border-white/[0.09] disabled:hover:text-core-text-secondary"
+        className="border border-core-border/[0.09] bg-core-panel px-4 py-2 font-sans text-sm font-semibold text-core-text-secondary transition-colors hover:border-core-accent hover:text-core-text disabled:cursor-default disabled:opacity-30 disabled:hover:border-core-border/[0.09] disabled:hover:text-core-text-secondary"
       >
         Siguiente →
       </button>

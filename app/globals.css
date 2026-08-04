@@ -5,6 +5,49 @@
 :root {
   --font-ibm-plex-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-ibm-plex-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /*
+   * Brand tokens as "R G B" channel triples (no commas), so Tailwind's
+   * opacity modifiers (bg-core-accent/10) work via rgb(var(...) / alpha) —
+   * see tailwind.config.ts. Dark is the default brand identity; light is a
+   * secondary mode. Semantic colors (navy/accent/success/warning/error)
+   * are IDENTICAL in both themes — only the bg/panel/text axis flips. See
+   * docs/product/brand.md.
+   */
+  --color-bg: 10 11 20; /* #0A0B14 */
+  --color-panel: 16 17 28; /* #10111C */
+  --color-text: 245 246 250; /* #F5F6FA */
+  --color-text-secondary: 169 174 194; /* #A9AEC2 */
+  --color-text-muted: 107 112 134; /* #6B7086 */
+  --color-border: 245 246 250; /* hairline base, used at low alpha */
+  --color-navy: 1 9 92; /* #01095C */
+  --color-accent: 59 76 206; /* #3B4CCE */
+  --color-success: 31 157 85; /* #1F9D55 */
+  --color-warning: 214 164 25; /* #D6A419 */
+  --color-error: 194 59 59; /* #C23B3B */
+}
+
+:root[data-theme="light"] {
+  --color-bg: 245 246 250; /* #F5F6FA */
+  --color-panel: 255 255 255;
+  --color-text: 10 11 20; /* #0A0B14 */
+  --color-text-secondary: 61 65 82; /* #3D4152 */
+  --color-text-muted: 107 112 134; /* unchanged, still legible on white */
+  --color-border: 10 11 20; /* hairline base, used at low alpha */
+}
+
+/* No-JS / pre-hydration fallback — the inline script in app/layout.tsx
+   normally sets data-theme before paint, this only matters if JS is
+   disabled entirely. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --color-bg: 245 246 250;
+    --color-panel: 255 255 255;
+    --color-text: 10 11 20;
+    --color-text-secondary: 61 65 82;
+    --color-text-muted: 107 112 134;
+    --color-border: 10 11 20;
+  }
 }
 
 html,
@@ -13,7 +56,8 @@ body {
 }
 
 body {
-  background-color: #0a0b14;
+  background-color: rgb(var(--color-bg));
+  transition: background-color 0.15s ease;
 }
 
 ::selection {
@@ -28,7 +72,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #10111c;
+  background: rgb(var(--color-panel));
 }
 
 ::-webkit-scrollbar-thumb {

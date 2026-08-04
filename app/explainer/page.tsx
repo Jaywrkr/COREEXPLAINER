@@ -35,7 +35,7 @@ export default function ExplainerDashboardPage() {
                 <Link
                   key={entry.slug}
                   href={`/explainer/${entry.slug}`}
-                  className="group flex flex-col justify-between border border-white/[0.09] bg-core-panel p-5 transition-colors hover:border-core-accent"
+                  className="group flex flex-col justify-between border border-core-border/[0.09] bg-core-panel p-5 transition-colors hover:border-core-accent"
                 >
                   <div>
                     <span className="mb-3 block font-mono text-[0.65rem] uppercase tracking-[0.1em] text-core-text-muted">
