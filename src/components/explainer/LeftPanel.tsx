@@ -11,7 +11,6 @@ interface LeftPanelProps {
   onSelectStep: (index: number) => void;
   onPrev: () => void;
   onNext: () => void;
-  onCta: () => void;
   presentationActive: boolean;
   presentationPlaying: boolean;
   onEnterPresentation: () => void;
@@ -27,7 +26,6 @@ export function LeftPanel({
   onSelectStep,
   onPrev,
   onNext,
-  onCta,
   presentationActive,
   presentationPlaying,
   onEnterPresentation,
@@ -69,8 +67,6 @@ export function LeftPanel({
         canGoNext={current < steps.length - 1}
         onPrev={onPrev}
         onNext={onNext}
-        ctaLabel={meta.ctaLabel}
-        onCta={onCta}
       />
       <ProgressDots count={steps.length} current={current} onSelect={onSelectStep} />
       <PresentationControls

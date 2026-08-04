@@ -1,13 +1,13 @@
 # Estado del proyecto
 
-**Estado v0.11.0 (04-08-2026)**: se incorporó el tema independiente
+**Estado v0.11.1 (04-08-2026)**: se incorporó el tema independiente
 `/explainer/nsx` con cinco escenas, cuatro escenarios de límites y
 documentación técnica en `docs/ai-context/nsx-technical-validation.md`.
 
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
-**Última actualización**: 2026-08-04 — v0.11.0: explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
+**Última actualización**: 2026-08-04 — v0.11.1: panel de escenarios minimizable y navegación sin CTAs comerciales + explainers independientes de vSphere HA, vSAN y NSX + lenguaje visual de diagramas + control de calidad de contenido + modo presentación + escenarios interactivos de fallo + hover de relaciones + precisión técnica de VCF +
 changelog visible y versionado documentado.
 
 ## Qué está hecho
@@ -21,7 +21,7 @@ changelog visible y versionado documentado.
   `docs/product/brand.md`.
 - **Layout de dos columnas** (`ExplainerLayout` + `LeftPanel` +
   `VisualCanvas`) con branding, chip de categoría, título, contenido por
-  paso, navegación anterior/siguiente, CTA, y dots de progreso.
+  paso, navegación anterior/siguiente y dots de progreso.
 - **Motor de canvas genérico** (`SceneEngine`,
   `src/components/explainer/engine/sceneEngine.ts`): dibuja nodos y
   aristas, simula paquetes viajando con tasa de emisión (`rps`), fan-out,
@@ -64,7 +64,7 @@ changelog visible y versionado documentado.
   son iguales en ambos temas — solo fondo/panel/texto se invierten. Ver
   `docs/product/brand.md` ("Modo claro/oscuro") antes de tocar cualquier
   color.
-- **Versión y changelog (v0.11.0)**: control flotante global abajo a la
+- **Versión y changelog (v0.11.1)**: control flotante global abajo a la
   izquierda. Abre un panel con historial, se cierra con Escape y toma sus
   datos de `src/content/changelog.ts`. La versión técnica del paquete, la UI
   y el registro Markdown se actualizan de forma coordinada; ver
@@ -81,7 +81,10 @@ changelog visible y versionado documentado.
 - **Escenarios interactivos de fallo**: el contenido puede declarar escenarios
   guiados por escena, con nodos afectados, explicación y limitaciones. VCF
   incluye fallas de uno o varios hosts y pérdida del plano de gestión. Ver
-  `docs/ai-context/failure-scenarios.md`.
+  `docs/ai-context/failure-scenarios.md`. El panel puede minimizarse sin
+  restaurar el escenario activo.
+- **Navegación sin CTA comercial**: los ejemplos solo muestran navegación por
+  pasos y presentación; no renderizan botones de agenda o evaluación.
 - **Modo presentación guiada**: permite activar autoplay, pausar, reiniciar y
   recorrer los pasos con teclado (`←/→`, `Home`, `End`, `Space`, `Escape`). La
   reproducción se detiene al cambiar manualmente de paso o llegar al final.

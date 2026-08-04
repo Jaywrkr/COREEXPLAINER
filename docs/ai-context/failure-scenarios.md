@@ -50,4 +50,5 @@ El ejemplo contiene tres escenarios en la escena `cluster`:
 
 La explicación textual y la matriz de validación de VCF siguen siendo la
 fuente de verdad técnica. El panel solo hace visibles esas condiciones durante
-la conversación.
+la conversación y puede minimizarse para devolver espacio visual al diagrama;
+minimizarlo no restaura ni desactiva el escenario seleccionado.

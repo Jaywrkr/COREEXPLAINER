@@ -12,7 +12,6 @@ interface ExplainerLayoutProps {
   meta: ExplainerMeta;
   steps: ExplainerStep[];
   spec: AnimationSpec;
-  onCta?: () => void;
 }
 
 /**
@@ -21,7 +20,7 @@ interface ExplainerLayoutProps {
  * (src/content), visuals (animation-spec + engine) and layout (this file)
  * stay separate so any of the three can change independently.
  */
-export function ExplainerLayout({ meta, steps, spec, onCta }: ExplainerLayoutProps) {
+export function ExplainerLayout({ meta, steps, spec }: ExplainerLayoutProps) {
   const [current, setCurrent] = useState(0);
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [activeFailureScenarioId, setActiveFailureScenarioId] = useState<string | null>(null);
@@ -155,7 +154,6 @@ export function ExplainerLayout({ meta, steps, spec, onCta }: ExplainerLayoutPro
         onSelectStep={selectStep}
         onPrev={goPrev}
         onNext={goNext}
-        onCta={onCta ?? (() => {})}
         presentationActive={presentationActive}
         presentationPlaying={presentationPlaying}
         onEnterPresentation={enterPresentation}

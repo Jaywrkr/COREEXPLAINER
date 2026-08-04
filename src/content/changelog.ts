@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.11.0";
+export const currentVersion = "0.11.1";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.11.1",
+    date: "04 ago 2026",
+    title: "Controles de interfaz más limpios",
+    changes: [
+      "El panel de escenarios de fallo ahora puede minimizarse sin perder el escenario activo.",
+      "Se retiraron los CTAs comerciales de todos los ejemplos y del contrato de contenido.",
+      "Se actualizaron las guías de contenido, marca y contexto para reflejar la navegación técnica.",
+    ],
+  },
   {
     version: "0.11.0",
     date: "04 ago 2026",
