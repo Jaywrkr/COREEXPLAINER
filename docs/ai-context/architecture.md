@@ -3,6 +3,7 @@
 ## Stack
 
 La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
+Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.
 
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en

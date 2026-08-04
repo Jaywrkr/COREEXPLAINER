@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.4.0";
+export const currentVersion = "0.5.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.5.0",
+    date: "04 ago 2026",
+    title: "Escenarios interactivos de fallo",
+    changes: [
+      "Escenarios guiados para fallas de uno o varios hosts y del plano de gestión.",
+      "Cada escenario explica su efecto, nodos afectados y límites técnicos.",
+      "La simulación se puede restaurar y se reinicia al cambiar de escena.",
+    ],
+  },
   {
     version: "0.4.0",
     date: "04 ago 2026",

@@ -10,6 +10,7 @@ desplegable en Vercel.
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
 - **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
 - **¿Vas a revisar el ejemplo VCF?** [`docs/ai-context/vcf-technical-validation.md`](./docs/ai-context/vcf-technical-validation.md).
+- **¿Vas a añadir fallos interactivos?** [`docs/ai-context/failure-scenarios.md`](./docs/ai-context/failure-scenarios.md).
 
 ## Correr localmente
 

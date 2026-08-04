@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.5.0] - 2026-08-04
+
+- Escenarios guiados para fallas de uno o varios hosts y del plano de gestión.
+- Cada escenario explica su efecto, nodos afectados y límites técnicos.
+- La simulación se puede restaurar y se reinicia al cambiar de escena.
+
 ## [0.4.0] - 2026-08-04
 
 - Hover sobre un nodo para resaltar sus conexiones y componentes relacionados.

@@ -92,12 +92,14 @@ export class SceneEngine {
   private height = 0;
   private palette: Palette = palettes.dark;
   private hoveredNodeId: string | null = null;
+  private lastClickToggledFailure = false;
 
   loadScene(scene: Scene) {
     this.nodes = scene.nodes.map((n) => ({ ...n, rx: 0, dead: false, emitAccumMs: 0, decayAccumMs: 0 }));
     this.edges = scene.edges;
     this.packets = [];
     this.hoveredNodeId = null;
+    this.lastClickToggledFailure = false;
   }
 
   setSize(width: number, height: number) {
@@ -111,6 +113,16 @@ export class SceneEngine {
 
   setHoveredNode(nodeId: string | null) {
     this.hoveredNodeId = nodeId;
+  }
+
+  /** Apply a guided scenario by setting the declared nodes unavailable. */
+  setFailureState(deadNodeIds: readonly string[]) {
+    const dead = new Set(deadNodeIds);
+    for (const node of this.nodes) {
+      node.dead = dead.has(node.id);
+      if (node.dead) node.rx = 0;
+    }
+    this.packets = [];
   }
 
   private nodeById(id: string) {
@@ -212,6 +224,7 @@ export class SceneEngine {
 
   /** Handle a click in scene coordinates and return the selected node, if any. */
   handleClick(x: number, y: number): SceneNode | null {
+    this.lastClickToggledFailure = false;
     for (const node of this.nodes) {
       if (!node.killButton) continue;
       const dx = x - node.killButton.x;
@@ -219,11 +232,16 @@ export class SceneEngine {
       if (dx * dx + dy * dy < node.killButton.r * node.killButton.r) {
         node.dead = !node.dead;
         if (node.dead) node.rx = 0;
+        this.lastClickToggledFailure = true;
         return node;
       }
     }
 
     return this.nodeAt(x, y);
+  }
+
+  didToggleFailure(): boolean {
+    return this.lastClickToggledFailure;
   }
 
   draw(ctx: CanvasRenderingContext2D, clear = true) {
