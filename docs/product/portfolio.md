@@ -45,3 +45,15 @@ Antes de crear un nuevo tema, leer este archivo y `docs/product/brand.md`.
 El tema debe declarar en su storyboard qué marcas aparecen, qué función
 representan y qué queda fuera de alcance. La fecha de la última revisión y las
 fuentes se mantienen en `technicalReview` de cada tema.
+
+## Tecnologías observadas en proyectos
+
+El resumen de proyectos reales también muestra experiencia con **Synology,
+Cisco, IBM Power/AIX, Oracle, SAP, librerías de cinta y Fibre Channel/SAN**.
+Estas tecnologías deben considerarse capacidades implementadas o de
+integración, pero no deben presentarse automáticamente como marcas
+estratégicas actuales ni como una promesa de disponibilidad. Para decidir su
+prioridad comercial hay que contrastarlas con la oferta vigente.
+
+La evidencia operativa y el backlog derivado están en
+[`docs/product/coresolutions-project-patterns.md`](./coresolutions-project-patterns.md).

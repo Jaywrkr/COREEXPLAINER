@@ -8,6 +8,7 @@ desplegable en Vercel.
   Empieza por [`AI_WORKFLOW.md`](./AI_WORKFLOW.md).
 - **¿Buscas contexto de producto?** [`docs/product/vision.md`](./docs/product/vision.md).
 - **¿Qué marcas deben guiar los ejemplos?** [`docs/product/portfolio.md`](./docs/product/portfolio.md).
+- **¿Qué hemos implementado realmente?** [`docs/product/coresolutions-project-patterns.md`](./docs/product/coresolutions-project-patterns.md).
 - **¿Cómo se declaran las marcas por tema?** [`docs/ai-context/brand-context.md`](./docs/ai-context/brand-context.md).
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
 - **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
