@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.8.0";
+export const currentVersion = "0.9.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.9.0",
+    date: "04 ago 2026",
+    title: "Explainer independiente de vSphere HA",
+    changes: [
+      "Nuevo tema con cinco escenas: protección, falla, decisión, reinicio y límites.",
+      "Escenarios interactivos para capacidad, visibilidad de storage y restricciones de políticas.",
+      "Storyboard y matriz de validación técnica con fuentes oficiales de VMware by Broadcom.",
+    ],
+  },
   {
     version: "0.8.0",
     date: "04 ago 2026",
