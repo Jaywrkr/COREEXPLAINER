@@ -124,7 +124,9 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   `sourceIds` con ese catálogo para mostrar evidencia por escena. Es lo único que conoce la
   lista completa de temas. `app/explainer/page.tsx` (dashboard) y
   `app/explainer/[slug]/page.tsx` (ruta dinámica) leen de aquí — no hay una
-  carpeta de ruta por tema.
+  carpeta de ruta por tema. La ruta dinámica acepta `scene`, `scenario` y
+  `mode` para compartir el contexto de una demo; ver
+  `docs/ai-context/audience-modes-and-deep-links.md`.
 
 ## Cómo agregar un tema nuevo manualmente (sin IA todavía)
 

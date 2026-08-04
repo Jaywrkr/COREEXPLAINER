@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { AnimationSpec, SceneNode } from "@/lib/animation-spec/types";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { LeftPanel } from "./LeftPanel";
 import { VisualCanvas } from "./VisualCanvas";
+import type { AudienceMode } from "./AudienceModeToggle";
 
 const AUTOPLAY_STEP_MS = 6500;
 
@@ -12,6 +13,9 @@ interface ExplainerLayoutProps {
   meta: ExplainerMeta;
   steps: ExplainerStep[];
   spec: AnimationSpec;
+  initialSceneId?: string;
+  initialScenarioId?: string | null;
+  initialAudienceMode?: AudienceMode;
 }
 
 /**
@@ -20,12 +24,22 @@ interface ExplainerLayoutProps {
  * (src/content), visuals (animation-spec + engine) and layout (this file)
  * stay separate so any of the three can change independently.
  */
-export function ExplainerLayout({ meta, steps, spec }: ExplainerLayoutProps) {
-  const [current, setCurrent] = useState(0);
+export function ExplainerLayout({
+  meta,
+  steps,
+  spec,
+  initialSceneId,
+  initialScenarioId = null,
+  initialAudienceMode = "client",
+}: ExplainerLayoutProps) {
+  const initialStepIndex = Math.max(0, steps.findIndex((candidate) => candidate.sceneId === initialSceneId));
+  const [current, setCurrent] = useState(initialStepIndex);
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
-  const [activeFailureScenarioId, setActiveFailureScenarioId] = useState<string | null>(null);
+  const [activeFailureScenarioId, setActiveFailureScenarioId] = useState<string | null>(initialScenarioId);
+  const [audienceMode, setAudienceMode] = useState<AudienceMode>(initialAudienceMode);
   const [presentationActive, setPresentationActive] = useState(false);
   const [presentationPlaying, setPresentationPlaying] = useState(false);
+  const initializedFromLink = useRef(false);
   const step = steps[current]!;
   const scene = spec.scenes[step.sceneId];
 
@@ -40,8 +54,18 @@ export function ExplainerLayout({ meta, steps, spec }: ExplainerLayoutProps) {
 
   useEffect(() => {
     setSelectedNode(null);
-    setActiveFailureScenarioId(null);
+    if (initializedFromLink.current) setActiveFailureScenarioId(null);
+    initializedFromLink.current = true;
   }, [scene]);
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("scene", step.sceneId);
+    url.searchParams.set("mode", audienceMode);
+    if (activeFailureScenarioId) url.searchParams.set("scenario", activeFailureScenarioId);
+    else url.searchParams.delete("scenario");
+    window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  }, [activeFailureScenarioId, audienceMode, step.sceneId]);
 
   useEffect(() => {
     if (!presentationActive || !presentationPlaying) return;
@@ -150,6 +174,7 @@ export function ExplainerLayout({ meta, steps, spec }: ExplainerLayoutProps) {
       <LeftPanel
         meta={meta}
         steps={steps}
+        scene={scene}
         current={current}
         onSelectStep={selectStep}
         onPrev={goPrev}
@@ -160,6 +185,9 @@ export function ExplainerLayout({ meta, steps, spec }: ExplainerLayoutProps) {
         onExitPresentation={exitPresentation}
         onTogglePresentation={togglePresentation}
         onResetPresentation={resetPresentation}
+        audienceMode={audienceMode}
+        onAudienceModeChange={setAudienceMode}
+        activeFailureScenarioId={activeFailureScenarioId}
       />
       <div className="relative hidden min-h-[320px] md:block">
         <VisualCanvas

@@ -16,6 +16,7 @@ desplegable en Vercel.
 - **¿Vas a crear un tema nuevo?** [`docs/ai-context/content-quality-gate.md`](./docs/ai-context/content-quality-gate.md).
 - **¿Vas a revisar la vigencia y las fuentes de un tema?** [`docs/ai-context/technical-traceability.md`](./docs/ai-context/technical-traceability.md).
 - **¿Vas a revisar Observabilidad?** [`docs/ai-context/observability-technical-validation.md`](./docs/ai-context/observability-technical-validation.md).
+- **¿Vas a preparar una demo para cliente o técnico?** [`docs/ai-context/audience-modes-and-deep-links.md`](./docs/ai-context/audience-modes-and-deep-links.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 
 ## Correr localmente
