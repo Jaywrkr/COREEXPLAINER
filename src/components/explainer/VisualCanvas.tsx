@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { EdgeKind, NodeKind, Scene, SceneNode } from "@/lib/animation-spec/types";
-import type { FailureScenario } from "@/content/types";
+import type { FailureScenario, GuidedScenarioStep } from "@/content/types";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { SceneEngine } from "./engine/sceneEngine";
 import { FailureScenarioPanel } from "./FailureScenarioPanel";
@@ -16,6 +16,9 @@ interface VisualCanvasProps {
   failureScenarios?: FailureScenario[];
   activeFailureScenarioId?: string | null;
   onFailureScenarioChange?: (scenarioId: string | null) => void;
+  guidedSteps?: GuidedScenarioStep[];
+  activeGuidedStepIndex?: number;
+  onGuidedStepChange?: (index: number) => void;
 }
 
 interface Viewport {
@@ -37,6 +40,7 @@ const MIN_ZOOM = 0.65;
 const MAX_ZOOM = 2.5;
 const DEFAULT_VIEWPORT: Viewport = { scale: 1, x: 0, y: 0 };
 const NOOP_SCENARIO_CHANGE = () => {};
+const NOOP_GUIDED_STEP_CHANGE = () => {};
 const ALL_NODE_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
 
 function clamp(value: number, min: number, max: number) {
@@ -58,6 +62,9 @@ export function VisualCanvas({
   failureScenarios = [],
   activeFailureScenarioId = null,
   onFailureScenarioChange = NOOP_SCENARIO_CHANGE,
+  guidedSteps = [],
+  activeGuidedStepIndex = 0,
+  onGuidedStepChange = NOOP_GUIDED_STEP_CHANGE,
 }: VisualCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<SceneEngine>(new SceneEngine());
@@ -143,6 +150,10 @@ export function VisualCanvas({
     const scenario = failureScenarios.find((item) => item.id === activeFailureScenarioId);
     engineRef.current.setFailureState(scenario?.deadNodeIds ?? []);
   }, [activeFailureScenarioId, failureScenarios]);
+
+  useEffect(() => {
+    engineRef.current.setFocusNodes(guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? []);
+  }, [activeGuidedStepIndex, guidedSteps]);
 
   useEffect(() => {
     engineRef.current.setTheme(theme);
@@ -313,6 +324,9 @@ export function VisualCanvas({
         scenarios={failureScenarios}
         activeScenarioId={activeFailureScenarioId}
         onSelectScenario={onFailureScenarioChange}
+        guidedSteps={guidedSteps}
+        activeGuidedStepIndex={activeGuidedStepIndex}
+        onGuidedStepChange={onGuidedStepChange}
       />
       <div className="absolute left-4 top-4 flex border border-core-border/[0.14] bg-core-panel font-mono text-xs text-core-text-secondary shadow-sm">
         <button

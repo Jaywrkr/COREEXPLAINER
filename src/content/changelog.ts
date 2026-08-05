@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.27.0";
+export const currentVersion = "0.28.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.28.0",
+    date: "05 ago 2026",
+    title: "Motor de escenarios guiados",
+    changes: [
+      "Se añadieron fases de observación, diagnóstico, recuperación y validación para recorrer fallos con una narrativa didáctica.",
+      "El diagrama enfoca nodos y relaciones relevantes para la fase activa; el panel conserva evidencia, resultado esperado y limitaciones.",
+      "Los escenarios existentes usan una guía base compatible y los nuevos pueden declarar pasos authored con focusNodeIds.",
+    ],
+  },
   {
     version: "0.27.0",
     date: "05 ago 2026",

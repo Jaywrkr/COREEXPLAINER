@@ -114,6 +114,7 @@ export class SceneEngine {
   private height = 0;
   private palette: Palette = palettes.dark;
   private hoveredNodeId: string | null = null;
+  private focusedNodeIds = new Set<string>();
   private lastClickToggledFailure = false;
   private hiddenNodeKinds = new Set<NodeKind>();
   private hiddenEdgeKinds = new Set<EdgeKind>();
@@ -123,6 +124,7 @@ export class SceneEngine {
     this.edges = scene.edges;
     this.packets = [];
     this.hoveredNodeId = null;
+    this.focusedNodeIds.clear();
     this.lastClickToggledFailure = false;
   }
 
@@ -137,6 +139,11 @@ export class SceneEngine {
 
   setHoveredNode(nodeId: string | null) {
     this.hoveredNodeId = nodeId;
+  }
+
+  /** Emphasize the nodes relevant to the active step of a guided scenario. */
+  setFocusNodes(nodeIds: readonly string[]) {
+    this.focusedNodeIds = new Set(nodeIds);
   }
 
   setVisibility(hiddenNodeKinds: ReadonlySet<NodeKind>, hiddenEdgeKinds: ReadonlySet<EdgeKind>) {
@@ -317,12 +324,16 @@ export class SceneEngine {
     const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y);
 
     const hasHover = this.hoveredNodeId !== null;
-    const highlighted = this.hoveredNodeId === a.id || this.hoveredNodeId === b.id;
+    const hasFocus = this.focusedNodeIds.size > 0;
+    const hoverHighlighted = this.hoveredNodeId === a.id || this.hoveredNodeId === b.id;
+    const focusHighlighted = this.focusedNodeIds.has(a.id) || this.focusedNodeIds.has(b.id);
+    const highlighted = hoverHighlighted || focusHighlighted;
+    const dimmed = (hasHover && !hoverHighlighted) || (hasFocus && !focusHighlighted);
 
     const style = edgeStyle(edge.kind, this.palette);
     ctx.strokeStyle = highlighted
       ? withAlpha(this.palette.accent, 0.7)
-      : withAlpha(style.color, hasHover ? 0.12 : 0.7);
+      : withAlpha(style.color, dimmed ? 0.1 : 0.7);
     ctx.lineWidth = highlighted ? Math.max(2, style.width + 0.6) : style.width;
     ctx.setLineDash(style.dash);
     ctx.beginPath();
@@ -334,7 +345,7 @@ export class SceneEngine {
     const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
     ctx.fillStyle = highlighted
       ? withAlpha(this.palette.accent, 0.85)
-      : withAlpha(style.color, hasHover ? 0.18 : 0.75);
+      : withAlpha(style.color, dimmed ? 0.14 : 0.75);
     ctx.beginPath();
     ctx.moveTo(p2.x, p2.y);
     ctx.lineTo(p2.x - 6 * Math.cos(angle - 0.5), p2.y - 6 * Math.sin(angle - 0.5));
@@ -350,25 +361,35 @@ export class SceneEngine {
     const y = center.y - CARD_H / 2;
     const color = kindColor(node.kind, this.palette);
     const hasHover = this.hoveredNodeId !== null;
+    const hasFocus = this.focusedNodeIds.size > 0;
     const isHovered = node.id === this.hoveredNodeId;
-    const isRelated =
+    const hoverRelated =
       isHovered ||
       this.edges.some(
         (edge) =>
           (edge.from === this.hoveredNodeId && edge.to === node.id) ||
           (edge.to === this.hoveredNodeId && edge.from === node.id),
       );
+    const focusRelated =
+      this.focusedNodeIds.has(node.id) ||
+      this.edges.some(
+        (edge) =>
+          (this.focusedNodeIds.has(edge.from) && edge.to === node.id) ||
+          (this.focusedNodeIds.has(edge.to) && edge.from === node.id),
+      );
+    const isRelated = hoverRelated || focusRelated;
+    const focused = this.focusedNodeIds.has(node.id);
 
     ctx.save();
     if (node.dead) ctx.globalAlpha = 0.4;
-    if (hasHover && !isRelated) ctx.globalAlpha *= 0.32;
+    if ((hasHover && !hoverRelated) || (hasFocus && !focusRelated)) ctx.globalAlpha *= 0.32;
 
     ctx.fillStyle = this.palette.panel;
     ctx.fillRect(x, y, CARD_W, CARD_H);
-    ctx.strokeStyle = isHovered
+    ctx.strokeStyle = isHovered || focused
       ? withAlpha(this.palette.accent, 0.9)
       : withAlpha(this.palette.text, isRelated ? 0.09 : 0.04);
-    ctx.lineWidth = isHovered ? 1.6 : 1;
+    ctx.lineWidth = isHovered || focused ? 1.8 : 1;
     ctx.strokeRect(x + 0.5, y + 0.5, CARD_W - 1, CARD_H - 1);
 
     const iconSize = 22;

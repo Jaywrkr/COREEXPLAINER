@@ -1,5 +1,12 @@
 # Estado del proyecto
 
+**Actualización v0.28.0 (05-08-2026):** el motor de escenarios guiados añade
+fases de observación, diagnóstico, recuperación y validación. El panel muestra
+evidencia, resultado esperado y limitaciones, mientras el canvas enfoca los
+nodos relevantes. Los escenarios existentes usan un fallback de cuatro pasos;
+los nuevos pueden declarar `guidedSteps` específicos. El contrato está en
+`docs/ai-context/guided-scenarios.md`.
+
 **Actualización v0.27.0 (05-08-2026):** se añadieron los explainers
 `/explainer/instana`, `/explainer/turbonomic` y `/explainer/webmethods`.
 Cada uno documenta cinco escenas, cuatro fallos interactivos, fuentes IBM
