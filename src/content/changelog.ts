@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.43.0";
+export const currentVersion = "0.44.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.44.0",
+    date: "05 ago 2026",
+    title: "Red y seguridad con fuentes por escena",
+    changes: [
+      "LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y Check Point HA pasan a contratos source-backed.",
+      "Cada escena enlaza su camino de datos, control o protección con documentación técnica oficial y conserva los límites de la demo.",
+      "La validación bloquea fuentes inexistentes para que el estado de trazabilidad sea verificable y no ornamental.",
+    ],
+  },
   {
     version: "0.43.0",
     date: "05 ago 2026",

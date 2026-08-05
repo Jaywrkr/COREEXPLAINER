@@ -54,6 +54,11 @@ por cada tema. Estas asociaciones aportan trazabilidad por escena, pero no se
 presentan como certificación de diseño ni sustituyen la validación del entorno
 real del cliente.
 
+El batch v0.44.0 añade LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y
+Check Point HA. Sus reglas mantienen separadas las dependencias de datos,
+control, identidad, seguridad y failover; las fuentes asociadas documentan el
+concepto, pero la aceptación sigue requiriendo pruebas del entorno del cliente.
+
 Cuando una regla declara `sourceIds`, el panel de diagnóstico muestra los
 enlaces directos a esas fuentes. La acción de abrir evidencia está separada
 del botón que enfoca los nodos, para que consultar documentación no cambie el

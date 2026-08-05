@@ -169,12 +169,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     "failure-resync": { nodes: ["host1", "disk1", "object", "host2", "resync", "network"], edge: ["object", "resync", "control"], path: ["object", "network"], sourceIds: ["vsan-host-failure", "vsan-reduced-availability"] },
     limits: { nodes: ["object", "capacity", "fault-domains", "network", "policy", "state"], edge: ["object", "policy", "control"], path: ["policy", "state"], sourceIds: ["vsan-fault-domains", "vsan-inaccessible", "vsan-ftt0"] },
   }),
-  "zero-trust": baselineProfile("security", {
-    request: { nodes: ["subject", "device", "request", "pep", "resource", "identity"], edge: ["request", "pep", "data"], path: ["subject", "resource"] },
-    context: { nodes: ["identity", "device", "resource", "telemetry", "policy", "decision"], edge: ["policy", "decision", "control"], path: ["identity", "decision"] },
-    decision: { nodes: ["request", "policy", "administrator", "allow", "deny"], edge: ["request", "policy", "data"], path: ["request", "allow"] },
-    enforcement: { nodes: ["subject", "pep", "resource", "telemetry", "revoke"], edge: ["pep", "resource", "data"], path: ["subject", "resource"] },
-    limits: { nodes: ["subject", "identity", "device", "telemetry", "policy", "resource"], edge: ["subject", "policy", "data"], path: ["subject", "resource"] },
+  "zero-trust": sourceBackedProfile("security", {
+    request: { nodes: ["subject", "device", "request", "pep", "resource", "identity"], edge: ["request", "pep", "data"], path: ["subject", "resource"], sourceIds: ["nist-800-207", "cisa-ztmm"] },
+    context: { nodes: ["identity", "device", "resource", "telemetry", "policy", "decision"], edge: ["policy", "decision", "control"], path: ["identity", "decision"], sourceIds: ["nist-800-207", "nist-components", "cisa-ztmm"] },
+    decision: { nodes: ["request", "policy", "administrator", "allow", "deny"], edge: ["request", "policy", "data"], path: ["request", "allow"], sourceIds: ["nist-800-207", "nist-components"] },
+    enforcement: { nodes: ["subject", "pep", "resource", "telemetry", "revoke"], edge: ["pep", "resource", "data"], path: ["subject", "resource"], sourceIds: ["nist-800-207", "nist-components"] },
+    limits: { nodes: ["subject", "identity", "device", "telemetry", "policy", "resource"], edge: ["subject", "policy", "data"], path: ["subject", "resource"], sourceIds: ["nist-800-207", "cisa-ztmm", "nist-publication"] },
   }),
   kubernetes: baselineProfile("application", {
     "desired-state": { nodes: ["developer", "api", "controller", "pod1", "pod2", "node"], edge: ["api", "controller", "control"], path: ["developer", "node"] },
@@ -197,12 +197,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     recovery: { nodes: ["incident", "decision", "replication", "alternate-site", "application"], edge: ["decision", "replication", "control"], path: ["incident", "application"], sourceIds: ["ibm-replication", "veeam-about", "nist-rto"] },
     limits: { nodes: ["backup-job", "veeam-repository", "replication", "alternate-site", "verification", "application"], edge: ["alternate-site", "verification", "dependency"], path: ["backup-job", "application"], sourceIds: ["veeam-repository", "veeam-immutability", "nist-contingency"] },
   }),
-  "ransomware-resilience": baselineProfile("security", {
-    prevention: { nodes: ["exposure", "identity", "endpoint", "network", "workloads"], edge: ["identity", "endpoint", "control"], path: ["exposure", "workloads"] },
-    detection: { nodes: ["endpoint", "network", "ibm-storage", "detection", "security-ops"], edge: ["detection", "security-ops", "control"], path: ["endpoint", "security-ops"] },
-    containment: { nodes: ["security-ops", "segmentation", "identity", "workloads", "backup-admin", "lateral"], edge: ["security-ops", "segmentation", "control"], path: ["security-ops", "workloads"] },
-    recovery: { nodes: ["incident", "veeam", "immutable-copy", "clean-room", "application"], edge: ["veeam", "immutable-copy", "data"], path: ["incident", "application"] },
-    learning: { nodes: ["exercise", "clean-room", "verification", "application", "lessons"], edge: ["clean-room", "verification", "dependency"], path: ["exercise", "lessons"] },
+  "ransomware-resilience": sourceBackedProfile("security", {
+    prevention: { nodes: ["exposure", "identity", "endpoint", "network", "workloads"], edge: ["identity", "endpoint", "control"], path: ["exposure", "workloads"], sourceIds: ["checkpoint-ransomware", "cisa-guide"] },
+    detection: { nodes: ["endpoint", "network", "ibm-storage", "detection", "security-ops"], edge: ["detection", "security-ops", "control"], path: ["endpoint", "security-ops"], sourceIds: ["ibm-ransomware", "checkpoint-ransomware", "cisa-guide"] },
+    containment: { nodes: ["security-ops", "segmentation", "identity", "workloads", "backup-admin", "lateral"], edge: ["security-ops", "segmentation", "control"], path: ["security-ops", "workloads"], sourceIds: ["checkpoint-ransomware", "cisa-guide", "cisa-2025"] },
+    recovery: { nodes: ["incident", "veeam", "immutable-copy", "clean-room", "application"], edge: ["veeam", "immutable-copy", "data"], path: ["incident", "application"], sourceIds: ["cisa-advisory", "cisa-2025", "veeam-immutability", "veeam-repository", "ibm-security"] },
+    learning: { nodes: ["exercise", "clean-room", "verification", "application", "lessons"], edge: ["clean-room", "verification", "dependency"], path: ["exercise", "lessons"], sourceIds: ["cisa-guide", "cisa-advisory", "checkpoint-ransomware", "ibm-security"] },
   }),
   "san-storage": sourceBackedProfile("storage", {
     foundation: { nodes: ["application", "host", "fabric-a", "fabric-b", "array", "management"], edge: ["host", "fabric-a", "data"], path: ["application", "array"], sourceIds: ["ibm-host-attachment", "lenovo-san"] },
@@ -225,12 +225,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     failover: { nodes: ["signal", "decision", "site-a", "site-b", "application"], edge: ["decision", "site-b", "control"], path: ["signal", "application"], sourceIds: ["ibm-mirrors", "veeam-dr"] },
     limits: { nodes: ["site-a", "inter-site", "quorum", "site-b", "storage-link", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"], sourceIds: ["ibm-ha", "ibm-mirrors", "aruba-vsx"] },
   }),
-  "lan-san": baselineProfile("network", {
-    planes: { nodes: ["users", "management", "lan", "vmware", "san", "storage"], edge: ["lan", "vmware", "data"], path: ["users", "storage"] },
-    lan: { nodes: ["host", "switching", "vlan", "routing", "firewall", "service"], edge: ["switching", "vlan", "control"], path: ["host", "service"] },
-    san: { nodes: ["hba", "fabric", "array-ports", "mapping", "volume"], edge: ["array-ports", "mapping", "control"], path: ["hba", "volume"] },
-    integration: { nodes: ["application", "lan", "san", "firewall", "identity", "storage"], edge: ["lan", "firewall", "data"], path: ["application", "storage"] },
-    limits: { nodes: ["host", "vlan", "underlay", "fabric", "routing", "service"], edge: ["underlay", "routing", "data"], path: ["host", "service"] },
+  "lan-san": sourceBackedProfile("network", {
+    planes: { nodes: ["users", "management", "lan", "vmware", "san", "storage"], edge: ["lan", "vmware", "data"], path: ["users", "storage"], sourceIds: ["aruba-design", "ibm-host", "lenovo-san"] },
+    lan: { nodes: ["host", "switching", "vlan", "routing", "firewall", "service"], edge: ["switching", "vlan", "control"], path: ["host", "service"], sourceIds: ["aruba-design", "aruba-deploy"] },
+    san: { nodes: ["hba", "fabric", "array-ports", "mapping", "volume"], edge: ["array-ports", "mapping", "control"], path: ["hba", "volume"], sourceIds: ["ibm-host", "ibm-mapping", "lenovo-san"] },
+    integration: { nodes: ["application", "lan", "san", "firewall", "identity", "storage"], edge: ["lan", "firewall", "data"], path: ["application", "storage"], sourceIds: ["aruba-deploy", "ibm-host", "ibm-mapping"] },
+    limits: { nodes: ["host", "vlan", "underlay", "fabric", "routing", "service"], edge: ["underlay", "routing", "data"], path: ["host", "service"], sourceIds: ["aruba-design", "aruba-deploy", "ibm-host", "ibm-mapping"] },
   }),
   "nas-private-cloud": sourceBackedProfile("storage", {
     service: { nodes: ["users", "network", "nas", "share", "data"], edge: ["nas", "share", "control"], path: ["users", "data"], sourceIds: ["synology-files", "synology-services"] },
@@ -246,19 +246,19 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     validation: { nodes: ["infra", "monitoring", "dependencies", "service", "acceptance"], edge: ["monitoring", "service", "data"], path: ["infra", "acceptance"] },
     limits: { nodes: ["inventory", "compatibility", "migration-net", "storage", "rollback", "service"], edge: ["compatibility", "migration-net", "dependency"], path: ["inventory", "service"] },
   }),
-  "checkpoint-ha": baselineProfile("security", {
-    traffic: { nodes: ["users", "vip", "active", "standby", "service"], edge: ["vip", "active", "data"], path: ["users", "service"] },
-    members: { nodes: ["compatibility", "active", "standby", "vip", "service"], edge: ["compatibility", "active", "control"], path: ["compatibility", "service"] },
-    sync: { nodes: ["active", "policy", "sync", "standby", "service"], edge: ["sync", "standby", "control"], path: ["active", "service"] },
-    failover: { nodes: ["active", "vip", "standby", "routing", "service"], edge: ["vip", "standby", "control"], path: ["active", "service"] },
-    limits: { nodes: ["active", "sync", "vip", "policy", "standby", "service"], edge: ["policy", "standby", "control"], path: ["active", "service"] },
+  "checkpoint-ha": sourceBackedProfile("security", {
+    traffic: { nodes: ["users", "vip", "active", "standby", "service"], edge: ["vip", "active", "data"], path: ["users", "service"], sourceIds: ["checkpoint-intro", "aruba-design"] },
+    members: { nodes: ["compatibility", "active", "standby", "vip", "service"], edge: ["compatibility", "active", "control"], path: ["compatibility", "service"], sourceIds: ["checkpoint-intro", "checkpoint-compat"] },
+    sync: { nodes: ["active", "policy", "sync", "standby", "service"], edge: ["sync", "standby", "control"], path: ["active", "service"], sourceIds: ["checkpoint-clusterxl", "checkpoint-install"] },
+    failover: { nodes: ["active", "vip", "standby", "routing", "service"], edge: ["vip", "standby", "control"], path: ["active", "service"], sourceIds: ["checkpoint-clusterxl", "aruba-design"] },
+    limits: { nodes: ["active", "sync", "vip", "policy", "standby", "service"], edge: ["policy", "standby", "control"], path: ["active", "service"], sourceIds: ["checkpoint-clusterxl", "checkpoint-compat", "aruba-design"] },
   }),
-  sdwan: baselineProfile("network", {
-    underlay: { nodes: ["branch", "mpls", "internet", "lte", "edge", "hub"], edge: ["edge", "hub", "data"], path: ["branch", "hub"] },
-    overlay: { nodes: ["application", "bio", "qos", "topology", "underlay"], edge: ["bio", "topology", "control"], path: ["application", "underlay"] },
-    selection: { nodes: ["metrics", "policy", "path-selection", "primary", "alternate", "service"], edge: ["path-selection", "primary", "data"], path: ["metrics", "service"] },
-    security: { nodes: ["overlay", "edge", "security", "identity", "application"], edge: ["edge", "security", "data"], path: ["overlay", "application"] },
-    limits: { nodes: ["underlay", "bio", "path-selection", "edge", "security", "application"], edge: ["bio", "path-selection", "control"], path: ["underlay", "application"] },
+  sdwan: sourceBackedProfile("network", {
+    underlay: { nodes: ["branch", "mpls", "internet", "lte", "edge", "hub"], edge: ["edge", "hub", "data"], path: ["branch", "hub"], sourceIds: ["aruba-orchestrator", "aruba-sdbranch"] },
+    overlay: { nodes: ["application", "bio", "qos", "topology", "underlay"], edge: ["bio", "topology", "control"], path: ["application", "underlay"], sourceIds: ["aruba-sdbranch", "aruba-orchestrator"] },
+    selection: { nodes: ["metrics", "policy", "path-selection", "primary", "alternate", "service"], edge: ["path-selection", "primary", "data"], path: ["metrics", "service"], sourceIds: ["aruba-orchestrator", "aruba-path-conditioning"] },
+    security: { nodes: ["overlay", "edge", "security", "identity", "application"], edge: ["edge", "security", "data"], path: ["overlay", "application"], sourceIds: ["aruba-intro", "checkpoint-clusterxl"] },
+    limits: { nodes: ["underlay", "bio", "path-selection", "edge", "security", "application"], edge: ["bio", "path-selection", "control"], path: ["underlay", "application"], sourceIds: ["aruba-orchestrator", "aruba-path-conditioning", "checkpoint-clusterxl"] },
   }),
   "power-aix": sourceBackedProfile("virtualization", {
     workload: { nodes: ["users", "application", "aix", "powervm", "storage"], edge: ["aix", "powervm", "control"], path: ["users", "storage"], sourceIds: ["ibm-lpm", "ibm-flashsystem"] },

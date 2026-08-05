@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.44.0 (05-08-2026):** LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y Check Point HA pasan a `source-backed`, con fuentes técnicas específicas por escena. La cobertura documental no se presenta como certificación del entorno real.
+
 El batch v0.43.0 también cubre Backup/DR con fuentes técnicas específicas por escena.
 
 **Actualización v0.43.0 (05-08-2026):** vSAN, SAN Storage, Veeam Protection, Active-Active DC, NAS/Private Cloud e IBM Power/AIX pasan a `source-backed`, con fuentes técnicas específicas por escena. El panel sigue diferenciando evidencia documental de una revisión especialista.
