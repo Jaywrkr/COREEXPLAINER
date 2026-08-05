@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.33.0] - 2026-08-05
+
+- Los 22 explainers declaran un contrato técnico por escena con componentes, relaciones y caminos mínimos esperados.
+- El panel adapta su dominio a red, virtualización, storage, seguridad, observabilidad, continuidad, delivery o aplicación.
+- El registro adjunta y valida los perfiles de forma centralizada; la comprobación sigue siendo del modelo representado, no de una red o plataforma en vivo.
+
 ## [0.32.0] - 2026-08-05
 
 - VCF y NSX declaran contratos de red para comprobar componentes, relaciones y caminos esperados por escena.

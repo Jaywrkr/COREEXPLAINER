@@ -22,6 +22,18 @@ const STATUS_STYLES: Record<TechnicalIntegrityReport["status"], string> = {
   error: "border-core-error/50 bg-core-error/10 text-core-error",
 };
 
+const DOMAIN_LABELS: Record<TechnicalIntegrityReport["domain"], string> = {
+  network: "Modelo de red",
+  virtualization: "Modelo de virtualización",
+  storage: "Modelo de storage",
+  security: "Modelo de seguridad",
+  observability: "Modelo de observabilidad",
+  continuity: "Modelo de continuidad",
+  delivery: "Modelo de delivery",
+  application: "Modelo de aplicación",
+  generic: "Modelo técnico",
+};
+
 /** Shows semantic topology checks without claiming live network monitoring. */
 export function TechnicalIntegrityPanel({
   report,
@@ -51,7 +63,7 @@ export function TechnicalIntegrityPanel({
             Integridad técnica
           </span>
           <span className="mt-0.5 block text-[0.64rem] text-core-text-muted">
-            Modelo de red · {report.checkedRules} comprobaciones
+            {DOMAIN_LABELS[report.domain]} · {report.checkedRules} comprobaciones
           </span>
         </button>
         <span className={`shrink-0 border px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] ${STATUS_STYLES[report.status]}`}>

@@ -31,7 +31,16 @@ export interface ExplainerMeta {
   technicalIntegrity?: TechnicalIntegrityProfile;
 }
 
-export type TechnicalIntegrityDomain = "network";
+export type TechnicalIntegrityDomain =
+  | "network"
+  | "virtualization"
+  | "storage"
+  | "security"
+  | "observability"
+  | "continuity"
+  | "delivery"
+  | "application"
+  | "generic";
 export type IntegritySeverity = "error" | "warning";
 
 export interface TechnicalIntegrityProfile {
@@ -78,6 +87,7 @@ export interface TechnicalIntegrityDiagnostic {
 }
 
 export interface TechnicalIntegrityReport {
+  domain: TechnicalIntegrityDomain;
   status: "valid" | "warning" | "error";
   checkedRules: number;
   diagnostics: TechnicalIntegrityDiagnostic[];

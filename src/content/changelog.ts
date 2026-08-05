@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.32.0";
+export const currentVersion = "0.33.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.33.0",
+    date: "05 ago 2026",
+    title: "Integridad técnica para todo el catálogo",
+    changes: [
+      "Los 22 explainers declaran ahora un contrato técnico por escena con componentes, relaciones y caminos mínimos esperados.",
+      "El panel adapta su etiqueta al dominio —red, virtualización, storage, seguridad, observabilidad, continuidad, delivery o aplicación— sin presentarse como monitorización en vivo.",
+      "El registro adjunta y valida los perfiles de forma centralizada para que cada nuevo tema nazca con una comprobación semántica mínima.",
+    ],
+  },
   {
     version: "0.32.0",
     date: "05 ago 2026",

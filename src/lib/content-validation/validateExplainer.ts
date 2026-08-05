@@ -1,8 +1,20 @@
 import type { AnimationSpec, NodeKind } from "@/lib/animation-spec/types";
 import type { ExplainerMeta, ExplainerStep, TechnicalIntegrityProfile } from "@/content/types";
+import type { TechnicalIntegrityDomain } from "@/content/types";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
+const TECHNICAL_INTEGRITY_DOMAINS: ReadonlySet<TechnicalIntegrityDomain> = new Set([
+  "network",
+  "virtualization",
+  "storage",
+  "security",
+  "observability",
+  "continuity",
+  "delivery",
+  "application",
+  "generic",
+]);
 
 export interface ExplainerValidationInput {
   slug: string;
@@ -41,7 +53,7 @@ function validateTechnicalIntegrityProfile(
   technicalSourceIds: ReadonlySet<string>,
   add: (message: string) => void,
 ) {
-  if (profile.domain !== "network") add("meta.technicalIntegrity.domain must be 'network'");
+  if (!TECHNICAL_INTEGRITY_DOMAINS.has(profile.domain)) add("meta.technicalIntegrity.domain is not supported");
   const ruleIds = new Set<string>();
   const validateRule = (label: string, id: string, sourceIds: string[] | undefined) => {
     if (!isNonEmptyText(id)) add(`${label}.id must be a non-empty string`);
