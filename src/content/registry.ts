@@ -46,6 +46,7 @@ import { turbonomicMeta, turbonomicSteps } from "./turbonomic";
 import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.json";
 import { webMethodsMeta, webMethodsSteps } from "./webmethods";
 import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
+import { technicalIntegrityProfiles } from "./technical-integrity";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -238,32 +239,43 @@ const webMethodsDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(webMethodsRawSpec),
 };
 
+const definitions: ExplainerDefinition[] = [
+  vcfDefinition,
+  vsphereHaDefinition,
+  vsanDefinition,
+  nsxDefinition,
+  zeroTrustDefinition,
+  kubernetesDefinition,
+  observabilityDefinition,
+  backupDrDefinition,
+  ransomwareResilienceDefinition,
+  sanStorageDefinition,
+  veeamProtectionDefinition,
+  activeActiveDefinition,
+  lanSanDefinition,
+  nasPrivateCloudDefinition,
+  migrationDefinition,
+  checkpointHaDefinition,
+  sdwanDefinition,
+  powerAixDefinition,
+  implementationLifecycleDefinition,
+  instanaDefinition,
+  turbonomicDefinition,
+  webMethodsDefinition,
+];
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
-validateExplainerContent(vcfDefinition);
-validateExplainerContent(vsphereHaDefinition);
-validateExplainerContent(vsanDefinition);
-validateExplainerContent(nsxDefinition);
-validateExplainerContent(zeroTrustDefinition);
-validateExplainerContent(kubernetesDefinition);
-validateExplainerContent(observabilityDefinition);
-validateExplainerContent(backupDrDefinition);
-validateExplainerContent(ransomwareResilienceDefinition);
-validateExplainerContent(sanStorageDefinition);
-validateExplainerContent(veeamProtectionDefinition);
-validateExplainerContent(activeActiveDefinition);
-validateExplainerContent(lanSanDefinition);
-validateExplainerContent(nasPrivateCloudDefinition);
-validateExplainerContent(migrationDefinition);
-validateExplainerContent(checkpointHaDefinition);
-validateExplainerContent(sdwanDefinition);
-validateExplainerContent(powerAixDefinition);
-validateExplainerContent(implementationLifecycleDefinition);
-validateExplainerContent(instanaDefinition);
-validateExplainerContent(turbonomicDefinition);
-validateExplainerContent(webMethodsDefinition);
-
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition, veeamProtectionDefinition, activeActiveDefinition, lanSanDefinition, nasPrivateCloudDefinition, migrationDefinition, checkpointHaDefinition, sdwanDefinition, powerAixDefinition, implementationLifecycleDefinition, instanaDefinition, turbonomicDefinition, webMethodsDefinition];
+// Profiles are attached here so every topic receives the same technical gate
+// without duplicating metadata in 22 individual content files.
+export const explainerRegistry: ExplainerDefinition[] = definitions.map((definition) => {
+  const profile = definition.meta.technicalIntegrity ?? technicalIntegrityProfiles[definition.slug];
+  const enriched = profile
+    ? { ...definition, meta: { ...definition.meta, technicalIntegrity: profile } }
+    : definition;
+  validateExplainerContent(enriched);
+  return enriched;
+});
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

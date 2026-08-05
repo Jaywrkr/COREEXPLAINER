@@ -1,4 +1,9 @@
-import type { TechnicalIntegrityProfile } from "./types";
+import type { EdgeKind } from "@/lib/animation-spec/types";
+import type {
+  TechnicalIntegrityDomain,
+  TechnicalIntegrityProfile,
+  TechnicalIntegritySceneContract,
+} from "./types";
 
 /** Network contracts for the VCF scenes. These rules validate the model, not a live environment. */
 export const vcfTechnicalIntegrity: TechnicalIntegrityProfile = {
@@ -92,4 +97,191 @@ export const nsxTechnicalIntegrity: TechnicalIntegrityProfile = {
       requiredNodes: ["client", "underlay", "policy", "segment-policy", "gateway", "app"],
     },
   },
+};
+
+type BaselineScene = {
+  nodes: string[];
+  edge?: [from: string, to: string, kind: EdgeKind];
+  path?: [from: string, to: string];
+};
+
+function baselineContract(sceneId: string, scene: BaselineScene): TechnicalIntegritySceneContract {
+  const contract: TechnicalIntegritySceneContract = { requiredNodes: scene.nodes };
+  if (scene.edge) {
+    const [from, to, kind] = scene.edge;
+    contract.requiredEdges = [{
+      id: `${sceneId}-${from}-${to}`,
+      from,
+      to,
+      kind,
+      label: `Relación ${from} → ${to}`,
+      rationale: "La relación representa una dependencia explícita del patrón explicado y debe mantenerse visible en el diagrama.",
+    }];
+  }
+  if (scene.path) {
+    const [from, to] = scene.path;
+    contract.requiredPaths = [{
+      id: `${sceneId}-${from}-${to}-path`,
+      from,
+      to,
+      label: `Camino ${from} → ${to}`,
+      rationale: "El camino comprueba que la escena conserva una ruta técnica entre los componentes que la narrativa conecta.",
+    }];
+  }
+  return contract;
+}
+
+function baselineProfile(domain: TechnicalIntegrityDomain, scenes: Record<string, BaselineScene>): TechnicalIntegrityProfile {
+  return {
+    domain,
+    scenes: Object.fromEntries(
+      Object.entries(scenes).map(([sceneId, scene]) => [sceneId, baselineContract(sceneId, scene)]),
+    ),
+  };
+}
+
+/** Baseline contracts for every explainer without a deeper domain profile yet. */
+export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfile> = {
+  vcf: vcfTechnicalIntegrity,
+  nsx: nsxTechnicalIntegrity,
+  "vsphere-ha": baselineProfile("virtualization", {
+    normal: { nodes: ["client", "vm", "host1", "host2", "datastore", "ha"], edge: ["ha", "host1", "control"], path: ["client", "datastore"] },
+    "host-failure": { nodes: ["vm", "host1", "host2", "datastore", "ha"], edge: ["ha", "host1", "control"], path: ["ha", "vm"] },
+    decision: { nodes: ["ha", "capacity", "datastore", "policy", "host2", "vm"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"] },
+    restart: { nodes: ["client", "host2", "datastore", "vm", "app"], edge: ["host2", "vm", "control"], path: ["client", "app"] },
+    limits: { nodes: ["ha", "vm", "capacity", "datastore", "policy"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"] },
+  }),
+  vsan: baselineProfile("storage", {
+    "local-storage": { nodes: ["vm", "host1", "host2", "disk1", "disk2", "vsan"], edge: ["disk1", "vsan", "storage"], path: ["vm", "vsan"] },
+    "object-distribution": { nodes: ["vm", "object", "component1", "component2", "datastore"], edge: ["object", "component1", "storage"], path: ["vm", "datastore"] },
+    "policy-placement": { nodes: ["policy", "object", "domain1", "domain2", "domain3", "placement"], edge: ["policy", "object", "control"], path: ["policy", "placement"] },
+    "failure-resync": { nodes: ["host1", "disk1", "object", "host2", "resync", "network"], edge: ["object", "resync", "control"], path: ["object", "network"] },
+    limits: { nodes: ["object", "capacity", "fault-domains", "network", "policy", "state"], edge: ["object", "policy", "control"], path: ["policy", "state"] },
+  }),
+  "zero-trust": baselineProfile("security", {
+    request: { nodes: ["subject", "device", "request", "pep", "resource", "identity"], edge: ["request", "pep", "data"], path: ["subject", "resource"] },
+    context: { nodes: ["identity", "device", "resource", "telemetry", "policy", "decision"], edge: ["policy", "decision", "control"], path: ["identity", "decision"] },
+    decision: { nodes: ["request", "policy", "administrator", "allow", "deny"], edge: ["request", "policy", "data"], path: ["request", "allow"] },
+    enforcement: { nodes: ["subject", "pep", "resource", "telemetry", "revoke"], edge: ["pep", "resource", "data"], path: ["subject", "resource"] },
+    limits: { nodes: ["subject", "identity", "device", "telemetry", "policy", "resource"], edge: ["subject", "policy", "data"], path: ["subject", "resource"] },
+  }),
+  kubernetes: baselineProfile("application", {
+    "desired-state": { nodes: ["developer", "api", "controller", "pod1", "pod2", "node"], edge: ["api", "controller", "control"], path: ["developer", "node"] },
+    scheduling: { nodes: ["pod", "scheduler", "node1", "node2", "constraints"], edge: ["constraints", "scheduler", "control"], path: ["pod", "node1"] },
+    service: { nodes: ["client", "service", "endpoints", "pod1", "pod2", "readiness"], edge: ["service", "endpoints", "control"], path: ["client", "pod1"] },
+    rollout: { nodes: ["release", "old-rs", "new-rs", "old-pod", "new-pod", "service"], edge: ["release", "new-rs", "control"], path: ["release", "service"] },
+    failure: { nodes: ["client", "service", "pod1", "pod2", "node1", "node2", "controller", "registry", "readiness"], edge: ["readiness", "service", "control"], path: ["client", "service"] },
+  }),
+  observability: baselineProfile("observability", {
+    "request-path": { nodes: ["client", "gateway", "checkout", "payment", "database"], edge: ["gateway", "checkout", "data"], path: ["client", "database"] },
+    signals: { nodes: ["service", "sdk", "traces", "metrics", "logs", "question"], edge: ["sdk", "traces", "data"], path: ["service", "question"] },
+    collection: { nodes: ["services", "collector", "processor", "exporter-traces", "exporter-metrics", "exporter-logs", "backends"], edge: ["collector", "processor", "control"], path: ["services", "backends"] },
+    correlation: { nodes: ["symptom", "metrics-backend", "alerting", "trace-backend", "logs-backend", "operator"], edge: ["metrics-backend", "alerting", "control"], path: ["symptom", "operator"] },
+    incident: { nodes: ["client", "gateway", "checkout", "payment", "collector", "processor", "metrics-backend", "trace-backend", "logs-backend"], edge: ["collector", "processor", "control"], path: ["client", "metrics-backend"] },
+  }),
+  "backup-dr": baselineProfile("continuity", {
+    objectives: { nodes: ["business", "bia", "protection-plan", "evidence"], edge: ["bia", "protection-plan", "control"], path: ["business", "evidence"] },
+    protection: { nodes: ["vmware", "lenovo", "backup-job", "veeam-repository"], edge: ["backup-job", "veeam-repository", "data"], path: ["vmware", "veeam-repository"] },
+    copies: { nodes: ["veeam-repository", "hardened", "ibm-flashsystem", "security"], edge: ["hardened", "ibm-flashsystem", "storage"], path: ["security", "ibm-flashsystem"] },
+    recovery: { nodes: ["incident", "decision", "replication", "alternate-site", "application"], edge: ["decision", "replication", "control"], path: ["incident", "application"] },
+    limits: { nodes: ["backup-job", "veeam-repository", "replication", "alternate-site", "verification", "application"], edge: ["alternate-site", "verification", "dependency"], path: ["backup-job", "application"] },
+  }),
+  "ransomware-resilience": baselineProfile("security", {
+    prevention: { nodes: ["exposure", "identity", "endpoint", "network", "workloads"], edge: ["identity", "endpoint", "control"], path: ["exposure", "workloads"] },
+    detection: { nodes: ["endpoint", "network", "ibm-storage", "detection", "security-ops"], edge: ["detection", "security-ops", "control"], path: ["endpoint", "security-ops"] },
+    containment: { nodes: ["security-ops", "segmentation", "identity", "workloads", "backup-admin", "lateral"], edge: ["security-ops", "segmentation", "control"], path: ["security-ops", "workloads"] },
+    recovery: { nodes: ["incident", "veeam", "immutable-copy", "clean-room", "application"], edge: ["veeam", "immutable-copy", "data"], path: ["incident", "application"] },
+    learning: { nodes: ["exercise", "clean-room", "verification", "application", "lessons"], edge: ["clean-room", "verification", "dependency"], path: ["exercise", "lessons"] },
+  }),
+  "san-storage": baselineProfile("storage", {
+    foundation: { nodes: ["application", "host", "fabric-a", "fabric-b", "array", "management"], edge: ["host", "fabric-a", "data"], path: ["application", "array"] },
+    provisioning: { nodes: ["disks", "pool", "volume", "mapping", "host"], edge: ["pool", "volume", "storage"], path: ["disks", "host"] },
+    multipath: { nodes: ["host", "hba-a", "hba-b", "fabric-a", "fabric-b", "array-a", "array-b", "volume"], edge: ["hba-a", "fabric-a", "data"], path: ["host", "volume"] },
+    migration: { nodes: ["old-array", "migration", "new-array", "replication", "application"], edge: ["migration", "new-array", "data"], path: ["old-array", "application"] },
+    limits: { nodes: ["host", "fabric-a", "mapping", "pool", "replication", "remote-array"], edge: ["mapping", "pool", "storage"], path: ["host", "remote-array"] },
+  }),
+  "veeam-protection": baselineProfile("continuity", {
+    workloads: { nodes: ["vmware", "physical", "aix", "nas", "policy", "application"], edge: ["vmware", "policy", "data"], path: ["vmware", "application"] },
+    "data-pipe": { nodes: ["source", "veeam-server", "proxy", "network", "repository"], edge: ["proxy", "network", "data"], path: ["source", "repository"] },
+    retention: { nodes: ["repository", "immutable", "tape-job", "library"], edge: ["repository", "immutable", "storage"], path: ["repository", "library"] },
+    restore: { nodes: ["point", "restore", "network", "storage", "application"], edge: ["point", "restore", "data"], path: ["point", "application"] },
+    limits: { nodes: ["source", "veeam-server", "proxy", "repository", "restore", "tape"], edge: ["proxy", "repository", "data"], path: ["source", "restore"] },
+  }),
+  "active-active-dc": baselineProfile("continuity", {
+    "two-domains": { nodes: ["site-a", "site-b", "inter-site", "quorum", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"] },
+    "storage-ha": { nodes: ["host-a", "host-b", "array-a", "array-b", "replication", "quorum"], edge: ["array-a", "replication", "storage"], path: ["host-a", "quorum"] },
+    "network-ha": { nodes: ["hosts", "switch-a", "switch-b", "storage-a", "storage-b", "inter-site"], edge: ["switch-a", "inter-site", "control"], path: ["hosts", "storage-a"] },
+    failover: { nodes: ["signal", "decision", "site-a", "site-b", "application"], edge: ["decision", "site-b", "control"], path: ["signal", "application"] },
+    limits: { nodes: ["site-a", "inter-site", "quorum", "site-b", "storage-link", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"] },
+  }),
+  "lan-san": baselineProfile("network", {
+    planes: { nodes: ["users", "management", "lan", "vmware", "san", "storage"], edge: ["lan", "vmware", "data"], path: ["users", "storage"] },
+    lan: { nodes: ["host", "switching", "vlan", "routing", "firewall", "service"], edge: ["switching", "vlan", "control"], path: ["host", "service"] },
+    san: { nodes: ["hba", "fabric", "array-ports", "mapping", "volume"], edge: ["array-ports", "mapping", "control"], path: ["hba", "volume"] },
+    integration: { nodes: ["application", "lan", "san", "firewall", "identity", "storage"], edge: ["lan", "firewall", "data"], path: ["application", "storage"] },
+    limits: { nodes: ["host", "vlan", "underlay", "fabric", "routing", "service"], edge: ["underlay", "routing", "data"], path: ["host", "service"] },
+  }),
+  "nas-private-cloud": baselineProfile("storage", {
+    service: { nodes: ["users", "network", "nas", "share", "data"], edge: ["nas", "share", "control"], path: ["users", "data"] },
+    identity: { nodes: ["user", "directory", "dns", "nas", "share", "access"], edge: ["directory", "nas", "dependency"], path: ["user", "access"] },
+    ha: { nodes: ["client", "nas-a", "nas-b", "heartbeat", "cluster-ip", "share"], edge: ["heartbeat", "cluster-ip", "control"], path: ["client", "share"] },
+    protection: { nodes: ["share", "raid", "ha", "veeam", "repository", "restore"], edge: ["veeam", "repository", "data"], path: ["share", "restore"] },
+    limits: { nodes: ["directory", "heartbeat", "nas-b", "share", "veeam", "users"], edge: ["share", "veeam", "data"], path: ["directory", "users"] },
+  }),
+  migration: baselineProfile("delivery", {
+    discovery: { nodes: ["workloads", "dependencies", "inventory", "plan", "source", "destination"], edge: ["inventory", "plan", "control"], path: ["workloads", "destination"] },
+    compatibility: { nodes: ["source", "compatibility", "migration-net", "storage", "destination"], edge: ["source", "compatibility", "control"], path: ["source", "destination"] },
+    waves: { nodes: ["pilot", "migration-net", "wave", "critical", "backup"], edge: ["migration-net", "wave", "data"], path: ["pilot", "critical"] },
+    validation: { nodes: ["infra", "monitoring", "dependencies", "service", "acceptance"], edge: ["monitoring", "service", "data"], path: ["infra", "acceptance"] },
+    limits: { nodes: ["inventory", "compatibility", "migration-net", "storage", "rollback", "service"], edge: ["compatibility", "migration-net", "dependency"], path: ["inventory", "service"] },
+  }),
+  "checkpoint-ha": baselineProfile("security", {
+    traffic: { nodes: ["users", "vip", "active", "standby", "service"], edge: ["vip", "active", "data"], path: ["users", "service"] },
+    members: { nodes: ["compatibility", "active", "standby", "vip", "service"], edge: ["compatibility", "active", "control"], path: ["compatibility", "service"] },
+    sync: { nodes: ["active", "policy", "sync", "standby", "service"], edge: ["sync", "standby", "control"], path: ["active", "service"] },
+    failover: { nodes: ["active", "vip", "standby", "routing", "service"], edge: ["vip", "standby", "control"], path: ["active", "service"] },
+    limits: { nodes: ["active", "sync", "vip", "policy", "standby", "service"], edge: ["policy", "standby", "control"], path: ["active", "service"] },
+  }),
+  sdwan: baselineProfile("network", {
+    underlay: { nodes: ["branch", "mpls", "internet", "lte", "edge", "hub"], edge: ["edge", "hub", "data"], path: ["branch", "hub"] },
+    overlay: { nodes: ["application", "bio", "qos", "topology", "underlay"], edge: ["bio", "topology", "control"], path: ["application", "underlay"] },
+    selection: { nodes: ["metrics", "policy", "path-selection", "primary", "alternate", "service"], edge: ["path-selection", "primary", "data"], path: ["metrics", "service"] },
+    security: { nodes: ["overlay", "edge", "security", "identity", "application"], edge: ["edge", "security", "data"], path: ["overlay", "application"] },
+    limits: { nodes: ["underlay", "bio", "path-selection", "edge", "security", "application"], edge: ["bio", "path-selection", "control"], path: ["underlay", "application"] },
+  }),
+  "power-aix": baselineProfile("virtualization", {
+    workload: { nodes: ["users", "application", "aix", "powervm", "storage"], edge: ["aix", "powervm", "control"], path: ["users", "storage"] },
+    platform: { nodes: ["hmc", "source", "viOS", "destination", "lpar"], edge: ["source", "lpar", "control"], path: ["hmc", "destination"] },
+    "data-paths": { nodes: ["lpar", "viOS", "lan", "san", "storage"], edge: ["viOS", "san", "storage"], path: ["lpar", "storage"] },
+    acceptance: { nodes: ["platform", "application", "monitoring", "backup", "acceptance"], edge: ["application", "monitoring", "control"], path: ["platform", "acceptance"] },
+    limits: { nodes: ["hmc", "viOS", "san", "application", "backup", "acceptance"], edge: ["viOS", "san", "storage"], path: ["hmc", "acceptance"] },
+  }),
+  "implementation-lifecycle": baselineProfile("delivery", {
+    discovery: { nodes: ["customer", "prerequisites", "inventory", "scope", "plan"], edge: ["scope", "plan", "control"], path: ["customer", "plan"] },
+    rack: { nodes: ["rack", "compute", "storage", "network", "firmware"], edge: ["network", "firmware", "control"], path: ["rack", "firmware"] },
+    integration: { nodes: ["compute", "lan", "san", "security", "backup", "service"], edge: ["security", "service", "data"], path: ["compute", "service"] },
+    acceptance: { nodes: ["tests", "evidence", "documentation", "operations", "acceptance"], edge: ["documentation", "acceptance", "data"], path: ["tests", "acceptance"] },
+    limits: { nodes: ["prerequisites", "rack", "integration", "acceptance", "documentation", "service"], edge: ["acceptance", "documentation", "control"], path: ["prerequisites", "service"] },
+  }),
+  instana: baselineProfile("observability", {
+    journey: { nodes: ["user", "gateway", "service", "database", "dependency", "impact"], edge: ["service", "database", "storage"], path: ["user", "impact"] },
+    signals: { nodes: ["service", "agent", "traces", "metrics", "logs", "question"], edge: ["agent", "metrics", "data"], path: ["service", "question"] },
+    discovery: { nodes: ["service", "process", "topology", "host", "dependency", "owner"], edge: ["process", "topology", "control"], path: ["service", "owner"] },
+    investigation: { nodes: ["symptom", "investigation", "evidence", "root", "remediation", "service"], edge: ["investigation", "root", "control"], path: ["symptom", "service"] },
+    limits: { nodes: ["agent", "collector", "topology", "investigation", "service", "operator"], edge: ["collector", "topology", "control"], path: ["agent", "operator"] },
+  }),
+  turbonomic: baselineProfile("application", {
+    demand: { nodes: ["application", "demand", "vm", "storage", "health"], edge: ["application", "demand", "control"], path: ["application", "health"] },
+    "supply-chain": { nodes: ["targets", "supply-chain", "application", "compute", "storage"], edge: ["targets", "supply-chain", "control"], path: ["targets", "storage"] },
+    market: { nodes: ["demand", "market", "compute", "storage", "constraints", "action"], edge: ["market", "action", "control"], path: ["demand", "action"] },
+    automation: { nodes: ["recommendation", "policy", "approval", "workflow", "action", "service"], edge: ["policy", "approval", "dependency"], path: ["recommendation", "service"] },
+    limits: { nodes: ["target", "demand", "market", "constraints", "policy", "action"], edge: ["constraints", "policy", "control"], path: ["target", "action"] },
+  }),
+  webmethods: baselineProfile("application", {
+    landscape: { nodes: ["api", "applications", "events", "integration", "b2b", "files", "control"], edge: ["integration", "control", "control"], path: ["api", "b2b"] },
+    flow: { nodes: ["request", "integration", "mapping", "backend", "response"], edge: ["integration", "mapping", "control"], path: ["request", "response"] },
+    hybrid: { nodes: ["control", "cloud-runtime", "runtime", "secure-link", "systems"], edge: ["secure-link", "systems", "dependency"], path: ["control", "systems"] },
+    governance: { nodes: ["consumer", "portal", "gateway", "policy", "integration", "service"], edge: ["gateway", "policy", "control"], path: ["consumer", "service"] },
+    limits: { nodes: ["runtime", "gateway", "mapping", "compatibility", "backend", "operator"], edge: ["mapping", "compatibility", "dependency"], path: ["runtime", "operator"] },
+  }),
 };

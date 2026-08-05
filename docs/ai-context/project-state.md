@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.33.0 (05-08-2026):** el motor de integridad técnica se extendió a los 22 explainers del catálogo. Cada escena tiene una línea base de componentes, relaciones y caminos esperados; VCF y NSX mantienen contratos más profundos de red. El panel etiqueta el dominio técnico correspondiente y la documentación está en `docs/ai-context/technical-integrity.md`.
+
 **Actualización v0.32.0 (05-08-2026):** se incorporó un motor de integridad
 técnica del modelo de red. VCF y NSX declaran contratos por escena con nodos,
 relaciones y caminos esperados; el canvas muestra el resultado y puede enfocar
