@@ -1,5 +1,11 @@
 # Estado del proyecto
 
+**Actualización v0.31.0 (05-08-2026):** los overlays de leyenda/capas y
+escenarios de fallo se pueden arrastrar dentro del espacio del diagrama, con
+lÃ­mites al canvas y un asa de arrastre separada de sus botones. La columna
+izquierda se compactÃ³ visualmente para priorizar escena, narrativa e impacto
+sin eliminar la evidencia ni los controles existentes.
+
 **Actualización v0.30.0 (05-08-2026):** la cabecera de cada explainer agrupa en
 una sola línea el enlace de escena, las marcas y la trazabilidad; el selector
 Cliente/Técnico y el modo presentación son más compactos. Cada tema ofrece un

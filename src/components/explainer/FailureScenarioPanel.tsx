@@ -5,6 +5,7 @@ import type {
   GuidedScenarioDecisionOutcome,
   TechnicalSource,
 } from "@/content/types";
+import { useDraggablePanel } from "./useDraggablePanel";
 
 interface FailureScenarioPanelProps {
   scenarios: FailureScenario[];
@@ -54,6 +55,7 @@ export function FailureScenarioPanel({
   onDecisionOptionChange,
 }: FailureScenarioPanelProps) {
   const [minimized, setMinimized] = useState(false);
+  const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
   const safeStepIndex = Math.min(Math.max(activeGuidedStepIndex, 0), Math.max(guidedSteps.length - 1, 0));
   const activeStep = guidedSteps[safeStepIndex] ?? null;
@@ -72,13 +74,25 @@ export function FailureScenarioPanel({
 
   return (
     <section
+      ref={panelRef}
       aria-label="Escenarios interactivos de fallo"
+      style={panelStyle}
       className={`absolute bottom-14 left-4 z-10 w-[min(26rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
         minimized ? "p-2.5" : "p-4"
-      }`}
+      } ${isDragging ? "select-none" : ""}`}
     >
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="flex min-w-0 flex-1 items-start gap-2">
+          <button
+            type="button"
+            aria-label="Arrastrar escenarios de fallo"
+            title="Arrastra para mover"
+            className="mt-0.5 cursor-grab touch-none select-none px-1 font-mono text-xs text-core-text-muted active:cursor-grabbing"
+            {...dragHandleProps}
+          >
+            ⠿
+          </button>
+          <div>
           <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
             Escenarios de fallo
           </p>
@@ -87,6 +101,7 @@ export function FailureScenarioPanel({
               Simulación conceptual: recorre la evidencia sin ejecutar cambios.
             </p>
           ) : null}
+          </div>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           {activeScenario ? (

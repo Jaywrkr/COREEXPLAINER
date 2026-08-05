@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.30.0";
+export const currentVersion = "0.31.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.31.0",
+    date: "05 ago 2026",
+    title: "Canvas más despejado y paneles movibles",
+    changes: [
+      "La leyenda y los escenarios de fallo se pueden arrastrar dentro del espacio del diagrama.",
+      "La explicación izquierda usa una jerarquía más compacta para priorizar escena, narrativa e impacto.",
+      "El arrastre está limitado al canvas y conserva los controles de zoom, simulación y diagnóstico.",
+    ],
+  },
   {
     version: "0.30.0",
     date: "05 ago 2026",

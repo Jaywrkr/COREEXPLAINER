@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.31.0] - 2026-08-05
+
+- La leyenda y los escenarios de fallo se pueden arrastrar dentro del espacio del diagrama.
+- La explicación izquierda usa una jerarquía más compacta para priorizar escena, narrativa e impacto.
+- El arrastre está limitado al canvas y conserva los controles de zoom, simulación y diagnóstico.
+
 ## [0.30.0] - 2026-08-05
 
 - Se compactaron el nivel de explicación, el enlace de escena, las marcas y la trazabilidad en la cabecera del tema.
