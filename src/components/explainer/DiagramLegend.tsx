@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { EdgeKind, NodeKind } from "@/lib/animation-spec/types";
+import { useDraggablePanel } from "./useDraggablePanel";
 
 const NODE_LAYER_LABELS: Array<{ kind: NodeKind; label: string }> = [
   { kind: "control-plane", label: "Gestión" },
@@ -46,17 +47,31 @@ export function DiagramLegend({
   onReset,
 }: DiagramLegendProps) {
   const [open, setOpen] = useState(false);
+  const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
 
   return (
     <section
+      ref={panelRef}
       aria-label="Leyenda y capas del diagrama"
-      className="absolute left-4 top-[4.2rem] z-10 w-[min(17rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 p-3 shadow-sm backdrop-blur-sm"
+      style={panelStyle}
+      className={`absolute left-4 top-[4.2rem] z-10 w-[min(17rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 p-3 shadow-sm backdrop-blur-sm ${
+        isDragging ? "select-none" : ""
+      }`}
     >
       <div className="flex items-center justify-between gap-3">
         <button
           type="button"
+          aria-label="Arrastrar leyenda y capas"
+          title="Arrastra para mover"
+          className="cursor-grab touch-none select-none px-1 font-mono text-xs text-core-text-muted active:cursor-grabbing"
+          {...dragHandleProps}
+        >
+          ⠿
+        </button>
+        <button
+          type="button"
           onClick={() => setOpen((value) => !value)}
-          className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-accent"
+          className="flex-1 text-left font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-accent"
           aria-expanded={open}
         >
           Leyenda y capas

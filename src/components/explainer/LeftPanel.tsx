@@ -51,22 +51,22 @@ export function LeftPanel({
   const step = steps[current]!;
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-8">
+    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-6">
       <BrandMark />
 
       <Link
         href="/explainer"
-        className="mb-5 inline-flex w-fit items-center gap-2 border border-core-border/[0.12] px-2.5 py-1.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text"
+        className="mb-4 inline-flex w-fit items-center gap-2 border border-core-border/[0.12] px-2.5 py-1.5 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text"
       >
         <span aria-hidden="true">←</span>
         Todos los temas
       </Link>
 
-      <span className="mb-4 block font-mono text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
+      <span className="mb-2 block font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
         {step.tag}
       </span>
-      <h1 className="mb-2 text-2xl font-bold leading-tight text-core-text sm:text-[1.65rem]">{meta.title}</h1>
-      <p className="mb-6 text-sm leading-relaxed text-core-text-secondary">{meta.tagline}</p>
+      <h1 className="mb-1.5 text-xl font-bold leading-tight text-core-text sm:text-[1.45rem]">{meta.title}</h1>
+      <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary">{meta.tagline}</p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
         <SceneShareControl
@@ -82,19 +82,20 @@ export function LeftPanel({
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
       ) : null}
 
-      <div>
-        <div className="mb-2 font-mono text-xs font-semibold text-core-accent">
-          {String(current + 1).padStart(2, "0")} / {steps.length}
+      <div className="border-t border-core-border/[0.1] pt-4">
+        <div className="mb-1.5 flex items-center justify-between gap-3 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+          <span>Escena {String(current + 1).padStart(2, "0")}</span>
+          <span className="text-core-text-muted">{steps.length} pasos</span>
         </div>
-        <h2 className="mb-3.5 text-lg font-bold text-core-text">{step.title}</h2>
-        <div className="space-y-3.5">
+        <h2 className="mb-2.5 text-base font-bold leading-snug text-core-text">{step.title}</h2>
+        <div className="space-y-2.5">
           {step.paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-sm leading-relaxed text-core-text-secondary">
+            <p key={index} className="text-[0.8rem] leading-relaxed text-core-text-secondary">
               {paragraph}
             </p>
           ))}
-          <p className="border-l-2 border-core-accent pl-3 text-[0.85rem] text-core-text">
-            {step.businessImpact}
+          <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
+            <span className="font-semibold text-core-accent">Impacto:</span> {step.businessImpact}
           </p>
         </div>
       </div>
