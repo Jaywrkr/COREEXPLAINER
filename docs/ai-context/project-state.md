@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.41.0 (05-08-2026):** el registro ejecuta fixtures de regresión del evaluador técnico durante el build. Se cubren caso válido, relación incorrecta, nodo faltante, camino roto por falla, nodo aislado y arista colgante.
+
 **Actualización v0.40.0 (05-08-2026):** el panel de integridad se revela automáticamente al activar fallos simulados, mostrando nodos inactivos, caminos afectados y siguiente paso. Se compacta al limpiar el impacto.
 
 **Actualización v0.39.0 (05-08-2026):** cada diagnóstico técnico muestra un siguiente paso conceptual. Las recomendaciones no ejecutan cambios y orientan hacia la validación o el runbook correspondiente.
