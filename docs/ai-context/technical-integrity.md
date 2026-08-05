@@ -42,9 +42,13 @@ Una línea base no sustituye la revisión de especialista: evita que el dibujo p
 Cada perfil declara también su nivel de garantía:
 
 - `baseline`: contrato semántico inicial para evitar omisiones estructurales;
+- `source-backed`: contrato asociado a fuentes específicas por escena, sin presentarlo aún como certificación especialista;
 - `reviewed`: reglas contrastadas con una revisión técnica más profunda y fuentes específicas.
 
-El panel muestra esta diferencia como “Cobertura base” o “Revisión profunda” para que el estado Validado no se lea como una certificación de producción.
+El panel muestra esta diferencia como “Cobertura base”, “Con fuentes específicas” o “Revisión profunda” para que el estado Validado no se lea como una certificación de producción.
+
+El batch fuente-backed actual cubre Observability, Instana, Turbonomic y
+webMethods, usando los catálogos técnicos declarados por cada tema.
 
 Cuando una regla declara `sourceIds`, el panel de diagnóstico muestra los
 enlaces directos a esas fuentes. La acción de abrir evidencia está separada

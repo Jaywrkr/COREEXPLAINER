@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.42.0] - 2026-08-05
+
+- Observability, Instana, Turbonomic y webMethods pasan de cobertura base a reglas con fuentes específicas por escena.
+- El panel puede enlazar esas fuentes desde los diagnósticos y conserva la diferencia entre evidencia documental y revisión especialista.
+- La validación bloquea referencias a fuentes inexistentes para evitar trazabilidad falsa.
+
 ## [0.41.0] - 2026-08-05
 
 - El build ejecuta fixtures que comprueban un caso válido y mutaciones de nodos, relaciones, caminos, fallos y aristas colgantes.

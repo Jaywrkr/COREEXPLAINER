@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.41.0";
+export const currentVersion = "0.42.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.42.0",
+    date: "05 ago 2026",
+    title: "Batch fuente-backed de observabilidad e IBM",
+    changes: [
+      "Observability, Instana, Turbonomic y webMethods pasan de cobertura base a reglas con fuentes específicas por escena.",
+      "El panel puede enlazar esas fuentes desde los diagnósticos y conserva la diferencia entre evidencia documental y revisión especialista.",
+      "La validación bloquea referencias a fuentes inexistentes para evitar trazabilidad falsa.",
+    ],
+  },
   {
     version: "0.41.0",
     date: "05 ago 2026",

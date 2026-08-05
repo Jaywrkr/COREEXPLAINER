@@ -20,7 +20,7 @@ const TECHNICAL_INTEGRITY_DOMAINS: ReadonlySet<TechnicalIntegrityDomain> = new S
   "application",
   "generic",
 ]);
-const TECHNICAL_INTEGRITY_ASSURANCE: ReadonlySet<TechnicalIntegrityAssurance> = new Set(["baseline", "reviewed"]);
+const TECHNICAL_INTEGRITY_ASSURANCE: ReadonlySet<TechnicalIntegrityAssurance> = new Set(["baseline", "source-backed", "reviewed"]);
 
 export interface ExplainerValidationInput {
   slug: string;
@@ -61,7 +61,7 @@ function validateTechnicalIntegrityProfile(
   add: (message: string) => void,
 ) {
   if (!TECHNICAL_INTEGRITY_DOMAINS.has(profile.domain)) add("meta.technicalIntegrity.domain is not supported");
-  if (!TECHNICAL_INTEGRITY_ASSURANCE.has(profile.assurance)) add("meta.technicalIntegrity.assurance must be 'baseline' or 'reviewed'");
+  if (!TECHNICAL_INTEGRITY_ASSURANCE.has(profile.assurance)) add("meta.technicalIntegrity.assurance must be 'baseline', 'source-backed' or 'reviewed'");
   const ruleIds = new Set<string>();
   const validateRule = (label: string, id: string, sourceIds: string[] | undefined) => {
     if (!isNonEmptyText(id)) add(`${label}.id must be a non-empty string`);
