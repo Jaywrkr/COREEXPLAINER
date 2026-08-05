@@ -270,9 +270,10 @@ const definitions: ExplainerDefinition[] = [
 // without duplicating metadata in 22 individual content files.
 export const explainerRegistry: ExplainerDefinition[] = definitions.map((definition) => {
   const profile = definition.meta.technicalIntegrity ?? technicalIntegrityProfiles[definition.slug];
-  const enriched = profile
-    ? { ...definition, meta: { ...definition.meta, technicalIntegrity: profile } }
-    : definition;
+  if (!profile) {
+    throw new Error(`Explainer '${definition.slug}' has no technical integrity profile`);
+  }
+  const enriched = { ...definition, meta: { ...definition.meta, technicalIntegrity: profile } };
   validateExplainerContent(enriched);
   return enriched;
 });

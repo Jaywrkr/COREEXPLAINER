@@ -44,3 +44,16 @@ Una línea base no sustituye la revisión de especialista: evita que el dibujo p
 1. Añadir reglas estáticas del modelo y probarlas durante el build.
 2. Incorporar fixtures de configuraciones exportadas para comparar modelo esperado y observado.
 3. Solo después conectar inventario o telemetría real, con credenciales, versionado y límites de responsabilidad documentados.
+
+## Quality gate
+
+Antes de publicar, `validateExplainerContent()` comprueba además que:
+
+- cada escena tenga exactamente un contrato técnico;
+- cada contrato declare al menos una comprobación;
+- los nodos exigidos por reglas existan en el `animation-spec.json` de esa escena;
+- ningún explainer del registro pueda entrar sin un perfil de integridad.
+
+Esto convierte los cambios de diagramas en cambios verificables: si alguien
+renombra o elimina un nodo sin actualizar su contrato, `npm run build` falla
+antes de llegar a Vercel.
