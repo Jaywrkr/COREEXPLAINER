@@ -67,6 +67,14 @@ debe intentar especificar un ícono por nodo; si un tema necesita
 distinguir visualmente nodos del mismo `kind`, usa `subtitle`, no un campo
 de ícono nuevo.
 
+### Texto y geometría del nodo
+
+El motor calcula el ancho y alto de cada tarjeta a partir de `name` y
+`subtitle`. Si el texto no cabe en una línea, lo envuelve y aumenta la altura;
+no se trunca con puntos suspensivos. Aristas, hit-testing, selección y el
+control de fallo usan esa misma geometría, por lo que un nuevo nombre largo no
+debe dejar texto fuera de la tarjeta ni conexiones atravesando su interior.
+
 ### Relaciones semánticas
 
 Cada arista debe declarar `kind` para que el diagrama explique qué significa
