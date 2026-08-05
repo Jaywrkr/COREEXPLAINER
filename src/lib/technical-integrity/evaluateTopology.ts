@@ -96,9 +96,47 @@ export function evaluateTopologyIntegrity(
     });
   }
 
+  for (const edge of scene.edges) {
+    const missingEndpoint = !nodeIds.has(edge.from) || !nodeIds.has(edge.to);
+    if (!missingEndpoint) continue;
+    diagnostics.push({
+      id: `dangling-edge-${edge.from}-${edge.to}-${edge.kind}`,
+      severity: "error",
+      title: "Relación sin componente válido",
+      detail: `La relación ${edge.from} → ${edge.to} apunta a un nodo que no existe en esta escena.`,
+      rationale: "Una arista sin ambos extremos no representa una conexión técnica interpretable.",
+      nodeIds: [edge.from, edge.to].filter((id) => nodeIds.has(id)),
+      sourceIds: [],
+    });
+  }
+
+  if (contract.checkOrphans !== false) {
+    const connectedNodeIds = new Set<string>();
+    for (const edge of scene.edges) {
+      if (nodeIds.has(edge.from) && nodeIds.has(edge.to)) {
+        connectedNodeIds.add(edge.from);
+        connectedNodeIds.add(edge.to);
+      }
+    }
+    for (const node of scene.nodes) {
+      if (connectedNodeIds.has(node.id)) continue;
+      diagnostics.push({
+        id: `orphan-node-${node.id}`,
+        severity: "warning",
+        title: "Componente aislado",
+        detail: `El componente '${node.id}' no tiene ninguna relación visible en esta escena.`,
+        rationale: "Un componente aislado puede indicar una dependencia omitida o una pieza que la narrativa todavía no conecta.",
+        nodeIds: [node.id],
+        sourceIds: [],
+      });
+    }
+  }
+
   const checkedRules = (contract.requiredNodes?.length ?? 0)
     + (contract.requiredEdges?.length ?? 0)
-    + (contract.requiredPaths?.length ?? 0);
+    + (contract.requiredPaths?.length ?? 0)
+    + scene.edges.length
+    + (contract.checkOrphans === false ? 0 : scene.nodes.length);
 
   return { domain, status: statusFor(diagnostics), checkedRules, diagnostics };
 }

@@ -52,6 +52,8 @@ export interface TechnicalIntegritySceneContract {
   requiredNodes?: string[];
   requiredEdges?: TechnicalIntegrityEdgeRule[];
   requiredPaths?: TechnicalIntegrityPathRule[];
+  /** Set false only when isolation is the subject being explained. */
+  checkOrphans?: boolean;
 }
 
 export interface TechnicalIntegrityEdgeRule {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.35.0] - 2026-08-05
+
+- El motor detecta nodos sin relaciones y aristas que apuntan a componentes inexistentes dentro de una escena.
+- Los componentes aislados aparecen como advertencia para no confundir un dibujo incompleto con una arquitectura válida.
+- Las escenas cuyo objetivo es explicar aislamiento pueden desactivar esta comprobación explícitamente en su contrato.
+
 ## [0.34.0] - 2026-08-05
 
 - El build exige un contrato técnico para cada escena de cada explainer del catálogo.
