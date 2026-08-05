@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import type { Scene } from "@/lib/animation-spec/types";
 import { AudienceModeToggle, type AudienceMode } from "./AudienceModeToggle";
@@ -53,19 +54,29 @@ export function LeftPanel({
     <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-8">
       <BrandMark />
 
+      <Link
+        href="/explainer"
+        className="mb-5 inline-flex w-fit items-center gap-2 border border-core-border/[0.12] px-2.5 py-1.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text"
+      >
+        <span aria-hidden="true">←</span>
+        Todos los temas
+      </Link>
+
       <span className="mb-4 block font-mono text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
         {step.tag}
       </span>
       <h1 className="mb-2 text-2xl font-bold leading-tight text-core-text sm:text-[1.65rem]">{meta.title}</h1>
       <p className="mb-6 text-sm leading-relaxed text-core-text-secondary">{meta.tagline}</p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
-      <SceneShareControl
-        sceneId={step.sceneId}
-        scenarioId={activeFailureScenarioId}
-        audienceMode={audienceMode}
-      />
-      <BrandContextPanel items={meta.brandContext} />
-      <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
+      <div className="mb-5 flex flex-wrap items-center gap-1.5">
+        <SceneShareControl
+          sceneId={step.sceneId}
+          scenarioId={activeFailureScenarioId}
+          audienceMode={audienceMode}
+        />
+        <BrandContextPanel items={meta.brandContext} />
+        <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
+      </div>
 
       {audienceMode === "technical" ? (
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />

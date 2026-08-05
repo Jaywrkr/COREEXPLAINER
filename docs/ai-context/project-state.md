@@ -1,5 +1,11 @@
 # Estado del proyecto
 
+**Actualización v0.30.0 (05-08-2026):** la cabecera de cada explainer agrupa en
+una sola línea el enlace de escena, las marcas y la trazabilidad; el selector
+Cliente/Técnico y el modo presentación son más compactos. Cada tema ofrece un
+botón para volver al dashboard `/explainer`, la leyenda del canvas inicia
+minimizada y el control global de versión ocupa menos espacio.
+
 **Actualización v0.29.0 (05-08-2026):** VCF es el primer explainer con fases
 authored de diagnóstico. Sus escenarios de fallo incluyen checkpoints de
 hipótesis, feedback, foco alternativo del diagrama y fuentes técnicas por fase.

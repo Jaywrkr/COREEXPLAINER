@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.29.0";
+export const currentVersion = "0.30.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.30.0",
+    date: "05 ago 2026",
+    title: "Interfaz compacta para presentar y explorar",
+    changes: [
+      "Se compactaron el nivel de explicación, el enlace de escena, las marcas y la trazabilidad en la cabecera del tema.",
+      "Cada explicación incluye un acceso directo para volver al dashboard de temas; el modo presentación ocupa menos espacio.",
+      "La leyenda del diagrama inicia minimizada y el control global de versión es más discreto.",
+    ],
+  },
   {
     version: "0.29.0",
     date: "05 ago 2026",

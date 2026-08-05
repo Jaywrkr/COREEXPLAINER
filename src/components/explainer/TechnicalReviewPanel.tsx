@@ -13,13 +13,13 @@ function formatDate(isoDate: string): string {
 export function TechnicalReviewPanel({ review, activeSourceIds }: TechnicalReviewPanelProps) {
   const activeSources = review.sources.filter((source) => activeSourceIds.includes(source.id));
   return (
-    <section className="mb-6 border border-core-border/[0.12] bg-core-panel/60">
+    <section className="relative shrink-0">
       <details>
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-2.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
-          <span>Trazabilidad técnica</span>
-          <span className="text-core-accent">Revisión {formatDate(review.lastReviewedAt)}</span>
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap border border-core-border/[0.12] bg-core-panel/60 px-2 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+          <span>Trazabilidad</span>
+          <span className="text-core-accent">{formatDate(review.lastReviewedAt)}</span>
         </summary>
-        <div className="border-t border-core-border/[0.1] px-3 pb-3 pt-2.5">
+        <div className="absolute right-0 top-full z-30 mt-1 w-[min(25rem,calc(100vw-3rem))] border border-core-border/[0.14] bg-core-panel p-3 shadow-lg">
           <p className="text-[0.7rem] leading-relaxed text-core-text-secondary">
             <span className="font-semibold text-core-text">Alcance:</span> {review.scope}
           </p>
