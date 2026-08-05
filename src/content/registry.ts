@@ -30,6 +30,16 @@ import { lanSanMeta, lanSanSteps } from "./lan-san";
 import lanSanRawSpec from "../../docs/examples/lan-san/animation-spec.json";
 import { nasPrivateCloudMeta, nasPrivateCloudSteps } from "./nas-private-cloud";
 import nasPrivateCloudRawSpec from "../../docs/examples/nas-private-cloud/animation-spec.json";
+import { migrationMeta, migrationSteps } from "./migration";
+import migrationRawSpec from "../../docs/examples/migration/animation-spec.json";
+import { checkpointHaMeta, checkpointHaSteps } from "./checkpoint-ha";
+import checkpointHaRawSpec from "../../docs/examples/checkpoint-ha/animation-spec.json";
+import { sdwanMeta, sdwanSteps } from "./sdwan";
+import sdwanRawSpec from "../../docs/examples/sdwan/animation-spec.json";
+import { powerAixMeta, powerAixSteps } from "./power-aix";
+import powerAixRawSpec from "../../docs/examples/power-aix/animation-spec.json";
+import { implementationLifecycleMeta, implementationLifecycleSteps } from "./implementation-lifecycle";
+import implementationLifecycleRawSpec from "../../docs/examples/implementation-lifecycle/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -158,6 +168,46 @@ const nasPrivateCloudDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(nasPrivateCloudRawSpec),
 };
 
+const migrationDefinition: ExplainerDefinition = {
+  slug: "migration",
+  category: "Virtualización",
+  meta: migrationMeta,
+  steps: migrationSteps,
+  spec: parseAnimationSpec(migrationRawSpec),
+};
+
+const checkpointHaDefinition: ExplainerDefinition = {
+  slug: "checkpoint-ha",
+  category: "Seguridad",
+  meta: checkpointHaMeta,
+  steps: checkpointHaSteps,
+  spec: parseAnimationSpec(checkpointHaRawSpec),
+};
+
+const sdwanDefinition: ExplainerDefinition = {
+  slug: "sdwan",
+  category: "Redes",
+  meta: sdwanMeta,
+  steps: sdwanSteps,
+  spec: parseAnimationSpec(sdwanRawSpec),
+};
+
+const powerAixDefinition: ExplainerDefinition = {
+  slug: "power-aix",
+  category: "Cloud",
+  meta: powerAixMeta,
+  steps: powerAixSteps,
+  spec: parseAnimationSpec(powerAixRawSpec),
+};
+
+const implementationLifecycleDefinition: ExplainerDefinition = {
+  slug: "implementation-lifecycle",
+  category: "Cloud",
+  meta: implementationLifecycleMeta,
+  steps: implementationLifecycleSteps,
+  spec: parseAnimationSpec(implementationLifecycleRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
@@ -174,8 +224,13 @@ validateExplainerContent(veeamProtectionDefinition);
 validateExplainerContent(activeActiveDefinition);
 validateExplainerContent(lanSanDefinition);
 validateExplainerContent(nasPrivateCloudDefinition);
+validateExplainerContent(migrationDefinition);
+validateExplainerContent(checkpointHaDefinition);
+validateExplainerContent(sdwanDefinition);
+validateExplainerContent(powerAixDefinition);
+validateExplainerContent(implementationLifecycleDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition, veeamProtectionDefinition, activeActiveDefinition, lanSanDefinition, nasPrivateCloudDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition, veeamProtectionDefinition, activeActiveDefinition, lanSanDefinition, nasPrivateCloudDefinition, migrationDefinition, checkpointHaDefinition, sdwanDefinition, powerAixDefinition, implementationLifecycleDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

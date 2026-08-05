@@ -144,6 +144,14 @@ El batch inicial de este backlog ya implementó los temas 1, 2, 3 y 4 como
 `/explainer/active-active-dc` y `/explainer/lan-san`. El tema de migración y
 los siguientes permanecen como la próxima tanda.
 
+## Estado del backlog — 2026-08-05
+
+El batch v0.26.0 incorporÃ³ los patrones 5, 7, 8, 9 y 10 como explainers
+independientes: `/explainer/migration`, `/explainer/checkpoint-ha`,
+`/explainer/sdwan`, `/explainer/power-aix` y
+`/explainer/implementation-lifecycle`. Quedan pendientes las revisiones de
+especialista y nuevos temas derivados del CSV.
+
 ## Regla para futuros explainers
 
 Un proyecto real puede convertirse en un explainer solo después de separar:

@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "id": "migration-without-outage",
+  "title": "Cómo migrar una plataforma sin detener el negocio",
+  "scenes": {
+    "discovery": { "nodes": [
+      { "id": "workloads", "name": "Workloads", "subtitle": "VMs / LPARs / servicios", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 3 },
+      { "id": "dependencies", "name": "Dependencias", "subtitle": "DNS · identidad · red", "x": 0.3, "y": 0.25, "kind": "external", "capacity": 70 },
+      { "id": "inventory", "name": "Inventario", "subtitle": "Hosts · storage · apps", "x": 0.32, "y": 0.72, "kind": "control-plane", "capacity": 80 },
+      { "id": "plan", "name": "Plan de oleadas", "subtitle": "Criterios y ventana", "x": 0.58, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "source", "name": "Origen", "subtitle": "Plataforma actual", "x": 0.82, "y": 0.3, "kind": "compute", "capacity": 80 },
+      { "id": "destination", "name": "Destino", "subtitle": "Plataforma preparada", "x": 0.82, "y": 0.7, "kind": "compute", "capacity": 80 }
+    ], "edges": [
+      { "from": "workloads", "to": "dependencies", "kind": "dependency" }, { "from": "workloads", "to": "inventory", "kind": "control" }, { "from": "dependencies", "to": "plan", "kind": "dependency" }, { "from": "inventory", "to": "plan", "kind": "control" }, { "from": "plan", "to": "source", "kind": "control" }, { "from": "plan", "to": "destination", "kind": "control" }
+    ] },
+    "compatibility": { "nodes": [
+      { "id": "source", "name": "Host origen", "subtitle": "CPU · VM · paths", "x": 0.1, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "compatibility", "name": "Matriz de compatibilidad", "subtitle": "Release · HCL · permisos", "x": 0.34, "y": 0.5, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "migration-net", "name": "Red de migración", "subtitle": "vMotion / LPM", "x": 0.58, "y": 0.25, "kind": "network", "capacity": 85 },
+      { "id": "storage", "name": "Storage destino", "subtitle": "Datastore / SAN", "x": 0.58, "y": 0.75, "kind": "storage", "capacity": 85, "killable": true },
+      { "id": "destination", "name": "Host destino", "subtitle": "Capacidad disponible", "x": 0.86, "y": 0.5, "kind": "compute", "capacity": 80, "killable": true }
+    ], "edges": [
+      { "from": "source", "to": "compatibility", "kind": "control" }, { "from": "compatibility", "to": "migration-net", "kind": "dependency" }, { "from": "compatibility", "to": "storage", "kind": "dependency" }, { "from": "migration-net", "to": "destination", "kind": "data" }, { "from": "storage", "to": "destination", "kind": "storage" }
+    ] },
+    "waves": { "nodes": [
+      { "id": "pilot", "name": "Piloto", "subtitle": "Baja criticidad", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 2 },
+      { "id": "migration-net", "name": "Red de migración", "subtitle": "Camino controlado", "x": 0.32, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "wave", "name": "Oleada", "subtitle": "Dependencias agrupadas", "x": 0.55, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "critical", "name": "Carga crítica", "subtitle": "Última oleada", "x": 0.8, "y": 0.35, "kind": "workload", "capacity": 85 },
+      { "id": "backup", "name": "Punto de retorno", "subtitle": "Backup / réplica", "x": 0.8, "y": 0.72, "kind": "storage", "capacity": 80 }
+    ], "edges": [
+      { "from": "pilot", "to": "migration-net", "kind": "data" }, { "from": "migration-net", "to": "wave", "kind": "data" }, { "from": "wave", "to": "critical", "kind": "control" }, { "from": "wave", "to": "backup", "kind": "storage" }
+    ] },
+    "validation": { "nodes": [
+      { "id": "infra", "name": "Infraestructura", "subtitle": "Host · datastore · red", "x": 0.1, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "monitoring", "name": "Observabilidad", "subtitle": "Métricas y logs", "x": 0.35, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "dependencies", "name": "Dependencias", "subtitle": "DNS · identidad · firewall", "x": 0.35, "y": 0.75, "kind": "network", "capacity": 75 },
+      { "id": "service", "name": "Aplicación", "subtitle": "Servicio usable", "x": 0.62, "y": 0.5, "kind": "workload", "capacity": 85 },
+      { "id": "acceptance", "name": "Aceptación", "subtitle": "Evidencia del cliente", "x": 0.86, "y": 0.5, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "infra", "to": "monitoring", "kind": "control" }, { "from": "infra", "to": "dependencies", "kind": "dependency" }, { "from": "monitoring", "to": "service", "kind": "data" }, { "from": "dependencies", "to": "service", "kind": "dependency" }, { "from": "service", "to": "acceptance", "kind": "data" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "inventory", "name": "Inventario", "subtitle": "Condiciones reales", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 75 },
+      { "id": "compatibility", "name": "Compatibilidad", "subtitle": "HCL · release · permisos", "x": 0.28, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "migration-net", "name": "Red de migración", "subtitle": "Ancho de banda / MTU", "x": 0.48, "y": 0.3, "kind": "network", "capacity": 80, "killable": true },
+      { "id": "storage", "name": "Storage destino", "subtitle": "Paths / datastore", "x": 0.68, "y": 0.3, "kind": "storage", "capacity": 80, "killable": true },
+      { "id": "rollback", "name": "Rollback", "subtitle": "Punto probado", "x": 0.88, "y": 0.3, "kind": "storage", "capacity": 75, "killable": true },
+      { "id": "service", "name": "Servicio", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "inventory", "to": "compatibility", "kind": "control" }, { "from": "compatibility", "to": "migration-net", "kind": "dependency" }, { "from": "migration-net", "to": "storage", "kind": "data" }, { "from": "storage", "to": "rollback", "kind": "storage" }, { "from": "rollback", "to": "service", "kind": "dependency" }
+    ] }
+  }
+}

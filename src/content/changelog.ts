@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.25.0";
+export const currentVersion = "0.26.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.26.0",
+    date: "05 ago 2026",
+    title: "Batch de continuidad, seguridad y delivery",
+    changes: [
+      "Se añadieron cinco explainers: migración sin interrupción, Check Point HA, SD-WAN, IBM Power/AIX y ciclo de implementación.",
+      "Cada tema incluye cinco escenas, cuatro escenarios de fallo, contexto de marcas y fuentes primarias revisadas el 2026-08-05.",
+      "El batch amplía la conversación desde componentes aislados hacia migración, cargas críticas, conectividad multisede y adopción del cliente.",
+    ],
+  },
   {
     version: "0.25.0",
     date: "05 ago 2026",

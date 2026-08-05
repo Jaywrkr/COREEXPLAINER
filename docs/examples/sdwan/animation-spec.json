@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "id": "sdwan-business-intent",
+  "title": "Cómo SD-WAN elige el mejor camino para cada aplicación",
+  "scenes": {
+    "underlay": { "nodes": [
+      { "id": "branch", "name": "Sucursal", "subtitle": "Usuarios y edge", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "mpls", "name": "MPLS", "subtitle": "Transporte privado", "x": 0.32, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "internet", "name": "Internet", "subtitle": "Banda ancha", "x": 0.32, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "lte", "name": "4G / 5G", "subtitle": "Respaldo", "x": 0.32, "y": 0.75, "kind": "network", "capacity": 70 },
+      { "id": "edge", "name": "EdgeConnect", "subtitle": "Túneles y medición", "x": 0.62, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "hub", "name": "Data center / cloud", "subtitle": "Destino", "x": 0.88, "y": 0.5, "kind": "workload", "capacity": 85 }
+    ], "edges": [
+      { "from": "branch", "to": "mpls", "kind": "data" }, { "from": "branch", "to": "internet", "kind": "data" }, { "from": "branch", "to": "lte", "kind": "data" }, { "from": "mpls", "to": "edge", "kind": "dependency" }, { "from": "internet", "to": "edge", "kind": "dependency" }, { "from": "lte", "to": "edge", "kind": "dependency" }, { "from": "edge", "to": "hub", "kind": "data" }
+    ] },
+    "overlay": { "nodes": [
+      { "id": "application", "name": "Aplicación", "subtitle": "ERP / voz / backup", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 3 },
+      { "id": "bio", "name": "Business Intent Overlay", "subtitle": "Intención por app", "x": 0.35, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "qos", "name": "QoS / prioridad", "subtitle": "Calidad objetivo", "x": 0.58, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "topology", "name": "Topología", "subtitle": "Hub / mesh / breakout", "x": 0.58, "y": 0.75, "kind": "network", "capacity": 75 },
+      { "id": "underlay", "name": "Underlays", "subtitle": "Caminos disponibles", "x": 0.84, "y": 0.5, "kind": "network", "capacity": 80 }
+    ], "edges": [
+      { "from": "application", "to": "bio", "kind": "control" }, { "from": "bio", "to": "qos", "kind": "control" }, { "from": "bio", "to": "topology", "kind": "control" }, { "from": "qos", "to": "underlay", "kind": "dependency" }, { "from": "topology", "to": "underlay", "kind": "dependency" }
+    ] },
+    "selection": { "nodes": [
+      { "id": "metrics", "name": "Pérdida / latencia / jitter", "subtitle": "Salud del camino", "x": 0.08, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "policy", "name": "Política BIO", "subtitle": "Umbral y prioridad", "x": 0.08, "y": 0.75, "kind": "control-plane", "capacity": 80 },
+      { "id": "path-selection", "name": "Selección de camino", "subtitle": "Elegible / alterno", "x": 0.4, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "primary", "name": "Camino preferido", "subtitle": "Cumple objetivo", "x": 0.68, "y": 0.3, "kind": "network", "capacity": 80 },
+      { "id": "alternate", "name": "Camino alterno", "subtitle": "Convergencia", "x": 0.68, "y": 0.7, "kind": "network", "capacity": 75 },
+      { "id": "service", "name": "Experiencia", "subtitle": "Aplicación usable", "x": 0.92, "y": 0.5, "kind": "workload", "capacity": 85 }
+    ], "edges": [
+      { "from": "metrics", "to": "path-selection", "kind": "control" }, { "from": "policy", "to": "path-selection", "kind": "control" }, { "from": "path-selection", "to": "primary", "kind": "data" }, { "from": "path-selection", "to": "alternate", "kind": "dependency" }, { "from": "primary", "to": "service", "kind": "data" }, { "from": "alternate", "to": "service", "kind": "dependency" }
+    ] },
+    "security": { "nodes": [
+      { "id": "overlay", "name": "Overlay", "subtitle": "Túnel de aplicación", "x": 0.08, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "edge", "name": "EdgeConnect", "subtitle": "Segmentación / breakout", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "security", "name": "Check Point", "subtitle": "Inspección", "x": 0.58, "y": 0.5, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "identity", "name": "Identidad / DNS", "subtitle": "Dependencia", "x": 0.78, "y": 0.25, "kind": "external", "capacity": 70 },
+      { "id": "application", "name": "Aplicación", "subtitle": "Destino", "x": 0.88, "y": 0.75, "kind": "workload", "capacity": 85 }
+    ], "edges": [
+      { "from": "overlay", "to": "edge", "kind": "data" }, { "from": "edge", "to": "security", "kind": "data" }, { "from": "security", "to": "identity", "kind": "dependency" }, { "from": "security", "to": "application", "kind": "data" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "underlay", "name": "Underlay", "subtitle": "Circuit / túnel", "x": 0.08, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "bio", "name": "BIO", "subtitle": "Clasificación / intención", "x": 0.28, "y": 0.3, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "path-selection", "name": "Path selection", "subtitle": "Métricas y umbrales", "x": 0.48, "y": 0.3, "kind": "network", "capacity": 80, "killable": true },
+      { "id": "edge", "name": "Edge / HA", "subtitle": "Punto de terminación", "x": 0.68, "y": 0.3, "kind": "compute", "capacity": 80, "killable": true },
+      { "id": "security", "name": "Seguridad", "subtitle": "Firewall / retorno", "x": 0.88, "y": 0.3, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "application", "name": "Aplicación", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "underlay", "to": "bio", "kind": "data" }, { "from": "bio", "to": "path-selection", "kind": "control" }, { "from": "path-selection", "to": "edge", "kind": "dependency" }, { "from": "edge", "to": "security", "kind": "data" }, { "from": "security", "to": "application", "kind": "dependency" }
+    ] }
+  }
+}
