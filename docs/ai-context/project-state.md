@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.50.0 (05-08-2026):** la marca visible se normalizó a `CORESOLUTIONS` en interfaz, metadatos, contenidos y documentación. Se mantienen en minúsculas los identificadores técnicos, rutas, URLs y nombres de paquete para no romper referencias.
+
 **Actualización v0.49.0 (05-08-2026):** cada explicación ofrece `Favorito` y `Revisado`. El estado se conserva localmente por `slug` en el navegador; no hay autenticación, backend ni sincronización entre dispositivos. El contrato está documentado en `docs/ai-context/feedback-and-progress.md`.
 
 **Actualización v0.48.0 (05-08-2026):** en modo Cliente el canvas prioriza zoom, paneo y reproducción. Leyenda, capas, escenarios de fallo e integridad técnica se agrupan en `Más herramientas`; el contexto se revela automáticamente cuando existe un escenario activo o una alerta del modelo.
@@ -127,7 +129,7 @@ Actualización adicional 2026-08-04 — v0.19.0: patrones reales de proyectos y 
 Actualización adicional 2026-08-04 — v0.20.0: nuevo explainer de Storage SAN empresarial.
 Actualización adicional 2026-08-04 — v0.24.0: batch de cuatro explainers de infraestructura.
 Actualización adicional 2026-08-05 — v0.25.0: política de deploy manual para proteger la cuota de Vercel.
-**Actualización adicional 2026-08-04 — v0.16.0:** se añadió el explainer de Backup/DR y el registro canónico del portafolio de marcas CoreSolutions.
+**Actualización adicional 2026-08-04 — v0.16.0:** se añadió el explainer de Backup/DR y el registro canónico del portafolio de marcas CORESOLUTIONS.
 
 ## Qué está hecho
 
@@ -264,7 +266,7 @@ Actualización adicional 2026-08-05 — v0.25.0: política de deploy manual para
   sin implementar).
 - Hay siete temas conceptuales (VCF, vSphere HA, vSAN, NSX, Zero Trust,
   Kubernetes y Observabilidad). No hay galería ni persistencia.
-- Logo real de CoreSolutions (hoy es un bloque de texto "COI" provisional,
+- Logo real de CORESOLUTIONS (hoy es un bloque de texto "COI" provisional,
   ver `src/components/explainer/BrandMark.tsx`).
 - El layout de dos columnas oculta el canvas en pantallas angostas
   (`md:` breakpoint) — no hay una versión mobile del diagrama; aceptable

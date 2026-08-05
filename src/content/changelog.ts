@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.49.0";
+export const currentVersion = "0.50.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.50.0",
+    date: "05 ago 2026",
+    title: "Marca CORESOLUTIONS consistente",
+    changes: [
+      "La marca visible se presenta como CORESOLUTIONS en la portada, dashboard, explicaciones, metadatos y fuentes.",
+      "La documentación de producto, contexto de IA y changelog usa la misma grafía para futuras sesiones.",
+      "Se conservan nombres técnicos, rutas, URLs y claves internas en minúsculas para evitar romper integraciones.",
+    ],
+  },
   {
     version: "0.49.0",
     date: "05 ago 2026",
@@ -285,7 +295,7 @@ export const changelogEntries: ChangelogEntry[] = [
   {
     version: "0.19.0",
     date: "04 ago 2026",
-    title: "Contexto de proyectos reales de CoreSolutions",
+    title: "Contexto de proyectos reales de CORESOLUTIONS",
     changes: [
       "Se documentaron patrones sanitizados de implementaciones reales: storage, SAN, VMware, Veeam, redes, seguridad, IBM Power, NAS y alta disponibilidad.",
       "Se añadió un backlog priorizado de explainers basado en tareas recurrentes de proyectos.",
@@ -307,7 +317,7 @@ export const changelogEntries: ChangelogEntry[] = [
     date: "04 ago 2026",
     title: "Contexto de marcas por explicación",
     changes: [
-      "Cada tema declara las marcas CoreSolutions relacionadas, su función y el límite de la afirmación.",
+      "Cada tema declara las marcas CORESOLUTIONS relacionadas, su función y el límite de la afirmación.",
       "La interfaz muestra una ficha Marcas del patrón en todos los explainers.",
       "El quality gate bloquea temas sin contexto de marca completo y se documentó el contrato para futuras sesiones.",
     ],
@@ -319,7 +329,7 @@ export const changelogEntries: ChangelogEntry[] = [
     changes: [
       "Nuevo tema con cinco escenas sobre RPO/RTO, protección Veeam sobre VMware/VCF y Lenovo, copias protegidas IBM, recuperación y pruebas.",
       "Escenarios interactivos para job fallido, repositorio no disponible, lag de replicación y restore no probado.",
-      "Se documentó el portafolio de marcas CoreSolutions, la fecha de revisión y la matriz de fuentes técnicas del tema.",
+      "Se documentó el portafolio de marcas CORESOLUTIONS, la fecha de revisión y la matriz de fuentes técnicas del tema.",
     ],
   },
   {

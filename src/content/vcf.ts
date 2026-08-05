@@ -4,7 +4,7 @@ import { vcfGuidedSteps } from "./vcf-guided";
 import { vcfTechnicalIntegrity } from "./technical-integrity";
 
 /**
- * Conceptual VCF explainer, framed for a CoreSolutions consultative sales
+ * Conceptual VCF explainer, framed for a CORESOLUTIONS consultative sales
  * conversation. Version-specific claims and customer outcomes must be
  * reviewed against the validation matrix before this copy is used externally.
  */

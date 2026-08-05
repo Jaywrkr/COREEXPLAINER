@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-// CoreSolutions design tokens.
+// CORESOLUTIONS design tokens.
 // Values are CSS variables (app/globals.css), not hex, so the palette can
 // switch between the dark (default) and light themes — see
 // docs/product/brand.md. Written as rgb(var(...) / <alpha-value>) so

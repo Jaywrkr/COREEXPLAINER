@@ -3,7 +3,7 @@
 ## Propósito
 
 Cada `ExplainerMeta` declara `brandContext`: una lista de marcas del
-portafolio CoreSolutions, el papel que cumplen en el patrón y el límite de lo
+portafolio CORESOLUTIONS, el papel que cumplen en el patrón y el límite de lo
 que el diagrama está afirmando. La interfaz lo muestra en el panel izquierdo
 como **Marcas del patrón**.
 

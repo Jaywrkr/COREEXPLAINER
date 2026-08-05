@@ -13,7 +13,7 @@ const publisherRules: Array<[RegExp, string]> = [
   [/prometheus\.io/i, "Prometheus"],
   [/synology\.com/i, "Synology"],
   [/lenovo\.com|lenovo\.cn/i, "Lenovo"],
-  [/github\.com/i, "CoreSolutions"],
+  [/github\.com/i, "CORESOLUTIONS"],
 ];
 
 function inferPublisher(source: TechnicalSource): string {

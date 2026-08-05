@@ -1,4 +1,4 @@
-# Guía de marca — CoreSolutions Technical Explainer
+# Guía de marca — CORESOLUTIONS Technical Explainer
 
 Fuente: paleta y lineamientos provistos por el usuario para este proyecto.
 Esta es la única fuente de verdad para color/tipografía/forma; los valores
@@ -99,5 +99,5 @@ operativo pida claro). El claro es un modo secundario, no una marca distinta:
 
 - Isotipo provisional: bloque `COI` en `IBM Plex Mono`, fondo navy, usado en
   `src/components/explainer/BrandMark.tsx`. Reemplazar por el logo real de
-  CoreSolutions cuando esté disponible como asset (SVG), sin cambiar la
+  CORESOLUTIONS cuando esté disponible como asset (SVG), sin cambiar la
   estructura del componente.

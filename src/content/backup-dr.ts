@@ -57,7 +57,7 @@ export const backupDrMeta: ExplainerMeta = {
   chip: "Continuidad · Backup y DR",
   title: "De una copia a una recuperación comprobable",
   tagline:
-    "Una explicación visual de RPO/RTO, backup, copias protegidas, replicación y pruebas de recuperación con el portafolio CoreSolutions como contexto.",
+    "Una explicación visual de RPO/RTO, backup, copias protegidas, replicación y pruebas de recuperación con el portafolio CORESOLUTIONS como contexto.",
   storyboardDoc: "docs/examples/backup-dr/storyboard.md",
   technicalValidationDoc: "docs/ai-context/backup-dr-technical-validation.md",
   technicalReview: {
@@ -65,8 +65,8 @@ export const backupDrMeta: ExplainerMeta = {
     scope:
       "Patrón conceptual revisado con Veeam Backup & Replication 13.0.2.29, soporte de VMware vSphere 9.0/8.x/7.x y VCF, IBM FlashSystem 9.1.1, Lenovo ThinkSystem y prácticas NIST/CISA; confirmar release, HCL, licenciamiento y sizing del cliente.",
     sources: [
-      { id: "coresolutions-profile", title: "CoreSolutions: perfil público y marcas", url: "https://ec.linkedin.com/company/coresolutionssa", accessedAt: "2026-08-04" },
-      { id: "ibm-partner", title: "IBM Partner Plus: CoreSolutions", url: "https://www.ibm.com/partnerplus/directory/company/4548", accessedAt: "2026-08-04" },
+      { id: "coresolutions-profile", title: "CORESOLUTIONS: perfil público y marcas", url: "https://ec.linkedin.com/company/coresolutionssa", accessedAt: "2026-08-04" },
+      { id: "ibm-partner", title: "IBM Partner Plus: CORESOLUTIONS", url: "https://www.ibm.com/partnerplus/directory/company/4548", accessedAt: "2026-08-04" },
       { id: "nist-contingency", title: "NIST SP 800-34 Rev. 1: contingency planning", url: "https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final", accessedAt: "2026-08-04" },
       { id: "nist-rto", title: "NIST glossary: recovery time objective", url: "https://csrc.nist.gov/glossary/term/recovery_time_objective", accessedAt: "2026-08-04" },
       { id: "cisa-ransomware", title: "CISA StopRansomware guide", url: "https://www.cisa.gov/stopransomware/ransomware-guide", accessedAt: "2026-08-04" },

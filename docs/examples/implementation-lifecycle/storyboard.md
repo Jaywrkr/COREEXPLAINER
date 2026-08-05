@@ -5,7 +5,7 @@
 
 ## Intención
 
-Convertir el ciclo recurrente de proyectos de CoreSolutions en una historia
+Convertir el ciclo recurrente de proyectos de CORESOLUTIONS en una historia
 visual entendible para un cliente: descubrir, instalar, integrar, probar,
 documentar y transferir la operación.
 
@@ -19,6 +19,6 @@ documentar y transferir la operación.
 
 ## Marcas
 
-El patrón usa las marcas del portafolio de CoreSolutions como ejemplos de
+El patrón usa las marcas del portafolio de CORESOLUTIONS como ejemplos de
 capas, no como promesa de compatibilidad automática. La selección final depende
 del diseño, modelo, release, licencia y alcance del cliente.

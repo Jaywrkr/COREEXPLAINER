@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.50.0] - 2026-08-05
+
+- La marca visible se presenta como CORESOLUTIONS en la portada, dashboard, explicaciones, metadatos y fuentes.
+- La documentación de producto, contexto de IA y changelog usa la misma grafía para futuras sesiones.
+- Se conservan nombres técnicos, rutas, URLs y claves internas en minúsculas para evitar romper integraciones.
+
 ## [0.49.0] - 2026-08-05
 
 - Cada tema permite guardarse como Favorito y marcarse como Revisado.
@@ -172,7 +178,7 @@
 
 ## [0.19.0] - 2026-08-04
 
-- Se documentaron patrones sanitizados de proyectos reales de CoreSolutions: storage, SAN, VMware, Veeam, redes, seguridad, IBM Power, NAS y alta disponibilidad.
+- Se documentaron patrones sanitizados de proyectos reales de CORESOLUTIONS: storage, SAN, VMware, Veeam, redes, seguridad, IBM Power, NAS y alta disponibilidad.
 - Se añadió un backlog priorizado de explainers basado en tareas recurrentes de implementación.
 - El resumen evita nombres de clientes, correos y enlaces operativos del CSV original.
 
@@ -184,7 +190,7 @@
 
 ## [0.17.0] - 2026-08-04
 
-- Cada explicación declara las marcas CoreSolutions relacionadas, su función y el límite técnico del patrón.
+- Cada explicación declara las marcas CORESOLUTIONS relacionadas, su función y el límite técnico del patrón.
 - La interfaz muestra la ficha “Marcas del patrón” y el quality gate valida el contexto de marca.
 - Se documentó el contrato para que futuras sesiones mantengan el contexto comercial.
 
@@ -192,7 +198,7 @@
 
 - Nuevo tema independiente de Backup y Disaster Recovery con cinco escenas sobre RPO/RTO, protección Veeam sobre VMware/VCF y Lenovo, copias protegidas IBM, recuperación y pruebas.
 - Escenarios interactivos para job fallido, repositorio no disponible, lag de replicación y restauración no probada.
-- Registro permanente del portafolio CoreSolutions, fecha de revisión, fuentes y límites técnicos.
+- Registro permanente del portafolio CORESOLUTIONS, fecha de revisión, fuentes y límites técnicos.
 
 ## [0.15.0] - 2026-08-04
 

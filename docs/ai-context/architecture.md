@@ -124,7 +124,7 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   escenas sobre recorridos distribuidos, señales, Collector y diagnóstico.
 - **`src/content/backup-dr.ts`** — octavo ejemplo de referencia: cinco escenas
   sobre objetivos RPO/RTO, protección Veeam, copias IBM, recuperación y pruebas,
-  alineado al portafolio CoreSolutions.
+  alineado al portafolio CORESOLUTIONS.
 - **`src/content/ransomware-resilience.ts`** — noveno ejemplo de referencia:
   cinco escenas sobre prevención, detección, contención, recuperación limpia y
   validación, separado conceptualmente de Backup/DR.

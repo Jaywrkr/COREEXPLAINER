@@ -4,7 +4,7 @@
 **Estado:** `pending` — falta la revisión de un especialista con el entorno,
 licencias y releases del cliente.
 
-## Alineación con CoreSolutions
+## Alineación con CORESOLUTIONS
 
 El patrón usa el portafolio documentado en
 [`docs/product/portfolio.md`](../product/portfolio.md): VMware/Broadcom para
@@ -39,7 +39,7 @@ integración automática.
 ## Fuentes y marcas
 
 La evidencia pública de la relación comercial se mantiene en [perfil público de
-CoreSolutions](https://ec.linkedin.com/company/coresolutionssa) y [directorio
+CORESOLUTIONS](https://ec.linkedin.com/company/coresolutionssa) y [directorio
 IBM Partner Plus](https://www.ibm.com/partnerplus/directory/company/4548). La
 lista canónica de marcas y la regla para futuras sesiones están en
 [`docs/product/portfolio.md`](../product/portfolio.md).
