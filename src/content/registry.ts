@@ -47,6 +47,7 @@ import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.jso
 import { webMethodsMeta, webMethodsSteps } from "./webmethods";
 import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
 import { technicalIntegrityProfiles } from "./technical-integrity";
+import { enrichTechnicalReview } from "./technical-source-catalog";
 import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
 
 /**
@@ -276,7 +277,14 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
   if (!profile) {
     throw new Error(`Explainer '${definition.slug}' has no technical integrity profile`);
   }
-  const enriched = { ...definition, meta: { ...definition.meta, technicalIntegrity: profile } };
+  const enriched = {
+    ...definition,
+    meta: {
+      ...definition.meta,
+      technicalReview: enrichTechnicalReview(definition.meta.technicalReview),
+      technicalIntegrity: profile,
+    },
+  };
   validateExplainerContent(enriched);
   return enriched;
 });

@@ -25,6 +25,11 @@ technicalReview: {
       title: "Nombre legible de la fuente primaria",
       url: "https://...",
       accessedAt: "YYYY-MM-DD",
+      publisher: "Fabricante, organismo o equipo responsable",
+      product: "Producto, plataforma o estándar",
+      version: "Release, documento o referencia conceptual",
+      reference: "fuente-estable",
+      validity: "current",
     },
   ],
 }
@@ -45,6 +50,14 @@ diagrama:
 ```ts
 sourceIds: ["fuente-estable"]
 ```
+
+La frontera `explainerRegistry` completa la ficha de cada fuente cuando el
+archivo de contenido solo declara los datos mínimos. El catálogo identifica
+publisher, producto, versión o referencia, y vigencia dentro de la ventana de
+revisión. Si el documento no expresa un release, se muestra `Referencia
+conceptual` en lugar de inventar una versión. `review-needed` significa que la
+fuente debe volver a contrastarse antes de tratarla como evidencia actual; no
+implica que el enlace esté roto.
 
 La interfaz muestra primero las fuentes de la escena activa y después el
 catálogo general del tema. Así el cliente puede seguir la evidencia de una

@@ -175,6 +175,13 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         if (!/^\d{4}-\d{2}-\d{2}$/.test(source.accessedAt)) {
           add(`${sourceLabel}.accessedAt must use ISO date format YYYY-MM-DD`);
         }
+        if (!isNonEmptyText(source.publisher)) add(`${sourceLabel}.publisher must identify the publisher or manufacturer`);
+        if (!isNonEmptyText(source.product)) add(`${sourceLabel}.product must identify the covered product or standard`);
+        if (!isNonEmptyText(source.version)) add(`${sourceLabel}.version must identify a release or state when none is specified`);
+        if (!isNonEmptyText(source.reference)) add(`${sourceLabel}.reference must identify the stable source reference`);
+        if (source.validity !== "current" && source.validity !== "review-needed") {
+          add(`${sourceLabel}.validity must be 'current' or 'review-needed'`);
+        }
       }
     }
   }

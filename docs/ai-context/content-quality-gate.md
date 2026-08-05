@@ -29,6 +29,12 @@ Cada `ExplainerMeta` debe declarar:
 Cada tema debe tener al menos cuatro pasos. Cada paso necesita dos párrafos,
 impacto de negocio, caption, etiqueta y una escena existente.
 
+La ficha de cada fuente también debe poder mostrar publisher, producto,
+versión o referencia, fecha de consulta y vigencia dentro de la ventana de
+revisión. El registro completa estos campos de forma determinista cuando el
+contenido no los declara explícitamente y marca `review-needed` cuando la
+fuente queda fuera de la ventana de contraste.
+
 El validador también comprueba:
 
 - IDs de pasos y nodos sin duplicados;
