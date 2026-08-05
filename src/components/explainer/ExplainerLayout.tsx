@@ -11,6 +11,7 @@ import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
 const AUTOPLAY_STEP_MS = 6500;
 
 interface ExplainerLayoutProps {
+  slug: string;
   meta: ExplainerMeta;
   steps: ExplainerStep[];
   spec: AnimationSpec;
@@ -26,6 +27,7 @@ interface ExplainerLayoutProps {
  * stay separate so any of the three can change independently.
  */
 export function ExplainerLayout({
+  slug,
   meta,
   steps,
   spec,
@@ -199,6 +201,7 @@ export function ExplainerLayout({
       data-presentation-mode={presentationActive ? "active" : "inactive"}
     >
       <LeftPanel
+        slug={slug}
         meta={meta}
         steps={steps}
         scene={scene}
