@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.49.0] - 2026-08-05
+
+- Cada tema permite guardarse como Favorito y marcarse como Revisado.
+- El estado queda en el navegador por tema, sin cuentas, backend ni consumo adicional de Vercel.
+- Los controles son accesibles con teclado y mantienen su estado aunque se cambie de escena.
+
 ## [0.48.0] - 2026-08-05
 
 - Cliente muestra el diagrama con zoom, paneo y reproducción como acciones principales.

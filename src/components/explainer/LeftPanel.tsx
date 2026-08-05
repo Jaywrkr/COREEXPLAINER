@@ -10,8 +10,10 @@ import { TechnicalReviewPanel } from "./TechnicalReviewPanel";
 import { TechnicalSceneSummary } from "./TechnicalSceneSummary";
 import { SceneShareControl } from "./SceneShareControl";
 import { BrandContextPanel } from "./BrandContextPanel";
+import { ExplainerFeedback } from "./ExplainerFeedback";
 
 interface LeftPanelProps {
+  slug: string;
   meta: ExplainerMeta;
   steps: ExplainerStep[];
   scene: Scene;
@@ -31,6 +33,7 @@ interface LeftPanelProps {
 }
 
 export function LeftPanel({
+  slug,
   meta,
   steps,
   scene,
@@ -71,6 +74,7 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary">{meta.tagline}</p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
+        <ExplainerFeedback slug={slug} />
         <SceneShareControl
           sceneId={step.sceneId}
           scenarioId={activeFailureScenarioId}

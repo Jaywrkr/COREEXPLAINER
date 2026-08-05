@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.48.0";
+export const currentVersion = "0.49.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.49.0",
+    date: "05 ago 2026",
+    title: "Favoritos y progreso local",
+    changes: [
+      "Cada tema permite guardarse como Favorito y marcarse como Revisado.",
+      "El estado queda en el navegador por tema, sin cuentas, backend ni consumo adicional de Vercel.",
+      "Los controles son accesibles con teclado y mantienen su estado aunque se cambie de escena.",
+    ],
+  },
   {
     version: "0.48.0",
     date: "05 ago 2026",

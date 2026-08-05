@@ -42,6 +42,7 @@ export default async function ExplainerTopicPage({ params, searchParams }: PageP
 
   return (
     <ExplainerLayout
+      slug={explainer.slug}
       meta={explainer.meta}
       steps={explainer.steps}
       spec={explainer.spec}

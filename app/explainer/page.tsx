@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandMark } from "@/components/explainer/BrandMark";
+import { ExplainerFeedback } from "@/components/explainer/ExplainerFeedback";
 import { getExplainersByCategory } from "@/content/registry";
 
 export const metadata: Metadata = {
@@ -32,22 +33,24 @@ export default function ExplainerDashboardPage() {
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((entry) => (
-                <Link
+                <article
                   key={entry.slug}
-                  href={`/explainer/${entry.slug}`}
                   className="group flex flex-col justify-between border border-core-border/[0.09] bg-core-panel p-5 transition-colors hover:border-core-accent"
                 >
-                  <div>
+                  <Link href={`/explainer/${entry.slug}`} className="flex-1">
                     <span className="mb-3 block font-mono text-[0.65rem] uppercase tracking-[0.1em] text-core-text-muted">
                       {entry.steps.length} pasos
                     </span>
                     <h3 className="mb-2 text-base font-bold text-core-text">{entry.meta.title}</h3>
                     <p className="text-sm leading-relaxed text-core-text-secondary">{entry.meta.tagline}</p>
+                    <span className="mt-6 block font-mono text-xs font-semibold text-core-accent group-hover:underline">
+                      Ver explicación →
+                    </span>
+                  </Link>
+                  <div className="mt-4 border-t border-core-border/[0.1] pt-3">
+                    <ExplainerFeedback slug={entry.slug} />
                   </div>
-                  <span className="mt-6 font-mono text-xs font-semibold text-core-accent group-hover:underline">
-                    Ver explicación →
-                  </span>
-                </Link>
+                </article>
               ))}
             </div>
           </section>
