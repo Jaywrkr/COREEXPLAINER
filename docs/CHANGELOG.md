@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.39.0] - 2026-08-05
+
+- Cada diagnóstico técnico muestra una recomendación conceptual para revisar, reconectar, recuperar o validar la dependencia afectada.
+- Las recomendaciones se separan de las fuentes y del foco de nodos para mantener la interacción clara.
+- El sistema no ejecuta cambios: orienta la conversación hacia el runbook o la comprobación que debe realizar el equipo.
+
 ## [0.38.0] - 2026-08-05
 
 - El panel identifica los nodos inactivos de un escenario o de una falla manual.

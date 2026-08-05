@@ -88,12 +88,14 @@ function validateTechnicalIntegrityProfile(
     for (const [index, rule] of (contract.requiredEdges ?? []).entries()) {
       validateRule(`${sceneLabel}.requiredEdges[${index}]`, rule.id, rule.sourceIds);
       if (!isNonEmptyText(rule.from) || !isNonEmptyText(rule.to)) add(`${sceneLabel}.requiredEdges[${index}] must define from and to`);
+      if (rule.recommendation !== undefined && !isNonEmptyText(rule.recommendation)) add(`${sceneLabel}.requiredEdges[${index}].recommendation must be non-empty when provided`);
       if (sceneNodeIds && isNonEmptyText(rule.from) && !sceneNodeIds.has(rule.from)) add(`${sceneLabel}.requiredEdges[${index}].from references unknown node '${rule.from}'`);
       if (sceneNodeIds && isNonEmptyText(rule.to) && !sceneNodeIds.has(rule.to)) add(`${sceneLabel}.requiredEdges[${index}].to references unknown node '${rule.to}'`);
     }
     for (const [index, rule] of (contract.requiredPaths ?? []).entries()) {
       validateRule(`${sceneLabel}.requiredPaths[${index}]`, rule.id, rule.sourceIds);
       if (!isNonEmptyText(rule.from) || !isNonEmptyText(rule.to)) add(`${sceneLabel}.requiredPaths[${index}] must define from and to`);
+      if (rule.recommendation !== undefined && !isNonEmptyText(rule.recommendation)) add(`${sceneLabel}.requiredPaths[${index}].recommendation must be non-empty when provided`);
       if (sceneNodeIds && isNonEmptyText(rule.from) && !sceneNodeIds.has(rule.from)) add(`${sceneLabel}.requiredPaths[${index}].from references unknown node '${rule.from}'`);
       if (sceneNodeIds && isNonEmptyText(rule.to) && !sceneNodeIds.has(rule.to)) add(`${sceneLabel}.requiredPaths[${index}].to references unknown node '${rule.to}'`);
     }

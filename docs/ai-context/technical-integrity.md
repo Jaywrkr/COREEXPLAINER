@@ -56,6 +56,11 @@ manual. Los caminos se calculan excluyendo esos nodos y el panel identifica la
 simulación activa. Esto explica el impacto de una falla sobre el modelo sin
 afirmar que se haya comprobado una red real.
 
+Cada diagnóstico incluye una recomendación de siguiente paso. Es una
+orientación para la conversación —revisar el contrato, validar una dependencia,
+seguir recuperación o confirmar una excepción— y nunca ejecuta cambios ni
+sustituye el runbook del cliente.
+
 ## Evolución segura
 
 1. Añadir reglas estáticas del modelo y probarlas durante el build.

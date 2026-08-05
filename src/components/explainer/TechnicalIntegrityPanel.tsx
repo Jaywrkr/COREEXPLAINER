@@ -110,6 +110,9 @@ export function TechnicalIntegrityPanel({
                       <span className="mt-0.5 block text-[0.64rem] leading-relaxed text-core-text-muted">
                         {diagnostic.detail}
                       </span>
+                      <span className="mt-1 block text-[0.62rem] leading-relaxed text-core-text-secondary">
+                        <span className="font-semibold text-core-accent">Siguiente paso:</span> {diagnostic.recommendation}
+                      </span>
                     </button>
                     {sources.length ? (
                       <div className="border-x border-b border-core-border/[0.12] px-2.5 py-1.5">
