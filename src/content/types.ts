@@ -66,6 +66,7 @@ export interface TechnicalIntegrityEdgeRule {
   label: string;
   rationale: string;
   sourceIds?: string[];
+  recommendation?: string;
   severity?: IntegritySeverity;
 }
 
@@ -77,6 +78,7 @@ export interface TechnicalIntegrityPathRule {
   rationale: string;
   allowedEdgeKinds?: EdgeKind[];
   sourceIds?: string[];
+  recommendation?: string;
   severity?: IntegritySeverity;
 }
 
@@ -86,6 +88,7 @@ export interface TechnicalIntegrityDiagnostic {
   title: string;
   detail: string;
   rationale: string;
+  recommendation: string;
   nodeIds: string[];
   sourceIds: string[];
 }

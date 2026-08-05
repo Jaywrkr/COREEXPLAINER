@@ -72,6 +72,7 @@ export function evaluateTopologyIntegrity(
       title: "Componente requerido ausente",
       detail: `El diagrama no contiene el componente '${requiredNodeId}' declarado por el contrato técnico.`,
       rationale: "La explicación no puede sostener la arquitectura esperada si falta uno de sus componentes explícitos.",
+      recommendation: "Revisar el animation spec y volver a conectar el componente que la escena declara como requerido.",
       nodeIds: [requiredNodeId],
       sourceIds: [],
     });
@@ -84,6 +85,7 @@ export function evaluateTopologyIntegrity(
       title: "Componente inactivo en la simulación",
       detail: `El componente '${inactiveNodeId}' está marcado como inactivo por el escenario actual.`,
       rationale: "La topología base puede ser válida, pero una falla simulada cambia temporalmente la disponibilidad del camino.",
+      recommendation: "Confirmar el impacto del fallo y seguir el paso de recuperación del escenario antes de restaurar el servicio.",
       nodeIds: [inactiveNodeId],
       sourceIds: [],
     });
@@ -100,6 +102,7 @@ export function evaluateTopologyIntegrity(
         ? `La relación ${rule.from} → ${rule.to} está declarada como '${actualEdge.kind}', pero debería ser '${rule.kind}'.`
         : `Falta la relación ${rule.from} → ${rule.to} (${rule.kind}) en esta escena.`,
       rationale: rule.rationale,
+      recommendation: rule.recommendation ?? "Comparar la relación dibujada con la configuración o dependencia esperada y corregir su semántica.",
       nodeIds: [rule.from, rule.to].filter((id) => nodeIds.has(id)),
       sourceIds: rule.sourceIds ?? [],
     });
@@ -115,6 +118,7 @@ export function evaluateTopologyIntegrity(
       title: rule.label,
       detail: `No existe un camino válido entre ${rule.from} y ${rule.to} con las relaciones declaradas.`,
       rationale: rule.rationale,
+      recommendation: rule.recommendation ?? "Trazar la dependencia intermedia y validar que todos los componentes del camino estén disponibles.",
       nodeIds: [rule.from, rule.to].filter((id) => nodeIds.has(id)),
       sourceIds: rule.sourceIds ?? [],
     });
@@ -129,6 +133,7 @@ export function evaluateTopologyIntegrity(
       title: "Relación sin componente válido",
       detail: `La relación ${edge.from} → ${edge.to} apunta a un nodo que no existe en esta escena.`,
       rationale: "Una arista sin ambos extremos no representa una conexión técnica interpretable.",
+      recommendation: "Corregir el origen o destino de la relación antes de publicar la escena.",
       nodeIds: [edge.from, edge.to].filter((id) => nodeIds.has(id)),
       sourceIds: [],
     });
@@ -150,6 +155,7 @@ export function evaluateTopologyIntegrity(
         title: "Componente aislado",
         detail: `El componente '${node.id}' no tiene ninguna relación visible en esta escena.`,
         rationale: "Un componente aislado puede indicar una dependencia omitida o una pieza que la narrativa todavía no conecta.",
+        recommendation: "Confirmar si el aislamiento es intencional; si no lo es, añadir la dependencia que conecta este componente con el servicio.",
         nodeIds: [node.id],
         sourceIds: [],
       });
