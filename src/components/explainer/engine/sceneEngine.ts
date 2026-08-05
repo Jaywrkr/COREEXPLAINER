@@ -17,8 +17,16 @@ import { drawKindIcon } from "./icons";
  * animation, per docs/ai-context/animation-guidelines.md.
  */
 
-const CARD_W = 128;
-const CARD_H = 46;
+const MIN_CARD_W = 128;
+const MIN_CARD_H = 46;
+const MAX_TEXT_W = 178;
+const NODE_LEFT_PAD = 8;
+const NODE_RIGHT_PAD = 10;
+const ICON_SIZE = 22;
+const TEXT_GAP = 8;
+const NAME_LINE_H = 14;
+const SUBTITLE_LINE_H = 12;
+const NODE_VERTICAL_PAD = 16;
 const TRAVEL_MS = 1000;
 const CAPACITY_DECAY_MS = 300;
 const KILL_BUTTON_RADIUS = 10;
@@ -81,29 +89,64 @@ function edgeStyle(kind: EdgeKind, palette: Palette): EdgeStyle {
   }
 }
 
-function edgePoint(fromX: number, fromY: number, toX: number, toY: number): Point {
+function edgePoint(
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  width: number,
+  height: number,
+): Point {
   const dx = toX - fromX;
   const dy = toY - fromY;
   if (dx === 0 && dy === 0) return { x: fromX, y: fromY };
-  const scaleX = Math.abs(dx) > 0.0001 ? CARD_W / 2 / Math.abs(dx) : Infinity;
-  const scaleY = Math.abs(dy) > 0.0001 ? CARD_H / 2 / Math.abs(dy) : Infinity;
+  const scaleX = Math.abs(dx) > 0.0001 ? width / 2 / Math.abs(dx) : Infinity;
+  const scaleY = Math.abs(dy) > 0.0001 ? height / 2 / Math.abs(dy) : Infinity;
   const scale = Math.min(scaleX, scaleY);
   return { x: fromX + dx * scale, y: fromY + dy * scale };
 }
 
-function fitText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, font: string) {
+function wrapText(ctx: CanvasRenderingContext2D, text: string, maxWidth: number, font: string): string[] {
   ctx.save();
   ctx.font = font;
-  if (ctx.measureText(text).width <= maxWidth) {
-    ctx.restore();
-    return text;
+  const lines: string[] = [];
+  let line = "";
+  for (const word of text.trim().split(/\s+/)) {
+    const candidate = line ? `${line} ${word}` : word;
+    if (ctx.measureText(candidate).width <= maxWidth) {
+      line = candidate;
+      continue;
+    }
+    if (line) lines.push(line);
+    line = "";
+    for (const character of word) {
+      const characterCandidate = `${line}${character}`;
+      if (ctx.measureText(characterCandidate).width <= maxWidth || !line) {
+        line = characterCandidate;
+      } else {
+        lines.push(line);
+        line = character;
+      }
+    }
   }
-  let truncated = text;
-  while (truncated.length > 1 && ctx.measureText(`${truncated}…`).width > maxWidth) {
-    truncated = truncated.slice(0, -1);
-  }
+  if (line) lines.push(line);
   ctx.restore();
-  return `${truncated}…`;
+  return lines.length > 0 ? lines : [""];
+}
+
+function lineWidth(ctx: CanvasRenderingContext2D, line: string, font: string): number {
+  ctx.save();
+  ctx.font = font;
+  const width = ctx.measureText(line).width;
+  ctx.restore();
+  return width;
+}
+
+interface NodeLayout {
+  width: number;
+  height: number;
+  nameLines: string[];
+  subtitleLines: string[];
 }
 
 export class SceneEngine {
@@ -118,6 +161,7 @@ export class SceneEngine {
   private lastClickToggledFailure = false;
   private hiddenNodeKinds = new Set<NodeKind>();
   private hiddenEdgeKinds = new Set<EdgeKind>();
+  private nodeLayouts = new Map<string, NodeLayout>();
 
   loadScene(scene: Scene) {
     this.nodes = scene.nodes.map((n) => ({ ...n, rx: 0, dead: false, emitAccumMs: 0, decayAccumMs: 0 }));
@@ -126,6 +170,7 @@ export class SceneEngine {
     this.hoveredNodeId = null;
     this.focusedNodeIds.clear();
     this.lastClickToggledFailure = false;
+    this.nodeLayouts.clear();
   }
 
   setSize(width: number, height: number) {
@@ -190,6 +235,36 @@ export class SceneEngine {
     return { x: node.x * this.width, y: node.y * this.height };
   }
 
+  private layoutNode(ctx: CanvasRenderingContext2D, node: SceneNode): NodeLayout {
+    const nameFont = '600 11px "IBM Plex Sans", sans-serif';
+    const subFont = '500 9px "IBM Plex Mono", monospace';
+    const nameLines = wrapText(ctx, node.name, MAX_TEXT_W, nameFont);
+    const subtitleLines = node.subtitle && !node.capacity
+      ? wrapText(ctx, node.subtitle, MAX_TEXT_W, subFont)
+      : [];
+    const widestLine = Math.max(
+      ...nameLines.map((line) => lineWidth(ctx, line, nameFont)),
+      ...subtitleLines.map((line) => lineWidth(ctx, line, subFont)),
+      0,
+    );
+    const width = Math.max(
+      MIN_CARD_W,
+      NODE_LEFT_PAD + ICON_SIZE + TEXT_GAP + widestLine + NODE_RIGHT_PAD,
+    );
+    const textHeight =
+      nameLines.length * NAME_LINE_H +
+      (subtitleLines.length > 0 ? 2 + subtitleLines.length * SUBTITLE_LINE_H : 0);
+    const auxiliaryHeight = node.capacity ? 10 : 0;
+    const height = Math.max(MIN_CARD_H, NODE_VERTICAL_PAD + textHeight + auxiliaryHeight);
+    const layout = { width, height, nameLines, subtitleLines };
+    this.nodeLayouts.set(node.id, layout);
+    return layout;
+  }
+
+  private nodeBounds(node: SceneNode): Pick<NodeLayout, "width" | "height"> {
+    return this.nodeLayouts.get(node.id) ?? { width: MIN_CARD_W, height: MIN_CARD_H };
+  }
+
   private outgoingTargets(node: RuntimeNode): RuntimeNode[] {
     return this.edges
       .filter((e) => e.from === node.id)
@@ -202,11 +277,12 @@ export class SceneEngine {
       const node = this.nodes[index]!;
       if (!this.isNodeVisible(node)) continue;
       const center = this.toPixels(node);
+      const bounds = this.nodeBounds(node);
       if (
-        x >= center.x - CARD_W / 2 &&
-        x <= center.x + CARD_W / 2 &&
-        y >= center.y - CARD_H / 2 &&
-        y <= center.y + CARD_H / 2
+        x >= center.x - bounds.width / 2 &&
+        x <= center.x + bounds.width / 2 &&
+        y >= center.y - bounds.height / 2 &&
+        y <= center.y + bounds.height / 2
       ) {
         return node;
       }
@@ -221,8 +297,10 @@ export class SceneEngine {
   private spawnPacket(from: RuntimeNode, to: RuntimeNode) {
     const pa = this.toPixels(from);
     const pb = this.toPixels(to);
-    const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y);
-    const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y);
+    const fromBounds = this.nodeBounds(from);
+    const toBounds = this.nodeBounds(to);
+    const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y, fromBounds.width, fromBounds.height);
+    const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y, toBounds.width, toBounds.height);
     this.packets.push({
       fromId: from.id,
       fromX: p1.x,
@@ -310,6 +388,10 @@ export class SceneEngine {
   draw(ctx: CanvasRenderingContext2D, clear = true) {
     if (clear) ctx.clearRect(0, 0, this.width, this.height);
 
+    for (const node of this.nodes) {
+      if (this.isNodeVisible(node)) this.layoutNode(ctx, node);
+    }
+
     for (const edge of this.edges) {
       if (!this.isEdgeVisible(edge)) continue;
       const from = this.nodeById(edge.from);
@@ -324,8 +406,10 @@ export class SceneEngine {
   private drawEdge(ctx: CanvasRenderingContext2D, edge: SceneEdge, a: SceneNode, b: SceneNode) {
     const pa = this.toPixels(a);
     const pb = this.toPixels(b);
-    const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y);
-    const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y);
+    const fromBounds = this.nodeBounds(a);
+    const toBounds = this.nodeBounds(b);
+    const p1 = edgePoint(pa.x, pa.y, pb.x, pb.y, fromBounds.width, fromBounds.height);
+    const p2 = edgePoint(pb.x, pb.y, pa.x, pa.y, toBounds.width, toBounds.height);
 
     const hasHover = this.hoveredNodeId !== null;
     const hasFocus = this.focusedNodeIds.size > 0;
@@ -361,8 +445,9 @@ export class SceneEngine {
   private drawNode(ctx: CanvasRenderingContext2D, node: RuntimeNode) {
     if (!this.isNodeVisible(node)) return;
     const center = this.toPixels(node);
-    const x = center.x - CARD_W / 2;
-    const y = center.y - CARD_H / 2;
+    const layout = this.layoutNode(ctx, node);
+    const x = center.x - layout.width / 2;
+    const y = center.y - layout.height / 2;
     const color = kindColor(node.kind, this.palette);
     const hasHover = this.hoveredNodeId !== null;
     const hasFocus = this.focusedNodeIds.size > 0;
@@ -389,44 +474,51 @@ export class SceneEngine {
     if ((hasHover && !hoverRelated) || (hasFocus && !focusRelated)) ctx.globalAlpha *= 0.32;
 
     ctx.fillStyle = this.palette.panel;
-    ctx.fillRect(x, y, CARD_W, CARD_H);
+    ctx.fillRect(x, y, layout.width, layout.height);
     ctx.strokeStyle = isHovered || focused
       ? withAlpha(this.palette.accent, 0.9)
       : withAlpha(this.palette.text, isRelated ? 0.09 : 0.04);
     ctx.lineWidth = isHovered || focused ? 1.8 : 1;
-    ctx.strokeRect(x + 0.5, y + 0.5, CARD_W - 1, CARD_H - 1);
+    ctx.strokeRect(x + 0.5, y + 0.5, layout.width - 1, layout.height - 1);
 
-    const iconSize = 22;
-    const iconBoxY = y + (CARD_H - iconSize) / 2;
+    const iconBoxY = y + (layout.height - ICON_SIZE) / 2;
     ctx.fillStyle = `${color}1e`;
-    ctx.fillRect(x + 8, iconBoxY, iconSize, iconSize);
-    drawKindIcon(ctx, node.kind, x + 8 + 3, iconBoxY + 3, iconSize - 6, color);
+    ctx.fillRect(x + NODE_LEFT_PAD, iconBoxY, ICON_SIZE, ICON_SIZE);
+    drawKindIcon(ctx, node.kind, x + NODE_LEFT_PAD + 3, iconBoxY + 3, ICON_SIZE - 6, color);
 
-    const textX = x + 8 + iconSize + 8;
+    const textX = x + NODE_LEFT_PAD + ICON_SIZE + TEXT_GAP;
     const nameFont = '600 11px "IBM Plex Sans", sans-serif';
     ctx.fillStyle = this.palette.text;
     ctx.font = nameFont;
     ctx.textBaseline = "middle";
-    ctx.fillText(
-      fitText(ctx, node.name, CARD_W - (textX - x) - 8, nameFont),
-      textX,
-      y + (node.subtitle || node.capacity ? 15 : CARD_H / 2),
-    );
+    const auxiliaryHeight = node.capacity ? 10 : 0;
+    const textHeight =
+      layout.nameLines.length * NAME_LINE_H +
+      (layout.subtitleLines.length > 0 ? 2 + layout.subtitleLines.length * SUBTITLE_LINE_H : 0);
+    let textY = y + (layout.height - auxiliaryHeight - textHeight) / 2 + NAME_LINE_H / 2;
+    for (const line of layout.nameLines) {
+      ctx.fillText(line, textX, textY);
+      textY += NAME_LINE_H;
+    }
 
     if (node.capacity) {
       const pct = Math.min(1, node.rx / node.capacity);
-      const barW = CARD_W - (textX - x) - 10;
+      const barW = layout.width - (textX - x) - NODE_RIGHT_PAD;
       const barX = textX;
-      const barY = y + CARD_H - 11;
+      const barY = y + layout.height - 9;
       ctx.fillStyle = withAlpha(this.palette.text, 0.08);
       ctx.fillRect(barX, barY, barW, 2.5);
       ctx.fillStyle = pct > 1 ? this.palette.error : pct > 0.85 ? this.palette.warning : this.palette.success;
       ctx.fillRect(barX, barY, barW * Math.min(1, pct), 2.5);
-    } else if (node.subtitle) {
+    } else if (layout.subtitleLines.length > 0) {
       const subFont = '500 9px "IBM Plex Mono", monospace';
       ctx.fillStyle = this.palette.textMuted;
       ctx.font = subFont;
-      ctx.fillText(fitText(ctx, node.subtitle, CARD_W - (textX - x) - 8, subFont), textX, y + 29);
+      textY += 2;
+      for (const line of layout.subtitleLines) {
+        ctx.fillText(line, textX, textY);
+        textY += SUBTITLE_LINE_H;
+      }
     }
 
     ctx.restore();
@@ -436,14 +528,14 @@ export class SceneEngine {
       ctx.lineWidth = 1.4;
       ctx.beginPath();
       ctx.moveTo(x + 10, y + 10);
-      ctx.lineTo(x + CARD_W - 10, y + CARD_H - 10);
-      ctx.moveTo(x + CARD_W - 10, y + 10);
-      ctx.lineTo(x + 10, y + CARD_H - 10);
+      ctx.lineTo(x + layout.width - 10, y + layout.height - 10);
+      ctx.moveTo(x + layout.width - 10, y + 10);
+      ctx.lineTo(x + 10, y + layout.height - 10);
       ctx.stroke();
     }
 
     if (node.killable) {
-      const bx = x + CARD_W - 1;
+      const bx = x + layout.width - 1;
       const by = y + 1;
       ctx.fillStyle = node.dead ? this.palette.success : this.palette.error;
       ctx.beginPath();

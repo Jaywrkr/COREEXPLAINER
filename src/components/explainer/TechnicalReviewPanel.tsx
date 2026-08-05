@@ -12,7 +12,7 @@ function formatDate(isoDate: string): string {
 
 function SourceMetadata({ source }: { source: TechnicalSource }) {
   return (
-    <span className="mt-0.5 flex flex-wrap gap-x-1.5 gap-y-0.5 text-[0.58rem] text-core-text-muted">
+    <span className="mt-0.5 flex min-w-0 flex-wrap gap-x-1.5 gap-y-0.5 break-words text-[0.58rem] text-core-text-muted">
       <span>{source.publisher}</span>
       <span>· {source.product}</span>
       <span>· {source.version}</span>
@@ -25,7 +25,7 @@ function SourceMetadata({ source }: { source: TechnicalSource }) {
 
 function SourceLink({ source }: { source: TechnicalSource }) {
   return (
-    <li className="text-[0.68rem] leading-relaxed">
+    <li className="min-w-0 break-words text-[0.68rem] leading-relaxed">
       <a
         href={source.url}
         target="_blank"
@@ -44,13 +44,13 @@ function SourceLink({ source }: { source: TechnicalSource }) {
 export function TechnicalReviewPanel({ review, activeSourceIds }: TechnicalReviewPanelProps) {
   const activeSources = review.sources.filter((source) => activeSourceIds.includes(source.id));
   return (
-    <section className="relative shrink-0">
+    <section className="min-w-0 max-w-full shrink-0 flex-1">
       <details>
-        <summary className="flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap border border-core-border/[0.12] bg-core-panel/60 px-2 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+        <summary className="flex max-w-full cursor-pointer list-none items-center gap-1.5 whitespace-nowrap border border-core-border/[0.12] bg-core-panel/60 px-2 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted transition-colors hover:border-core-accent/40 hover:text-core-text [&::-webkit-details-marker]:hidden">
           <span>Trazabilidad</span>
           <span className="text-core-accent">{formatDate(review.lastReviewedAt)}</span>
         </summary>
-        <div className="absolute right-0 top-full z-30 mt-1 w-[min(25rem,calc(100vw-3rem))] border border-core-border/[0.14] bg-core-panel p-3 shadow-lg">
+        <div className="mt-2 max-h-[min(60vh,34rem)] w-full max-w-full overflow-y-auto overscroll-contain border border-core-border/[0.14] bg-core-panel p-3 shadow-lg">
           <p className="text-[0.7rem] leading-relaxed text-core-text-secondary">
             <span className="font-semibold text-core-text">Alcance:</span> {review.scope}
           </p>

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.47.0] - 2026-08-05
+
+- El modo Cliente prioriza la idea clave y el valor para el cliente; el detalle técnico queda disponible bajo demanda.
+- La trazabilidad se expande dentro de la columna y mantiene sus fuentes legibles, sin quedar cortada por un popover fuera del flujo.
+- Los nodos calculan su tamaño a partir del texto y usan varias líneas cuando hace falta; conexiones, selección y controles respetan la misma geometría.
+
 ## [0.46.0] - 2026-08-05
 
 - La trazabilidad muestra publisher, producto, versión o referencia, fecha de consulta y vigencia de cada fuente.

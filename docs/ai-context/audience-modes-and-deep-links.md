@@ -15,6 +15,13 @@ se puede afirmar.
 El selector actualiza `mode=client` o `mode=technical` en la URL para que el
 nivel elegido viaje con el enlace compartido.
 
+En Cliente, la columna izquierda muestra primero una sola idea clave y el valor
+para el cliente. Los párrafos adicionales se mantienen disponibles en
+`Ver detalle técnico` para no abrumar una conversación comercial o ejecutiva.
+La trazabilidad sigue accesible como evidencia opcional y se abre dentro del
+flujo de la columna, con desplazamiento propio cuando la lista de fuentes es
+larga.
+
 ## Enlaces directos
 
 Una explicación puede abrir una escena concreta con estos parámetros:

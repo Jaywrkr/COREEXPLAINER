@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.46.0";
+export const currentVersion = "0.47.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.47.0",
+    date: "05 ago 2026",
+    title: "Modo cliente y canvas más legibles",
+    changes: [
+      "El modo Cliente prioriza la idea clave y el valor para el cliente; el detalle técnico queda disponible bajo demanda.",
+      "La trazabilidad se expande dentro de la columna y mantiene sus fuentes legibles, sin quedar cortada por un popover fuera del flujo.",
+      "Los nodos calculan su tamaño a partir del texto y usan varias líneas cuando hace falta; conexiones, selección y controles respetan la misma geometría.",
+    ],
+  },
   {
     version: "0.46.0",
     date: "05 ago 2026",

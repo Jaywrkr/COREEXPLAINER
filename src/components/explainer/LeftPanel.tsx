@@ -49,6 +49,8 @@ export function LeftPanel({
   activeFailureScenarioId,
 }: LeftPanelProps) {
   const step = steps[current]!;
+  const isTechnical = audienceMode === "technical";
+  const leadParagraph = step.paragraphs[0] ?? "";
 
   return (
     <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-6">
@@ -78,7 +80,7 @@ export function LeftPanel({
         <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
       </div>
 
-      {audienceMode === "technical" ? (
+      {isTechnical ? (
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
       ) : null}
 
@@ -88,16 +90,44 @@ export function LeftPanel({
           <span className="text-core-text-muted">{steps.length} pasos</span>
         </div>
         <h2 className="mb-2.5 text-base font-bold leading-snug text-core-text">{step.title}</h2>
-        <div className="space-y-2.5">
-          {step.paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-[0.8rem] leading-relaxed text-core-text-secondary">
-              {paragraph}
+        {isTechnical ? (
+          <div className="space-y-2.5">
+            {step.paragraphs.map((paragraph, index) => (
+              <p key={index} className="text-[0.8rem] leading-relaxed text-core-text-secondary">
+                {paragraph}
+              </p>
+            ))}
+            <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
+              <span className="font-semibold text-core-accent">Impacto:</span> {step.businessImpact}
             </p>
-          ))}
-          <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
-            <span className="font-semibold text-core-accent">Impacto:</span> {step.businessImpact}
-          </p>
-        </div>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            <div className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2.5">
+              <p className="mb-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+                Idea clave
+              </p>
+              <p className="text-[0.82rem] leading-relaxed text-core-text-secondary">{leadParagraph}</p>
+            </div>
+            <p className="text-[0.78rem] leading-relaxed text-core-text-secondary">
+              <span className="font-semibold text-core-text">Valor para el cliente:</span> {step.businessImpact}
+            </p>
+            {step.paragraphs.length > 1 ? (
+              <details className="border-t border-core-border/[0.1] pt-2">
+                <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+                  Ver detalle técnico
+                </summary>
+                <div className="mt-2 space-y-2">
+                  {step.paragraphs.slice(1).map((paragraph, index) => (
+                    <p key={index} className="text-[0.76rem] leading-relaxed text-core-text-muted">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </details>
+            ) : null}
+          </div>
+        )}
       </div>
 
       <StepNav
