@@ -1,3 +1,5 @@
+import type { EdgeKind } from "@/lib/animation-spec/types";
+
 /**
  * Content types — the text/copy layer. Deliberately separate from
  * animation-spec.json (visuals) and from layout components. An explainer
@@ -25,6 +27,60 @@ export interface ExplainerMeta {
   reviewStatus: "pending" | "reviewed";
   /** Optional interactive scenarios shown when their scene is active. */
   failureScenarios?: FailureScenario[];
+  /** Optional semantic checks for the topology shown by a scene. */
+  technicalIntegrity?: TechnicalIntegrityProfile;
+}
+
+export type TechnicalIntegrityDomain = "network";
+export type IntegritySeverity = "error" | "warning";
+
+export interface TechnicalIntegrityProfile {
+  domain: TechnicalIntegrityDomain;
+  scenes: Record<string, TechnicalIntegritySceneContract>;
+}
+
+export interface TechnicalIntegritySceneContract {
+  requiredNodes?: string[];
+  requiredEdges?: TechnicalIntegrityEdgeRule[];
+  requiredPaths?: TechnicalIntegrityPathRule[];
+}
+
+export interface TechnicalIntegrityEdgeRule {
+  id: string;
+  from: string;
+  to: string;
+  kind: EdgeKind;
+  label: string;
+  rationale: string;
+  sourceIds?: string[];
+  severity?: IntegritySeverity;
+}
+
+export interface TechnicalIntegrityPathRule {
+  id: string;
+  from: string;
+  to: string;
+  label: string;
+  rationale: string;
+  allowedEdgeKinds?: EdgeKind[];
+  sourceIds?: string[];
+  severity?: IntegritySeverity;
+}
+
+export interface TechnicalIntegrityDiagnostic {
+  id: string;
+  severity: IntegritySeverity;
+  title: string;
+  detail: string;
+  rationale: string;
+  nodeIds: string[];
+  sourceIds: string[];
+}
+
+export interface TechnicalIntegrityReport {
+  status: "valid" | "warning" | "error";
+  checkedRules: number;
+  diagnostics: TechnicalIntegrityDiagnostic[];
 }
 
 export interface BrandContextItem {

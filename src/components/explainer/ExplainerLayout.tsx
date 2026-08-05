@@ -219,6 +219,7 @@ export function ExplainerLayout({
       <div className="relative hidden min-h-[320px] md:block">
         <VisualCanvas
           scene={scene}
+          sceneId={step.sceneId}
           selectedNode={selectedNode}
           onNodeSelect={setSelectedNode}
           failureScenarios={failureScenarios}
@@ -228,6 +229,7 @@ export function ExplainerLayout({
           activeGuidedStepIndex={guidedStepIndex}
           onGuidedStepChange={setGuidedStepIndex}
           technicalSources={meta.technicalReview.sources}
+          technicalIntegrity={meta.technicalIntegrity}
           selectedDecisionOptionId={selectedDecisionOptionId}
           onDecisionOptionChange={setSelectedDecisionOptionId}
           guidedFocusNodeIds={guidedFocusNodeIds}

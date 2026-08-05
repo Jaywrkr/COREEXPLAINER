@@ -5,16 +5,21 @@ import type { EdgeKind, NodeKind, Scene, SceneNode } from "@/lib/animation-spec/
 import type {
   FailureScenario,
   GuidedScenarioStep,
+  TechnicalIntegrityDiagnostic,
+  TechnicalIntegrityProfile,
   TechnicalSource,
 } from "@/content/types";
+import { evaluateTopologyIntegrity } from "@/lib/technical-integrity/evaluateTopology";
 import { useTheme } from "@/lib/theme/ThemeProvider";
 import { SceneEngine } from "./engine/sceneEngine";
 import { FailureScenarioPanel } from "./FailureScenarioPanel";
 import { DiagramLegend } from "./DiagramLegend";
 import { NodeDetailCard } from "./NodeDetailCard";
+import { TechnicalIntegrityPanel } from "./TechnicalIntegrityPanel";
 
 interface VisualCanvasProps {
   scene: Scene;
+  sceneId: string;
   selectedNode: SceneNode | null;
   onNodeSelect: (node: SceneNode | null) => void;
   failureScenarios?: FailureScenario[];
@@ -24,6 +29,7 @@ interface VisualCanvasProps {
   activeGuidedStepIndex?: number;
   onGuidedStepChange?: (index: number) => void;
   technicalSources?: TechnicalSource[];
+  technicalIntegrity?: TechnicalIntegrityProfile;
   selectedDecisionOptionId?: string | null;
   onDecisionOptionChange?: (optionId: string | null) => void;
   guidedFocusNodeIds?: string[];
@@ -66,6 +72,7 @@ function clamp(value: number, min: number, max: number) {
  */
 export function VisualCanvas({
   scene,
+  sceneId,
   selectedNode,
   onNodeSelect,
   failureScenarios = [],
@@ -75,6 +82,7 @@ export function VisualCanvas({
   activeGuidedStepIndex = 0,
   onGuidedStepChange = NOOP_GUIDED_STEP_CHANGE,
   technicalSources = [],
+  technicalIntegrity,
   selectedDecisionOptionId = null,
   onDecisionOptionChange = NOOP_DECISION_CHANGE,
   guidedFocusNodeIds,
@@ -87,10 +95,26 @@ export function VisualCanvas({
   const [viewport, setViewport] = useState<Viewport>(DEFAULT_VIEWPORT);
   const [activeNodeKinds, setActiveNodeKinds] = useState<Set<NodeKind>>(() => new Set(ALL_NODE_KINDS));
   const [activeEdgeKinds, setActiveEdgeKinds] = useState<Set<EdgeKind>>(() => new Set());
+  const [selectedIntegrityDiagnosticId, setSelectedIntegrityDiagnosticId] = useState<string | null>(null);
   const { theme } = useTheme();
   const edgeKinds = useMemo(
     () => Array.from(new Set(scene.edges.map((edge) => edge.kind))),
     [scene],
+  );
+  const integrityReport = useMemo(
+    () => evaluateTopologyIntegrity(scene, technicalIntegrity?.scenes[sceneId]),
+    [scene, sceneId, technicalIntegrity],
+  );
+  const selectedIntegrityDiagnostic = integrityReport?.diagnostics.find(
+    (diagnostic) => diagnostic.id === selectedIntegrityDiagnosticId,
+  ) ?? null;
+  const guidedFocusIds = useMemo(
+    () => guidedFocusNodeIds ?? guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? [],
+    [activeGuidedStepIndex, guidedFocusNodeIds, guidedSteps],
+  );
+  const combinedFocusIds = useMemo(
+    () => Array.from(new Set([...guidedFocusIds, ...(selectedIntegrityDiagnostic?.nodeIds ?? [])])),
+    [guidedFocusIds, selectedIntegrityDiagnostic],
   );
 
   const updateViewport = useCallback((next: Viewport) => {
@@ -147,6 +171,7 @@ export function VisualCanvas({
     setActiveNodeKinds(new Set(ALL_NODE_KINDS));
     setActiveEdgeKinds(new Set(edgeKinds));
     resetViewport();
+    setSelectedIntegrityDiagnosticId(null);
   }, [edgeKinds, resetViewport, scene]);
 
   useEffect(() => {
@@ -165,10 +190,8 @@ export function VisualCanvas({
   }, [activeFailureScenarioId, failureScenarios]);
 
   useEffect(() => {
-    engineRef.current.setFocusNodes(
-      guidedFocusNodeIds ?? guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? [],
-    );
-  }, [activeGuidedStepIndex, guidedFocusNodeIds, guidedSteps]);
+    engineRef.current.setFocusNodes(combinedFocusIds);
+  }, [combinedFocusIds]);
 
   useEffect(() => {
     engineRef.current.setTheme(theme);
@@ -327,6 +350,16 @@ export function VisualCanvas({
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
       {selectedNode ? <NodeDetailCard node={selectedNode} onClose={() => onNodeSelect(null)} /> : null}
+      {integrityReport ? (
+        <TechnicalIntegrityPanel
+          report={integrityReport}
+          technicalSources={technicalSources}
+          selectedDiagnosticId={selectedIntegrityDiagnosticId}
+          onDiagnosticSelect={(diagnostic: TechnicalIntegrityDiagnostic | null) =>
+            setSelectedIntegrityDiagnosticId(diagnostic?.id ?? null)
+          }
+        />
+      ) : null}
       <DiagramLegend
         edgeKinds={edgeKinds}
         activeNodeKinds={activeNodeKinds}

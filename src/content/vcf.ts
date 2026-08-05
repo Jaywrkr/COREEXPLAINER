@@ -1,6 +1,7 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
 import { brandContext } from "./brand-context";
 import { vcfGuidedSteps } from "./vcf-guided";
+import { vcfTechnicalIntegrity } from "./technical-integrity";
 
 /**
  * Conceptual VCF explainer, framed for a CoreSolutions consultative sales
@@ -51,6 +52,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
 ];
 
 export const vcfMeta: ExplainerMeta = {
+  technicalIntegrity: vcfTechnicalIntegrity,
   brandContext: brandContext.virtualization,
   storyboardDoc: "docs/examples/vcf/storyboard.md",
   technicalValidationDoc: "docs/ai-context/vcf-technical-validation.md",

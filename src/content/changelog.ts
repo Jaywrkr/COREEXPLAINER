@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.31.0";
+export const currentVersion = "0.32.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.32.0",
+    date: "05 ago 2026",
+    title: "Integridad técnica del modelo de red",
+    changes: [
+      "VCF y NSX declaran contratos de red para comprobar componentes, relaciones y caminos esperados por escena.",
+      "El canvas muestra el estado de integridad técnica y permite resaltar los nodos asociados a un diagnóstico.",
+      "La validación distingue el modelo representado de la monitorización de una red real y conserva las fuentes de cada regla.",
+    ],
+  },
   {
     version: "0.31.0",
     date: "05 ago 2026",
