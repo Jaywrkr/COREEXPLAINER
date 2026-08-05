@@ -46,10 +46,11 @@ export function TechnicalIntegrityPanel({
   selectedDiagnosticId,
   onDiagnosticSelect,
 }: TechnicalIntegrityPanelProps) {
-  const [open, setOpen] = useState(report.status === "error");
+  const shouldRevealImpact = report.status === "error" || report.inactiveNodeIds.length > 0;
+  const [open, setOpen] = useState(shouldRevealImpact);
 
   useEffect(() => {
-    setOpen(report.status === "error");
+    setOpen(report.status === "error" || report.inactiveNodeIds.length > 0);
   }, [report]);
 
   return (

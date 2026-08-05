@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.40.0] - 2026-08-05
+
+- El panel de integridad se abre automáticamente al activar un escenario o apagar un nodo manualmente.
+- La persona ve de inmediato los componentes inactivos, los caminos afectados y el siguiente paso sugerido.
+- El panel vuelve a su estado compacto cuando la escena queda sin una simulación activa ni errores.
+
 ## [0.39.0] - 2026-08-05
 
 - Cada diagnóstico técnico muestra una recomendación conceptual para revisar, reconectar, recuperar o validar la dependencia afectada.

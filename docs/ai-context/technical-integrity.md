@@ -61,6 +61,10 @@ orientación para la conversación —revisar el contrato, validar una dependenc
 seguir recuperación o confirmar una excepción— y nunca ejecuta cambios ni
 sustituye el runbook del cliente.
 
+Cuando hay una simulación activa, el panel se abre automáticamente para hacer
+visible el impacto. Al limpiar la falla y volver a una escena válida, recupera
+su comportamiento compacto.
+
 ## Evolución segura
 
 1. Añadir reglas estáticas del modelo y probarlas durante el build.

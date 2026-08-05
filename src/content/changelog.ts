@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.39.0";
+export const currentVersion = "0.40.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.40.0",
+    date: "05 ago 2026",
+    title: "Impacto de fallos visible al instante",
+    changes: [
+      "El panel de integridad se abre automáticamente al activar un escenario o apagar un nodo manualmente.",
+      "La persona ve de inmediato los componentes inactivos, los caminos afectados y el siguiente paso sugerido.",
+      "El panel vuelve a su estado compacto cuando la escena queda sin una simulación activa ni errores.",
+    ],
+  },
   {
     version: "0.39.0",
     date: "05 ago 2026",
