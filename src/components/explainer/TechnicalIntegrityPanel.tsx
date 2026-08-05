@@ -86,31 +86,46 @@ export function TechnicalIntegrityPanel({
             <div className="space-y-1.5" role="group" aria-label="Diagnósticos técnicos">
               {report.diagnostics.map((diagnostic) => {
                 const selected = diagnostic.id === selectedDiagnosticId;
-                const sourceCount = diagnostic.sourceIds.filter((sourceId) =>
-                  technicalSources.some((source) => source.id === sourceId),
-                ).length;
+                const sources = diagnostic.sourceIds
+                  .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
+                  .filter((source): source is TechnicalSource => Boolean(source));
                 return (
-                  <button
-                    key={diagnostic.id}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => onDiagnosticSelect(selected ? null : diagnostic)}
-                    className={`w-full border px-2.5 py-2 text-left transition-colors ${
-                      selected
-                        ? STATUS_STYLES[diagnostic.severity === "error" ? "error" : "warning"]
-                        : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40 hover:bg-core-accent/[0.06] hover:text-core-text"
-                    }`}
-                  >
-                    <span className="block text-[0.68rem] font-semibold">{diagnostic.title}</span>
-                    <span className="mt-0.5 block text-[0.64rem] leading-relaxed text-core-text-muted">
-                      {diagnostic.detail}
-                    </span>
-                    {sourceCount ? (
-                      <span className="mt-1 block font-mono text-[0.56rem] uppercase tracking-[0.06em] text-core-accent">
-                        {sourceCount} fuente{sourceCount === 1 ? "" : "s"} asociada{sourceCount === 1 ? "" : "s"}
+                  <div key={diagnostic.id}>
+                    <button
+                      type="button"
+                      aria-pressed={selected}
+                      onClick={() => onDiagnosticSelect(selected ? null : diagnostic)}
+                      className={`w-full border px-2.5 py-2 text-left transition-colors ${
+                        selected
+                          ? STATUS_STYLES[diagnostic.severity === "error" ? "error" : "warning"]
+                          : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40 hover:bg-core-accent/[0.06] hover:text-core-text"
+                      }`}
+                    >
+                      <span className="block text-[0.68rem] font-semibold">{diagnostic.title}</span>
+                      <span className="mt-0.5 block text-[0.64rem] leading-relaxed text-core-text-muted">
+                        {diagnostic.detail}
                       </span>
+                    </button>
+                    {sources.length ? (
+                      <div className="border-x border-b border-core-border/[0.12] px-2.5 py-1.5">
+                        <span className="mr-2 font-mono text-[0.54rem] uppercase tracking-[0.06em] text-core-text-muted">
+                          Evidencia
+                        </span>
+                        {sources.map((source) => (
+                          <a
+                            key={source.id}
+                            href={source.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="mr-2 inline-block max-w-full truncate align-bottom text-[0.6rem] text-core-accent underline decoration-core-accent/40 underline-offset-2 hover:text-core-text"
+                            title={source.title}
+                          >
+                            {source.title}
+                          </a>
+                        ))}
+                      </div>
                     ) : null}
-                  </button>
+                  </div>
                 );
               })}
             </div>

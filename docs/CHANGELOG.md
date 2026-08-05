@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.37.0] - 2026-08-05
+
+- Los diagnósticos con fuentes asociadas muestran enlaces directos a la documentación técnica correspondiente.
+- La evidencia queda separada de la acción de enfocar nodos para conservar una interacción accesible y clara.
+- La navegación abre la fuente en otra pestaña y mantiene la explicación actual en contexto.
+
 ## [0.36.0] - 2026-08-05
 
 - Cada contrato declara si su cobertura es base o de revisión profunda para evitar sobreinterpretar el resultado.
