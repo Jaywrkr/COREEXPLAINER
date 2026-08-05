@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.44.0] - 2026-08-05
+
+- LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y Check Point HA pasan a contratos `source-backed`.
+- Cada escena enlaza su camino de datos, control o protección con documentación técnica oficial y conserva los límites de la demo.
+- La validación bloquea fuentes inexistentes para que el estado de trazabilidad sea verificable y no ornamental.
+
 ## [0.43.0] - 2026-08-05
 
 - vSAN, Backup/DR, SAN Storage, Veeam Protection, Active-Active DC, NAS/Private Cloud e IBM Power/AIX pasan a contratos `source-backed`.
