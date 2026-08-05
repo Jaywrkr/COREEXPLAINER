@@ -2,11 +2,11 @@
 
 ## Qué es
 
-**CoreSolutions Technical Explainer** es una aplicación web que convierte un
+**CORESOLUTIONS Technical Explainer** es una aplicación web que convierte un
 tema técnico complejo (ej. "Explícame SD-WAN", "Explícame VMware Cloud
 Foundation", "Explícame Zero Trust") en una explicación visual e interactiva,
 pensada para usarse en conversaciones de venta consultiva con clientes de
-CoreSolutions.
+CORESOLUTIONS.
 
 El formato es una "lección interactiva" de dos columnas: contenido paso a
 paso a la izquierda, diagrama técnico animado a la derecha, sincronizados
@@ -25,7 +25,7 @@ explicar, y es más memorable en una reunión comercial.
 
 ## A quién sirve
 
-- **Uso primario**: equipo comercial y preventa de CoreSolutions, en
+- **Uso primario**: equipo comercial y preventa de CORESOLUTIONS, en
   reuniones con clientes (venta consultiva).
 - **Uso secundario**: material de referencia interno para que el equipo
   técnico explique arquitecturas a otros equipos no técnicos.

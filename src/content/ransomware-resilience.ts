@@ -56,7 +56,7 @@ export const ransomwareResilienceMeta: ExplainerMeta = {
   chip: "Ciberresiliencia · Ransomware",
   title: "Cómo reducir el radio de explosión y recuperar con confianza",
   tagline:
-    "Una explicación visual del ciclo prevención → detección → contención → recuperación limpia, alineada al portafolio de CoreSolutions.",
+    "Una explicación visual del ciclo prevención → detección → contención → recuperación limpia, alineada al portafolio de CORESOLUTIONS.",
   brandContext: brandContext.ransomware,
   storyboardDoc: "docs/examples/ransomware-resilience/storyboard.md",
   technicalValidationDoc: "docs/ai-context/ransomware-resilience-technical-validation.md",

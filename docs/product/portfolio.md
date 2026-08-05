@@ -1,16 +1,16 @@
-# Portafolio de marcas de CoreSolutions
+# Portafolio de marcas de CORESOLUTIONS
 
 **Revisión del registro:** 2026-08-04
 
 Este documento es la referencia de contexto comercial para los explainers.
-CoreSolutions trabaja con soluciones de data center, virtualización,
+CORESOLUTIONS trabaja con soluciones de data center, virtualización,
 almacenamiento, backup y redes respaldadas por **VMware/Broadcom, Lenovo, IBM,
 Veeam, Aruba HPE y Check Point**. La lista se contrastó con el perfil público
-de [CoreSolutions en LinkedIn](https://ec.linkedin.com/company/coresolutionssa),
+de [CORESOLUTIONS en LinkedIn](https://ec.linkedin.com/company/coresolutionssa),
 el [directorio IBM Partner Plus](https://www.ibm.com/partnerplus/directory/company/4548)
-y el [sitio de CoreSolutions](https://www.coresolutions.com.ec/).
+y el [sitio de CORESOLUTIONS](https://www.coresolutions.com.ec/).
 
-El perfil público también identifica a CoreSolutions como **Veeam Value-Added
+El perfil público también identifica a CORESOLUTIONS como **Veeam Value-Added
 Reseller Gold**. Es una evidencia pública de posicionamiento comercial, no una
 promesa de que cualquier licencia, versión o integración esté disponible para
 cualquier cliente.

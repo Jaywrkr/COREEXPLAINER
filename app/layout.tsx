@@ -20,9 +20,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CoreSolutions Technical Explainer",
+  title: "CORESOLUTIONS Technical Explainer",
   description:
-    "Explicaciones visuales e interactivas de conceptos técnicos complejos para clientes de CoreSolutions.",
+    "Explicaciones visuales e interactivas de conceptos técnicos complejos para clientes de CORESOLUTIONS.",
 };
 
 // Runs before hydration, as the first thing in <body>, so the correct

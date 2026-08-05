@@ -28,7 +28,7 @@ fabric, host y versión de VMware/AIX del cliente.
   y destino. La aplicación necesita una estrategia propia.
 - No se afirma una integración certificada entre todas las marcas mostradas.
 
-## Relación con CoreSolutions
+## Relación con CORESOLUTIONS
 
 El patrón está basado en proyectos reales sanitizados en
 [`docs/product/coresolutions-project-patterns.md`](../product/coresolutions-project-patterns.md)

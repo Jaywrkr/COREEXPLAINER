@@ -7,7 +7,7 @@ proyecto antes de marcarlo como revisado.
 ## Alcance
 
 El contenido es un patrón de delivery derivado de proyectos sanitizados de
-CoreSolutions. No define una metodología contractual, un SLA ni una lista
+CORESOLUTIONS. No define una metodología contractual, un SLA ni una lista
 cerrada de tareas. Cada proyecto debe convertirlo en un plan con responsables,
 dependencias, ventanas, pruebas y aceptación.
 

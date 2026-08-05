@@ -6,7 +6,7 @@ import { drawKindIcon } from "./icons";
 /**
  * Canvas simulation engine for animation-spec.json scenes.
  *
- * Ported from the first hand-built CoreSolutions prototype
+ * Ported from the first hand-built CORESOLUTIONS prototype
  * (docs/examples/vcf) into a generic, reusable engine: nothing here knows
  * about VCF, hosts, or vSAN — it only knows nodes, edges, capacity, and
  * packet flow. Content (src/content) and visuals (this engine) are

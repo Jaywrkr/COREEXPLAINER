@@ -52,5 +52,5 @@ Heredan directamente de `docs/product/brand.md`:
 ## Límites de dominio (a definir en Fase 1)
 
 Qué hacer si el tema pedido no es un tema técnico de infraestructura/TI
-(fuera del dominio de CoreSolutions), o si es demasiado amplio para 3–5
+(fuera del dominio de CORESOLUTIONS), o si es demasiado amplio para 3–5
 pasos — sin resolver todavía. Documentar la decisión aquí cuando se tome.

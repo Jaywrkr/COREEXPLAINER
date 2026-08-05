@@ -1,10 +1,10 @@
-# Patrones reales de proyectos de CoreSolutions
+# Patrones reales de proyectos de CORESOLUTIONS
 
 **Fuente de contexto:** `Proyectos Planificacion.csv` (copia local entregada
 por el usuario)  
 **Revisión del resumen:** 2026-08-04  
 **Propósito:** alimentar el backlog de explainers con capacidades que
-CoreSolutions ha implementado en proyectos reales.
+CORESOLUTIONS ha implementado en proyectos reales.
 
 ## Nota de privacidad y método
 
@@ -31,7 +31,7 @@ vigencia de versiones.
 | Seguridad | Firewalls nuevos o renovados, HA, migración, reglas, prevención de amenazas y puesta en producción | Check Point |
 | Servidores y cargas | Rack, firmware, RAID interno, gestión remota, SO, AIX, Oracle y SAP | Lenovo, IBM Power, Oracle, SAP |
 | Alta disponibilidad | Dos racks, equipos activo-activo, clústeres, enlaces redundantes, replicación y pruebas de failover | IBM, Lenovo, Aruba/HPE, VMware |
-| Servicios de adopción | Transferencia de conocimiento, cursos oficiales, material, certificados, documentación y soporte remoto | CoreSolutions + fabricante |
+| Servicios de adopción | Transferencia de conocimiento, cursos oficiales, material, certificados, documentación y soporte remoto | CORESOLUTIONS + fabricante |
 
 ## Secuencia recurrente de implementación
 

@@ -15,7 +15,7 @@ export function BrandContextPanel({ items }: BrandContextPanelProps) {
         </summary>
         <div className="absolute left-0 top-full z-30 mt-1 w-72 border border-core-border/[0.14] bg-core-panel p-3 shadow-lg">
           <p className="text-[0.7rem] leading-relaxed text-core-text-secondary">
-            Contexto comercial de CoreSolutions; no implica compatibilidad, licencia o sizing automático.
+            Contexto comercial de CORESOLUTIONS; no implica compatibilidad, licencia o sizing automático.
           </p>
           <ul className="mt-3 space-y-2.5">
             {items.map((item) => (

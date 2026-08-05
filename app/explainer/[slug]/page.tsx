@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const explainer = getExplainer(slug);
   if (!explainer) return {};
-  return { title: `${explainer.meta.title} · CoreSolutions` };
+  return { title: `${explainer.meta.title} · CORESOLUTIONS` };
 }
 
 export default async function ExplainerTopicPage({ params, searchParams }: PageProps) {

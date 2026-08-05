@@ -1,7 +1,7 @@
-# CoreSolutions Technical Explainer
+# CORESOLUTIONS Technical Explainer
 
 Explicaciones visuales interactivas de conceptos técnicos complejos, para
-conversaciones de venta consultiva de CoreSolutions. Next.js + TypeScript,
+conversaciones de venta consultiva de CORESOLUTIONS. Next.js + TypeScript,
 desplegable en Vercel.
 
 - **¿Vas a desarrollar esto con ayuda de una IA (Claude, ChatGPT, etc.)?**

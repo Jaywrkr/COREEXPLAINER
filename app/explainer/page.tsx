@@ -5,7 +5,7 @@ import { ExplainerFeedback } from "@/components/explainer/ExplainerFeedback";
 import { getExplainersByCategory } from "@/content/registry";
 
 export const metadata: Metadata = {
-  title: "Explicadores técnicos · CoreSolutions",
+  title: "Explicadores técnicos · CORESOLUTIONS",
 };
 
 export default function ExplainerDashboardPage() {
