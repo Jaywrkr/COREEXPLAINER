@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Estado v0.24.0 (04-08-2026)**: cada explicación puede alternar entre modo
+**Estado v0.25.0 (05-08-2026)**: cada explicación puede alternar entre modo
 Cliente y Técnico y compartir enlaces directos a escenas y escenarios. Se mantiene
 el séptimo tema independiente
 `/explainer/observability` sobre recorrido de peticiones, señales,
@@ -35,6 +35,10 @@ Se añadió un batch de cuatro explainers: `/explainer/veeam-protection`,
 `/explainer/active-active-dc`, `/explainer/lan-san` y
 `/explainer/nas-private-cloud`.
 
+Los deployments automáticos de Vercel quedaron desactivados mediante
+`vercel.json`; la publicación se hará manualmente por batch. El flujo está en
+`docs/ai-context/vercel-deployment-policy.md`.
+
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
@@ -45,6 +49,7 @@ Actualización adicional 2026-08-04 — v0.18.0: nuevo explainer de resiliencia 
 Actualización adicional 2026-08-04 — v0.19.0: patrones reales de proyectos y backlog comercial-técnico.
 Actualización adicional 2026-08-04 — v0.20.0: nuevo explainer de Storage SAN empresarial.
 Actualización adicional 2026-08-04 — v0.24.0: batch de cuatro explainers de infraestructura.
+Actualización adicional 2026-08-05 — v0.25.0: política de deploy manual para proteger la cuota de Vercel.
 **Actualización adicional 2026-08-04 — v0.16.0:** se añadió el explainer de Backup/DR y el registro canónico del portafolio de marcas CoreSolutions.
 
 ## Qué está hecho

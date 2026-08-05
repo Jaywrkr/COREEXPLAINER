@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.24.0";
+export const currentVersion = "0.25.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.25.0",
+    date: "05 ago 2026",
+    title: "Deploys manuales para proteger la cuota de Vercel",
+    changes: [
+      "Se desactivaron los deployments automáticos de Git mediante vercel.json.",
+      "Se documentó el flujo de validación local y publicación manual por batch.",
+      "Los PRs y merges ya no deben consumir deployments de Vercel automáticamente.",
+    ],
+  },
   {
     version: "0.24.0",
     date: "04 ago 2026",
