@@ -155,12 +155,12 @@ function sourceBackedProfile(domain: TechnicalIntegrityDomain, scenes: Record<st
 export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfile> = {
   vcf: vcfTechnicalIntegrity,
   nsx: nsxTechnicalIntegrity,
-  "vsphere-ha": baselineProfile("virtualization", {
-    normal: { nodes: ["client", "vm", "host1", "host2", "datastore", "ha"], edge: ["ha", "host1", "control"], path: ["client", "datastore"] },
-    "host-failure": { nodes: ["vm", "host1", "host2", "datastore", "ha"], edge: ["ha", "host1", "control"], path: ["ha", "vm"] },
-    decision: { nodes: ["ha", "capacity", "datastore", "policy", "host2", "vm"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"] },
-    restart: { nodes: ["client", "host2", "datastore", "vm", "app"], edge: ["host2", "vm", "control"], path: ["client", "app"] },
-    limits: { nodes: ["ha", "vm", "capacity", "datastore", "policy"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"] },
+  "vsphere-ha": sourceBackedProfile("virtualization", {
+    normal: { nodes: ["client", "vm", "host1", "host2", "datastore", "ha"], edge: ["ha", "host1", "control"], path: ["client", "datastore"], sourceIds: ["vsphere-ha-restart", "vsphere-ha-capacity"] },
+    "host-failure": { nodes: ["vm", "host1", "host2", "datastore", "ha"], edge: ["ha", "host1", "control"], path: ["ha", "vm"], sourceIds: ["vsphere-ha-restart", "vsphere-ha-retries"] },
+    decision: { nodes: ["ha", "capacity", "datastore", "policy", "host2", "vm"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"], sourceIds: ["vsphere-ha-capacity", "vsphere-ha-rules", "vsphere-ha-multi-host"] },
+    restart: { nodes: ["client", "host2", "datastore", "vm", "app"], edge: ["host2", "vm", "control"], path: ["client", "app"], sourceIds: ["vsphere-ha-restart", "vsphere-ha-retries"] },
+    limits: { nodes: ["ha", "vm", "capacity", "datastore", "policy"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"], sourceIds: ["vsphere-ha-capacity", "vsphere-ha-rules", "vsphere-ha-multi-host"] },
   }),
   vsan: sourceBackedProfile("storage", {
     "local-storage": { nodes: ["vm", "host1", "host2", "disk1", "disk2", "vsan"], edge: ["disk1", "vsan", "storage"], path: ["vm", "vsan"], sourceIds: ["vsan-components"] },
@@ -176,12 +176,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     enforcement: { nodes: ["subject", "pep", "resource", "telemetry", "revoke"], edge: ["pep", "resource", "data"], path: ["subject", "resource"], sourceIds: ["nist-800-207", "nist-components"] },
     limits: { nodes: ["subject", "identity", "device", "telemetry", "policy", "resource"], edge: ["subject", "policy", "data"], path: ["subject", "resource"], sourceIds: ["nist-800-207", "cisa-ztmm", "nist-publication"] },
   }),
-  kubernetes: baselineProfile("application", {
-    "desired-state": { nodes: ["developer", "api", "controller", "pod1", "pod2", "node"], edge: ["api", "controller", "control"], path: ["developer", "node"] },
-    scheduling: { nodes: ["pod", "scheduler", "node1", "node2", "constraints"], edge: ["constraints", "scheduler", "control"], path: ["pod", "node1"] },
-    service: { nodes: ["client", "service", "endpoints", "pod1", "pod2", "readiness"], edge: ["service", "endpoints", "control"], path: ["client", "pod1"] },
-    rollout: { nodes: ["release", "old-rs", "new-rs", "old-pod", "new-pod", "service"], edge: ["release", "new-rs", "control"], path: ["release", "service"] },
-    failure: { nodes: ["client", "service", "pod1", "pod2", "node1", "node2", "controller", "registry", "readiness"], edge: ["readiness", "service", "control"], path: ["client", "service"] },
+  kubernetes: sourceBackedProfile("application", {
+    "desired-state": { nodes: ["developer", "api", "controller", "pod1", "pod2", "node"], edge: ["api", "controller", "control"], path: ["developer", "node"], sourceIds: ["k8s-architecture", "k8s-deployments"] },
+    scheduling: { nodes: ["pod", "scheduler", "node1", "node2", "constraints"], edge: ["constraints", "scheduler", "control"], path: ["pod", "node1"], sourceIds: ["k8s-scheduler", "k8s-architecture"] },
+    service: { nodes: ["client", "service", "endpoints", "pod1", "pod2", "readiness"], edge: ["service", "endpoints", "control"], path: ["client", "pod1"], sourceIds: ["k8s-services", "k8s-probes"] },
+    rollout: { nodes: ["release", "old-rs", "new-rs", "old-pod", "new-pod", "service"], edge: ["release", "new-rs", "control"], path: ["release", "service"], sourceIds: ["k8s-deployments", "k8s-probes"] },
+    failure: { nodes: ["client", "service", "pod1", "pod2", "node1", "node2", "controller", "registry", "readiness"], edge: ["readiness", "service", "control"], path: ["client", "service"], sourceIds: ["k8s-architecture", "k8s-scheduler", "k8s-probes", "k8s-deployments"] },
   }),
   observability: sourceBackedProfile("observability", {
     "request-path": { nodes: ["client", "gateway", "checkout", "payment", "database"], edge: ["gateway", "checkout", "data"], path: ["client", "database"], sourceIds: ["otel-traces", "otel-context"] },
@@ -239,12 +239,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     protection: { nodes: ["share", "raid", "ha", "veeam", "repository", "restore"], edge: ["veeam", "repository", "data"], path: ["share", "restore"], sourceIds: ["veeam-nas", "synology-files"] },
     limits: { nodes: ["directory", "heartbeat", "nas-b", "share", "veeam", "users"], edge: ["share", "veeam", "data"], path: ["directory", "users"], sourceIds: ["synology-ha", "synology-ad", "veeam-nas"] },
   }),
-  migration: baselineProfile("delivery", {
-    discovery: { nodes: ["workloads", "dependencies", "inventory", "plan", "source", "destination"], edge: ["inventory", "plan", "control"], path: ["workloads", "destination"] },
-    compatibility: { nodes: ["source", "compatibility", "migration-net", "storage", "destination"], edge: ["source", "compatibility", "control"], path: ["source", "destination"] },
-    waves: { nodes: ["pilot", "migration-net", "wave", "critical", "backup"], edge: ["migration-net", "wave", "data"], path: ["pilot", "critical"] },
-    validation: { nodes: ["infra", "monitoring", "dependencies", "service", "acceptance"], edge: ["monitoring", "service", "data"], path: ["infra", "acceptance"] },
-    limits: { nodes: ["inventory", "compatibility", "migration-net", "storage", "rollback", "service"], edge: ["compatibility", "migration-net", "dependency"], path: ["inventory", "service"] },
+  migration: sourceBackedProfile("delivery", {
+    discovery: { nodes: ["workloads", "dependencies", "inventory", "plan", "source", "destination"], edge: ["inventory", "plan", "control"], path: ["workloads", "destination"], sourceIds: ["broadcom-vmotion", "ibm-lpm"] },
+    compatibility: { nodes: ["source", "compatibility", "migration-net", "storage", "destination"], edge: ["source", "compatibility", "control"], path: ["source", "destination"], sourceIds: ["broadcom-compatibility", "broadcom-migration-faults"] },
+    waves: { nodes: ["pilot", "migration-net", "wave", "critical", "backup"], edge: ["migration-net", "wave", "data"], path: ["pilot", "critical"], sourceIds: ["broadcom-vmotion", "veeam-overview"] },
+    validation: { nodes: ["infra", "monitoring", "dependencies", "service", "acceptance"], edge: ["monitoring", "service", "data"], path: ["infra", "acceptance"], sourceIds: ["broadcom-migration-faults", "veeam-overview"] },
+    limits: { nodes: ["inventory", "compatibility", "migration-net", "storage", "rollback", "service"], edge: ["compatibility", "migration-net", "dependency"], path: ["inventory", "service"], sourceIds: ["broadcom-compatibility", "broadcom-migration-faults", "veeam-overview"] },
   }),
   "checkpoint-ha": sourceBackedProfile("security", {
     traffic: { nodes: ["users", "vip", "active", "standby", "service"], edge: ["vip", "active", "data"], path: ["users", "service"], sourceIds: ["checkpoint-intro", "aruba-design"] },
@@ -267,12 +267,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     acceptance: { nodes: ["platform", "application", "monitoring", "backup", "acceptance"], edge: ["application", "monitoring", "control"], path: ["platform", "acceptance"], sourceIds: ["ibm-lpm", "veeam-overview"] },
     limits: { nodes: ["hmc", "viOS", "san", "application", "backup", "acceptance"], edge: ["viOS", "san", "storage"], path: ["hmc", "acceptance"], sourceIds: ["ibm-lpm-howto", "ibm-flashsystem", "veeam-overview"] },
   }),
-  "implementation-lifecycle": baselineProfile("delivery", {
-    discovery: { nodes: ["customer", "prerequisites", "inventory", "scope", "plan"], edge: ["scope", "plan", "control"], path: ["customer", "plan"] },
-    rack: { nodes: ["rack", "compute", "storage", "network", "firmware"], edge: ["network", "firmware", "control"], path: ["rack", "firmware"] },
-    integration: { nodes: ["compute", "lan", "san", "security", "backup", "service"], edge: ["security", "service", "data"], path: ["compute", "service"] },
-    acceptance: { nodes: ["tests", "evidence", "documentation", "operations", "acceptance"], edge: ["documentation", "acceptance", "data"], path: ["tests", "acceptance"] },
-    limits: { nodes: ["prerequisites", "rack", "integration", "acceptance", "documentation", "service"], edge: ["acceptance", "documentation", "control"], path: ["prerequisites", "service"] },
+  "implementation-lifecycle": sourceBackedProfile("delivery", {
+    discovery: { nodes: ["customer", "prerequisites", "inventory", "scope", "plan"], edge: ["scope", "plan", "control"], path: ["customer", "plan"], sourceIds: ["project-patterns", "broadcom-compatibility"] },
+    rack: { nodes: ["rack", "compute", "storage", "network", "firmware"], edge: ["network", "firmware", "control"], path: ["rack", "firmware"], sourceIds: ["aruba-deploy", "broadcom-compatibility"] },
+    integration: { nodes: ["compute", "lan", "san", "security", "backup", "service"], edge: ["security", "service", "data"], path: ["compute", "service"], sourceIds: ["ibm-mapping", "veeam-architecture", "checkpoint-install"] },
+    acceptance: { nodes: ["tests", "evidence", "documentation", "operations", "acceptance"], edge: ["documentation", "acceptance", "data"], path: ["tests", "acceptance"], sourceIds: ["project-patterns", "veeam-architecture", "checkpoint-install"] },
+    limits: { nodes: ["prerequisites", "rack", "integration", "acceptance", "documentation", "service"], edge: ["acceptance", "documentation", "control"], path: ["prerequisites", "service"], sourceIds: ["project-patterns", "aruba-deploy", "ibm-mapping", "veeam-architecture"] },
   }),
   instana: sourceBackedProfile("observability", {
     journey: { nodes: ["user", "gateway", "service", "database", "dependency", "impact"], edge: ["service", "database", "storage"], path: ["user", "impact"], sourceIds: ["instana-apm", "instana-fullstack"] },

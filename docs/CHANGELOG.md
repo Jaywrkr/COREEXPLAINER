@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.45.0] - 2026-08-05
+
+- vSphere HA, Kubernetes, Migración e Implementation Lifecycle pasan a contratos `source-backed`.
+- Las escenas enlazan capacidad, compatibilidad, scheduling, dependencias, pruebas y aceptación con sus fuentes técnicas.
+- El catálogo mantiene explícitos los límites: el diagrama orienta el diagnóstico, pero no sustituye la validación del entorno.
+
 ## [0.44.0] - 2026-08-05
 
 - LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y Check Point HA pasan a contratos `source-backed`.

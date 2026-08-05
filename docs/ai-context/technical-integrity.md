@@ -59,6 +59,11 @@ Check Point HA. Sus reglas mantienen separadas las dependencias de datos,
 control, identidad, seguridad y failover; las fuentes asociadas documentan el
 concepto, pero la aceptación sigue requiriendo pruebas del entorno del cliente.
 
+El batch v0.45.0 añade vSphere HA, Kubernetes, Migración e Implementation
+Lifecycle. Sus reglas cubren disponibilidad, scheduling, exposición de servicios,
+compatibilidad, oleadas, integración y aceptación; las fuentes son evidencia
+documental por escena y no una certificación automática del diseño.
+
 Cuando una regla declara `sourceIds`, el panel de diagnóstico muestra los
 enlaces directos a esas fuentes. La acción de abrir evidencia está separada
 del botón que enfoca los nodos, para que consultar documentación no cambie el
