@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.32.0] - 2026-08-05
+
+- VCF y NSX declaran contratos de red para comprobar componentes, relaciones y caminos esperados por escena.
+- El canvas muestra el estado de integridad técnica y permite resaltar los nodos asociados a un diagnóstico.
+- La validación distingue el modelo representado de la monitorización de una red real y conserva las fuentes de cada regla.
+
 ## [0.31.0] - 2026-08-05
 
 - La leyenda y los escenarios de fallo se pueden arrastrar dentro del espacio del diagrama.

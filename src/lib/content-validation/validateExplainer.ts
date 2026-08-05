@@ -1,5 +1,5 @@
 import type { AnimationSpec, NodeKind } from "@/lib/animation-spec/types";
-import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import type { ExplainerMeta, ExplainerStep, TechnicalIntegrityProfile } from "@/content/types";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -33,6 +33,42 @@ function isNonEmptyText(value: unknown): value is string {
 
 function hasDocumentationPath(value: unknown): value is string {
   return isNonEmptyText(value) && value.startsWith("docs/") && value.endsWith(".md");
+}
+
+function validateTechnicalIntegrityProfile(
+  profile: TechnicalIntegrityProfile,
+  sceneIds: ReadonlySet<string>,
+  technicalSourceIds: ReadonlySet<string>,
+  add: (message: string) => void,
+) {
+  if (profile.domain !== "network") add("meta.technicalIntegrity.domain must be 'network'");
+  const ruleIds = new Set<string>();
+  const validateRule = (label: string, id: string, sourceIds: string[] | undefined) => {
+    if (!isNonEmptyText(id)) add(`${label}.id must be a non-empty string`);
+    if (ruleIds.has(id)) add(`${label}.id '${id}' is duplicated`);
+    ruleIds.add(id);
+    for (const sourceId of sourceIds ?? []) {
+      if (!technicalSourceIds.has(sourceId)) {
+        add(`${label}.sourceIds references unknown technical source '${sourceId}'`);
+      }
+    }
+  };
+
+  for (const [sceneId, contract] of Object.entries(profile.scenes)) {
+    const sceneLabel = `meta.technicalIntegrity.scenes['${sceneId}']`;
+    if (!sceneIds.has(sceneId)) add(`${sceneLabel} references unknown scene`);
+    for (const nodeId of contract.requiredNodes ?? []) {
+      if (!isNonEmptyText(nodeId)) add(`${sceneLabel}.requiredNodes cannot contain empty IDs`);
+    }
+    for (const [index, rule] of (contract.requiredEdges ?? []).entries()) {
+      validateRule(`${sceneLabel}.requiredEdges[${index}]`, rule.id, rule.sourceIds);
+      if (!isNonEmptyText(rule.from) || !isNonEmptyText(rule.to)) add(`${sceneLabel}.requiredEdges[${index}] must define from and to`);
+    }
+    for (const [index, rule] of (contract.requiredPaths ?? []).entries()) {
+      validateRule(`${sceneLabel}.requiredPaths[${index}]`, rule.id, rule.sourceIds);
+      if (!isNonEmptyText(rule.from) || !isNonEmptyText(rule.to)) add(`${sceneLabel}.requiredPaths[${index}] must define from and to`);
+    }
+  }
 }
 
 /**
@@ -119,6 +155,10 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   const sceneIds = new Set(Object.keys(spec.scenes));
   const stepIds = new Set<string>();
   const referencedSceneIds = new Set<string>();
+
+  if (meta.technicalIntegrity) {
+    validateTechnicalIntegrityProfile(meta.technicalIntegrity, sceneIds, technicalSourceIds, add);
+  }
 
   for (const [index, step] of steps.entries()) {
     const label = `steps[${index}]`;

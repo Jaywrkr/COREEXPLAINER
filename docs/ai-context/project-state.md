@@ -1,5 +1,11 @@
 # Estado del proyecto
 
+**Actualización v0.32.0 (05-08-2026):** se incorporó un motor de integridad
+técnica del modelo de red. VCF y NSX declaran contratos por escena con nodos,
+relaciones y caminos esperados; el canvas muestra el resultado y puede enfocar
+los nodos de un diagnóstico. Esta capa valida el diagrama representado, no una
+red real ni telemetría en vivo.
+
 **Actualización v0.31.0 (05-08-2026):** los overlays de leyenda/capas y
 escenarios de fallo se pueden arrastrar dentro del espacio del diagrama, con
 lÃ­mites al canvas y un asa de arrastre separada de sus botones. La columna
