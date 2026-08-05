@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.41.0] - 2026-08-05
+
+- El build ejecuta fixtures que comprueban un caso válido y mutaciones de nodos, relaciones, caminos, fallos y aristas colgantes.
+- Si una modificación rompe la capacidad de detectar alguno de esos problemas, la publicación queda bloqueada.
+- La suite protege el evaluador sin consultar una infraestructura real ni introducir datos de clientes.
+
 ## [0.40.0] - 2026-08-05
 
 - El panel de integridad se abre automáticamente al activar un escenario o apagar un nodo manualmente.

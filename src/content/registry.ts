@@ -47,6 +47,7 @@ import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.jso
 import { webMethodsMeta, webMethodsSteps } from "./webmethods";
 import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
 import { technicalIntegrityProfiles } from "./technical-integrity";
+import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -263,6 +264,8 @@ const definitions: ExplainerDefinition[] = [
   turbonomicDefinition,
   webMethodsDefinition,
 ];
+
+assertTechnicalIntegrityRegression();
 
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.

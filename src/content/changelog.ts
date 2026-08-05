@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.40.0";
+export const currentVersion = "0.41.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.41.0",
+    date: "05 ago 2026",
+    title: "Regresiones técnicas protegidas",
+    changes: [
+      "El build ejecuta fixtures que comprueban un caso válido y mutaciones de nodos, relaciones, caminos, fallos y aristas colgantes.",
+      "Si una modificación rompe la capacidad de detectar alguno de esos problemas, la publicación queda bloqueada.",
+      "La suite protege el evaluador sin consultar una infraestructura real ni introducir datos de clientes.",
+    ],
+  },
   {
     version: "0.40.0",
     date: "05 ago 2026",

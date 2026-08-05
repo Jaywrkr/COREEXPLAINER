@@ -65,6 +65,14 @@ Cuando hay una simulación activa, el panel se abre automáticamente para hacer
 visible el impacto. Al limpiar la falla y volver a una escena válida, recupera
 su comportamiento compacto.
 
+## Regresiones
+
+`src/lib/technical-integrity/regressionFixtures.ts` ejecuta fixtures durante la
+carga del registro. Comprueba un caso válido y mutaciones de tipo de relación,
+nodo faltante, camino roto por un nodo inactivo, componente aislado y arista
+colgante. Si una modificación del evaluador deja de detectar alguno, el build
+falla antes de publicar.
+
 ## Evolución segura
 
 1. Añadir reglas estáticas del modelo y probarlas durante el build.
