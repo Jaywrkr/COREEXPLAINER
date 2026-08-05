@@ -80,4 +80,34 @@ export const brandContext = {
     { name: "Veeam", role: "Protección del NAS", scope: "La cobertura de shares y repositorios depende de versión, licencia y arquitectura." },
     { name: "Lenovo", role: "Cómputo complementario", scope: "Puede alojar servicios asociados; validar capacidad y soporte." },
   ] satisfies BrandContextItem[],
+  migration: [
+    { name: "VMware/Broadcom", role: "Movilidad de cargas virtuales", scope: "vMotion, Storage vMotion o cross-vCenter dependen de versión, licencia, red, storage y compatibilidad." },
+    { name: "Lenovo", role: "Cómputo destino y origen", scope: "ThinkSystem representa hosts posibles; validar modelo, firmware, HCL y capacidad." },
+    { name: "IBM", role: "Storage y cargas críticas", scope: "FlashSystem, Power o replicación son patrones posibles; validar familia, código y procedimiento." },
+    { name: "Veeam", role: "Red de seguridad y rollback", scope: "Un backup válido no sustituye el plan de migración ni garantiza una reversión automática." },
+  ] satisfies BrandContextItem[],
+  checkpointHa: [
+    { name: "Check Point", role: "Gateway y cluster de seguridad", scope: "ClusterXL, VSX y sincronización dependen de la edición, versión R82.x y topología." },
+    { name: "Aruba HPE", role: "Conectividad de los miembros", scope: "VLAN, routing, enlaces y MTU deben validarse en el switching real." },
+    { name: "VMware/Broadcom", role: "Workloads detrás del firewall", scope: "NSX/VCF puede aportar contexto de cargas; no se asume una integración específica." },
+  ] satisfies BrandContextItem[],
+  sdwan: [
+    { name: "Aruba HPE", role: "EdgeConnect SD-WAN", scope: "Business Intent Overlays, path conditioning y HA dependen de modelo, Orchestrator y release." },
+    { name: "Check Point", role: "Seguridad de salida y segmentación", scope: "Puede coexistir con el edge; el orden de inspección y las políticas requieren diseño." },
+    { name: "VMware/Broadcom", role: "Servicios y workloads", scope: "Las aplicaciones pueden estar virtualizadas; no se presenta SD-WAN como sustituto de la red de data center." },
+  ] satisfies BrandContextItem[],
+  powerAix: [
+    { name: "IBM", role: "PowerVM, AIX y storage", scope: "LPM, VIOS, SAN y replicación dependen del modelo Power, niveles de firmware y soporte." },
+    { name: "Lenovo", role: "Integración x86 y servicios", scope: "Puede alojar componentes asociados; validar arquitectura, HCL y sizing." },
+    { name: "Veeam", role: "Protección de componentes soportados", scope: "La cobertura de AIX, bases de datos y servidores requiere validar agente, plugin, versión y licencia." },
+    { name: "Aruba HPE", role: "Red LAN de las aplicaciones", scope: "VLAN, routing y redundancia son dependencias separadas del movimiento de una LPAR." },
+  ] satisfies BrandContextItem[],
+  implementationLifecycle: [
+    { name: "Lenovo", role: "Instalación física y cómputo", scope: "Rack, firmware, HCL y sizing se validan por modelo y ambiente." },
+    { name: "IBM", role: "Storage, SAN y replicación", scope: "La familia y el código determinan funciones y procedimientos disponibles." },
+    { name: "VMware/Broadcom", role: "Plataforma de virtualización", scope: "vSphere/VCF y sus entitlements deben comprobarse antes de diseñar." },
+    { name: "Veeam", role: "Protección y pruebas de restore", scope: "La política final depende de workloads, repositorios, RPO/RTO y licenciamiento." },
+    { name: "Aruba HPE", role: "LAN y conectividad", scope: "El diagrama no sustituye el diseño de underlay, routing o alta disponibilidad." },
+    { name: "Check Point", role: "Seguridad y aceptación", scope: "Las reglas, inspección y pruebas de retorno deben validarse con tráfico real." },
+  ] satisfies BrandContextItem[],
 };

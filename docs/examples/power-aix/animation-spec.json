@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "id": "ibm-power-aix-critical-workload",
+  "title": "Cómo se protege una carga IBM Power/AIX con Oracle o SAP",
+  "scenes": {
+    "workload": { "nodes": [
+      { "id": "users", "name": "Usuarios", "subtitle": "Clientes / procesos", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "application", "name": "Oracle / SAP", "subtitle": "Aplicación crítica", "x": 0.32, "y": 0.5, "kind": "workload", "capacity": 85 },
+      { "id": "aix", "name": "AIX LPAR", "subtitle": "Sistema operativo", "x": 0.55, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "powervm", "name": "PowerVM / VIOS", "subtitle": "Virtual I/O", "x": 0.78, "y": 0.3, "kind": "control-plane", "capacity": 80 },
+      { "id": "storage", "name": "IBM Storage", "subtitle": "Datos", "x": 0.78, "y": 0.72, "kind": "storage", "capacity": 85 }
+    ], "edges": [
+      { "from": "users", "to": "application", "kind": "data" }, { "from": "application", "to": "aix", "kind": "dependency" }, { "from": "aix", "to": "powervm", "kind": "control" }, { "from": "aix", "to": "storage", "kind": "storage" }
+    ] },
+    "platform": { "nodes": [
+      { "id": "hmc", "name": "HMC", "subtitle": "Gestión Power", "x": 0.08, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "source", "name": "Power origen", "subtitle": "LPAR en ejecución", "x": 0.35, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "viOS", "name": "VIOS", "subtitle": "Dispositivos virtuales", "x": 0.55, "y": 0.75, "kind": "control-plane", "capacity": 80 },
+      { "id": "destination", "name": "Power destino", "subtitle": "Recursos compatibles", "x": 0.8, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "lpar", "name": "LPAR", "subtitle": "Estado y memoria", "x": 0.55, "y": 0.25, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "hmc", "to": "source", "kind": "control" }, { "from": "source", "to": "lpar", "kind": "control" }, { "from": "lpar", "to": "destination", "kind": "data" }, { "from": "viOS", "to": "destination", "kind": "dependency" }
+    ] },
+    "data-paths": { "nodes": [
+      { "id": "lpar", "name": "AIX LPAR", "subtitle": "Consumidor", "x": 0.08, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "viOS", "name": "VIOS", "subtitle": "Virtual I/O", "x": 0.3, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "lan", "name": "LAN", "subtitle": "Usuarios / gestión", "x": 0.55, "y": 0.25, "kind": "network", "capacity": 75 },
+      { "id": "san", "name": "SAN", "subtitle": "Paths FC", "x": 0.55, "y": 0.75, "kind": "network", "capacity": 80 },
+      { "id": "storage", "name": "IBM FlashSystem", "subtitle": "LUNs / datos", "x": 0.82, "y": 0.5, "kind": "storage", "capacity": 85 }
+    ], "edges": [
+      { "from": "lpar", "to": "viOS", "kind": "control" }, { "from": "viOS", "to": "lan", "kind": "data" }, { "from": "viOS", "to": "san", "kind": "storage" }, { "from": "san", "to": "storage", "kind": "storage" }
+    ] },
+    "acceptance": { "nodes": [
+      { "id": "platform", "name": "Plataforma", "subtitle": "LPAR / paths / recursos", "x": 0.08, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "application", "name": "Oracle / SAP", "subtitle": "Health check", "x": 0.32, "y": 0.5, "kind": "workload", "capacity": 85 },
+      { "id": "monitoring", "name": "Monitoreo", "subtitle": "Métricas y alertas", "x": 0.55, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "backup", "name": "Veeam / copia", "subtitle": "Protección", "x": 0.55, "y": 0.75, "kind": "storage", "capacity": 80 },
+      { "id": "acceptance", "name": "Aceptación", "subtitle": "Cliente / negocio", "x": 0.86, "y": 0.5, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "platform", "to": "application", "kind": "dependency" }, { "from": "application", "to": "monitoring", "kind": "control" }, { "from": "application", "to": "backup", "kind": "storage" }, { "from": "monitoring", "to": "acceptance", "kind": "data" }, { "from": "backup", "to": "acceptance", "kind": "dependency" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "hmc", "name": "HMC / niveles", "subtitle": "Prerequisitos", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "viOS", "name": "VIOS", "subtitle": "Virtual I/O", "x": 0.28, "y": 0.3, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "san", "name": "SAN / paths", "subtitle": "Datos", "x": 0.48, "y": 0.3, "kind": "network", "capacity": 80, "killable": true },
+      { "id": "application", "name": "Aplicación", "subtitle": "Oracle / SAP", "x": 0.68, "y": 0.3, "kind": "workload", "capacity": 80, "killable": true },
+      { "id": "backup", "name": "Backup", "subtitle": "Restore probado", "x": 0.88, "y": 0.3, "kind": "storage", "capacity": 75, "killable": true },
+      { "id": "acceptance", "name": "Aceptación", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "hmc", "to": "viOS", "kind": "control" }, { "from": "viOS", "to": "san", "kind": "storage" }, { "from": "san", "to": "application", "kind": "dependency" }, { "from": "application", "to": "backup", "kind": "storage" }, { "from": "backup", "to": "acceptance", "kind": "dependency" }
+    ] }
+  }
+}

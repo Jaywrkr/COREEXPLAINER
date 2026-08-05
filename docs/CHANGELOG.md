@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.26.0] - 2026-08-05
+
+- Se añadieron cinco explainers: migración sin interrupción, Check Point HA,
+  SD-WAN, IBM Power/AIX y ciclo de implementación.
+- Cada tema incluye cinco escenas, cuatro escenarios de fallo, contexto de
+  marcas y fuentes primarias revisadas el 2026-08-05.
+- El batch amplía la conversación hacia migración, cargas críticas,
+  conectividad multisede y adopción del cliente.
+
 ## [0.25.0] - 2026-08-05
 
 - Se desactivaron los deployments automáticos de Git mediante `vercel.json`.

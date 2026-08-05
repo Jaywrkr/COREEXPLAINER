@@ -1,5 +1,10 @@
 # Estado del proyecto
 
+**Actualización v0.26.0 (05-08-2026):** batch de cinco explainers orientados a
+cliente: migración sin interrupción, Check Point HA, SD-WAN, IBM Power/AIX y
+ciclo de implementación. Cada uno mantiene cinco escenas, cuatro fallos
+interactivos, contexto de marcas y trazabilidad técnica revisada el 2026-08-05.
+
 **Estado v0.25.0 (05-08-2026)**: cada explicación puede alternar entre modo
 Cliente y Técnico y compartir enlaces directos a escenas y escenarios. Se mantiene
 el séptimo tema independiente
