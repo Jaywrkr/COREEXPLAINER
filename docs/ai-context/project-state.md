@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.34.0 (05-08-2026):** el quality gate de integridad técnica ahora exige cobertura por escena, valida que nodos y reglas existan en el animation spec y bloquea explainers sin perfil. El catálogo completo pasa typecheck, lint y build.
+
 **Actualización v0.33.0 (05-08-2026):** el motor de integridad técnica se extendió a los 22 explainers del catálogo. Cada escena tiene una línea base de componentes, relaciones y caminos esperados; VCF y NSX mantienen contratos más profundos de red. El panel etiqueta el dominio técnico correspondiente y la documentación está en `docs/ai-context/technical-integrity.md`.
 
 **Actualización v0.32.0 (05-08-2026):** se incorporó un motor de integridad

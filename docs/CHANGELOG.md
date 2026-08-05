@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.34.0] - 2026-08-05
+
+- El build exige un contrato técnico para cada escena de cada explainer del catálogo.
+- Las reglas se comprueban contra los nodos reales del animation spec para detectar referencias obsoletas o mal escritas.
+- Un tema nuevo no puede registrarse sin un perfil de integridad; la auditoría sigue siendo del modelo representado, no de una plataforma en vivo.
+
 ## [0.33.0] - 2026-08-05
 
 - Los 22 explainers declaran un contrato técnico por escena con componentes, relaciones y caminos mínimos esperados.

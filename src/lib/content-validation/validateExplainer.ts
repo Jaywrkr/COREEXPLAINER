@@ -1,4 +1,4 @@
-import type { AnimationSpec, NodeKind } from "@/lib/animation-spec/types";
+import type { AnimationSpec, NodeKind, Scene } from "@/lib/animation-spec/types";
 import type { ExplainerMeta, ExplainerStep, TechnicalIntegrityProfile } from "@/content/types";
 import type { TechnicalIntegrityDomain } from "@/content/types";
 
@@ -49,6 +49,7 @@ function hasDocumentationPath(value: unknown): value is string {
 
 function validateTechnicalIntegrityProfile(
   profile: TechnicalIntegrityProfile,
+  scenes: Readonly<Record<string, Scene>>,
   sceneIds: ReadonlySet<string>,
   technicalSourceIds: ReadonlySet<string>,
   add: (message: string) => void,
@@ -69,16 +70,31 @@ function validateTechnicalIntegrityProfile(
   for (const [sceneId, contract] of Object.entries(profile.scenes)) {
     const sceneLabel = `meta.technicalIntegrity.scenes['${sceneId}']`;
     if (!sceneIds.has(sceneId)) add(`${sceneLabel} references unknown scene`);
+    const sceneNodeIds = scenes[sceneId] ? new Set(scenes[sceneId].nodes.map((node) => node.id)) : null;
+    if (sceneNodeIds && !contract.requiredNodes?.length && !contract.requiredEdges?.length && !contract.requiredPaths?.length) {
+      add(`${sceneLabel} must declare at least one technical check`);
+    }
     for (const nodeId of contract.requiredNodes ?? []) {
       if (!isNonEmptyText(nodeId)) add(`${sceneLabel}.requiredNodes cannot contain empty IDs`);
+      else if (sceneNodeIds && !sceneNodeIds.has(nodeId)) add(`${sceneLabel}.requiredNodes references unknown node '${nodeId}'`);
     }
     for (const [index, rule] of (contract.requiredEdges ?? []).entries()) {
       validateRule(`${sceneLabel}.requiredEdges[${index}]`, rule.id, rule.sourceIds);
       if (!isNonEmptyText(rule.from) || !isNonEmptyText(rule.to)) add(`${sceneLabel}.requiredEdges[${index}] must define from and to`);
+      if (sceneNodeIds && isNonEmptyText(rule.from) && !sceneNodeIds.has(rule.from)) add(`${sceneLabel}.requiredEdges[${index}].from references unknown node '${rule.from}'`);
+      if (sceneNodeIds && isNonEmptyText(rule.to) && !sceneNodeIds.has(rule.to)) add(`${sceneLabel}.requiredEdges[${index}].to references unknown node '${rule.to}'`);
     }
     for (const [index, rule] of (contract.requiredPaths ?? []).entries()) {
       validateRule(`${sceneLabel}.requiredPaths[${index}]`, rule.id, rule.sourceIds);
       if (!isNonEmptyText(rule.from) || !isNonEmptyText(rule.to)) add(`${sceneLabel}.requiredPaths[${index}] must define from and to`);
+      if (sceneNodeIds && isNonEmptyText(rule.from) && !sceneNodeIds.has(rule.from)) add(`${sceneLabel}.requiredPaths[${index}].from references unknown node '${rule.from}'`);
+      if (sceneNodeIds && isNonEmptyText(rule.to) && !sceneNodeIds.has(rule.to)) add(`${sceneLabel}.requiredPaths[${index}].to references unknown node '${rule.to}'`);
+    }
+  }
+
+  for (const sceneId of sceneIds) {
+    if (!Object.prototype.hasOwnProperty.call(profile.scenes, sceneId)) {
+      add(`meta.technicalIntegrity.scenes is missing a contract for scene '${sceneId}'`);
     }
   }
 }
@@ -169,7 +185,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   const referencedSceneIds = new Set<string>();
 
   if (meta.technicalIntegrity) {
-    validateTechnicalIntegrityProfile(meta.technicalIntegrity, sceneIds, technicalSourceIds, add);
+    validateTechnicalIntegrityProfile(meta.technicalIntegrity, spec.scenes, sceneIds, technicalSourceIds, add);
   }
 
   for (const [index, step] of steps.entries()) {
