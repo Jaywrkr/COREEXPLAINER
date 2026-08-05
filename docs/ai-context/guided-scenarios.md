@@ -35,10 +35,37 @@ information design para clientes y equipos internos; no ejecuta acciones.
 }
 ```
 
-`kind` admite `observe`, `diagnose`, `recover` y `validate`. El validador de
-contenido comprueba IDs unicos, texto no vacio y que cada `focusNodeId` exista
+`kind` admite `observe`, `diagnose`, `recover` y `validate`. Los pasos authored
+deben citar al menos una fuente mediante `sourceIds`; el validador comprueba
+IDs unicos, texto no vacio, fuentes existentes y que cada `focusNodeId` exista
 en la escena del escenario. Los escenarios con pasos authored deben tener al
 menos tres fases; se recomienda cubrir las cuatro.
+
+## Checkpoints de decision
+
+Una fase puede declarar `decision` cuando conviene que el cliente contraste
+hipotesis antes de avanzar:
+
+```ts
+decision: {
+  question: "Que evidencia necesitas antes de afirmar que HA puede recuperar?",
+  options: [
+    {
+      id: "capacity-and-storage",
+      label: "Capacidad, storage visible y politicas compatibles",
+      feedback: "Es la hipotesis mas completa para este modelo.",
+      outcome: "recommended",
+      focusNodeIds: ["host2", "vsan"],
+    },
+  ],
+}
+```
+
+Cada checkpoint debe tener al menos dos opciones y exactamente una con
+`outcome: "recommended"`. `incomplete` y `unsafe` no son respuestas
+"incorrectas" universales: indican que falta evidencia o que la afirmacion
+seria arriesgada en el alcance de la escena. Al seleccionar una opcion, el
+panel muestra el razonamiento y el diagrama puede cambiar su foco.
 
 ## Criterios de precision
 

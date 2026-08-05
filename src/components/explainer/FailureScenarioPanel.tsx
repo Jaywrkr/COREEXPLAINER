@@ -1,5 +1,10 @@
-import { useState } from "react";
-import type { FailureScenario, GuidedScenarioStep } from "@/content/types";
+import { useEffect, useState } from "react";
+import type {
+  FailureScenario,
+  GuidedScenarioStep,
+  GuidedScenarioDecisionOutcome,
+  TechnicalSource,
+} from "@/content/types";
 
 interface FailureScenarioPanelProps {
   scenarios: FailureScenario[];
@@ -8,6 +13,9 @@ interface FailureScenarioPanelProps {
   guidedSteps: GuidedScenarioStep[];
   activeGuidedStepIndex: number;
   onGuidedStepChange: (index: number) => void;
+  technicalSources: TechnicalSource[];
+  selectedDecisionOptionId: string | null;
+  onDecisionOptionChange: (optionId: string | null) => void;
 }
 
 const stepLabels: Record<GuidedScenarioStep["kind"], string> = {
@@ -15,6 +23,18 @@ const stepLabels: Record<GuidedScenarioStep["kind"], string> = {
   diagnose: "Diagnostica",
   recover: "Recupera",
   validate: "Valida",
+};
+
+const decisionTone: Record<GuidedScenarioDecisionOutcome, string> = {
+  recommended: "border-core-success/50 bg-core-success/10 text-core-text",
+  incomplete: "border-core-warning/50 bg-core-warning/10 text-core-text",
+  unsafe: "border-core-error/50 bg-core-error/10 text-core-text",
+};
+
+const decisionToneLabel: Record<GuidedScenarioDecisionOutcome, string> = {
+  recommended: "Lectura recomendada",
+  incomplete: "Necesita más evidencia",
+  unsafe: "No es suficiente",
 };
 
 /**
@@ -29,14 +49,26 @@ export function FailureScenarioPanel({
   guidedSteps,
   activeGuidedStepIndex,
   onGuidedStepChange,
+  technicalSources,
+  selectedDecisionOptionId,
+  onDecisionOptionChange,
 }: FailureScenarioPanelProps) {
   const [minimized, setMinimized] = useState(false);
-
-  if (scenarios.length === 0) return null;
-
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
   const safeStepIndex = Math.min(Math.max(activeGuidedStepIndex, 0), Math.max(guidedSteps.length - 1, 0));
   const activeStep = guidedSteps[safeStepIndex] ?? null;
+  const selectedDecisionOption = activeStep?.decision?.options.find(
+    (option) => option.id === selectedDecisionOptionId,
+  ) ?? null;
+  const activeSources = (activeStep?.sourceIds ?? [])
+    .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
+    .filter((source): source is TechnicalSource => Boolean(source));
+
+  useEffect(() => {
+    if (!activeStep?.decision && selectedDecisionOptionId) onDecisionOptionChange(null);
+  }, [activeStep?.decision, onDecisionOptionChange, selectedDecisionOptionId]);
+
+  if (scenarios.length === 0) return null;
 
   return (
     <section
@@ -151,6 +183,66 @@ export function FailureScenarioPanel({
               ) : (
                 <p className="text-xs leading-relaxed text-core-text-secondary">{activeScenario.detail}</p>
               )}
+
+              {activeStep?.decision ? (
+                <div className="space-y-2 border-t border-core-border/[0.12] pt-2">
+                  <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+                    Checkpoint de decisiÃ³n
+                  </p>
+                  <p className="text-xs leading-relaxed text-core-text-secondary">{activeStep.decision.question}</p>
+                  <div className="grid gap-1.5" role="group" aria-label="Opciones de diagnÃ³stico">
+                    {activeStep.decision.options.map((option) => {
+                      const selected = option.id === selectedDecisionOptionId;
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          aria-pressed={selected}
+                          onClick={() => onDecisionOptionChange(selected ? null : option.id)}
+                          className={`border px-2.5 py-2 text-left text-[0.68rem] leading-relaxed transition-colors ${
+                            selected
+                              ? decisionTone[option.outcome]
+                              : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40 hover:bg-core-accent/[0.06] hover:text-core-text"
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {selectedDecisionOption ? (
+                    <div className={`border px-2.5 py-2 text-[0.68rem] leading-relaxed ${decisionTone[selectedDecisionOption.outcome]}`}>
+                      <p className="font-semibold">{decisionToneLabel[selectedDecisionOption.outcome]}</p>
+                      <p className="mt-1">{selectedDecisionOption.feedback}</p>
+                    </div>
+                  ) : (
+                    <p className="text-[0.66rem] leading-relaxed text-core-text-muted">
+                      Selecciona una hipÃ³tesis para ver quÃ© evidencia aporta y cÃ³mo cambia el foco del diagrama.
+                    </p>
+                  )}
+                </div>
+              ) : null}
+
+              {activeSources.length ? (
+                <div className="border-t border-core-border/[0.12] pt-2">
+                  <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">
+                    Fuentes de esta fase
+                  </p>
+                  <div className="mt-1.5 grid gap-1">
+                    {activeSources.map((source) => (
+                      <a
+                        key={source.id}
+                        href={source.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[0.65rem] leading-relaxed text-core-text-secondary underline decoration-core-accent/40 underline-offset-2 transition-colors hover:text-core-accent"
+                      >
+                        {source.title} · revisada {source.accessedAt}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
 
               <div className="space-y-2 border-t border-core-border/[0.12] pt-2">
                 <p className="text-[0.68rem] leading-relaxed text-core-text-muted">

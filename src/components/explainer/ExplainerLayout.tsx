@@ -38,6 +38,7 @@ export function ExplainerLayout({
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [activeFailureScenarioId, setActiveFailureScenarioId] = useState<string | null>(initialScenarioId);
   const [guidedStepIndex, setGuidedStepIndex] = useState(0);
+  const [selectedDecisionOptionId, setSelectedDecisionOptionId] = useState<string | null>(null);
   const [audienceMode, setAudienceMode] = useState<AudienceMode>(initialAudienceMode);
   const [presentationActive, setPresentationActive] = useState(false);
   const [presentationPlaying, setPresentationPlaying] = useState(false);
@@ -59,6 +60,11 @@ export function ExplainerLayout({
     () => (activeScenario ? getGuidedScenarioSteps(activeScenario) : []),
     [activeScenario],
   );
+  const activeGuidedStep = guidedSteps[guidedStepIndex] ?? null;
+  const selectedDecisionOption = activeGuidedStep?.decision?.options.find(
+    (option) => option.id === selectedDecisionOptionId,
+  ) ?? null;
+  const guidedFocusNodeIds = selectedDecisionOption?.focusNodeIds ?? activeGuidedStep?.focusNodeIds ?? [];
 
   useEffect(() => {
     setSelectedNode(null);
@@ -70,6 +76,10 @@ export function ExplainerLayout({
     if (previousScenarioRef.current !== activeFailureScenarioId) setGuidedStepIndex(0);
     previousScenarioRef.current = activeFailureScenarioId;
   }, [activeFailureScenarioId]);
+
+  useEffect(() => {
+    setSelectedDecisionOptionId(null);
+  }, [activeFailureScenarioId, guidedStepIndex]);
 
   useEffect(() => {
     setGuidedStepIndex((index) => Math.min(index, Math.max(guidedSteps.length - 1, 0)));
@@ -217,6 +227,10 @@ export function ExplainerLayout({
           guidedSteps={guidedSteps}
           activeGuidedStepIndex={guidedStepIndex}
           onGuidedStepChange={setGuidedStepIndex}
+          technicalSources={meta.technicalReview.sources}
+          selectedDecisionOptionId={selectedDecisionOptionId}
+          onDecisionOptionChange={setSelectedDecisionOptionId}
+          guidedFocusNodeIds={guidedFocusNodeIds}
         />
         <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center font-mono text-[0.74rem] tracking-[0.02em] text-core-text-muted">
           {step.caption}

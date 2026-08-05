@@ -81,6 +81,26 @@ export interface GuidedScenarioStep {
   expected: string;
   /** Nodes emphasized in the diagram while this step is active. */
   focusNodeIds?: string[];
+  /** Technical sources supporting this phase of the scenario. */
+  sourceIds?: string[];
+  /** Optional hypothesis checkpoint for authored, decision-oriented guides. */
+  decision?: GuidedScenarioDecision;
+}
+
+export type GuidedScenarioDecisionOutcome = "recommended" | "incomplete" | "unsafe";
+
+export interface GuidedScenarioDecision {
+  question: string;
+  options: GuidedScenarioDecisionOption[];
+}
+
+export interface GuidedScenarioDecisionOption {
+  id: string;
+  label: string;
+  feedback: string;
+  outcome: GuidedScenarioDecisionOutcome;
+  /** Optional focus override after the audience selects this hypothesis. */
+  focusNodeIds?: string[];
 }
 
 export interface ExplainerStep {

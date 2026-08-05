@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.29.0] - 2026-08-05
+
+- VCF incorpora checkpoints de diagnóstico para contrastar hipótesis sobre HA,
+  capacidad, storage y separación entre gestión y camino de datos.
+- Cada fase authored puede mostrar fuentes técnicas, fecha de consulta,
+  feedback de la opción elegida y un nuevo foco del diagrama.
+- El validador comprueba fuentes por fase, opciones de decisión y exactamente
+  una lectura recomendada por checkpoint.
+
 ## [0.28.0] - 2026-08-05
 
 - Se añadieron fases de observación, diagnóstico, recuperación y validación para recorrer fallos con una narrativa didáctica.

@@ -24,7 +24,8 @@ Cada escenario debe declarar:
 - `deadNodeIds`: IDs de los nodos que el motor debe marcar como no disponibles.
 - `guidedSteps` (opcional): secuencia de observaciÃ³n, diagnÃ³stico, recuperaciÃ³n y
   validaciÃ³n. Cada paso puede declarar `focusNodeIds` para concentrar el diagrama
-  en la evidencia relevante.
+  en la evidencia relevante, `sourceIds` para trazar la afirmaciÃ³n y un
+  `decision` para contrastar hipÃ³tesis.
 
 ## Motor de escenarios guiados
 
