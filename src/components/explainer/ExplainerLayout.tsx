@@ -6,6 +6,7 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { LeftPanel } from "./LeftPanel";
 import { VisualCanvas } from "./VisualCanvas";
 import type { AudienceMode } from "./AudienceModeToggle";
+import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
 
 const AUTOPLAY_STEP_MS = 6500;
 
@@ -36,10 +37,12 @@ export function ExplainerLayout({
   const [current, setCurrent] = useState(initialStepIndex);
   const [selectedNode, setSelectedNode] = useState<SceneNode | null>(null);
   const [activeFailureScenarioId, setActiveFailureScenarioId] = useState<string | null>(initialScenarioId);
+  const [guidedStepIndex, setGuidedStepIndex] = useState(0);
   const [audienceMode, setAudienceMode] = useState<AudienceMode>(initialAudienceMode);
   const [presentationActive, setPresentationActive] = useState(false);
   const [presentationPlaying, setPresentationPlaying] = useState(false);
   const initializedFromLink = useRef(false);
+  const previousScenarioRef = useRef<string | null>(initialScenarioId);
   const step = steps[current]!;
   const scene = spec.scenes[step.sceneId];
 
@@ -51,12 +54,26 @@ export function ExplainerLayout({
     () => meta.failureScenarios?.filter((scenario) => scenario.sceneId === step.sceneId) ?? [],
     [meta.failureScenarios, step.sceneId],
   );
+  const activeScenario = failureScenarios.find((scenario) => scenario.id === activeFailureScenarioId) ?? null;
+  const guidedSteps = useMemo(
+    () => (activeScenario ? getGuidedScenarioSteps(activeScenario) : []),
+    [activeScenario],
+  );
 
   useEffect(() => {
     setSelectedNode(null);
     if (initializedFromLink.current) setActiveFailureScenarioId(null);
     initializedFromLink.current = true;
   }, [scene]);
+
+  useEffect(() => {
+    if (previousScenarioRef.current !== activeFailureScenarioId) setGuidedStepIndex(0);
+    previousScenarioRef.current = activeFailureScenarioId;
+  }, [activeFailureScenarioId]);
+
+  useEffect(() => {
+    setGuidedStepIndex((index) => Math.min(index, Math.max(guidedSteps.length - 1, 0)));
+  }, [guidedSteps.length]);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -197,6 +214,9 @@ export function ExplainerLayout({
           failureScenarios={failureScenarios}
           activeFailureScenarioId={activeFailureScenarioId}
           onFailureScenarioChange={setActiveFailureScenarioId}
+          guidedSteps={guidedSteps}
+          activeGuidedStepIndex={guidedStepIndex}
+          onGuidedStepChange={setGuidedStepIndex}
         />
         <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center font-mono text-[0.74rem] tracking-[0.02em] text-core-text-muted">
           {step.caption}

@@ -191,6 +191,27 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         if (!sceneNodeIds.has(nodeId)) add(`${label}.deadNodeIds references unknown node '${nodeId}'`);
       }
     }
+
+    if (scenario.guidedSteps) {
+      if (scenario.guidedSteps.length < 3) {
+        add(`${label}.guidedSteps must contain at least three steps when provided`);
+      }
+      const guidedStepIds = new Set<string>();
+      const allowedKinds = new Set(["observe", "diagnose", "recover", "validate"]);
+      for (const [stepIndex, guidedStep] of scenario.guidedSteps.entries()) {
+        const stepLabel = `${label}.guidedSteps[${stepIndex}]`;
+        if (!isNonEmptyText(guidedStep.id)) add(`${stepLabel}.id must be a non-empty string`);
+        if (guidedStepIds.has(guidedStep.id)) add(`${stepLabel}.id '${guidedStep.id}' is duplicated`);
+        guidedStepIds.add(guidedStep.id);
+        if (!allowedKinds.has(guidedStep.kind)) add(`${stepLabel}.kind '${guidedStep.kind}' is not supported`);
+        for (const field of ["title", "instruction", "evidence", "expected"] as const) {
+          if (!isNonEmptyText(guidedStep[field])) add(`${stepLabel}.${field} must be a non-empty string`);
+        }
+        for (const nodeId of guidedStep.focusNodeIds ?? []) {
+          if (!sceneNodeIds.has(nodeId)) add(`${stepLabel}.focusNodeIds references unknown node '${nodeId}'`);
+        }
+      }
+    }
   }
 
   for (const sceneId of sceneIds) {

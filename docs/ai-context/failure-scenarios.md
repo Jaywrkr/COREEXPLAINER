@@ -22,6 +22,22 @@ Cada escenario debe declarar:
 - `limitation`: qué no demuestra y qué condiciones no se están simulando.
 - `affectedNodes`: nombres legibles para la explicación.
 - `deadNodeIds`: IDs de los nodos que el motor debe marcar como no disponibles.
+- `guidedSteps` (opcional): secuencia de observaciÃ³n, diagnÃ³stico, recuperaciÃ³n y
+  validaciÃ³n. Cada paso puede declarar `focusNodeIds` para concentrar el diagrama
+  en la evidencia relevante.
+
+## Motor de escenarios guiados
+
+Cuando un escenario no tiene `guidedSteps` propios, la aplicaciÃ³n genera una
+secuencia base de cuatro fases mediante `src/lib/scenarios/guidedScenario.ts`.
+Esto permite que los escenarios existentes sigan siendo Ãºtiles mientras cada
+explicaciÃ³n incorpora progresivamente un runbook educativo mÃ¡s especÃ­fico.
+
+El panel mantiene el escenario seleccionado, permite avanzar o volver a una fase
+y puede minimizarse sin desactivar la simulaciÃ³n. La fase activa se refleja en
+el canvas: los nodos enfocados y sus relaciones permanecen visibles, mientras
+el resto se atenÃºa. NingÃºn paso ejecuta comandos, cambia una configuraciÃ³n o
+constituye un procedimiento aprobado para producciÃ³n.
 
 ## Reglas de precisión
 

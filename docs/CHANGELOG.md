@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.28.0] - 2026-08-05
+
+- Se añadieron fases de observación, diagnóstico, recuperación y validación para recorrer fallos con una narrativa didáctica.
+- El diagrama enfoca nodos y relaciones relevantes para la fase activa; el panel conserva evidencia, resultado esperado y limitaciones.
+- Los escenarios existentes reciben una guía base compatible; los nuevos escenarios pueden declarar pasos authored y `focusNodeIds`.
+
 ## [0.27.0] - 2026-08-05
 
 - Se añadieron los explainers de IBM Instana, IBM Turbonomic e IBM webMethods.

@@ -66,6 +66,21 @@ export interface FailureScenario {
   limitation: string;
   affectedNodes: string[];
   deadNodeIds: string[];
+  /** Optional authored sequence for the guided diagnosis/recovery flow. */
+  guidedSteps?: GuidedScenarioStep[];
+}
+
+export type GuidedScenarioStepKind = "observe" | "diagnose" | "recover" | "validate";
+
+export interface GuidedScenarioStep {
+  id: string;
+  kind: GuidedScenarioStepKind;
+  title: string;
+  instruction: string;
+  evidence: string;
+  expected: string;
+  /** Nodes emphasized in the diagram while this step is active. */
+  focusNodeIds?: string[];
 }
 
 export interface ExplainerStep {

@@ -1,32 +1,47 @@
 import { useState } from "react";
-import type { FailureScenario } from "@/content/types";
+import type { FailureScenario, GuidedScenarioStep } from "@/content/types";
 
 interface FailureScenarioPanelProps {
   scenarios: FailureScenario[];
   activeScenarioId: string | null;
   onSelectScenario: (scenarioId: string | null) => void;
+  guidedSteps: GuidedScenarioStep[];
+  activeGuidedStepIndex: number;
+  onGuidedStepChange: (index: number) => void;
 }
 
+const stepLabels: Record<GuidedScenarioStep["kind"], string> = {
+  observe: "Observa",
+  diagnose: "Diagnostica",
+  recover: "Recupera",
+  validate: "Valida",
+};
+
 /**
- * Guided failure simulations are deliberately content-driven. This panel
- * explains the selected outcome and its limits instead of implying an SLA or
- * a universal recovery guarantee.
+ * Guided failure simulations are deliberately content-driven. The panel
+ * explains the selected outcome and walks the audience through observation,
+ * diagnosis, recovery and validation without implying a production runbook.
  */
 export function FailureScenarioPanel({
   scenarios,
   activeScenarioId,
   onSelectScenario,
+  guidedSteps,
+  activeGuidedStepIndex,
+  onGuidedStepChange,
 }: FailureScenarioPanelProps) {
   const [minimized, setMinimized] = useState(false);
 
   if (scenarios.length === 0) return null;
 
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
+  const safeStepIndex = Math.min(Math.max(activeGuidedStepIndex, 0), Math.max(guidedSteps.length - 1, 0));
+  const activeStep = guidedSteps[safeStepIndex] ?? null;
 
   return (
     <section
       aria-label="Escenarios interactivos de fallo"
-      className={`absolute bottom-14 left-4 z-10 w-[min(23rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
+      className={`absolute bottom-14 left-4 z-10 w-[min(26rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
         minimized ? "p-2.5" : "p-4"
       }`}
     >
@@ -37,7 +52,7 @@ export function FailureScenarioPanel({
           </p>
           {!minimized ? (
             <p className="mt-1 text-xs text-core-text-muted">
-              Simulación conceptual, no una garantía de disponibilidad.
+              Simulación conceptual: recorre la evidencia sin ejecutar cambios.
             </p>
           ) : null}
         </div>
@@ -91,18 +106,92 @@ export function FailureScenarioPanel({
           </div>
 
           {activeScenario ? (
-            <div className="mt-3 space-y-2 border-t border-core-border/[0.12] pt-3">
-              <p className="text-xs leading-relaxed text-core-text-secondary">{activeScenario.detail}</p>
-              <p className="text-[0.68rem] leading-relaxed text-core-text-muted">
-                <span className="font-semibold text-core-text">Afecta:</span> {activeScenario.affectedNodes.join(", ")}
-              </p>
-              <p className="border-l-2 border-core-warning pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
-                {activeScenario.limitation}
-              </p>
+            <div className="mt-3 space-y-3 border-t border-core-border/[0.12] pt-3">
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+                  Guía de análisis
+                </p>
+                <span className="font-mono text-[0.62rem] text-core-text-muted">
+                  {guidedSteps.length ? `Paso ${safeStepIndex + 1} de ${guidedSteps.length}` : "Contexto"}
+                </span>
+              </div>
+
+              {guidedSteps.length ? (
+                <div className="grid grid-cols-4 gap-1" role="tablist" aria-label="Fases del escenario">
+                  {guidedSteps.map((step, index) => (
+                    <button
+                      key={step.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={index === safeStepIndex}
+                      onClick={() => onGuidedStepChange(index)}
+                      className={`border px-1.5 py-1.5 text-[0.6rem] font-semibold transition-colors ${
+                        index === safeStepIndex
+                          ? "border-core-accent/60 bg-core-accent/10 text-core-text"
+                          : "border-core-border/[0.12] text-core-text-muted hover:border-core-accent/40 hover:text-core-text"
+                      }`}
+                    >
+                      {stepLabels[step.kind]}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+
+              {activeStep ? (
+                <div aria-live="polite" className="space-y-2">
+                  <div>
+                    <p className="text-sm font-semibold text-core-text">{activeStep.title}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-core-text-secondary">{activeStep.instruction}</p>
+                  </div>
+                  <div className="border-l-2 border-core-accent/70 pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
+                    <p><span className="font-semibold text-core-text">Evidencia:</span> {activeStep.evidence}</p>
+                    <p className="mt-1"><span className="font-semibold text-core-text">Resultado esperado:</span> {activeStep.expected}</p>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-xs leading-relaxed text-core-text-secondary">{activeScenario.detail}</p>
+              )}
+
+              <div className="space-y-2 border-t border-core-border/[0.12] pt-2">
+                <p className="text-[0.68rem] leading-relaxed text-core-text-muted">
+                  <span className="font-semibold text-core-text">Afecta:</span> {activeScenario.affectedNodes.join(", ")}
+                </p>
+                <p className="border-l-2 border-core-warning pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
+                  {activeScenario.limitation}
+                </p>
+              </div>
+
+              {guidedSteps.length > 1 ? (
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => onGuidedStepChange(Math.max(0, safeStepIndex - 1))}
+                    disabled={safeStepIndex === 0}
+                    className="border border-core-border/[0.14] px-2.5 py-1.5 font-mono text-[0.6rem] uppercase tracking-[0.05em] text-core-text-muted transition-colors hover:border-core-accent hover:text-core-text disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    Atrás
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onGuidedStepChange(0)}
+                    className="px-2.5 py-1.5 font-mono text-[0.6rem] uppercase tracking-[0.05em] text-core-text-muted transition-colors hover:text-core-text"
+                  >
+                    Reiniciar guía
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onGuidedStepChange(Math.min(guidedSteps.length - 1, safeStepIndex + 1))}
+                    disabled={safeStepIndex === guidedSteps.length - 1}
+                    className="border border-core-accent/50 bg-core-accent/10 px-2.5 py-1.5 font-mono text-[0.6rem] uppercase tracking-[0.05em] text-core-text transition-colors hover:bg-core-accent/20 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    Siguiente
+                  </button>
+                </div>
+              ) : null}
             </div>
           ) : (
             <p className="mt-3 border-t border-core-border/[0.12] pt-3 text-[0.68rem] leading-relaxed text-core-text-muted">
-              Selecciona un escenario para ver qué cambia y qué condiciones siguen siendo necesarias.
+              Selecciona un escenario para recorrer qué cambia, qué evidencia buscar y qué condiciones siguen siendo necesarias.
             </p>
           )}
         </div>
