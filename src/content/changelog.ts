@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.26.0";
+export const currentVersion = "0.27.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.27.0",
+    date: "05 ago 2026",
+    title: "Explainers IBM para observabilidad, optimización e integración",
+    changes: [
+      "Se añadieron los explainers de IBM Instana, IBM Turbonomic e IBM webMethods.",
+      "Cada tema incluye cinco escenas, cuatro escenarios de fallo, fuentes primarias revisadas el 2026-08-05 y límites de edición, release y cobertura.",
+      "El portafolio y el contexto de marcas ahora contemplan estas tres familias de software IBM para futuras sesiones y propuestas.",
+    ],
+  },
   {
     version: "0.26.0",
     date: "05 ago 2026",

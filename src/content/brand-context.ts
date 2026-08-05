@@ -110,4 +110,22 @@ export const brandContext = {
     { name: "Aruba HPE", role: "LAN y conectividad", scope: "El diagrama no sustituye el diseño de underlay, routing o alta disponibilidad." },
     { name: "Check Point", role: "Seguridad y aceptación", scope: "Las reglas, inspección y pruebas de retorno deben validarse con tráfico real." },
   ] satisfies BrandContextItem[],
+  instana: [
+    { name: "IBM Instana", role: "Observabilidad de aplicaciones", scope: "Descubrimiento, trazas, métricas, logs e investigación dependen de edición, agentes, sensores y cobertura." },
+    { name: "VMware/Broadcom", role: "Infraestructura observada", scope: "vSphere/VCF puede ser parte del mapa; validar sensores, permisos y versión." },
+    { name: "Lenovo", role: "Cómputo observado", scope: "ThinkSystem representa infraestructura posible; la visibilidad depende de integración y agente." },
+    { name: "Aruba HPE", role: "Red de las aplicaciones", scope: "La observabilidad muestra síntomas y dependencias; no sustituye el diseño del underlay." },
+  ] satisfies BrandContextItem[],
+  turbonomic: [
+    { name: "IBM Turbonomic", role: "Gestión de recursos y acciones", scope: "Las recomendaciones dependen de targets, datos, políticas, restricciones y modos de ejecución." },
+    { name: "VMware/Broadcom", role: "Target de virtualización", scope: "vCenter, clusters, datastores y permisos determinan qué entidades se descubren y qué acciones son posibles." },
+    { name: "Lenovo", role: "Capacidad física", scope: "Los hosts ThinkSystem pueden representar supply; modelo, HCL y capacidad deben validarse." },
+    { name: "IBM Instana", role: "Señal de rendimiento de aplicaciones", scope: "Puede aportar contexto APM según target y release; no convierte una recomendación en aprobación automática." },
+  ] satisfies BrandContextItem[],
+  webmethods: [
+    { name: "IBM webMethods", role: "Integración, APIs y B2B", scope: "Hybrid Integration combina capacidades SaaS y runtimes remotos; disponibilidad y paridad dependen del producto." },
+    { name: "VMware/Broadcom", role: "Aplicaciones y runtimes conectados", scope: "Puede alojar sistemas integrados; el patrón no afirma una integración de producto concreta." },
+    { name: "Aruba HPE", role: "Conectividad entre dominios", scope: "VLAN, routing, VPN y segmentación deben diseñarse fuera del flujo lógico de integración." },
+    { name: "Check Point", role: "Protección de APIs y perímetro", scope: "El gateway, firewall y políticas deben validarse con identidad, tráfico y requisitos del cliente." },
+  ] satisfies BrandContextItem[],
 };

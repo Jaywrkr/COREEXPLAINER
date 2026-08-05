@@ -1,5 +1,10 @@
 # Estado del proyecto
 
+**Actualización v0.27.0 (05-08-2026):** se añadieron los explainers
+`/explainer/instana`, `/explainer/turbonomic` y `/explainer/webmethods`.
+Cada uno documenta cinco escenas, cuatro fallos interactivos, fuentes IBM
+revisadas el 2026-08-05 y límites de edición, release, cobertura y ejecución.
+
 **Actualización v0.26.0 (05-08-2026):** batch de cinco explainers orientados a
 cliente: migración sin interrupción, Check Point HA, SD-WAN, IBM Power/AIX y
 ciclo de implementación. Cada uno mantiene cinco escenas, cuatro fallos

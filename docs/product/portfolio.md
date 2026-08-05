@@ -39,6 +39,19 @@ cualquier cliente.
 | Aruba HPE | Conectividad de campus/data center y dependencias de red | La animación no sustituye un diseño de underlay, routing o seguridad. |
 | Check Point | Controles de seguridad y segmentación en los caminos de recuperación | Las reglas, inspección y operación deben probarse con el tráfico real. |
 
+## Software IBM para observabilidad, optimizaciÃ³n e integraciÃ³n
+
+Desde la revisiÃ³n del 2026-08-05, el registro tambiÃ©n contempla **IBM
+Instana, IBM Turbonomic e IBM webMethods** como familias de software que deben
+explicarse con sus propios lÃ­mites de licencia, release, conectores, targets,
+agentes y despliegue:
+
+| Familia | Papel que puede explicar el sistema | LÃ­mite de la explicaciÃ³n |
+|---|---|---|
+| IBM Instana | Observabilidad de aplicaciones, infraestructura, trazas, logs e investigaciÃ³n | Cobertura, sensores, agentes, ediciÃ³n, retenciÃ³n y modelo SaaS/self-hosted se validan por entorno. |
+| IBM Turbonomic | Descubrimiento de supply chain, anÃ¡lisis, planes y acciones de optimizaciÃ³n | Las acciones dependen de targets, datos, polÃ­ticas, restricciones, permisos y modo manual/automÃ¡tico. |
+| IBM webMethods | IntegraciÃ³n hÃ­brida de APIs, aplicaciones, eventos, B2B/EDI y archivos | La paridad entre SaaS y runtimes remotos, versiones, conectores, seguridad y disponibilidad regional debe comprobarse. |
+
 ## Regla para futuras sesiones
 
 Antes de crear un nuevo tema, leer este archivo y `docs/product/brand.md`.
