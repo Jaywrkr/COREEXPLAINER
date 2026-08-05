@@ -46,6 +46,11 @@ Cada perfil declara también su nivel de garantía:
 
 El panel muestra esta diferencia como “Cobertura base” o “Revisión profunda” para que el estado Validado no se lea como una certificación de producción.
 
+Cuando una regla declara `sourceIds`, el panel de diagnóstico muestra los
+enlaces directos a esas fuentes. La acción de abrir evidencia está separada
+del botón que enfoca los nodos, para que consultar documentación no cambie el
+estado de la exploración.
+
 ## Evolución segura
 
 1. Añadir reglas estáticas del modelo y probarlas durante el build.
