@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+El batch v0.43.0 también cubre Backup/DR con fuentes técnicas específicas por escena.
+
 **Actualización v0.43.0 (05-08-2026):** vSAN, SAN Storage, Veeam Protection, Active-Active DC, NAS/Private Cloud e IBM Power/AIX pasan a `source-backed`, con fuentes técnicas específicas por escena. El panel sigue diferenciando evidencia documental de una revisión especialista.
 
 **Actualización v0.42.0 (05-08-2026):** Observability, Instana, Turbonomic y webMethods pasan a `source-backed`, con reglas por escena vinculadas a fuentes técnicas existentes. `baseline` sigue reservado para temas que aún necesitan una revisión documental específica.

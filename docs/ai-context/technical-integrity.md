@@ -48,7 +48,7 @@ Cada perfil declara también su nivel de garantía:
 El panel muestra esta diferencia como “Cobertura base”, “Con fuentes específicas” o “Revisión profunda” para que el estado Validado no se lea como una certificación de producción.
 
 El batch fuente-backed actual cubre Observability, Instana, Turbonomic,
-webMethods, vSAN, SAN Storage, Veeam Protection, Active-Active DC,
+webMethods, vSAN, Backup/DR, SAN Storage, Veeam Protection, Active-Active DC,
 NAS/Private Cloud e IBM Power/AIX, usando los catálogos técnicos declarados
 por cada tema. Estas asociaciones aportan trazabilidad por escena, pero no se
 presentan como certificación de diseño ni sustituyen la validación del entorno
