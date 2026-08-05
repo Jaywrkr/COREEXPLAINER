@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.48.0] - 2026-08-05
+
+- Cliente muestra el diagrama con zoom, paneo y reproducción como acciones principales.
+- Leyenda, capas, escenarios de fallo e integridad técnica quedan agrupados en Más herramientas y se revelan solo cuando hacen falta.
+- Si hay un escenario o una alerta de integridad activa, la herramienta secundaria se abre para no ocultar contexto importante.
+
 ## [0.47.0] - 2026-08-05
 
 - El modo Cliente prioriza la idea clave y el valor para el cliente; el detalle técnico queda disponible bajo demanda.

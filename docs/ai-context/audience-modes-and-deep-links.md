@@ -22,6 +22,12 @@ La trazabilidad sigue accesible como evidencia opcional y se abre dentro del
 flujo de la columna, con desplazamiento propio cuando la lista de fuentes es
 larga.
 
+En Cliente, el canvas prioriza el movimiento, el zoom y la reproducción. Las
+capas, la leyenda, los escenarios de fallo y la integridad técnica se agrupan
+en `Más herramientas`; si un enlace abre un escenario o aparece una alerta de
+integridad, ese grupo se revela automáticamente para conservar el contexto.
+En Técnico, estas herramientas permanecen visibles como hasta ahora.
+
 ## Enlaces directos
 
 Una explicación puede abrir una escena concreta con estos parámetros:
