@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.40.0 (05-08-2026):** el panel de integridad se revela automáticamente al activar fallos simulados, mostrando nodos inactivos, caminos afectados y siguiente paso. Se compacta al limpiar el impacto.
+
 **Actualización v0.39.0 (05-08-2026):** cada diagnóstico técnico muestra un siguiente paso conceptual. Las recomendaciones no ejecutan cambios y orientan hacia la validación o el runbook correspondiente.
 
 **Actualización v0.38.0 (05-08-2026):** la integridad técnica recibe los nodos inactivos de escenarios y fallas manuales, recalcula caminos y muestra el impacto simulado en el panel. No se presenta como monitorización real.
