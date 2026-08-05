@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.42.0";
+export const currentVersion = "0.43.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.43.0",
+    date: "05 ago 2026",
+    title: "Storage y continuidad con fuentes por escena",
+    changes: [
+      "vSAN, Backup/DR, SAN Storage, Veeam Protection, Active-Active DC, NAS/Private Cloud e IBM Power/AIX pasan a contratos source-backed.",
+      "Cada escena enlaza sus relaciones y caminos críticos con documentación técnica específica del fabricante o estándar correspondiente.",
+      "La validación conserva el bloqueo de referencias inexistentes para que la trazabilidad visible no sea decorativa.",
+    ],
+  },
   {
     version: "0.42.0",
     date: "05 ago 2026",
