@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.42.0 (05-08-2026):** Observability, Instana, Turbonomic y webMethods pasan a `source-backed`, con reglas por escena vinculadas a fuentes técnicas existentes. `baseline` sigue reservado para temas que aún necesitan una revisión documental específica.
+
 **Actualización v0.41.0 (05-08-2026):** el registro ejecuta fixtures de regresión del evaluador técnico durante el build. Se cubren caso válido, relación incorrecta, nodo faltante, camino roto por falla, nodo aislado y arista colgante.
 
 **Actualización v0.40.0 (05-08-2026):** el panel de integridad se revela automáticamente al activar fallos simulados, mostrando nodos inactivos, caminos afectados y siguiente paso. Se compacta al limpiar el impacto.

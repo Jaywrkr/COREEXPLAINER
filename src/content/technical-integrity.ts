@@ -106,6 +106,7 @@ type BaselineScene = {
   nodes: string[];
   edge?: [from: string, to: string, kind: EdgeKind];
   path?: [from: string, to: string];
+  sourceIds?: string[];
 };
 
 function baselineContract(sceneId: string, scene: BaselineScene): TechnicalIntegritySceneContract {
@@ -113,6 +114,7 @@ function baselineContract(sceneId: string, scene: BaselineScene): TechnicalInteg
   if (scene.edge) {
     const [from, to, kind] = scene.edge;
     contract.requiredEdges = [{
+      sourceIds: scene.sourceIds,
       id: `${sceneId}-${from}-${to}`,
       from,
       to,
@@ -124,6 +126,7 @@ function baselineContract(sceneId: string, scene: BaselineScene): TechnicalInteg
   if (scene.path) {
     const [from, to] = scene.path;
     contract.requiredPaths = [{
+      sourceIds: scene.sourceIds,
       id: `${sceneId}-${from}-${to}-path`,
       from,
       to,
@@ -142,6 +145,10 @@ function baselineProfile(domain: TechnicalIntegrityDomain, scenes: Record<string
       Object.entries(scenes).map(([sceneId, scene]) => [sceneId, baselineContract(sceneId, scene)]),
     ),
   };
+}
+
+function sourceBackedProfile(domain: TechnicalIntegrityDomain, scenes: Record<string, BaselineScene>): TechnicalIntegrityProfile {
+  return { ...baselineProfile(domain, scenes), assurance: "source-backed" };
 }
 
 /** Baseline contracts for every explainer without a deeper domain profile yet. */
@@ -176,12 +183,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     rollout: { nodes: ["release", "old-rs", "new-rs", "old-pod", "new-pod", "service"], edge: ["release", "new-rs", "control"], path: ["release", "service"] },
     failure: { nodes: ["client", "service", "pod1", "pod2", "node1", "node2", "controller", "registry", "readiness"], edge: ["readiness", "service", "control"], path: ["client", "service"] },
   }),
-  observability: baselineProfile("observability", {
-    "request-path": { nodes: ["client", "gateway", "checkout", "payment", "database"], edge: ["gateway", "checkout", "data"], path: ["client", "database"] },
-    signals: { nodes: ["service", "sdk", "traces", "metrics", "logs", "question"], edge: ["sdk", "traces", "data"], path: ["service", "question"] },
-    collection: { nodes: ["services", "collector", "processor", "exporter-traces", "exporter-metrics", "exporter-logs", "backends"], edge: ["collector", "processor", "control"], path: ["services", "backends"] },
-    correlation: { nodes: ["symptom", "metrics-backend", "alerting", "trace-backend", "logs-backend", "operator"], edge: ["metrics-backend", "alerting", "control"], path: ["symptom", "operator"] },
-    incident: { nodes: ["client", "gateway", "checkout", "payment", "collector", "processor", "metrics-backend", "trace-backend", "logs-backend"], edge: ["collector", "processor", "control"], path: ["client", "metrics-backend"] },
+  observability: sourceBackedProfile("observability", {
+    "request-path": { nodes: ["client", "gateway", "checkout", "payment", "database"], edge: ["gateway", "checkout", "data"], path: ["client", "database"], sourceIds: ["otel-traces", "otel-context"] },
+    signals: { nodes: ["service", "sdk", "traces", "metrics", "logs", "question"], edge: ["sdk", "traces", "data"], path: ["service", "question"], sourceIds: ["otel-what", "otel-traces", "otel-metrics", "otel-logs"] },
+    collection: { nodes: ["services", "collector", "processor", "exporter-traces", "exporter-metrics", "exporter-logs", "backends"], edge: ["collector", "processor", "control"], path: ["services", "backends"], sourceIds: ["otel-collector", "otel-collector-arch"] },
+    correlation: { nodes: ["symptom", "metrics-backend", "alerting", "trace-backend", "logs-backend", "operator"], edge: ["metrics-backend", "alerting", "control"], path: ["symptom", "operator"], sourceIds: ["prom-alerting", "otel-traces", "otel-logs"] },
+    incident: { nodes: ["client", "gateway", "checkout", "payment", "collector", "processor", "metrics-backend", "trace-backend", "logs-backend"], edge: ["collector", "processor", "control"], path: ["client", "metrics-backend"], sourceIds: ["otel-collector-arch", "otel-traces", "otel-metrics", "otel-logs"] },
   }),
   "backup-dr": baselineProfile("continuity", {
     objectives: { nodes: ["business", "bia", "protection-plan", "evidence"], edge: ["bia", "protection-plan", "control"], path: ["business", "evidence"] },
@@ -267,25 +274,25 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     acceptance: { nodes: ["tests", "evidence", "documentation", "operations", "acceptance"], edge: ["documentation", "acceptance", "data"], path: ["tests", "acceptance"] },
     limits: { nodes: ["prerequisites", "rack", "integration", "acceptance", "documentation", "service"], edge: ["acceptance", "documentation", "control"], path: ["prerequisites", "service"] },
   }),
-  instana: baselineProfile("observability", {
-    journey: { nodes: ["user", "gateway", "service", "database", "dependency", "impact"], edge: ["service", "database", "storage"], path: ["user", "impact"] },
-    signals: { nodes: ["service", "agent", "traces", "metrics", "logs", "question"], edge: ["agent", "metrics", "data"], path: ["service", "question"] },
-    discovery: { nodes: ["service", "process", "topology", "host", "dependency", "owner"], edge: ["process", "topology", "control"], path: ["service", "owner"] },
-    investigation: { nodes: ["symptom", "investigation", "evidence", "root", "remediation", "service"], edge: ["investigation", "root", "control"], path: ["symptom", "service"] },
-    limits: { nodes: ["agent", "collector", "topology", "investigation", "service", "operator"], edge: ["collector", "topology", "control"], path: ["agent", "operator"] },
+  instana: sourceBackedProfile("observability", {
+    journey: { nodes: ["user", "gateway", "service", "database", "dependency", "impact"], edge: ["service", "database", "storage"], path: ["user", "impact"], sourceIds: ["instana-apm", "instana-fullstack"] },
+    signals: { nodes: ["service", "agent", "traces", "metrics", "logs", "question"], edge: ["agent", "metrics", "data"], path: ["service", "question"], sourceIds: ["instana-capabilities", "instana-apm"] },
+    discovery: { nodes: ["service", "process", "topology", "host", "dependency", "owner"], edge: ["process", "topology", "control"], path: ["service", "owner"], sourceIds: ["instana-capabilities", "instana-fullstack", "instana-cloud"] },
+    investigation: { nodes: ["symptom", "investigation", "evidence", "root", "remediation", "service"], edge: ["investigation", "root", "control"], path: ["symptom", "service"], sourceIds: ["instana-investigation", "instana-capabilities"] },
+    limits: { nodes: ["agent", "collector", "topology", "investigation", "service", "operator"], edge: ["collector", "topology", "control"], path: ["agent", "operator"], sourceIds: ["instana-deployment", "instana-investigation", "instana-capabilities"] },
   }),
-  turbonomic: baselineProfile("application", {
-    demand: { nodes: ["application", "demand", "vm", "storage", "health"], edge: ["application", "demand", "control"], path: ["application", "health"] },
-    "supply-chain": { nodes: ["targets", "supply-chain", "application", "compute", "storage"], edge: ["targets", "supply-chain", "control"], path: ["targets", "storage"] },
-    market: { nodes: ["demand", "market", "compute", "storage", "constraints", "action"], edge: ["market", "action", "control"], path: ["demand", "action"] },
-    automation: { nodes: ["recommendation", "policy", "approval", "workflow", "action", "service"], edge: ["policy", "approval", "dependency"], path: ["recommendation", "service"] },
-    limits: { nodes: ["target", "demand", "market", "constraints", "policy", "action"], edge: ["constraints", "policy", "control"], path: ["target", "action"] },
+  turbonomic: sourceBackedProfile("application", {
+    demand: { nodes: ["application", "demand", "vm", "storage", "health"], edge: ["application", "demand", "control"], path: ["application", "health"], sourceIds: ["turb-hypervisor", "turb-targets"] },
+    "supply-chain": { nodes: ["targets", "supply-chain", "application", "compute", "storage"], edge: ["targets", "supply-chain", "control"], path: ["targets", "storage"], sourceIds: ["turb-targets", "turb-hypervisor"] },
+    market: { nodes: ["demand", "market", "compute", "storage", "constraints", "action"], edge: ["market", "action", "control"], path: ["demand", "action"], sourceIds: ["turb-actions", "turb-hypervisor"] },
+    automation: { nodes: ["recommendation", "policy", "approval", "workflow", "action", "service"], edge: ["policy", "approval", "dependency"], path: ["recommendation", "service"], sourceIds: ["turb-workflow", "turb-actions"] },
+    limits: { nodes: ["target", "demand", "market", "constraints", "policy", "action"], edge: ["constraints", "policy", "control"], path: ["target", "action"], sourceIds: ["turb-plans", "turb-pressure", "turb-workflow"] },
   }),
-  webmethods: baselineProfile("application", {
-    landscape: { nodes: ["api", "applications", "events", "integration", "b2b", "files", "control"], edge: ["integration", "control", "control"], path: ["api", "b2b"] },
-    flow: { nodes: ["request", "integration", "mapping", "backend", "response"], edge: ["integration", "mapping", "control"], path: ["request", "response"] },
-    hybrid: { nodes: ["control", "cloud-runtime", "runtime", "secure-link", "systems"], edge: ["secure-link", "systems", "dependency"], path: ["control", "systems"] },
-    governance: { nodes: ["consumer", "portal", "gateway", "policy", "integration", "service"], edge: ["gateway", "policy", "control"], path: ["consumer", "service"] },
-    limits: { nodes: ["runtime", "gateway", "mapping", "compatibility", "backend", "operator"], edge: ["mapping", "compatibility", "dependency"], path: ["runtime", "operator"] },
+  webmethods: sourceBackedProfile("application", {
+    landscape: { nodes: ["api", "applications", "events", "integration", "b2b", "files", "control"], edge: ["integration", "control", "control"], path: ["api", "b2b"], sourceIds: ["wm-overview", "wm-architecture"] },
+    flow: { nodes: ["request", "integration", "mapping", "backend", "response"], edge: ["integration", "mapping", "control"], path: ["request", "response"], sourceIds: ["wm-services", "wm-overview"] },
+    hybrid: { nodes: ["control", "cloud-runtime", "runtime", "secure-link", "systems"], edge: ["secure-link", "systems", "dependency"], path: ["control", "systems"], sourceIds: ["wm-architecture", "wm-overview"] },
+    governance: { nodes: ["consumer", "portal", "gateway", "policy", "integration", "service"], edge: ["gateway", "policy", "control"], path: ["consumer", "service"], sourceIds: ["wm-gateway", "wm-gateway-components"] },
+    limits: { nodes: ["runtime", "gateway", "mapping", "compatibility", "backend", "operator"], edge: ["mapping", "compatibility", "dependency"], path: ["runtime", "operator"], sourceIds: ["wm-interoperability", "wm-gateway", "wm-services"] },
   }),
 };

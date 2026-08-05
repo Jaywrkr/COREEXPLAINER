@@ -36,6 +36,7 @@ const DOMAIN_LABELS: Record<TechnicalIntegrityReport["domain"], string> = {
 
 const ASSURANCE_LABELS: Record<TechnicalIntegrityReport["assurance"], string> = {
   baseline: "Cobertura base",
+  "source-backed": "Con fuentes específicas",
   reviewed: "Revisión profunda",
 };
 

@@ -41,7 +41,7 @@ export type TechnicalIntegrityDomain =
   | "delivery"
   | "application"
   | "generic";
-export type TechnicalIntegrityAssurance = "baseline" | "reviewed";
+export type TechnicalIntegrityAssurance = "baseline" | "source-backed" | "reviewed";
 export type IntegritySeverity = "error" | "warning";
 
 export interface TechnicalIntegrityProfile {
