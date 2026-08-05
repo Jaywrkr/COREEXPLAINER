@@ -125,6 +125,16 @@ export interface TechnicalSource {
   url: string;
   /** ISO date when this source was consulted. */
   accessedAt: string;
+  /** Publisher or manufacturer responsible for the source. */
+  publisher?: string;
+  /** Product, platform, standard, or service covered by the source. */
+  product?: string;
+  /** Release, document, or conceptual reference extracted from the source. */
+  version?: string;
+  /** Stable human-readable reference shown alongside the link. */
+  reference?: string;
+  /** Whether the source is recent enough for the topic review window. */
+  validity?: "current" | "review-needed";
 }
 
 /**

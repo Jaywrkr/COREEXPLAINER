@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.46.0 (05-08-2026):** el catálogo documental normaliza publisher, producto, versión o referencia, fecha de consulta y vigencia para cada fuente. La UI expone esos datos en Trazabilidad y marca `review-needed` cuando una fuente queda fuera de la ventana de revisión.
+
 **Actualización v0.45.0 (05-08-2026):** vSphere HA, Kubernetes, Migración e Implementation Lifecycle pasan a `source-backed`, con fuentes técnicas específicas por escena. El sistema cubre ahora observabilidad, storage, continuidad, red, seguridad, plataforma y ciclo de entrega con el mismo contrato de trazabilidad.
 
 **Actualización v0.44.0 (05-08-2026):** LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y Check Point HA pasan a `source-backed`, con fuentes técnicas específicas por escena. La cobertura documental no se presenta como certificación del entorno real.

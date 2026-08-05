@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.46.0] - 2026-08-05
+
+- La trazabilidad muestra publisher, producto, versión o referencia, fecha de consulta y vigencia de cada fuente.
+- El registro completa metadatos de forma determinista y evita inventar una versión cuando el documento no la declara.
+- Las fuentes fuera de la ventana de revisión quedan marcadas para volver a contrastarlas antes de presentarlas como evidencia actual.
+
 ## [0.45.0] - 2026-08-05
 
 - vSphere HA, Kubernetes, Migración e Implementation Lifecycle pasan a contratos `source-backed`.
