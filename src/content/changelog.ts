@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.28.0";
+export const currentVersion = "0.29.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.29.0",
+    date: "05 ago 2026",
+    title: "Diagnóstico guiado con evidencia",
+    changes: [
+      "VCF incorpora checkpoints para contrastar hipótesis sobre HA, capacidad, storage y separación entre gestión y camino de datos.",
+      "Las fases authored muestran fuentes técnicas, feedback de la opción elegida y un foco alternativo del diagrama.",
+      "El validador comprueba fuentes por fase, opciones de decisión y una única lectura recomendada por checkpoint.",
+    ],
+  },
   {
     version: "0.28.0",
     date: "05 ago 2026",

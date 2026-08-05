@@ -1,5 +1,11 @@
 # Estado del proyecto
 
+**Actualización v0.29.0 (05-08-2026):** VCF es el primer explainer con fases
+authored de diagnóstico. Sus escenarios de fallo incluyen checkpoints de
+hipótesis, feedback, foco alternativo del diagrama y fuentes técnicas por fase.
+El contrato de decisiones y sus reglas está en
+`docs/ai-context/guided-scenarios.md`.
+
 **Actualización v0.28.0 (05-08-2026):** el motor de escenarios guiados añade
 fases de observación, diagnóstico, recuperación y validación. El panel muestra
 evidencia, resultado esperado y limitaciones, mientras el canvas enfoca los

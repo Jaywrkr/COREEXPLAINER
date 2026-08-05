@@ -1,5 +1,6 @@
 import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
 import { brandContext } from "./brand-context";
+import { vcfGuidedSteps } from "./vcf-guided";
 
 /**
  * Conceptual VCF explainer, framed for a CoreSolutions consultative sales
@@ -19,6 +20,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
       "La simulación no representa una migración en vivo ni garantiza que todas las VMs se recuperen.",
     affectedNodes: ["Host ESXi 1"],
     deadNodeIds: ["host1"],
+    guidedSteps: vcfGuidedSteps["host-failure"],
   },
   {
     id: "multiple-host-failure",
@@ -31,6 +33,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
       "No implica que el sistema pueda mantener todas las cargas ante cualquier combinación de fallos.",
     affectedNodes: ["Host ESXi 1", "Host ESXi 2"],
     deadNodeIds: ["host1", "host2"],
+    guidedSteps: vcfGuidedSteps["multiple-host-failure"],
   },
   {
     id: "management-plane-loss",
@@ -43,6 +46,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
       "Es una simplificación conceptual; el impacto real depende de la arquitectura y del estado de cada servicio.",
     affectedNodes: ["vCenter"],
     deadNodeIds: ["vcenter"],
+    guidedSteps: vcfGuidedSteps["management-plane-loss"],
   },
 ];
 

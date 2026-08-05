@@ -207,8 +207,50 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         for (const field of ["title", "instruction", "evidence", "expected"] as const) {
           if (!isNonEmptyText(guidedStep[field])) add(`${stepLabel}.${field} must be a non-empty string`);
         }
+        if (!Array.isArray(guidedStep.sourceIds) || guidedStep.sourceIds.length === 0) {
+          add(`${stepLabel}.sourceIds must cite at least one technical source`);
+        } else {
+          const stepSourceIds = new Set<string>();
+          for (const sourceId of guidedStep.sourceIds) {
+            if (!isNonEmptyText(sourceId)) add(`${stepLabel}.sourceIds cannot contain empty IDs`);
+            if (stepSourceIds.has(sourceId)) add(`${stepLabel}.sourceIds '${sourceId}' is duplicated`);
+            stepSourceIds.add(sourceId);
+            if (!technicalSourceIds.has(sourceId)) {
+              add(`${stepLabel}.sourceIds references unknown technical source '${sourceId}'`);
+            }
+          }
+        }
         for (const nodeId of guidedStep.focusNodeIds ?? []) {
           if (!sceneNodeIds.has(nodeId)) add(`${stepLabel}.focusNodeIds references unknown node '${nodeId}'`);
+        }
+        if (guidedStep.decision) {
+          if (!isNonEmptyText(guidedStep.decision.question)) {
+            add(`${stepLabel}.decision.question must be a non-empty string`);
+          }
+          if (!Array.isArray(guidedStep.decision.options) || guidedStep.decision.options.length < 2) {
+            add(`${stepLabel}.decision.options must contain at least two options`);
+          } else {
+            const optionIds = new Set<string>();
+            const allowedOutcomes = new Set(["recommended", "incomplete", "unsafe"]);
+            let recommendedCount = 0;
+            for (const [optionIndex, option] of guidedStep.decision.options.entries()) {
+              const optionLabel = `${stepLabel}.decision.options[${optionIndex}]`;
+              if (!isNonEmptyText(option.id)) add(`${optionLabel}.id must be a non-empty string`);
+              if (optionIds.has(option.id)) add(`${optionLabel}.id '${option.id}' is duplicated`);
+              optionIds.add(option.id);
+              for (const field of ["label", "feedback"] as const) {
+                if (!isNonEmptyText(option[field])) add(`${optionLabel}.${field} must be a non-empty string`);
+              }
+              if (!allowedOutcomes.has(option.outcome)) add(`${optionLabel}.outcome '${option.outcome}' is not supported`);
+              if (option.outcome === "recommended") recommendedCount += 1;
+              for (const nodeId of option.focusNodeIds ?? []) {
+                if (!sceneNodeIds.has(nodeId)) add(`${optionLabel}.focusNodeIds references unknown node '${nodeId}'`);
+              }
+            }
+            if (recommendedCount !== 1) {
+              add(`${stepLabel}.decision must contain exactly one recommended option`);
+            }
+          }
         }
       }
     }
