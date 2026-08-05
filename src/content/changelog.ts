@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.47.0";
+export const currentVersion = "0.48.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.48.0",
+    date: "05 ago 2026",
+    title: "Modo Cliente limpio en el canvas",
+    changes: [
+      "Cliente muestra el diagrama con zoom, paneo y reproducción como acciones principales.",
+      "Leyenda, capas, escenarios de fallo e integridad técnica quedan agrupados en Más herramientas y se revelan solo cuando hacen falta.",
+      "Si hay un escenario o una alerta de integridad activa, la herramienta secundaria se abre para no ocultar contexto importante.",
+    ],
+  },
   {
     version: "0.47.0",
     date: "05 ago 2026",

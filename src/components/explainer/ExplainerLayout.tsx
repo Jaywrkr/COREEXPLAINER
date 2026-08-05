@@ -220,6 +220,7 @@ export function ExplainerLayout({
         <VisualCanvas
           scene={scene}
           sceneId={step.sceneId}
+          audienceMode={audienceMode}
           selectedNode={selectedNode}
           onNodeSelect={setSelectedNode}
           failureScenarios={failureScenarios}

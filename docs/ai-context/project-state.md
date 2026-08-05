@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.48.0 (05-08-2026):** en modo Cliente el canvas prioriza zoom, paneo y reproducción. Leyenda, capas, escenarios de fallo e integridad técnica se agrupan en `Más herramientas`; el contexto se revela automáticamente cuando existe un escenario activo o una alerta del modelo.
+
 **Actualización v0.47.0 (05-08-2026):** el modo Cliente muestra primero una idea clave y el valor para el cliente, dejando el detalle adicional bajo demanda. Trazabilidad se abre dentro del flujo de la columna, con scroll y ajuste de texto para no quedar cortada. `SceneEngine` calcula el tamaño de cada nodo a partir de sus líneas de texto y reutiliza esa geometría para aristas, clics y controles de fallo.
 
 **Actualización v0.46.0 (05-08-2026):** el catálogo documental normaliza publisher, producto, versión o referencia, fecha de consulta y vigencia para cada fuente. La UI expone esos datos en Trazabilidad y marca `review-needed` cuando una fuente queda fuera de la ventana de revisión.

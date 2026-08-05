@@ -16,10 +16,12 @@ import { FailureScenarioPanel } from "./FailureScenarioPanel";
 import { DiagramLegend } from "./DiagramLegend";
 import { NodeDetailCard } from "./NodeDetailCard";
 import { TechnicalIntegrityPanel } from "./TechnicalIntegrityPanel";
+import type { AudienceMode } from "./AudienceModeToggle";
 
 interface VisualCanvasProps {
   scene: Scene;
   sceneId: string;
+  audienceMode: AudienceMode;
   selectedNode: SceneNode | null;
   onNodeSelect: (node: SceneNode | null) => void;
   failureScenarios?: FailureScenario[];
@@ -73,6 +75,7 @@ function clamp(value: number, min: number, max: number) {
 export function VisualCanvas({
   scene,
   sceneId,
+  audienceMode,
   selectedNode,
   onNodeSelect,
   failureScenarios = [],
@@ -97,7 +100,9 @@ export function VisualCanvas({
   const [activeEdgeKinds, setActiveEdgeKinds] = useState<Set<EdgeKind>>(() => new Set());
   const [selectedIntegrityDiagnosticId, setSelectedIntegrityDiagnosticId] = useState<string | null>(null);
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
+  const [clientToolsOpen, setClientToolsOpen] = useState(false);
   const { theme } = useTheme();
+  const isClientMode = audienceMode === "client";
   const edgeKinds = useMemo(
     () => Array.from(new Set(scene.edges.map((edge) => edge.kind))),
     [scene],
@@ -115,6 +120,10 @@ export function VisualCanvas({
   const selectedIntegrityDiagnostic = integrityReport?.diagnostics.find(
     (diagnostic) => diagnostic.id === selectedIntegrityDiagnosticId,
   ) ?? null;
+  const hasIntegrityAlert = Boolean(
+    integrityReport && (integrityReport.status !== "valid" || integrityReport.inactiveNodeIds.length > 0),
+  );
+  const showTechnicalTools = !isClientMode || clientToolsOpen;
   const guidedFocusIds = useMemo(
     () => guidedFocusNodeIds ?? guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? [],
     [activeGuidedStepIndex, guidedFocusNodeIds, guidedSteps],
@@ -181,6 +190,14 @@ export function VisualCanvas({
     setSelectedIntegrityDiagnosticId(null);
     setInactiveNodeIds([]);
   }, [edgeKinds, resetViewport, scene]);
+
+  useEffect(() => {
+    setClientToolsOpen(false);
+  }, [audienceMode, sceneId]);
+
+  useEffect(() => {
+    if (isClientMode && (activeFailureScenarioId || hasIntegrityAlert)) setClientToolsOpen(true);
+  }, [activeFailureScenarioId, hasIntegrityAlert, isClientMode]);
 
   useEffect(() => {
     const hiddenNodeKinds = new Set(ALL_NODE_KINDS.filter((kind) => !activeNodeKinds.has(kind)));
@@ -360,7 +377,7 @@ export function VisualCanvas({
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
       {selectedNode ? <NodeDetailCard node={selectedNode} onClose={() => onNodeSelect(null)} /> : null}
-      {integrityReport ? (
+      {showTechnicalTools && integrityReport ? (
         <TechnicalIntegrityPanel
           report={integrityReport}
           technicalSources={technicalSources}
@@ -370,25 +387,44 @@ export function VisualCanvas({
           }
         />
       ) : null}
-      <DiagramLegend
-        edgeKinds={edgeKinds}
-        activeNodeKinds={activeNodeKinds}
-        activeEdgeKinds={activeEdgeKinds}
-        onToggleNodeKind={toggleNodeKind}
-        onToggleEdgeKind={toggleEdgeKind}
-        onReset={resetVisibility}
-      />
-      <FailureScenarioPanel
-        scenarios={failureScenarios}
-        activeScenarioId={activeFailureScenarioId}
-        onSelectScenario={onFailureScenarioChange}
-        guidedSteps={guidedSteps}
-        activeGuidedStepIndex={activeGuidedStepIndex}
-        onGuidedStepChange={onGuidedStepChange}
-        technicalSources={technicalSources}
-        selectedDecisionOptionId={selectedDecisionOptionId}
-        onDecisionOptionChange={onDecisionOptionChange}
-      />
+      {showTechnicalTools ? (
+        <>
+          <DiagramLegend
+            edgeKinds={edgeKinds}
+            activeNodeKinds={activeNodeKinds}
+            activeEdgeKinds={activeEdgeKinds}
+            onToggleNodeKind={toggleNodeKind}
+            onToggleEdgeKind={toggleEdgeKind}
+            onReset={resetVisibility}
+          />
+          <FailureScenarioPanel
+            scenarios={failureScenarios}
+            activeScenarioId={activeFailureScenarioId}
+            onSelectScenario={onFailureScenarioChange}
+            guidedSteps={guidedSteps}
+            activeGuidedStepIndex={activeGuidedStepIndex}
+            onGuidedStepChange={onGuidedStepChange}
+            technicalSources={technicalSources}
+            selectedDecisionOptionId={selectedDecisionOptionId}
+            onDecisionOptionChange={onDecisionOptionChange}
+          />
+        </>
+      ) : null}
+      {isClientMode ? (
+        <button
+          type="button"
+          onClick={() => setClientToolsOpen((value) => !value)}
+          aria-expanded={showTechnicalTools}
+          className="absolute bottom-16 right-4 z-20 border border-core-border/[0.14] bg-core-panel/95 px-3 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted shadow-sm backdrop-blur-sm transition-colors hover:border-core-accent/50 hover:text-core-text"
+        >
+          {showTechnicalTools ? "Ocultar herramientas" : "Más herramientas"}
+          {hasIntegrityAlert || activeFailureScenarioId ? (
+            <span className="ml-2 text-core-warning" aria-label="Hay contexto técnico activo">
+              •
+            </span>
+          ) : null}
+        </button>
+      ) : null}
       <div className="absolute left-4 top-4 flex border border-core-border/[0.14] bg-core-panel font-mono text-xs text-core-text-secondary shadow-sm">
         <button
           type="button"
@@ -417,7 +453,7 @@ export function VisualCanvas({
           Restablecer
         </button>
       </div>
-      <p className="pointer-events-none absolute bottom-4 right-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted">
+      <p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isClientMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
         Arrastra para mover · rueda para zoom
       </p>
     </div>
