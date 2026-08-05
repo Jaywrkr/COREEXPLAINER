@@ -57,3 +57,9 @@ Antes de publicar, `validateExplainerContent()` comprueba además que:
 Esto convierte los cambios de diagramas en cambios verificables: si alguien
 renombra o elimina un nodo sin actualizar su contrato, `npm run build` falla
 antes de llegar a Vercel.
+
+Durante la evaluación en el canvas también se comprueban relaciones colgantes
+y componentes sin conexiones. Estos últimos generan una advertencia, no un
+error fatal, porque algunas escenas explican deliberadamente el aislamiento;
+esas excepciones deben declararse con `checkOrphans: false` y documentar por
+qué la desconexión forma parte de la narrativa.

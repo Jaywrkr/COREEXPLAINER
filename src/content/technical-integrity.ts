@@ -11,6 +11,7 @@ export const vcfTechnicalIntegrity: TechnicalIntegrityProfile = {
   scenes: {
     silos: {
       requiredNodes: ["compute", "storage", "network", "it"],
+      checkOrphans: false,
     },
     unify: {
       requiredNodes: ["compute", "storage", "network", "vcf", "app"],
