@@ -303,6 +303,10 @@ export class SceneEngine {
     return this.lastClickToggledFailure;
   }
 
+  getDeadNodeIds(): string[] {
+    return this.nodes.filter((node) => node.dead).map((node) => node.id);
+  }
+
   draw(ctx: CanvasRenderingContext2D, clear = true) {
     if (clear) ctx.clearRect(0, 0, this.width, this.height);
 

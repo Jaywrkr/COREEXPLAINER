@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.37.0";
+export const currentVersion = "0.38.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.38.0",
+    date: "05 ago 2026",
+    title: "Integridad conectada a fallos simulados",
+    changes: [
+      "El panel identifica los nodos inactivos de un escenario o de una falla manual.",
+      "Los caminos técnicos se recalculan excluyendo esos nodos y muestran cuándo la simulación interrumpe la ruta explicada.",
+      "La explicación mantiene claro que se trata de un impacto conceptual, no de una comprobación sobre la red real.",
+    ],
+  },
   {
     version: "0.37.0",
     date: "05 ago 2026",

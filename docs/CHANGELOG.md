@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.38.0] - 2026-08-05
+
+- El panel identifica los nodos inactivos de un escenario o de una falla manual.
+- Los caminos técnicos se recalculan excluyendo esos nodos y muestran cuándo la simulación interrumpe la ruta explicada.
+- La explicación mantiene claro que se trata de un impacto conceptual, no de una comprobación sobre la red real.
+
 ## [0.37.0] - 2026-08-05
 
 - Los diagnósticos con fuentes asociadas muestran enlaces directos a la documentación técnica correspondiente.

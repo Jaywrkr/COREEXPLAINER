@@ -17,8 +17,16 @@ function edgeBetween(scene: Scene, from: string, to: string) {
   return scene.edges.find((edge) => edge.from === from && edge.to === to);
 }
 
-function findPath(scene: Scene, from: string, to: string, allowedEdgeKinds?: readonly string[]) {
+function findPath(
+  scene: Scene,
+  from: string,
+  to: string,
+  allowedEdgeKinds?: readonly string[],
+  unavailableNodeIds?: ReadonlySet<string>,
+) {
   const allowed = allowedEdgeKinds ? new Set(allowedEdgeKinds) : DEFAULT_PATH_EDGE_KINDS;
+  const unavailable = unavailableNodeIds ?? new Set<string>();
+  if (unavailable.has(from) || unavailable.has(to)) return false;
   const queue = [from];
   const visited = new Set([from]);
 
@@ -27,7 +35,7 @@ function findPath(scene: Scene, from: string, to: string, allowedEdgeKinds?: rea
     if (current === to) return true;
 
     for (const edge of scene.edges) {
-      if (edge.from !== current || !allowed.has(edge.kind) || visited.has(edge.to)) continue;
+      if (edge.from !== current || unavailable.has(edge.to) || !allowed.has(edge.kind) || visited.has(edge.to)) continue;
       visited.add(edge.to);
       queue.push(edge.to);
     }
@@ -48,10 +56,12 @@ export function evaluateTopologyIntegrity(
   contract: TechnicalIntegritySceneContract | undefined,
   domain: TechnicalIntegrityDomain = "generic",
   assurance: TechnicalIntegrityAssurance = "baseline",
+  inactiveNodeIds: readonly string[] = [],
 ): TechnicalIntegrityReport | null {
   if (!contract) return null;
 
   const nodeIds = new Set(scene.nodes.map((node) => node.id));
+  const inactive = new Set(inactiveNodeIds.filter((nodeId) => nodeIds.has(nodeId)));
   const diagnostics: TechnicalIntegrityDiagnostic[] = [];
 
   for (const requiredNodeId of contract.requiredNodes ?? []) {
@@ -63,6 +73,18 @@ export function evaluateTopologyIntegrity(
       detail: `El diagrama no contiene el componente '${requiredNodeId}' declarado por el contrato técnico.`,
       rationale: "La explicación no puede sostener la arquitectura esperada si falta uno de sus componentes explícitos.",
       nodeIds: [requiredNodeId],
+      sourceIds: [],
+    });
+  }
+
+  for (const inactiveNodeId of inactive) {
+    diagnostics.push({
+      id: `inactive-node-${inactiveNodeId}`,
+      severity: "warning",
+      title: "Componente inactivo en la simulación",
+      detail: `El componente '${inactiveNodeId}' está marcado como inactivo por el escenario actual.`,
+      rationale: "La topología base puede ser válida, pero una falla simulada cambia temporalmente la disponibilidad del camino.",
+      nodeIds: [inactiveNodeId],
       sourceIds: [],
     });
   }
@@ -84,7 +106,7 @@ export function evaluateTopologyIntegrity(
   }
 
   for (const rule of contract.requiredPaths ?? []) {
-    if (nodeIds.has(rule.from) && nodeIds.has(rule.to) && findPath(scene, rule.from, rule.to, rule.allowedEdgeKinds)) {
+    if (nodeIds.has(rule.from) && nodeIds.has(rule.to) && findPath(scene, rule.from, rule.to, rule.allowedEdgeKinds, inactive)) {
       continue;
     }
     diagnostics.push({
@@ -140,5 +162,5 @@ export function evaluateTopologyIntegrity(
     + scene.edges.length
     + (contract.checkOrphans === false ? 0 : scene.nodes.length);
 
-  return { domain, assurance, status: statusFor(diagnostics), checkedRules, diagnostics };
+  return { domain, assurance, inactiveNodeIds: Array.from(inactive), status: statusFor(diagnostics), checkedRules, diagnostics };
 }
