@@ -102,7 +102,12 @@ export function VisualCanvas({
     [scene],
   );
   const integrityReport = useMemo(
-    () => evaluateTopologyIntegrity(scene, technicalIntegrity?.scenes[sceneId], technicalIntegrity?.domain),
+    () => evaluateTopologyIntegrity(
+      scene,
+      technicalIntegrity?.scenes[sceneId],
+      technicalIntegrity?.domain,
+      technicalIntegrity?.assurance,
+    ),
     [scene, sceneId, technicalIntegrity],
   );
   const selectedIntegrityDiagnostic = integrityReport?.diagnostics.find(

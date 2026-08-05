@@ -41,10 +41,12 @@ export type TechnicalIntegrityDomain =
   | "delivery"
   | "application"
   | "generic";
+export type TechnicalIntegrityAssurance = "baseline" | "reviewed";
 export type IntegritySeverity = "error" | "warning";
 
 export interface TechnicalIntegrityProfile {
   domain: TechnicalIntegrityDomain;
+  assurance: TechnicalIntegrityAssurance;
   scenes: Record<string, TechnicalIntegritySceneContract>;
 }
 
@@ -90,6 +92,7 @@ export interface TechnicalIntegrityDiagnostic {
 
 export interface TechnicalIntegrityReport {
   domain: TechnicalIntegrityDomain;
+  assurance: TechnicalIntegrityAssurance;
   status: "valid" | "warning" | "error";
   checkedRules: number;
   diagnostics: TechnicalIntegrityDiagnostic[];

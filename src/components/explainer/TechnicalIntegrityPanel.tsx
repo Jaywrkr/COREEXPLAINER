@@ -34,6 +34,11 @@ const DOMAIN_LABELS: Record<TechnicalIntegrityReport["domain"], string> = {
   generic: "Modelo técnico",
 };
 
+const ASSURANCE_LABELS: Record<TechnicalIntegrityReport["assurance"], string> = {
+  baseline: "Cobertura base",
+  reviewed: "Revisión profunda",
+};
+
 /** Shows semantic topology checks without claiming live network monitoring. */
 export function TechnicalIntegrityPanel({
   report,
@@ -63,7 +68,7 @@ export function TechnicalIntegrityPanel({
             Integridad técnica
           </span>
           <span className="mt-0.5 block text-[0.64rem] text-core-text-muted">
-            {DOMAIN_LABELS[report.domain]} · {report.checkedRules} comprobaciones
+            {DOMAIN_LABELS[report.domain]} · {ASSURANCE_LABELS[report.assurance]} · {report.checkedRules} comprobaciones
           </span>
         </button>
         <span className={`shrink-0 border px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] ${STATUS_STYLES[report.status]}`}>

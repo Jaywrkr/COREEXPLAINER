@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.36.0] - 2026-08-05
+
+- Cada contrato declara si su cobertura es base o de revisión profunda para evitar sobreinterpretar el resultado.
+- El panel muestra el dominio y la profundidad de la comprobación junto al estado técnico.
+- El quality gate valida que todos los perfiles declaren explícitamente ese nivel.
+
 ## [0.35.0] - 2026-08-05
 
 - El motor detecta nodos sin relaciones y aristas que apuntan a componentes inexistentes dentro de una escena.

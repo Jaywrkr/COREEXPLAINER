@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.35.0";
+export const currentVersion = "0.36.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.36.0",
+    date: "05 ago 2026",
+    title: "Profundidad de revisión visible",
+    changes: [
+      "Cada contrato declara si su cobertura es base o de revisión profunda para evitar sobreinterpretar el resultado.",
+      "El panel muestra el dominio y la profundidad de la comprobación junto al estado técnico.",
+      "El quality gate valida que todos los perfiles declaren explícitamente ese nivel.",
+    ],
+  },
   {
     version: "0.35.0",
     date: "05 ago 2026",

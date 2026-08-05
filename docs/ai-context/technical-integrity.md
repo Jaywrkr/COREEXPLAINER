@@ -39,6 +39,13 @@ Los 22 explainers del registro tienen un perfil. VCF y NSX conservan las reglas 
 
 Una línea base no sustituye la revisión de especialista: evita que el dibujo pierda piezas o relaciones que la explicación necesita. Las reglas deben mantenerse explícitas por dominio y ampliarse con fuentes concretas en cada siguiente batch.
 
+Cada perfil declara también su nivel de garantía:
+
+- `baseline`: contrato semántico inicial para evitar omisiones estructurales;
+- `reviewed`: reglas contrastadas con una revisión técnica más profunda y fuentes específicas.
+
+El panel muestra esta diferencia como “Cobertura base” o “Revisión profunda” para que el estado Validado no se lea como una certificación de producción.
+
 ## Evolución segura
 
 1. Añadir reglas estáticas del modelo y probarlas durante el build.

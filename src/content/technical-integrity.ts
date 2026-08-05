@@ -8,6 +8,7 @@ import type {
 /** Network contracts for the VCF scenes. These rules validate the model, not a live environment. */
 export const vcfTechnicalIntegrity: TechnicalIntegrityProfile = {
   domain: "network",
+  assurance: "reviewed",
   scenes: {
     silos: {
       requiredNodes: ["compute", "storage", "network", "it"],
@@ -53,6 +54,7 @@ export const vcfTechnicalIntegrity: TechnicalIntegrityProfile = {
 /** Network contracts for the NSX scenes, including underlay/overlay and north-south paths. */
 export const nsxTechnicalIntegrity: TechnicalIntegrityProfile = {
   domain: "network",
+  assurance: "reviewed",
   scenes: {
     segments: {
       requiredNodes: ["client", "web", "app", "db", "segments", "manager"],
@@ -135,6 +137,7 @@ function baselineContract(sceneId: string, scene: BaselineScene): TechnicalInteg
 function baselineProfile(domain: TechnicalIntegrityDomain, scenes: Record<string, BaselineScene>): TechnicalIntegrityProfile {
   return {
     domain,
+    assurance: "baseline",
     scenes: Object.fromEntries(
       Object.entries(scenes).map(([sceneId, scene]) => [sceneId, baselineContract(sceneId, scene)]),
     ),

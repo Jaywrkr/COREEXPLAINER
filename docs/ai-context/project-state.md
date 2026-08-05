@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.36.0 (05-08-2026):** cada perfil de integridad declara su profundidad (`baseline` o `reviewed`) y el panel la muestra junto al dominio y el estado. Esto evita presentar la línea base de los temas nuevos como una auditoría especialista.
+
 **Actualización v0.35.0 (05-08-2026):** el evaluador del canvas detecta componentes aislados y relaciones colgantes. Los aislados son advertencias y solo se exceptúan cuando la escena declara que está explicando aislamiento; las aristas inválidas son errores.
 
 **Actualización v0.34.0 (05-08-2026):** el quality gate de integridad técnica ahora exige cobertura por escena, valida que nodos y reglas existan en el animation spec y bloquea explainers sin perfil. El catálogo completo pasa typecheck, lint y build.
