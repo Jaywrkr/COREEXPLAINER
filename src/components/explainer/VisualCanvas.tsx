@@ -96,6 +96,7 @@ export function VisualCanvas({
   const [activeNodeKinds, setActiveNodeKinds] = useState<Set<NodeKind>>(() => new Set(ALL_NODE_KINDS));
   const [activeEdgeKinds, setActiveEdgeKinds] = useState<Set<EdgeKind>>(() => new Set());
   const [selectedIntegrityDiagnosticId, setSelectedIntegrityDiagnosticId] = useState<string | null>(null);
+  const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
   const { theme } = useTheme();
   const edgeKinds = useMemo(
     () => Array.from(new Set(scene.edges.map((edge) => edge.kind))),
@@ -107,8 +108,9 @@ export function VisualCanvas({
       technicalIntegrity?.scenes[sceneId],
       technicalIntegrity?.domain,
       technicalIntegrity?.assurance,
+      inactiveNodeIds,
     ),
-    [scene, sceneId, technicalIntegrity],
+    [inactiveNodeIds, scene, sceneId, technicalIntegrity],
   );
   const selectedIntegrityDiagnostic = integrityReport?.diagnostics.find(
     (diagnostic) => diagnostic.id === selectedIntegrityDiagnosticId,
@@ -177,6 +179,7 @@ export function VisualCanvas({
     setActiveEdgeKinds(new Set(edgeKinds));
     resetViewport();
     setSelectedIntegrityDiagnosticId(null);
+    setInactiveNodeIds([]);
   }, [edgeKinds, resetViewport, scene]);
 
   useEffect(() => {
@@ -192,6 +195,7 @@ export function VisualCanvas({
     }
     const scenario = failureScenarios.find((item) => item.id === activeFailureScenarioId);
     engineRef.current.setFailureState(scenario?.deadNodeIds ?? []);
+    setInactiveNodeIds(scenario?.deadNodeIds ?? []);
   }, [activeFailureScenarioId, failureScenarios]);
 
   useEffect(() => {
@@ -283,6 +287,7 @@ export function VisualCanvas({
         onNodeSelect(node);
         if (engine.didToggleFailure()) {
           preserveManualFailureRef.current = true;
+          setInactiveNodeIds(engine.getDeadNodeIds());
           onFailureScenarioChange(null);
         }
       }

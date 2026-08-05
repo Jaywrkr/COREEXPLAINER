@@ -51,6 +51,11 @@ enlaces directos a esas fuentes. La acción de abrir evidencia está separada
 del botón que enfoca los nodos, para que consultar documentación no cambie el
 estado de la exploración.
 
+La evaluación también recibe los nodos inactivos del escenario o de la falla
+manual. Los caminos se calculan excluyendo esos nodos y el panel identifica la
+simulación activa. Esto explica el impacto de una falla sobre el modelo sin
+afirmar que se haya comprobado una red real.
+
 ## Evolución segura
 
 1. Añadir reglas estáticas del modelo y probarlas durante el build.

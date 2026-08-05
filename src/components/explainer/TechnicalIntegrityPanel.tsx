@@ -70,6 +70,11 @@ export function TechnicalIntegrityPanel({
           <span className="mt-0.5 block text-[0.64rem] text-core-text-muted">
             {DOMAIN_LABELS[report.domain]} · {ASSURANCE_LABELS[report.assurance]} · {report.checkedRules} comprobaciones
           </span>
+          {report.inactiveNodeIds.length ? (
+            <span className="mt-1 block text-[0.6rem] text-core-warning">
+              Simulación activa: {report.inactiveNodeIds.join(", ")}
+            </span>
+          ) : null}
         </button>
         <span className={`shrink-0 border px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] ${STATUS_STYLES[report.status]}`}>
           {STATUS_LABELS[report.status]}

@@ -93,6 +93,7 @@ export interface TechnicalIntegrityDiagnostic {
 export interface TechnicalIntegrityReport {
   domain: TechnicalIntegrityDomain;
   assurance: TechnicalIntegrityAssurance;
+  inactiveNodeIds: string[];
   status: "valid" | "warning" | "error";
   checkedRules: number;
   diagnostics: TechnicalIntegrityDiagnostic[];
