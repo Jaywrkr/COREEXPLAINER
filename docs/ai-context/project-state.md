@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.45.0 (05-08-2026):** vSphere HA, Kubernetes, Migración e Implementation Lifecycle pasan a `source-backed`, con fuentes técnicas específicas por escena. El sistema cubre ahora observabilidad, storage, continuidad, red, seguridad, plataforma y ciclo de entrega con el mismo contrato de trazabilidad.
+
 **Actualización v0.44.0 (05-08-2026):** LAN/SAN, SD-WAN, Zero Trust, Ransomware Resilience y Check Point HA pasan a `source-backed`, con fuentes técnicas específicas por escena. La cobertura documental no se presenta como certificación del entorno real.
 
 El batch v0.43.0 también cubre Backup/DR con fuentes técnicas específicas por escena.

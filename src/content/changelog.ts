@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.44.0";
+export const currentVersion = "0.45.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.45.0",
+    date: "05 ago 2026",
+    title: "Plataforma y operación con fuentes por escena",
+    changes: [
+      "vSphere HA, Kubernetes, Migración e Implementation Lifecycle pasan a contratos source-backed.",
+      "Las escenas enlazan capacidad, compatibilidad, scheduling, dependencias, pruebas y aceptación con sus fuentes técnicas.",
+      "El catálogo mantiene explícitos los límites: el diagrama orienta el diagnóstico, pero no sustituye la validación del entorno.",
+    ],
+  },
   {
     version: "0.44.0",
     date: "05 ago 2026",
