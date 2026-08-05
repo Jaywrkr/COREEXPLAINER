@@ -40,6 +40,12 @@ import { powerAixMeta, powerAixSteps } from "./power-aix";
 import powerAixRawSpec from "../../docs/examples/power-aix/animation-spec.json";
 import { implementationLifecycleMeta, implementationLifecycleSteps } from "./implementation-lifecycle";
 import implementationLifecycleRawSpec from "../../docs/examples/implementation-lifecycle/animation-spec.json";
+import { instanaMeta, instanaSteps } from "./instana";
+import instanaRawSpec from "../../docs/examples/instana/animation-spec.json";
+import { turbonomicMeta, turbonomicSteps } from "./turbonomic";
+import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.json";
+import { webMethodsMeta, webMethodsSteps } from "./webmethods";
+import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -208,6 +214,30 @@ const implementationLifecycleDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(implementationLifecycleRawSpec),
 };
 
+const instanaDefinition: ExplainerDefinition = {
+  slug: "instana",
+  category: "Cloud",
+  meta: instanaMeta,
+  steps: instanaSteps,
+  spec: parseAnimationSpec(instanaRawSpec),
+};
+
+const turbonomicDefinition: ExplainerDefinition = {
+  slug: "turbonomic",
+  category: "Cloud",
+  meta: turbonomicMeta,
+  steps: turbonomicSteps,
+  spec: parseAnimationSpec(turbonomicRawSpec),
+};
+
+const webMethodsDefinition: ExplainerDefinition = {
+  slug: "webmethods",
+  category: "Cloud",
+  meta: webMethodsMeta,
+  steps: webMethodsSteps,
+  spec: parseAnimationSpec(webMethodsRawSpec),
+};
+
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 validateExplainerContent(vcfDefinition);
@@ -229,8 +259,11 @@ validateExplainerContent(checkpointHaDefinition);
 validateExplainerContent(sdwanDefinition);
 validateExplainerContent(powerAixDefinition);
 validateExplainerContent(implementationLifecycleDefinition);
+validateExplainerContent(instanaDefinition);
+validateExplainerContent(turbonomicDefinition);
+validateExplainerContent(webMethodsDefinition);
 
-export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition, veeamProtectionDefinition, activeActiveDefinition, lanSanDefinition, nasPrivateCloudDefinition, migrationDefinition, checkpointHaDefinition, sdwanDefinition, powerAixDefinition, implementationLifecycleDefinition];
+export const explainerRegistry: ExplainerDefinition[] = [vcfDefinition, vsphereHaDefinition, vsanDefinition, nsxDefinition, zeroTrustDefinition, kubernetesDefinition, observabilityDefinition, backupDrDefinition, ransomwareResilienceDefinition, sanStorageDefinition, veeamProtectionDefinition, activeActiveDefinition, lanSanDefinition, nasPrivateCloudDefinition, migrationDefinition, checkpointHaDefinition, sdwanDefinition, powerAixDefinition, implementationLifecycleDefinition, instanaDefinition, turbonomicDefinition, webMethodsDefinition];
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);

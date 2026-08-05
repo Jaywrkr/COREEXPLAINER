@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.27.0] - 2026-08-05
+
+- Se añadieron los explainers de IBM Instana, IBM Turbonomic e IBM webMethods.
+- Cada tema incluye cinco escenas, cuatro escenarios de fallo, fuentes
+  primarias revisadas el 2026-08-05 y límites de edición, release y cobertura.
+- El portafolio y el contexto de marcas ahora contemplan estas tres familias de
+  software IBM para futuras sesiones y propuestas.
+
 ## [0.26.0] - 2026-08-05
 
 - Se añadieron cinco explainers: migración sin interrupción, Check Point HA,

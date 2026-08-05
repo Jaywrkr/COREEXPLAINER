@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "id": "instana-signal-to-impact",
+  "title": "Cómo IBM Instana conecta una señal con el impacto de una aplicación",
+  "scenes": {
+    "journey": { "nodes": [
+      { "id": "user", "name": "Usuario", "subtitle": "Experiencia", "x": 0.07, "y": 0.5, "kind": "external", "rps": 4 },
+      { "id": "gateway", "name": "Gateway", "subtitle": "Entrada", "x": 0.27, "y": 0.5, "kind": "network", "capacity": 85 },
+      { "id": "service", "name": "Servicio", "subtitle": "Lógica de negocio", "x": 0.48, "y": 0.5, "kind": "workload", "capacity": 80 },
+      { "id": "database", "name": "Base de datos", "subtitle": "Persistencia", "x": 0.7, "y": 0.25, "kind": "storage", "capacity": 80 },
+      { "id": "dependency", "name": "Dependencia externa", "subtitle": "API / proveedor", "x": 0.7, "y": 0.75, "kind": "external", "capacity": 70 },
+      { "id": "impact", "name": "Impacto", "subtitle": "SLO / negocio", "x": 0.92, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "user", "to": "gateway", "kind": "data" }, { "from": "gateway", "to": "service", "kind": "data" }, { "from": "service", "to": "database", "kind": "storage" }, { "from": "service", "to": "dependency", "kind": "dependency" }, { "from": "service", "to": "impact", "kind": "data" }
+    ] },
+    "signals": { "nodes": [
+      { "id": "service", "name": "Servicio instrumentado", "subtitle": "Código / runtime", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 4 },
+      { "id": "agent", "name": "Agente / OTel", "subtitle": "Captura contexto", "x": 0.3, "y": 0.5, "kind": "control-plane", "capacity": 90 },
+      { "id": "traces", "name": "Traces", "subtitle": "Recorrido", "x": 0.58, "y": 0.2, "kind": "network", "capacity": 75 },
+      { "id": "metrics", "name": "Métricas", "subtitle": "Tendencia", "x": 0.58, "y": 0.5, "kind": "network", "capacity": 75 },
+      { "id": "logs", "name": "Logs", "subtitle": "Eventos", "x": 0.58, "y": 0.8, "kind": "network", "capacity": 75 },
+      { "id": "question", "name": "Pregunta operativa", "subtitle": "Qué / dónde / por qué", "x": 0.9, "y": 0.5, "kind": "external" }
+    ], "edges": [
+      { "from": "service", "to": "agent", "kind": "dependency" }, { "from": "agent", "to": "traces", "kind": "data" }, { "from": "agent", "to": "metrics", "kind": "data" }, { "from": "agent", "to": "logs", "kind": "data" }, { "from": "traces", "to": "question", "kind": "dependency" }, { "from": "metrics", "to": "question", "kind": "dependency" }, { "from": "logs", "to": "question", "kind": "dependency" }
+    ] },
+    "discovery": { "nodes": [
+      { "id": "service", "name": "Servicio", "subtitle": "Aplicación", "x": 0.08, "y": 0.5, "kind": "workload", "capacity": 80 },
+      { "id": "process", "name": "Proceso / contenedor", "subtitle": "Runtime", "x": 0.3, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "topology", "name": "Mapa dinámico", "subtitle": "Relaciones", "x": 0.52, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "host", "name": "Host / cluster", "subtitle": "Infraestructura", "x": 0.74, "y": 0.25, "kind": "compute", "capacity": 80 },
+      { "id": "dependency", "name": "DB / red / cloud", "subtitle": "Dependencias", "x": 0.74, "y": 0.75, "kind": "external", "capacity": 75 },
+      { "id": "owner", "name": "Equipo responsable", "subtitle": "Contexto operativo", "x": 0.94, "y": 0.5, "kind": "external" }
+    ], "edges": [
+      { "from": "service", "to": "process", "kind": "dependency" }, { "from": "process", "to": "topology", "kind": "control" }, { "from": "topology", "to": "host", "kind": "dependency" }, { "from": "topology", "to": "dependency", "kind": "dependency" }, { "from": "topology", "to": "owner", "kind": "control" }
+    ] },
+    "investigation": { "nodes": [
+      { "id": "symptom", "name": "Incidente", "subtitle": "Error / latencia", "x": 0.08, "y": 0.5, "kind": "external", "rps": 2 },
+      { "id": "investigation", "name": "Investigación", "subtitle": "Hipótesis y contexto", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "evidence", "name": "Evidencia", "subtitle": "Trace · log · cambio", "x": 0.55, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "root", "name": "Causa probable", "subtitle": "Componente y propagación", "x": 0.55, "y": 0.75, "kind": "control-plane", "capacity": 80 },
+      { "id": "remediation", "name": "Remediación", "subtitle": "Runbook / aprobación", "x": 0.8, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "service", "name": "Servicio", "subtitle": "Resultado", "x": 0.95, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "symptom", "to": "investigation", "kind": "data" }, { "from": "investigation", "to": "evidence", "kind": "dependency" }, { "from": "investigation", "to": "root", "kind": "control" }, { "from": "evidence", "to": "remediation", "kind": "control" }, { "from": "root", "to": "remediation", "kind": "control" }, { "from": "remediation", "to": "service", "kind": "data" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "agent", "name": "Agente / sensor", "subtitle": "Cobertura", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "collector", "name": "Pipeline", "subtitle": "Ingesta / export", "x": 0.28, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "topology", "name": "Topología", "subtitle": "Mapa actualizado", "x": 0.48, "y": 0.3, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "investigation", "name": "Investigación", "subtitle": "Hipótesis", "x": 0.68, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "service", "name": "Servicio", "subtitle": "Impacto", "x": 0.88, "y": 0.3, "kind": "workload", "capacity": 80 },
+      { "id": "operator", "name": "Operador", "subtitle": "Validación", "x": 0.55, "y": 0.75, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "agent", "to": "collector", "kind": "data" }, { "from": "collector", "to": "topology", "kind": "control" }, { "from": "topology", "to": "investigation", "kind": "dependency" }, { "from": "investigation", "to": "service", "kind": "data" }, { "from": "investigation", "to": "operator", "kind": "control" }
+    ] }
+  }
+}
