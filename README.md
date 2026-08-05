@@ -22,6 +22,7 @@ desplegable en Vercel.
 - **¿Vas a revisar Backup/DR?** [`docs/ai-context/backup-dr-technical-validation.md`](./docs/ai-context/backup-dr-technical-validation.md).
 - **¿Vas a revisar ransomware?** [`docs/ai-context/ransomware-resilience-technical-validation.md`](./docs/ai-context/ransomware-resilience-technical-validation.md).
 - **¿Vas a revisar Storage SAN?** [`docs/ai-context/san-storage-technical-validation.md`](./docs/ai-context/san-storage-technical-validation.md).
+- **¿Vas a revisar el batch de infraestructura?** Consulta las matrices en `docs/ai-context/` para Veeam, active-active, LAN/SAN y NAS.
 - **¿Vas a preparar una demo para cliente o técnico?** [`docs/ai-context/audience-modes-and-deep-links.md`](./docs/ai-context/audience-modes-and-deep-links.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 
@@ -30,7 +31,9 @@ desplegable en Vercel.
 Temas disponibles: `/explainer/vcf`, `/explainer/vsphere-ha`, `/explainer/vsan`,
 `/explainer/nsx`, `/explainer/zero-trust`, `/explainer/kubernetes` y
 `/explainer/observability`, `/explainer/backup-dr` y
-`/explainer/ransomware-resilience` y `/explainer/san-storage`.
+`/explainer/ransomware-resilience`, `/explainer/san-storage`,
+`/explainer/veeam-protection`, `/explainer/active-active-dc`,
+`/explainer/lan-san` y `/explainer/nas-private-cloud`.
 La validación técnica de vSphere HA está en
 [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 La validación técnica de vSAN está en
@@ -98,4 +101,8 @@ docs/examples/observability/ séptimo tema: de la petición a la evidencia
 docs/examples/backup-dr/       octavo tema: de una copia a una recuperación comprobable
 docs/examples/ransomware-resilience/ noveno tema: resiliencia frente a ransomware
 docs/examples/san-storage/          décimo tema: storage SAN empresarial
+docs/examples/veeam-protection/     batch: protección heterogénea
+docs/examples/active-active-dc/     batch: data center activo-activo
+docs/examples/lan-san/              batch: integración LAN/SAN
+docs/examples/nas-private-cloud/   batch: NAS como servicio de archivos
 ```

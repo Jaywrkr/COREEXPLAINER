@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Estado v0.20.0 (04-08-2026)**: cada explicación puede alternar entre modo
+**Estado v0.24.0 (04-08-2026)**: cada explicación puede alternar entre modo
 Cliente y Técnico y compartir enlaces directos a escenas y escenarios. Se mantiene
 el séptimo tema independiente
 `/explainer/observability` sobre recorrido de peticiones, señales,
@@ -31,6 +31,10 @@ El décimo tema `/explainer/san-storage` explica las capas de una SAN, el
 provisionamiento de volúmenes, mapping, multipath, migración y replicación con
 IBM, Lenovo y VMware/Broadcom como contexto de marca.
 
+Se añadió un batch de cuatro explainers: `/explainer/veeam-protection`,
+`/explainer/active-active-dc`, `/explainer/lan-san` y
+`/explainer/nas-private-cloud`.
+
 > Actualiza este archivo cada vez que termines una tarea significativa. Es
 > lo primero que debe leer la siguiente sesión de IA (ver `AI_WORKFLOW.md`).
 
@@ -40,6 +44,7 @@ Actualización adicional 2026-08-04 — v0.17.0: contexto de marcas declarado y 
 Actualización adicional 2026-08-04 — v0.18.0: nuevo explainer de resiliencia frente a ransomware.
 Actualización adicional 2026-08-04 — v0.19.0: patrones reales de proyectos y backlog comercial-técnico.
 Actualización adicional 2026-08-04 — v0.20.0: nuevo explainer de Storage SAN empresarial.
+Actualización adicional 2026-08-04 — v0.24.0: batch de cuatro explainers de infraestructura.
 **Actualización adicional 2026-08-04 — v0.16.0:** se añadió el explainer de Backup/DR y el registro canónico del portafolio de marcas CoreSolutions.
 
 ## Qué está hecho

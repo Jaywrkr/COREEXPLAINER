@@ -52,4 +52,32 @@ export const brandContext = {
     { name: "VMware/Broadcom", role: "Consumidor de storage", scope: "vSphere/VCF puede consumir datastores SAN; validar versión, SATP/PSP y soporte." },
     { name: "Aruba HPE", role: "Red LAN y gestión", scope: "La SAN FC puede ser una fabric separada; no se asume que el switching LAN transporte FC." },
   ] satisfies BrandContextItem[],
+  veeamProtection: [
+    { name: "Veeam", role: "Protección y recuperación", scope: "Backup & Replication coordina workloads soportados; validar edición, licencia y diseño." },
+    { name: "VMware/Broadcom", role: "Workloads virtuales", scope: "vSphere/VCF aporta el origen; confirmar versión y consistencia de aplicación." },
+    { name: "IBM", role: "AIX, storage y cinta", scope: "IBM Power/FlashSystem/TS4300 son patrones posibles; validar soporte por workload." },
+    { name: "Lenovo", role: "Servidores y repositorios", scope: "ThinkSystem puede alojar cargas o repositorios; validar capacidad y HCL." },
+    { name: "Synology", role: "NAS y archivos", scope: "NAS puede ser origen o destino; validar integración, permisos y rendimiento." },
+  ] satisfies BrandContextItem[],
+  activeActive: [
+    { name: "IBM", role: "Storage HA y replicación", scope: "FlashSystem ofrece funciones según familia, código y política; validar topología." },
+    { name: "VMware/Broadcom", role: "Cargas y clústeres", scope: "vSphere/VCF puede consumir ambos sitios; validar HA, DRS y dependencias." },
+    { name: "Lenovo", role: "Cómputo en dos racks", scope: "ThinkSystem representa hosts redundantes; validar firmware, HCL y capacidad." },
+    { name: "Aruba HPE", role: "Red redundante", scope: "VSX/LAG o equivalente depende del modelo y diseño; no se asume failover automático." },
+    { name: "Check Point", role: "Seguridad de los caminos", scope: "Las reglas y estados de firewall deben probarse durante un cambio de sitio." },
+  ] satisfies BrandContextItem[],
+  lanSan: [
+    { name: "Aruba HPE", role: "LAN de data center", scope: "VLAN, routing, VSX/VSF y LAG dependen del modelo y versión." },
+    { name: "IBM", role: "SAN y storage", scope: "FlashSystem y FC requieren zoning, mapping y HCL compatibles." },
+    { name: "Lenovo", role: "Servidores y NIC/HBA", scope: "Validar adaptadores, firmware, drivers y paths." },
+    { name: "VMware/Broadcom", role: "Hosts y workloads", scope: "vSphere/VCF consume redes LAN y storage según el diseño del cluster." },
+    { name: "Check Point", role: "Inspección y seguridad", scope: "El firewall es una capa adicional; no sustituye el diseño de switching o SAN." },
+  ] satisfies BrandContextItem[],
+  nasCloud: [
+    { name: "Synology", role: "NAS y servicios de archivo", scope: "DSM, SMB/NFS, almacenamiento y HA dependen del modelo y versión." },
+    { name: "Aruba HPE", role: "Conectividad y acceso", scope: "VLAN, LAG, routing y Wi-Fi son dependencias de la red del cliente." },
+    { name: "Check Point", role: "Acceso seguro", scope: "Publicación, segmentación y acceso remoto requieren políticas propias." },
+    { name: "Veeam", role: "Protección del NAS", scope: "La cobertura de shares y repositorios depende de versión, licencia y arquitectura." },
+    { name: "Lenovo", role: "Cómputo complementario", scope: "Puede alojar servicios asociados; validar capacidad y soporte." },
+  ] satisfies BrandContextItem[],
 };

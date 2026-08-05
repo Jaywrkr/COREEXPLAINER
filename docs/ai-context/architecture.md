@@ -129,6 +129,10 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
   validación, separado conceptualmente de Backup/DR.
 - **`src/content/san-storage.ts`** — décimo ejemplo de referencia: cinco escenas
   sobre capas SAN, pools, LUNs, host mapping, multipath, migración y replicación.
+- **`src/content/veeam-protection.ts`**, **`active-active-dc.ts`**,
+  **`lan-san.ts`** y **`nas-private-cloud.ts`** — batch de cuatro temas basados
+  en patrones reales: protección heterogénea, continuidad en dos dominios,
+  integración de planos de red y NAS como servicio de archivos.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
   con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
   fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus
