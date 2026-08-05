@@ -23,6 +23,7 @@ desplegable en Vercel.
 - **¿Vas a revisar ransomware?** [`docs/ai-context/ransomware-resilience-technical-validation.md`](./docs/ai-context/ransomware-resilience-technical-validation.md).
 - **¿Vas a revisar Storage SAN?** [`docs/ai-context/san-storage-technical-validation.md`](./docs/ai-context/san-storage-technical-validation.md).
 - **¿Vas a revisar el batch de infraestructura?** Consulta las matrices en `docs/ai-context/` para Veeam, active-active, LAN/SAN y NAS.
+- **¿Vas a publicar en Vercel?** Lee [`docs/ai-context/vercel-deployment-policy.md`](./docs/ai-context/vercel-deployment-policy.md).
 - **¿Vas a preparar una demo para cliente o técnico?** [`docs/ai-context/audience-modes-and-deep-links.md`](./docs/ai-context/audience-modes-and-deep-links.md).
 - **¿Vas a diseñar un diagrama?** [`docs/ai-context/visual-language.md`](./docs/ai-context/visual-language.md).
 

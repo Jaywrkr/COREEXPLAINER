@@ -11,6 +11,7 @@ Los escenarios de fallo están documentados en `docs/ai-context/failure-scenario
 La alineación comercial de marcas está documentada en `docs/product/portfolio.md`.
 El contrato de marcas por tema está documentado en `docs/ai-context/brand-context.md`.
 Los patrones reales de implementación se resumen en `docs/product/coresolutions-project-patterns.md`.
+La política de publicación manual de Vercel está en `docs/ai-context/vercel-deployment-policy.md`.
 
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en

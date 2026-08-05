@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.25.0] - 2026-08-05
+
+- Se desactivaron los deployments automáticos de Git mediante `vercel.json`.
+- Se documentó el flujo de validación local y publicación manual por batch.
+- Los PRs y merges ya no deben consumir deployments de Vercel automáticamente.
+
 ## [0.24.0] - 2026-08-04
 
 - Batch de cuatro nuevos explainers: protección heterogénea con Veeam, data center activo-activo, integración LAN/SAN y NAS como servicio de archivos.
