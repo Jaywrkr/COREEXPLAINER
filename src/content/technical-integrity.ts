@@ -162,12 +162,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     restart: { nodes: ["client", "host2", "datastore", "vm", "app"], edge: ["host2", "vm", "control"], path: ["client", "app"] },
     limits: { nodes: ["ha", "vm", "capacity", "datastore", "policy"], edge: ["ha", "capacity", "control"], path: ["ha", "vm"] },
   }),
-  vsan: baselineProfile("storage", {
-    "local-storage": { nodes: ["vm", "host1", "host2", "disk1", "disk2", "vsan"], edge: ["disk1", "vsan", "storage"], path: ["vm", "vsan"] },
-    "object-distribution": { nodes: ["vm", "object", "component1", "component2", "datastore"], edge: ["object", "component1", "storage"], path: ["vm", "datastore"] },
-    "policy-placement": { nodes: ["policy", "object", "domain1", "domain2", "domain3", "placement"], edge: ["policy", "object", "control"], path: ["policy", "placement"] },
-    "failure-resync": { nodes: ["host1", "disk1", "object", "host2", "resync", "network"], edge: ["object", "resync", "control"], path: ["object", "network"] },
-    limits: { nodes: ["object", "capacity", "fault-domains", "network", "policy", "state"], edge: ["object", "policy", "control"], path: ["policy", "state"] },
+  vsan: sourceBackedProfile("storage", {
+    "local-storage": { nodes: ["vm", "host1", "host2", "disk1", "disk2", "vsan"], edge: ["disk1", "vsan", "storage"], path: ["vm", "vsan"], sourceIds: ["vsan-components"] },
+    "object-distribution": { nodes: ["vm", "object", "component1", "component2", "datastore"], edge: ["object", "component1", "storage"], path: ["vm", "datastore"], sourceIds: ["vsan-components", "vsan-reduced-availability"] },
+    "policy-placement": { nodes: ["policy", "object", "domain1", "domain2", "domain3", "placement"], edge: ["policy", "object", "control"], path: ["policy", "placement"], sourceIds: ["vsan-fault-domains", "vsan-components"] },
+    "failure-resync": { nodes: ["host1", "disk1", "object", "host2", "resync", "network"], edge: ["object", "resync", "control"], path: ["object", "network"], sourceIds: ["vsan-host-failure", "vsan-reduced-availability"] },
+    limits: { nodes: ["object", "capacity", "fault-domains", "network", "policy", "state"], edge: ["object", "policy", "control"], path: ["policy", "state"], sourceIds: ["vsan-fault-domains", "vsan-inaccessible", "vsan-ftt0"] },
   }),
   "zero-trust": baselineProfile("security", {
     request: { nodes: ["subject", "device", "request", "pep", "resource", "identity"], edge: ["request", "pep", "data"], path: ["subject", "resource"] },
@@ -190,12 +190,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     correlation: { nodes: ["symptom", "metrics-backend", "alerting", "trace-backend", "logs-backend", "operator"], edge: ["metrics-backend", "alerting", "control"], path: ["symptom", "operator"], sourceIds: ["prom-alerting", "otel-traces", "otel-logs"] },
     incident: { nodes: ["client", "gateway", "checkout", "payment", "collector", "processor", "metrics-backend", "trace-backend", "logs-backend"], edge: ["collector", "processor", "control"], path: ["client", "metrics-backend"], sourceIds: ["otel-collector-arch", "otel-traces", "otel-metrics", "otel-logs"] },
   }),
-  "backup-dr": baselineProfile("continuity", {
-    objectives: { nodes: ["business", "bia", "protection-plan", "evidence"], edge: ["bia", "protection-plan", "control"], path: ["business", "evidence"] },
-    protection: { nodes: ["vmware", "lenovo", "backup-job", "veeam-repository"], edge: ["backup-job", "veeam-repository", "data"], path: ["vmware", "veeam-repository"] },
-    copies: { nodes: ["veeam-repository", "hardened", "ibm-flashsystem", "security"], edge: ["hardened", "ibm-flashsystem", "storage"], path: ["security", "ibm-flashsystem"] },
-    recovery: { nodes: ["incident", "decision", "replication", "alternate-site", "application"], edge: ["decision", "replication", "control"], path: ["incident", "application"] },
-    limits: { nodes: ["backup-job", "veeam-repository", "replication", "alternate-site", "verification", "application"], edge: ["alternate-site", "verification", "dependency"], path: ["backup-job", "application"] },
+  "backup-dr": sourceBackedProfile("continuity", {
+    objectives: { nodes: ["business", "bia", "protection-plan", "evidence"], edge: ["bia", "protection-plan", "control"], path: ["business", "evidence"], sourceIds: ["nist-contingency", "nist-rto"] },
+    protection: { nodes: ["vmware", "lenovo", "backup-job", "veeam-repository"], edge: ["backup-job", "veeam-repository", "data"], path: ["vmware", "veeam-repository"], sourceIds: ["veeam-about", "veeam-architecture", "veeam-vsphere"] },
+    copies: { nodes: ["veeam-repository", "hardened", "ibm-flashsystem", "security"], edge: ["hardened", "ibm-flashsystem", "storage"], path: ["security", "ibm-flashsystem"], sourceIds: ["veeam-immutability", "ibm-safeguarded", "ibm-snapshots"] },
+    recovery: { nodes: ["incident", "decision", "replication", "alternate-site", "application"], edge: ["decision", "replication", "control"], path: ["incident", "application"], sourceIds: ["ibm-replication", "veeam-about", "nist-rto"] },
+    limits: { nodes: ["backup-job", "veeam-repository", "replication", "alternate-site", "verification", "application"], edge: ["alternate-site", "verification", "dependency"], path: ["backup-job", "application"], sourceIds: ["veeam-repository", "veeam-immutability", "nist-contingency"] },
   }),
   "ransomware-resilience": baselineProfile("security", {
     prevention: { nodes: ["exposure", "identity", "endpoint", "network", "workloads"], edge: ["identity", "endpoint", "control"], path: ["exposure", "workloads"] },
@@ -204,26 +204,26 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     recovery: { nodes: ["incident", "veeam", "immutable-copy", "clean-room", "application"], edge: ["veeam", "immutable-copy", "data"], path: ["incident", "application"] },
     learning: { nodes: ["exercise", "clean-room", "verification", "application", "lessons"], edge: ["clean-room", "verification", "dependency"], path: ["exercise", "lessons"] },
   }),
-  "san-storage": baselineProfile("storage", {
-    foundation: { nodes: ["application", "host", "fabric-a", "fabric-b", "array", "management"], edge: ["host", "fabric-a", "data"], path: ["application", "array"] },
-    provisioning: { nodes: ["disks", "pool", "volume", "mapping", "host"], edge: ["pool", "volume", "storage"], path: ["disks", "host"] },
-    multipath: { nodes: ["host", "hba-a", "hba-b", "fabric-a", "fabric-b", "array-a", "array-b", "volume"], edge: ["hba-a", "fabric-a", "data"], path: ["host", "volume"] },
-    migration: { nodes: ["old-array", "migration", "new-array", "replication", "application"], edge: ["migration", "new-array", "data"], path: ["old-array", "application"] },
-    limits: { nodes: ["host", "fabric-a", "mapping", "pool", "replication", "remote-array"], edge: ["mapping", "pool", "storage"], path: ["host", "remote-array"] },
+  "san-storage": sourceBackedProfile("storage", {
+    foundation: { nodes: ["application", "host", "fabric-a", "fabric-b", "array", "management"], edge: ["host", "fabric-a", "data"], path: ["application", "array"], sourceIds: ["ibm-host-attachment", "lenovo-san"] },
+    provisioning: { nodes: ["disks", "pool", "volume", "mapping", "host"], edge: ["pool", "volume", "storage"], path: ["disks", "host"], sourceIds: ["ibm-volume", "ibm-host-mapping"] },
+    multipath: { nodes: ["host", "hba-a", "hba-b", "fabric-a", "fabric-b", "array-a", "array-b", "volume"], edge: ["hba-a", "fabric-a", "data"], path: ["host", "volume"], sourceIds: ["lenovo-san", "lenovo-vmware", "ibm-host-attachment"] },
+    migration: { nodes: ["old-array", "migration", "new-array", "replication", "application"], edge: ["migration", "new-array", "data"], path: ["old-array", "application"], sourceIds: ["ibm-migration", "ibm-replication"] },
+    limits: { nodes: ["host", "fabric-a", "mapping", "pool", "replication", "remote-array"], edge: ["mapping", "pool", "storage"], path: ["host", "remote-array"], sourceIds: ["ibm-host-mapping", "ibm-replication", "lenovo-san"] },
   }),
-  "veeam-protection": baselineProfile("continuity", {
-    workloads: { nodes: ["vmware", "physical", "aix", "nas", "policy", "application"], edge: ["vmware", "policy", "data"], path: ["vmware", "application"] },
-    "data-pipe": { nodes: ["source", "veeam-server", "proxy", "network", "repository"], edge: ["proxy", "network", "data"], path: ["source", "repository"] },
-    retention: { nodes: ["repository", "immutable", "tape-job", "library"], edge: ["repository", "immutable", "storage"], path: ["repository", "library"] },
-    restore: { nodes: ["point", "restore", "network", "storage", "application"], edge: ["point", "restore", "data"], path: ["point", "application"] },
-    limits: { nodes: ["source", "veeam-server", "proxy", "repository", "restore", "tape"], edge: ["proxy", "repository", "data"], path: ["source", "restore"] },
+  "veeam-protection": sourceBackedProfile("continuity", {
+    workloads: { nodes: ["vmware", "physical", "aix", "nas", "policy", "application"], edge: ["vmware", "policy", "data"], path: ["vmware", "application"], sourceIds: ["veeam-overview"] },
+    "data-pipe": { nodes: ["source", "veeam-server", "proxy", "network", "repository"], edge: ["proxy", "network", "data"], path: ["source", "repository"], sourceIds: ["veeam-architecture", "veeam-repository"] },
+    retention: { nodes: ["repository", "immutable", "tape-job", "library"], edge: ["repository", "immutable", "storage"], path: ["repository", "library"], sourceIds: ["veeam-repository", "veeam-immutable", "veeam-tape", "veeam-tape-support"] },
+    restore: { nodes: ["point", "restore", "network", "storage", "application"], edge: ["point", "restore", "data"], path: ["point", "application"], sourceIds: ["veeam-overview", "veeam-architecture"] },
+    limits: { nodes: ["source", "veeam-server", "proxy", "repository", "restore", "tape"], edge: ["proxy", "repository", "data"], path: ["source", "restore"], sourceIds: ["veeam-overview", "veeam-repository", "veeam-immutable"] },
   }),
-  "active-active-dc": baselineProfile("continuity", {
-    "two-domains": { nodes: ["site-a", "site-b", "inter-site", "quorum", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"] },
-    "storage-ha": { nodes: ["host-a", "host-b", "array-a", "array-b", "replication", "quorum"], edge: ["array-a", "replication", "storage"], path: ["host-a", "quorum"] },
-    "network-ha": { nodes: ["hosts", "switch-a", "switch-b", "storage-a", "storage-b", "inter-site"], edge: ["switch-a", "inter-site", "control"], path: ["hosts", "storage-a"] },
-    failover: { nodes: ["signal", "decision", "site-a", "site-b", "application"], edge: ["decision", "site-b", "control"], path: ["signal", "application"] },
-    limits: { nodes: ["site-a", "inter-site", "quorum", "site-b", "storage-link", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"] },
+  "active-active-dc": sourceBackedProfile("continuity", {
+    "two-domains": { nodes: ["site-a", "site-b", "inter-site", "quorum", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"], sourceIds: ["ibm-ha", "ibm-io"] },
+    "storage-ha": { nodes: ["host-a", "host-b", "array-a", "array-b", "replication", "quorum"], edge: ["array-a", "replication", "storage"], path: ["host-a", "quorum"], sourceIds: ["ibm-ha", "ibm-mirrors"] },
+    "network-ha": { nodes: ["hosts", "switch-a", "switch-b", "storage-a", "storage-b", "inter-site"], edge: ["switch-a", "inter-site", "control"], path: ["hosts", "storage-a"], sourceIds: ["aruba-vsx", "ibm-io"] },
+    failover: { nodes: ["signal", "decision", "site-a", "site-b", "application"], edge: ["decision", "site-b", "control"], path: ["signal", "application"], sourceIds: ["ibm-mirrors", "veeam-dr"] },
+    limits: { nodes: ["site-a", "inter-site", "quorum", "site-b", "storage-link", "workloads"], edge: ["inter-site", "quorum", "control"], path: ["site-a", "workloads"], sourceIds: ["ibm-ha", "ibm-mirrors", "aruba-vsx"] },
   }),
   "lan-san": baselineProfile("network", {
     planes: { nodes: ["users", "management", "lan", "vmware", "san", "storage"], edge: ["lan", "vmware", "data"], path: ["users", "storage"] },
@@ -232,12 +232,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     integration: { nodes: ["application", "lan", "san", "firewall", "identity", "storage"], edge: ["lan", "firewall", "data"], path: ["application", "storage"] },
     limits: { nodes: ["host", "vlan", "underlay", "fabric", "routing", "service"], edge: ["underlay", "routing", "data"], path: ["host", "service"] },
   }),
-  "nas-private-cloud": baselineProfile("storage", {
-    service: { nodes: ["users", "network", "nas", "share", "data"], edge: ["nas", "share", "control"], path: ["users", "data"] },
-    identity: { nodes: ["user", "directory", "dns", "nas", "share", "access"], edge: ["directory", "nas", "dependency"], path: ["user", "access"] },
-    ha: { nodes: ["client", "nas-a", "nas-b", "heartbeat", "cluster-ip", "share"], edge: ["heartbeat", "cluster-ip", "control"], path: ["client", "share"] },
-    protection: { nodes: ["share", "raid", "ha", "veeam", "repository", "restore"], edge: ["veeam", "repository", "data"], path: ["share", "restore"] },
-    limits: { nodes: ["directory", "heartbeat", "nas-b", "share", "veeam", "users"], edge: ["share", "veeam", "data"], path: ["directory", "users"] },
+  "nas-private-cloud": sourceBackedProfile("storage", {
+    service: { nodes: ["users", "network", "nas", "share", "data"], edge: ["nas", "share", "control"], path: ["users", "data"], sourceIds: ["synology-files", "synology-services"] },
+    identity: { nodes: ["user", "directory", "dns", "nas", "share", "access"], edge: ["directory", "nas", "dependency"], path: ["user", "access"], sourceIds: ["synology-ad", "synology-services"] },
+    ha: { nodes: ["client", "nas-a", "nas-b", "heartbeat", "cluster-ip", "share"], edge: ["heartbeat", "cluster-ip", "control"], path: ["client", "share"], sourceIds: ["synology-ha", "synology-ha-limits"] },
+    protection: { nodes: ["share", "raid", "ha", "veeam", "repository", "restore"], edge: ["veeam", "repository", "data"], path: ["share", "restore"], sourceIds: ["veeam-nas", "synology-files"] },
+    limits: { nodes: ["directory", "heartbeat", "nas-b", "share", "veeam", "users"], edge: ["share", "veeam", "data"], path: ["directory", "users"], sourceIds: ["synology-ha", "synology-ad", "veeam-nas"] },
   }),
   migration: baselineProfile("delivery", {
     discovery: { nodes: ["workloads", "dependencies", "inventory", "plan", "source", "destination"], edge: ["inventory", "plan", "control"], path: ["workloads", "destination"] },
@@ -260,12 +260,12 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     security: { nodes: ["overlay", "edge", "security", "identity", "application"], edge: ["edge", "security", "data"], path: ["overlay", "application"] },
     limits: { nodes: ["underlay", "bio", "path-selection", "edge", "security", "application"], edge: ["bio", "path-selection", "control"], path: ["underlay", "application"] },
   }),
-  "power-aix": baselineProfile("virtualization", {
-    workload: { nodes: ["users", "application", "aix", "powervm", "storage"], edge: ["aix", "powervm", "control"], path: ["users", "storage"] },
-    platform: { nodes: ["hmc", "source", "viOS", "destination", "lpar"], edge: ["source", "lpar", "control"], path: ["hmc", "destination"] },
-    "data-paths": { nodes: ["lpar", "viOS", "lan", "san", "storage"], edge: ["viOS", "san", "storage"], path: ["lpar", "storage"] },
-    acceptance: { nodes: ["platform", "application", "monitoring", "backup", "acceptance"], edge: ["application", "monitoring", "control"], path: ["platform", "acceptance"] },
-    limits: { nodes: ["hmc", "viOS", "san", "application", "backup", "acceptance"], edge: ["viOS", "san", "storage"], path: ["hmc", "acceptance"] },
+  "power-aix": sourceBackedProfile("virtualization", {
+    workload: { nodes: ["users", "application", "aix", "powervm", "storage"], edge: ["aix", "powervm", "control"], path: ["users", "storage"], sourceIds: ["ibm-lpm", "ibm-flashsystem"] },
+    platform: { nodes: ["hmc", "source", "viOS", "destination", "lpar"], edge: ["source", "lpar", "control"], path: ["hmc", "destination"], sourceIds: ["ibm-lpm", "ibm-lpm-howto"] },
+    "data-paths": { nodes: ["lpar", "viOS", "lan", "san", "storage"], edge: ["viOS", "san", "storage"], path: ["lpar", "storage"], sourceIds: ["ibm-lpm-howto", "ibm-flashsystem"] },
+    acceptance: { nodes: ["platform", "application", "monitoring", "backup", "acceptance"], edge: ["application", "monitoring", "control"], path: ["platform", "acceptance"], sourceIds: ["ibm-lpm", "veeam-overview"] },
+    limits: { nodes: ["hmc", "viOS", "san", "application", "backup", "acceptance"], edge: ["viOS", "san", "storage"], path: ["hmc", "acceptance"], sourceIds: ["ibm-lpm-howto", "ibm-flashsystem", "veeam-overview"] },
   }),
   "implementation-lifecycle": baselineProfile("delivery", {
     discovery: { nodes: ["customer", "prerequisites", "inventory", "scope", "plan"], edge: ["scope", "plan", "control"], path: ["customer", "plan"] },

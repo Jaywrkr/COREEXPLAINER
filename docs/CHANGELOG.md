@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.43.0] - 2026-08-05
+
+- vSAN, SAN Storage, Veeam Protection, Active-Active DC, NAS/Private Cloud e IBM Power/AIX pasan a contratos `source-backed`.
+- Cada escena enlaza sus relaciones y caminos críticos con documentación técnica específica del fabricante o estándar correspondiente.
+- La validación conserva el bloqueo de referencias inexistentes para que la trazabilidad visible no sea decorativa.
+
 ## [0.42.0] - 2026-08-05
 
 - Observability, Instana, Turbonomic y webMethods pasan de cobertura base a reglas con fuentes específicas por escena.
