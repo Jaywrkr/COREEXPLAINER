@@ -19,7 +19,7 @@ export function VersionChangelog() {
   }, [isOpen]);
 
   return (
-    <div className="fixed bottom-4 left-4 z-50">
+    <div className="fixed bottom-3 left-3 z-50">
       {isOpen ? (
         <section
           id={dialogId}
@@ -71,9 +71,9 @@ export function VersionChangelog() {
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
         aria-controls={dialogId}
-        className="border border-core-border/[0.14] bg-core-panel px-3 py-2 font-mono text-[0.68rem] font-semibold uppercase tracking-[0.08em] text-core-text-secondary transition-colors hover:border-core-accent hover:text-core-text"
+        className="border border-core-border/[0.14] bg-core-panel px-2 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-secondary transition-colors hover:border-core-accent hover:text-core-text"
       >
-        Versión v{currentVersion} · cambios
+        v{currentVersion} · changelog
       </button>
     </div>
   );

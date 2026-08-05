@@ -7,13 +7,13 @@ interface BrandContextPanelProps {
 /** Makes the commercial context visible without turning it into a product claim. */
 export function BrandContextPanel({ items }: BrandContextPanelProps) {
   return (
-    <section className="mb-6 border border-core-border/[0.12] bg-core-panel/60">
+    <section className="relative shrink-0">
       <details>
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-2.5 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
-          <span>Marcas del patrón</span>
-          <span className="text-core-accent">{items.length} relacionadas</span>
+        <summary className="flex cursor-pointer list-none items-center gap-1.5 whitespace-nowrap border border-core-border/[0.12] bg-core-panel/60 px-2 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+          <span>Marcas</span>
+          <span className="text-core-accent">{items.length}</span>
         </summary>
-        <div className="border-t border-core-border/[0.1] px-3 pb-3 pt-2.5">
+        <div className="absolute left-0 top-full z-30 mt-1 w-72 border border-core-border/[0.14] bg-core-panel p-3 shadow-lg">
           <p className="text-[0.7rem] leading-relaxed text-core-text-secondary">
             Contexto comercial de CoreSolutions; no implica compatibilidad, licencia o sizing automático.
           </p>

@@ -45,7 +45,7 @@ export function DiagramLegend({
   onToggleEdgeKind,
   onReset,
 }: DiagramLegendProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <section

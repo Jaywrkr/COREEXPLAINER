@@ -32,12 +32,12 @@ export function SceneShareControl({ sceneId, scenarioId, audienceMode }: SceneSh
     <button
       type="button"
       onClick={copyLink}
-      className="mb-5 flex w-full items-center justify-between border border-core-border/[0.12] px-3 py-2 text-left text-[0.68rem] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text"
+      className="inline-flex shrink-0 items-center gap-2 border border-core-border/[0.12] px-2.5 py-1.5 text-left text-[0.62rem] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text"
       aria-label="Copiar enlace de esta escena"
     >
-      <span className="font-mono font-semibold uppercase tracking-[0.08em]">Compartir esta escena</span>
+      <span className="font-mono font-semibold uppercase tracking-[0.07em]">Enlace</span>
       <span className="text-core-accent">
-        {status === "copied" ? "Copiado" : status === "error" ? "Copia manual" : "Copiar enlace"}
+        {status === "copied" ? "Copiado" : status === "error" ? "Manual" : "Copiar"}
       </span>
     </button>
   );

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.30.0] - 2026-08-05
+
+- Se compactaron el nivel de explicación, el enlace de escena, las marcas y la trazabilidad en la cabecera del tema.
+- Cada explicación incorpora un acceso directo para volver al dashboard de temas y el modo presentación ocupa menos espacio.
+- La leyenda del diagrama inicia minimizada y el control global de versión es más discreto.
+
 ## [0.29.0] - 2026-08-05
 
 - VCF incorpora checkpoints de diagnóstico para contrastar hipótesis sobre HA,
