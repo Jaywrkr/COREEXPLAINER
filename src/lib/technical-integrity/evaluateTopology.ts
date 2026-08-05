@@ -1,6 +1,7 @@
 import type { Scene } from "@/lib/animation-spec/types";
 import type {
   TechnicalIntegrityDiagnostic,
+  TechnicalIntegrityAssurance,
   TechnicalIntegrityDomain,
   TechnicalIntegrityReport,
   TechnicalIntegritySceneContract,
@@ -46,6 +47,7 @@ export function evaluateTopologyIntegrity(
   scene: Scene,
   contract: TechnicalIntegritySceneContract | undefined,
   domain: TechnicalIntegrityDomain = "generic",
+  assurance: TechnicalIntegrityAssurance = "baseline",
 ): TechnicalIntegrityReport | null {
   if (!contract) return null;
 
@@ -138,5 +140,5 @@ export function evaluateTopologyIntegrity(
     + scene.edges.length
     + (contract.checkOrphans === false ? 0 : scene.nodes.length);
 
-  return { domain, status: statusFor(diagnostics), checkedRules, diagnostics };
+  return { domain, assurance, status: statusFor(diagnostics), checkedRules, diagnostics };
 }
