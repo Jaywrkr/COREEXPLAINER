@@ -101,6 +101,8 @@ export function VisualCanvas({
   const [selectedIntegrityDiagnosticId, setSelectedIntegrityDiagnosticId] = useState<string | null>(null);
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
   const [clientToolsOpen, setClientToolsOpen] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const reducedMotionRef = useRef(false);
   const { theme } = useTheme();
   const isTechnicalMode = audienceMode === "technical";
   const isGuidedMode = !isTechnicalMode;
@@ -129,6 +131,17 @@ export function VisualCanvas({
     () => guidedFocusNodeIds ?? guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? [],
     [activeGuidedStepIndex, guidedFocusNodeIds, guidedSteps],
   );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const syncPreference = () => {
+      reducedMotionRef.current = mediaQuery.matches;
+      setPrefersReducedMotion(mediaQuery.matches);
+    };
+    syncPreference();
+    mediaQuery.addEventListener("change", syncPreference);
+    return () => mediaQuery.removeEventListener("change", syncPreference);
+  }, []);
   const combinedFocusIds = useMemo(
     () => Array.from(new Set([...guidedFocusIds, ...(selectedIntegrityDiagnostic?.nodeIds ?? [])])),
     [guidedFocusIds, selectedIntegrityDiagnostic],
@@ -331,19 +344,33 @@ export function VisualCanvas({
       }
     };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "+" || event.key === "=") {
+        event.preventDefault();
+        zoomFromCenter(1.15);
+      } else if (event.key === "-") {
+        event.preventDefault();
+        zoomFromCenter(1 / 1.15);
+      } else if (event.key === "0") {
+        event.preventDefault();
+        resetViewport();
+      }
+    };
+
     canvas.addEventListener("wheel", handleWheel, { passive: false });
     canvas.addEventListener("pointerdown", handlePointerDown);
     canvas.addEventListener("pointermove", handlePointerMove);
     canvas.addEventListener("pointerup", handlePointerEnd);
     canvas.addEventListener("pointercancel", handlePointerCancel);
     canvas.addEventListener("pointerleave", handlePointerLeave);
+    canvas.addEventListener("keydown", handleKeyDown);
 
     let last = performance.now();
     let frameId = 0;
     const loop = (now: number) => {
       const dt = Math.min(now - last, 50);
       last = now;
-      engine.update(dt);
+      engine.update(reducedMotionRef.current ? 0 : dt);
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -367,16 +394,24 @@ export function VisualCanvas({
       canvas.removeEventListener("pointerup", handlePointerEnd);
       canvas.removeEventListener("pointercancel", handlePointerCancel);
       canvas.removeEventListener("pointerleave", handlePointerLeave);
+      canvas.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onFailureScenarioChange, onNodeSelect, updateViewport, zoomAt]);
+  }, [onFailureScenarioChange, onNodeSelect, resetViewport, updateViewport, zoomAt, zoomFromCenter]);
 
   return (
     <div className="relative h-full w-full">
       <canvas
         ref={canvasRef}
-        aria-label="Diagrama interactivo: arrastra para mover y usa la rueda para acercar o alejar."
+        role="img"
+        tabIndex={0}
+        aria-label="Diagrama interactivo: arrastra para mover, usa la rueda o las teclas más y menos para acercar o alejar, y pulsa cero para restablecer."
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
+      {prefersReducedMotion ? (
+        <p className="sr-only" role="status">
+          Animación pausada porque tu dispositivo prefiere reducir el movimiento. El diagrama sigue siendo interactivo.
+        </p>
+      ) : null}
       {selectedNode ? (
         <NodeDetailCard node={selectedNode} audienceMode={audienceMode} onClose={() => onNodeSelect(null)} />
       ) : null}

@@ -9,9 +9,69 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.52.0";
+export const currentVersion = "0.58.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.58.0",
+    date: "06 ago 2026",
+    title: "Vigencia temporal de fuentes",
+    changes: [
+      "Las fechas de revisión y consulta deben ser fechas ISO reales y no pueden estar en el futuro.",
+      "Una fuente no puede haber sido consultada después de la fecha declarada de revisión del tema.",
+      "Las fuentes marcadas review-needed quedan registradas como advertencias para la siguiente revisión.",
+    ],
+  },
+  {
+    version: "0.57.0",
+    date: "06 ago 2026",
+    title: "Escenarios con ciclo completo de diagnóstico",
+    changes: [
+      "Cada tema debe declarar al menos un escenario de fallo para poder publicarse.",
+      "Los escenarios authored deben cubrir observar, diagnosticar, recuperar y validar; el resto usa el fallback común de cuatro fases.",
+      "La Fase 5 documenta la cobertura de escenarios y mantiene explícito que la simulación no ejecuta cambios reales.",
+    ],
+  },
+  {
+    version: "0.56.0",
+    date: "06 ago 2026",
+    title: "Interacción accesible y movimiento respetuoso",
+    changes: [
+      "El canvas puede recibir foco y admite +, -, 0 para zoom y restablecimiento sin depender del ratón.",
+      "Se respeta prefers-reduced-motion: la simulación pausa sus paquetes y se informa al usuario sin desactivar la interacción.",
+      "Se añadieron etiquetas semánticas y una auditoría de accesibilidad como Fase 4.",
+    ],
+  },
+  {
+    version: "0.55.0",
+    date: "06 ago 2026",
+    title: "Resultado de aprendizaje por escena",
+    changes: [
+      "Cliente y Conceptual muestran un bloque compacto con el problema, recorrido y decisión que debe quedar clara.",
+      "El bloque reutiliza tagline, caption y businessImpact validados; no crea una segunda fuente de contenido.",
+      "La auditoría de experiencia para cliente y especialista queda documentada como Fase 3.",
+    ],
+  },
+  {
+    version: "0.54.0",
+    date: "06 ago 2026",
+    title: "Auditoría tecnológica automatizada",
+    changes: [
+      "El contrato visual valida nombres, posiciones, capacidades, emisiones y aristas duplicadas antes de publicar una escena.",
+      "Los escenarios de fallo solo pueden referenciar nodos existentes; killable queda reservado para la interacción manual del canvas.",
+      "Se corrigió una emisión declarada en Workloads sin salida en la escena two-domains; un nodo terminal ya no se presenta como emisor.",
+    ],
+  },
+  {
+    version: "0.53.0",
+    date: "06 ago 2026",
+    title: "Guía de lectura para principiantes",
+    changes: [
+      "Cliente y Conceptual incluyen una guía compacta para interpretar tarjetas, flechas, animación y escenarios de fallo.",
+      "La interfaz aclara que el movimiento es conceptual, no telemetría en vivo, y que los fallos no ejecutan acciones sobre infraestructura real.",
+      "La auditoría de comprensión de la Fase 1 queda documentada para repetirla y ampliarla en los siguientes ciclos.",
+    ],
+  },
   {
     version: "0.52.0",
     date: "06 ago 2026",

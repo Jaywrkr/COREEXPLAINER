@@ -5,6 +5,7 @@ import type {
   TechnicalIntegrityAssurance,
   TechnicalIntegrityDomain,
   TechnicalIntegrityProfile,
+  GuidedScenarioStepKind,
 } from "@/content/types";
 
 const MIN_STEPS = 4;
@@ -51,6 +52,12 @@ function isNonEmptyText(value: unknown): value is string {
 
 function hasDocumentationPath(value: unknown): value is string {
   return isNonEmptyText(value) && value.startsWith("docs/") && value.endsWith(".md");
+}
+
+function parseIsoDate(value: string): number | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const timestamp = Date.parse(`${value}T00:00:00Z`);
+  return Number.isNaN(timestamp) ? null : timestamp;
 }
 
 function validateTechnicalIntegrityProfile(
@@ -151,8 +158,11 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   if (!meta.technicalReview || typeof meta.technicalReview !== "object") {
     add("meta.technicalReview must declare review date, scope, and sources");
   } else {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(meta.technicalReview.lastReviewedAt)) {
+    const reviewTimestamp = parseIsoDate(meta.technicalReview.lastReviewedAt);
+    if (reviewTimestamp === null) {
       add("meta.technicalReview.lastReviewedAt must use ISO date format YYYY-MM-DD");
+    } else if (reviewTimestamp > Date.now() + 86_400_000) {
+      add("meta.technicalReview.lastReviewedAt cannot be in the future");
     }
     if (!isNonEmptyText(meta.technicalReview.scope)) {
       add("meta.technicalReview.scope must be a non-empty string");
@@ -172,8 +182,14 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         }
         if (sourceUrls.has(source.url)) add(`${sourceLabel}.url '${source.url}' is duplicated`);
         sourceUrls.add(source.url);
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(source.accessedAt)) {
+        const accessedTimestamp = parseIsoDate(source.accessedAt);
+        if (accessedTimestamp === null) {
           add(`${sourceLabel}.accessedAt must use ISO date format YYYY-MM-DD`);
+        } else {
+          if (accessedTimestamp > Date.now() + 86_400_000) add(`${sourceLabel}.accessedAt cannot be in the future`);
+          if (reviewTimestamp !== null && accessedTimestamp > reviewTimestamp) {
+            add(`${sourceLabel}.accessedAt cannot be later than meta.technicalReview.lastReviewedAt`);
+          }
         }
         if (!isNonEmptyText(source.publisher)) add(`${sourceLabel}.publisher must identify the publisher or manufacturer`);
         if (!isNonEmptyText(source.product)) add(`${sourceLabel}.product must identify the covered product or standard`);
@@ -181,6 +197,8 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         if (!isNonEmptyText(source.reference)) add(`${sourceLabel}.reference must identify the stable source reference`);
         if (source.validity !== "current" && source.validity !== "review-needed") {
           add(`${sourceLabel}.validity must be 'current' or 'review-needed'`);
+        } else if (source.validity === "review-needed") {
+          warnings.push(`${sourceLabel} is marked review-needed`);
         }
       }
     }
@@ -252,6 +270,10 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   }
 
   const scenarioIds = new Set<string>();
+  const requiredScenarioKinds = new Set<GuidedScenarioStepKind>(["observe", "diagnose", "recover", "validate"]);
+  if (!Array.isArray(meta.failureScenarios) || meta.failureScenarios.length === 0) {
+    add("meta.failureScenarios must contain at least one guided failure scenario");
+  }
   for (const [index, scenario] of (meta.failureScenarios ?? []).entries()) {
     const label = `meta.failureScenarios[${index}]`;
     if (!isNonEmptyText(scenario.id)) add(`${label}.id must be a non-empty string`);
@@ -335,6 +357,12 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
               add(`${stepLabel}.decision must contain exactly one recommended option`);
             }
           }
+        }
+      }
+      const guidedKinds = new Set<GuidedScenarioStepKind>(scenario.guidedSteps.map((guidedStep) => guidedStep.kind));
+      for (const requiredKind of requiredScenarioKinds) {
+        if (!guidedKinds.has(requiredKind)) {
+          add(`${label}.guidedSteps must include a '${requiredKind}' phase`);
         }
       }
     }

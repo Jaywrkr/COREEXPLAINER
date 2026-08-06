@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.58.0] - 2026-08-06
+
+- Las fechas de revisión y consulta deben ser fechas ISO reales y no pueden estar en el futuro.
+- Una fuente no puede haber sido consultada después de la fecha declarada de revisión del tema.
+- Las fuentes marcadas `review-needed` quedan registradas como advertencias para la siguiente revisión.
+
+## [0.57.0] - 2026-08-06
+
+- Cada tema debe declarar al menos un escenario de fallo para poder publicarse.
+- Los escenarios authored deben cubrir observar, diagnosticar, recuperar y validar; el resto usa el fallback común de cuatro fases.
+- La Fase 5 documenta la cobertura de escenarios y mantiene explícito que la simulación no ejecuta cambios reales.
+
+## [0.56.0] - 2026-08-06
+
+- El canvas puede recibir foco y admite `+`, `-`, `0` para zoom y restablecimiento sin depender del ratón.
+- Se respeta `prefers-reduced-motion`: la simulación pausa sus paquetes y se informa al usuario sin desactivar la interacción.
+- Se añadieron etiquetas semánticas y una auditoría de accesibilidad como Fase 4.
+
+## [0.55.0] - 2026-08-06
+
+- Cliente y Conceptual muestran un bloque compacto con el problema, recorrido y decisión que debe quedar clara.
+- El bloque reutiliza `tagline`, `caption` y `businessImpact` validados; no crea una segunda fuente de contenido.
+- La auditoría de experiencia para cliente y especialista queda documentada como Fase 3.
+
+## [0.54.0] - 2026-08-06
+
+- El contrato visual valida nombres, posiciones, capacidades, emisiones y aristas duplicadas antes de publicar una escena.
+- Los escenarios de fallo solo pueden referenciar nodos existentes; `killable` queda reservado para la interacción manual del canvas.
+- Se corrigió una emisión declarada en `Workloads` sin salida en la escena `two-domains`; un nodo terminal ya no se presenta como emisor.
+
+## [0.53.0] - 2026-08-06
+
+- Cliente y Conceptual incluyen una guía compacta para interpretar tarjetas, flechas, animación y escenarios de fallo.
+- La interfaz aclara que el movimiento es conceptual, no telemetría en vivo, y que los fallos no ejecutan acciones sobre infraestructura real.
+- La auditoría de comprensión de la Fase 1 queda documentada para repetirla y ampliarla en los siguientes ciclos.
+
 ## [0.52.0] - 2026-08-06
 
 - Cliente y Conceptual muestran una lectura visual sencilla al seleccionar un componente del diagrama.

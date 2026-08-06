@@ -41,11 +41,30 @@ export function parseAnimationSpec(raw: unknown): AnimationSpec {
 
     const nodeIds = new Set<string>();
     for (const node of scene.nodes) {
+      if (typeof node.id !== "string" || !node.id.trim()) {
+        throw new AnimationSpecError(`scene '${sceneId}': every node must have a non-empty id`);
+      }
+      if (typeof node.name !== "string" || !node.name.trim()) {
+        throw new AnimationSpecError(`scene '${sceneId}': node '${node.id}' must have a non-empty name`);
+      }
       if (nodeIds.has(node.id)) {
         throw new AnimationSpecError(`scene '${sceneId}': duplicate node id '${node.id}'`);
       }
       nodeIds.add(node.id);
+      if (!Number.isFinite(node.x) || node.x < 0 || node.x > 1 || !Number.isFinite(node.y) || node.y < 0 || node.y > 1) {
+        throw new AnimationSpecError(`scene '${sceneId}': node '${node.id}' must use x/y positions between 0 and 1`);
+      }
+      if (node.capacity !== undefined && (!Number.isFinite(node.capacity) || node.capacity <= 0)) {
+        throw new AnimationSpecError(`scene '${sceneId}': node '${node.id}' capacity must be greater than zero`);
+      }
+      if (node.rps !== undefined && (!Number.isFinite(node.rps) || node.rps < 0)) {
+        throw new AnimationSpecError(`scene '${sceneId}': node '${node.id}' rps cannot be negative`);
+      }
+      if (node.rps !== undefined && !scene.edges.some((edge) => edge.from === node.id)) {
+        throw new AnimationSpecError(`scene '${sceneId}': emitting node '${node.id}' must have at least one outgoing edge`);
+      }
     }
+    const edgeKeys = new Set<string>();
     for (const edge of scene.edges) {
       if (!nodeIds.has(edge.from)) {
         throw new AnimationSpecError(
@@ -60,6 +79,14 @@ export function parseAnimationSpec(raw: unknown): AnimationSpec {
           `scene '${sceneId}': edge '${edge.from}' -> '${edge.to}' has unsupported kind '${String(edge.kind)}'`,
         );
       }
+      if (edge.from === edge.to) {
+        throw new AnimationSpecError(`scene '${sceneId}': edge '${edge.from}' -> '${edge.to}' cannot point to itself`);
+      }
+      const edgeKey = `${edge.from}|${edge.to}|${edge.kind}`;
+      if (edgeKeys.has(edgeKey)) {
+        throw new AnimationSpecError(`scene '${sceneId}': duplicate edge '${edge.from}' -> '${edge.to}' (${edge.kind})`);
+      }
+      edgeKeys.add(edgeKey);
     }
   }
 
