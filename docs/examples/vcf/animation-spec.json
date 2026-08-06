@@ -34,7 +34,7 @@
         { "id": "host3", "name": "Host ESXi 3", "x": 0.14, "y": 0.8, "kind": "compute", "killable": true },
         { "id": "vsan", "name": "vSAN", "subtitle": "Datastore distribuido", "x": 0.46, "y": 0.28, "kind": "storage" },
         { "id": "nsx", "name": "NSX", "subtitle": "Networking y seguridad", "x": 0.46, "y": 0.72, "kind": "network" },
-        { "id": "vcenter", "name": "vCenter", "subtitle": "Gestión de vSphere", "x": 0.78, "y": 0.5, "kind": "control-plane" }
+        { "id": "vcenter", "name": "vCenter", "subtitle": "Gestión de vSphere", "x": 0.78, "y": 0.5, "kind": "control-plane", "killable": true }
       ],
       "edges": [
         { "from": "vcenter", "to": "host1", "kind": "control" },

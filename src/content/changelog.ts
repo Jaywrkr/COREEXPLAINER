@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.53.0";
+export const currentVersion = "0.54.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.54.0",
+    date: "06 ago 2026",
+    title: "Auditoría tecnológica automatizada",
+    changes: [
+      "El contrato visual valida nombres, posiciones, capacidades, emisiones y aristas duplicadas antes de publicar una escena.",
+      "Los escenarios de fallo solo pueden referenciar nodos existentes; killable queda reservado para la interacción manual del canvas.",
+      "Se corrigió una emisión declarada en Workloads sin salida en la escena two-domains; un nodo terminal ya no se presenta como emisor.",
+    ],
+  },
   {
     version: "0.53.0",
     date: "06 ago 2026",

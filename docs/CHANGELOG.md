@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.54.0] - 2026-08-06
+
+- El contrato visual valida nombres, posiciones, capacidades, emisiones y aristas duplicadas antes de publicar una escena.
+- Los escenarios de fallo solo pueden referenciar nodos existentes; `killable` queda reservado para la interacción manual del canvas.
+- Se corrigió una emisión declarada en `Workloads` sin salida en la escena `two-domains`; un nodo terminal ya no se presenta como emisor.
+
 ## [0.53.0] - 2026-08-06
 
 - Cliente y Conceptual incluyen una guía compacta para interpretar tarjetas, flechas, animación y escenarios de fallo.

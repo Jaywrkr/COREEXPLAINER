@@ -8,7 +8,7 @@
       { "id": "site-b", "name": "Rack / sitio B", "subtitle": "Hosts y storage", "x": 0.8, "y": 0.5, "kind": "compute", "capacity": 85 },
       { "id": "inter-site", "name": "Interconexión", "subtitle": "Estado y datos", "x": 0.5, "y": 0.25, "kind": "network", "capacity": 80 },
       { "id": "quorum", "name": "Quorum / decisión", "subtitle": "Integridad", "x": 0.5, "y": 0.75, "kind": "control-plane", "capacity": 75 },
-      { "id": "workloads", "name": "Workloads", "subtitle": "VMs y servicios", "x": 0.5, "y": 0.5, "kind": "workload", "capacity": 90, "rps": 4 }
+      { "id": "workloads", "name": "Workloads", "subtitle": "VMs y servicios", "x": 0.5, "y": 0.5, "kind": "workload", "capacity": 90 }
     ], "edges": [
       { "from": "site-a", "to": "inter-site", "kind": "data" }, { "from": "site-b", "to": "inter-site", "kind": "data" }, { "from": "inter-site", "to": "quorum", "kind": "control" }, { "from": "site-a", "to": "workloads", "kind": "dependency" }, { "from": "site-b", "to": "workloads", "kind": "dependency" }
     ] },
