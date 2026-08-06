@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Actualización v0.58.0 (06-08-2026):** las fechas de revisión y consulta de fuentes se validan como fechas reales, no futuras y coherentes entre sí. Las fuentes `review-needed` generan advertencias para la siguiente revisión. Cada tema mantiene escenario guiado, accesibilidad y auditorías documentadas.
+**Actualización v0.59.0 (06-08-2026):** el shell de explicación tiene panel izquierdo redimensionable (320–560 px), Cliente reduce la información visible inicial y los escenarios de fallo aparecen minimizados en un panel superior derecho con scroll propio. Se mantienen las validaciones temporales, accesibilidad y auditorías documentadas.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
 

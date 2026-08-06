@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.59.0] - 2026-08-06
+
+- El panel izquierdo se puede redimensionar entre 320 y 560 px mediante una manija accesible.
+- Cliente muestra solo el recorrido esencial; el detalle adicional permanece bajo demanda.
+- Los escenarios de fallo empiezan minimizados, se ubican en la esquina superior derecha y tienen scroll propio para no tapar la gráfica.
+
 ## [0.58.0] - 2026-08-06
 
 - Las fechas de revisión y consulta deben ser fechas ISO reales y no pueden estar en el futuro.
