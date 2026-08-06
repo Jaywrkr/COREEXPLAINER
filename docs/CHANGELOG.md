@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.60.0] - 2026-08-06
+
+- Siglas y términos frecuentes muestran una explicación sencilla al pasar el cursor o recibir foco.
+- El glosario se aplica al texto principal, escenarios, fichas de nodo y diagnósticos sin duplicar párrafos.
+- Las definiciones viven en un catálogo común para mantener el lenguaje consistente entre temas.
+
 ## [0.59.0] - 2026-08-06
 
 - El panel izquierdo se puede redimensionar entre 320 y 560 px mediante una manija accesible.

@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Actualización v0.59.0 (06-08-2026):** el shell de explicación tiene panel izquierdo redimensionable (320–560 px), Cliente reduce la información visible inicial y los escenarios de fallo aparecen minimizados en un panel superior derecho con scroll propio. Se mantienen las validaciones temporales, accesibilidad y auditorías documentadas.
+**Actualización v0.60.0 (06-08-2026):** el texto técnico usa el glosario contextual de `src/components/explainer/GlossaryText.tsx`: siglas y términos frecuentes muestran una definición simple al hover o foco en contenido, escenarios, fichas y diagnósticos. Se mantienen el panel redimensionable, Cliente bajo demanda, validaciones temporales y auditorías.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
 

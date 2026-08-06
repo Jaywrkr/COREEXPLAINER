@@ -1,5 +1,6 @@
 import type { Scene } from "@/lib/animation-spec/types";
 import type { ExplainerStep, TechnicalReview } from "@/content/types";
+import { GlossaryText } from "./GlossaryText";
 
 interface TechnicalSceneSummaryProps {
   scene: Scene;
@@ -23,11 +24,11 @@ export function TechnicalSceneSummary({ scene, step, review }: TechnicalSceneSum
         </div>
         <div>
           <dt className="inline font-semibold text-core-text">Componentes:</dt>{" "}
-          <dd className="inline">{scene.nodes.map((node) => node.name).join(" · ")}</dd>
+          <dd className="inline"><GlossaryText text={scene.nodes.map((node) => node.name).join(" · ")} /></dd>
         </div>
         <div>
           <dt className="inline font-semibold text-core-text">Relaciones:</dt>{" "}
-          <dd className="inline">{scene.edges.length} ({relationKinds})</dd>
+          <dd className="inline">{scene.edges.length} (<GlossaryText text={relationKinds} />)</dd>
         </div>
         <div>
           <dt className="inline font-semibold text-core-text">Evidencia:</dt>{" "}
