@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Actualización v0.54.0 (06-08-2026):** el contrato compartido del animation spec valida nombres, posiciones, capacidades, emisiones y aristas duplicadas. Los escenarios solo pueden referenciar nodos existentes; `killable` queda reservado a la interacción manual. Se corrigió una emisión terminal incoherente en active-active-dc. La guía para principiantes y la trazabilidad de v0.53.0 se mantienen.
+**Actualización v0.55.0 (06-08-2026):** Cliente y Conceptual muestran por escena un bloque compacto de resultado esperado derivado de `tagline`, `caption` y `businessImpact`. El contrato compartido sigue validando la topología y los escenarios; `killable` queda reservado a la interacción manual. Las auditorías de comprensión y de integridad quedan documentadas en `docs/audits/`.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
 

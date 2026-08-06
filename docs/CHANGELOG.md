@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.55.0] - 2026-08-06
+
+- Cliente y Conceptual muestran un bloque compacto con el problema, recorrido y decisión que debe quedar clara.
+- El bloque reutiliza `tagline`, `caption` y `businessImpact` validados; no crea una segunda fuente de contenido.
+- La auditoría de experiencia para cliente y especialista queda documentada como Fase 3.
+
 ## [0.54.0] - 2026-08-06
 
 - El contrato visual valida nombres, posiciones, capacidades, emisiones y aristas duplicadas antes de publicar una escena.

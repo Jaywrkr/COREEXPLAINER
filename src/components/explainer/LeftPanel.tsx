@@ -12,6 +12,7 @@ import { SceneShareControl } from "./SceneShareControl";
 import { BrandContextPanel } from "./BrandContextPanel";
 import { ExplainerFeedback } from "./ExplainerFeedback";
 import { BeginnerGuide } from "./BeginnerGuide";
+import { AudienceOutcomePanel } from "./AudienceOutcomePanel";
 
 interface LeftPanelProps {
   slug: string;
@@ -76,6 +77,7 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary">{meta.tagline}</p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
+      <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} />
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
         <ExplainerFeedback slug={slug} />
         <SceneShareControl
