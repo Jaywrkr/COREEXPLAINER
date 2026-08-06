@@ -53,6 +53,7 @@ export function LeftPanel({
 }: LeftPanelProps) {
   const step = steps[current]!;
   const isTechnical = audienceMode === "technical";
+  const isConceptual = audienceMode === "conceptual";
   const leadParagraph = step.paragraphs[0] ?? "";
 
   return (
@@ -103,6 +104,24 @@ export function LeftPanel({
             ))}
             <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
               <span className="font-semibold text-core-accent">Impacto:</span> {step.businessImpact}
+            </p>
+          </div>
+        ) : isConceptual ? (
+          <div className="space-y-2.5">
+            <div className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2.5">
+              <p className="mb-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+                Cómo funciona
+              </p>
+              <div className="space-y-2">
+                {step.paragraphs.map((paragraph, index) => (
+                  <p key={index} className="text-[0.78rem] leading-relaxed text-core-text-secondary">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
+              <span className="font-semibold text-core-accent">Por qué importa:</span> {step.businessImpact}
             </p>
           </div>
         ) : (

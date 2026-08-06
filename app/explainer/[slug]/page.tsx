@@ -38,7 +38,10 @@ export default async function ExplainerTopicPage({ params, searchParams }: PageP
   const initialScenarioId = scenarioFromLink && (!initialSceneId || scenarioFromLink.sceneId === initialSceneId)
     ? scenarioFromLink.id
     : null;
-  const initialAudienceMode = firstParam(query.mode) === "technical" ? "technical" : "client";
+  const requestedMode = firstParam(query.mode);
+  const initialAudienceMode = requestedMode === "technical" || requestedMode === "conceptual"
+    ? requestedMode
+    : "client";
 
   return (
     <ExplainerLayout

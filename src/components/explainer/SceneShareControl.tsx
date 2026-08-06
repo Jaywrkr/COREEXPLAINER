@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import type { AudienceMode } from "./AudienceModeToggle";
 
 interface SceneShareControlProps {
   sceneId: string;
   scenarioId: string | null;
-  audienceMode: "client" | "technical";
+  audienceMode: AudienceMode;
 }
 
 /** Copies an addressable scene/scenario URL without requiring a backend. */
