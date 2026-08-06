@@ -377,7 +377,9 @@ export function VisualCanvas({
         aria-label="Diagrama interactivo: arrastra para mover y usa la rueda para acercar o alejar."
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
-      {selectedNode ? <NodeDetailCard node={selectedNode} onClose={() => onNodeSelect(null)} /> : null}
+      {selectedNode ? (
+        <NodeDetailCard node={selectedNode} audienceMode={audienceMode} onClose={() => onNodeSelect(null)} />
+      ) : null}
       {showTechnicalTools && integrityReport ? (
         <TechnicalIntegrityPanel
           report={integrityReport}
