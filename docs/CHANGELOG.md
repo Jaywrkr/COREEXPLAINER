@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.56.0] - 2026-08-06
+
+- El canvas puede recibir foco y admite `+`, `-`, `0` para zoom y restablecimiento sin depender del ratón.
+- Se respeta `prefers-reduced-motion`: la simulación pausa sus paquetes y se informa al usuario sin desactivar la interacción.
+- Se añadieron etiquetas semánticas y una auditoría de accesibilidad como Fase 4.
+
 ## [0.55.0] - 2026-08-06
 
 - Cliente y Conceptual muestran un bloque compacto con el problema, recorrido y decisión que debe quedar clara.

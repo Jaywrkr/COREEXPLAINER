@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.55.0";
+export const currentVersion = "0.56.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.56.0",
+    date: "06 ago 2026",
+    title: "Interacción accesible y movimiento respetuoso",
+    changes: [
+      "El canvas puede recibir foco y admite +, -, 0 para zoom y restablecimiento sin depender del ratón.",
+      "Se respeta prefers-reduced-motion: la simulación pausa sus paquetes y se informa al usuario sin desactivar la interacción.",
+      "Se añadieron etiquetas semánticas y una auditoría de accesibilidad como Fase 4.",
+    ],
+  },
   {
     version: "0.55.0",
     date: "06 ago 2026",
