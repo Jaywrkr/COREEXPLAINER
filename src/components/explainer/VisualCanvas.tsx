@@ -102,7 +102,8 @@ export function VisualCanvas({
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
   const [clientToolsOpen, setClientToolsOpen] = useState(false);
   const { theme } = useTheme();
-  const isClientMode = audienceMode === "client";
+  const isTechnicalMode = audienceMode === "technical";
+  const isGuidedMode = !isTechnicalMode;
   const edgeKinds = useMemo(
     () => Array.from(new Set(scene.edges.map((edge) => edge.kind))),
     [scene],
@@ -123,7 +124,7 @@ export function VisualCanvas({
   const hasIntegrityAlert = Boolean(
     integrityReport && (integrityReport.status !== "valid" || integrityReport.inactiveNodeIds.length > 0),
   );
-  const showTechnicalTools = !isClientMode || clientToolsOpen;
+  const showTechnicalTools = isTechnicalMode || clientToolsOpen;
   const guidedFocusIds = useMemo(
     () => guidedFocusNodeIds ?? guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? [],
     [activeGuidedStepIndex, guidedFocusNodeIds, guidedSteps],
@@ -196,8 +197,8 @@ export function VisualCanvas({
   }, [audienceMode, sceneId]);
 
   useEffect(() => {
-    if (isClientMode && (activeFailureScenarioId || hasIntegrityAlert)) setClientToolsOpen(true);
-  }, [activeFailureScenarioId, hasIntegrityAlert, isClientMode]);
+    if (isGuidedMode && (activeFailureScenarioId || hasIntegrityAlert)) setClientToolsOpen(true);
+  }, [activeFailureScenarioId, hasIntegrityAlert, isGuidedMode]);
 
   useEffect(() => {
     const hiddenNodeKinds = new Set(ALL_NODE_KINDS.filter((kind) => !activeNodeKinds.has(kind)));
@@ -410,7 +411,7 @@ export function VisualCanvas({
           />
         </>
       ) : null}
-      {isClientMode ? (
+      {isGuidedMode ? (
         <button
           type="button"
           onClick={() => setClientToolsOpen((value) => !value)}
@@ -453,7 +454,7 @@ export function VisualCanvas({
           Restablecer
         </button>
       </div>
-      <p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isClientMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
+      <p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isGuidedMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
         Arrastra para mover · rueda para zoom
       </p>
     </div>

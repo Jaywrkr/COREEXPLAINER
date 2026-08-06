@@ -2,31 +2,27 @@
 
 ## Modos de audiencia
 
-Cada explicación ofrece dos niveles sin duplicar la arquitectura visual:
+Cada explicación ofrece tres niveles sin duplicar la arquitectura visual:
 
-- **Cliente**: prioriza decisiones, impacto y lenguaje de conversación.
-- **Técnico**: añade la ficha de la escena activa con sus componentes,
-  relaciones, tipos de arista y cantidad de fuentes citadas.
+- **Cliente**: prioriza decisiones, impacto y lenguaje de conversación. Muestra
+  una idea clave y deja el detalle adicional bajo demanda.
+- **Conceptual**: explica cómo se relacionan las piezas principales con todos
+  los párrafos de la escena, pero sin convertir la pantalla en una auditoría.
+- **Técnico**: añade la ficha de la escena activa con componentes, relaciones,
+  tipos de arista, fuentes, evidencia y límites.
 
-El modo técnico no convierte el ejemplo en un diseño de producción. El alcance,
-las limitaciones y la revisión de fuentes siguen siendo los límites de lo que
-se puede afirmar.
+Los niveles cambian la profundidad de la explicación, no la veracidad del
+contenido. Los tres usan el mismo modelo, las mismas fuentes y las mismas
+limitaciones; Técnico no convierte el ejemplo en un diseño de producción.
 
-El selector actualiza `mode=client` o `mode=technical` en la URL para que el
-nivel elegido viaje con el enlace compartido.
+El selector actualiza `mode=client`, `mode=conceptual` o `mode=technical` en la
+URL para que el nivel elegido viaje con el enlace compartido.
 
-En Cliente, la columna izquierda muestra primero una sola idea clave y el valor
-para el cliente. Los párrafos adicionales se mantienen disponibles en
-`Ver detalle técnico` para no abrumar una conversación comercial o ejecutiva.
-La trazabilidad sigue accesible como evidencia opcional y se abre dentro del
-flujo de la columna, con desplazamiento propio cuando la lista de fuentes es
-larga.
-
-En Cliente, el canvas prioriza el movimiento, el zoom y la reproducción. Las
-capas, la leyenda, los escenarios de fallo y la integridad técnica se agrupan
-en `Más herramientas`; si un enlace abre un escenario o aparece una alerta de
-integridad, ese grupo se revela automáticamente para conservar el contexto.
-En Técnico, estas herramientas permanecen visibles como hasta ahora.
+En Cliente y Conceptual, el canvas prioriza movimiento, zoom y reproducción.
+Las capas, la leyenda, los escenarios de fallo y la integridad técnica se
+agrupan en `Más herramientas`; si un enlace abre un escenario o aparece una
+alerta de integridad, ese grupo se revela automáticamente. En Técnico, estas
+herramientas permanecen visibles.
 
 ## Enlaces directos
 
@@ -35,11 +31,13 @@ Una explicación puede abrir una escena concreta con estos parámetros:
 ```text
 /explainer/observability?scene=collection&mode=technical
 /explainer/observability?scene=incident&scenario=collector-outage&mode=client
+/explainer/observability?scene=signals&mode=conceptual
 ```
 
 - `scene` usa el `sceneId` declarado por el paso.
 - `scenario` usa el ID de un escenario de fallo de esa misma escena.
-- `mode` acepta `client` o `technical`; cualquier otro valor vuelve a Cliente.
+- `mode` acepta `client`, `conceptual` o `technical`; cualquier otro valor
+  vuelve a Cliente.
 
 La interfaz actualiza el enlace al cambiar de paso, escenario o modo y ofrece
 “Compartir esta escena” para copiarlo. Los parámetros inválidos se ignoran y
@@ -50,5 +48,5 @@ la explicación vuelve a su primer paso sin romper la navegación.
 - El enlace debe abrir una explicación funcional aunque el escenario ya no
   exista; no se debe mostrar una página de error por una URL antigua.
 - El escenario se restablece al cambiar manualmente de escena.
-- El modo técnico expone evidencia y estructura, pero no inventa métricas,
-  latencias, SLA ni compatibilidades que el contenido no declare.
+- Ningún nivel inventa métricas, latencias, SLA ni compatibilidades que el
+  contenido o sus fuentes no declaren.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.51.0] - 2026-08-06
+
+- Cada tema ofrece Cliente, Conceptual y Técnico para ajustar la profundidad a la persona que lo está viendo.
+- Conceptual explica las relaciones principales sin mostrar toda la auditoría técnica; Técnico conserva evidencia, fuentes y límites.
+- Los enlaces directos aceptan `mode=client`, `mode=conceptual` o `mode=technical` sin duplicar contenido ni alterar el modelo visual.
+
 ## [0.50.0] - 2026-08-05
 
 - La marca visible se presenta como CORESOLUTIONS en la portada, dashboard, explicaciones, metadatos y fuentes.

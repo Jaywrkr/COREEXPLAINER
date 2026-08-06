@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
+
 **Actualización v0.50.0 (05-08-2026):** la marca visible se normalizó a `CORESOLUTIONS` en interfaz, metadatos, contenidos y documentación. Se mantienen en minúsculas los identificadores técnicos, rutas, URLs y nombres de paquete para no romper referencias.
 
 **Actualización v0.49.0 (05-08-2026):** cada explicación ofrece `Favorito` y `Revisado`. El estado se conserva localmente por `slug` en el navegador; no hay autenticación, backend ni sincronización entre dispositivos. El contrato está documentado en `docs/ai-context/feedback-and-progress.md`.
