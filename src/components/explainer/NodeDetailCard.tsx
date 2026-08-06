@@ -1,5 +1,6 @@
 import type { NodeKind, SceneNode } from "@/lib/animation-spec/types";
 import type { AudienceMode } from "./AudienceModeToggle";
+import { GlossaryText } from "./GlossaryText";
 
 interface NodeDetailCardProps {
   node: SceneNode;
@@ -45,7 +46,7 @@ export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardPr
           <p className="font-mono text-[0.63rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
             {KIND_LABELS[node.kind]}
           </p>
-          <h2 className="mt-1 text-base font-bold leading-tight text-core-text">{node.name}</h2>
+          <h2 className="mt-1 text-base font-bold leading-tight text-core-text"><GlossaryText text={node.name} /></h2>
         </div>
         <button
           type="button"
@@ -62,7 +63,7 @@ export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardPr
           <p className="mb-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-text-muted">
             Qué representa
           </p>
-          <p className="text-xs leading-relaxed text-core-text-secondary">{KIND_DESCRIPTIONS[node.kind]}</p>
+          <p className="text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={KIND_DESCRIPTIONS[node.kind]} /></p>
         </div>
 
         {node.subtitle ? (
@@ -70,7 +71,7 @@ export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardPr
             <p className="mb-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-text-muted">
               En esta escena
             </p>
-            <p className="text-xs leading-relaxed text-core-text-secondary">{node.subtitle}</p>
+            <p className="text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={node.subtitle} /></p>
           </div>
         ) : null}
 
@@ -100,7 +101,7 @@ export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardPr
             <p className="mb-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">
               Lectura visual
             </p>
-            <p className="text-xs leading-relaxed text-core-text-secondary">{visualReading}</p>
+            <p className="text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={visualReading} /></p>
             {node.killable ? (
               <p className="mt-2 text-xs leading-relaxed text-core-text-secondary">
                 Puedes explorar qué cambia si este componente deja de estar disponible.

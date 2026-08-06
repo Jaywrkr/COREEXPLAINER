@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { TechnicalIntegrityDiagnostic, TechnicalIntegrityReport, TechnicalSource } from "@/content/types";
+import { GlossaryText } from "./GlossaryText";
 
 interface TechnicalIntegrityPanelProps {
   report: TechnicalIntegrityReport;
@@ -70,11 +71,11 @@ export function TechnicalIntegrityPanel({
             Integridad técnica
           </span>
           <span className="mt-0.5 block text-[0.64rem] text-core-text-muted">
-            {DOMAIN_LABELS[report.domain]} · {ASSURANCE_LABELS[report.assurance]} · {report.checkedRules} comprobaciones
+            <GlossaryText text={`${DOMAIN_LABELS[report.domain]} · ${ASSURANCE_LABELS[report.assurance]} · ${report.checkedRules} comprobaciones`} />
           </span>
           {report.inactiveNodeIds.length ? (
             <span className="mt-1 block text-[0.6rem] text-core-warning">
-              Simulación activa: {report.inactiveNodeIds.join(", ")}
+              <GlossaryText text={`Simulación activa: ${report.inactiveNodeIds.join(", ")}`} />
             </span>
           ) : null}
         </button>
@@ -87,7 +88,7 @@ export function TechnicalIntegrityPanel({
         <div className="mt-3 border-t border-core-border/[0.1] pt-3">
           {report.diagnostics.length === 0 ? (
             <p className="text-[0.68rem] leading-relaxed text-core-text-secondary">
-              Las relaciones y caminos declarados cumplen el contrato técnico de esta escena.
+              <GlossaryText text="Las relaciones y caminos declarados cumplen el contrato técnico de esta escena." />
             </p>
           ) : (
             <div className="space-y-1.5" role="group" aria-label="Diagnósticos técnicos">
@@ -110,10 +111,10 @@ export function TechnicalIntegrityPanel({
                     >
                       <span className="block text-[0.68rem] font-semibold">{diagnostic.title}</span>
                       <span className="mt-0.5 block text-[0.64rem] leading-relaxed text-core-text-muted">
-                        {diagnostic.detail}
+                        <GlossaryText text={diagnostic.detail} />
                       </span>
                       <span className="mt-1 block text-[0.62rem] leading-relaxed text-core-text-secondary">
-                        <span className="font-semibold text-core-accent">Siguiente paso:</span> {diagnostic.recommendation}
+                        <span className="font-semibold text-core-accent">Siguiente paso:</span> <GlossaryText text={diagnostic.recommendation} />
                       </span>
                     </button>
                     {sources.length ? (

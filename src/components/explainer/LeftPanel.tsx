@@ -13,6 +13,7 @@ import { BrandContextPanel } from "./BrandContextPanel";
 import { ExplainerFeedback } from "./ExplainerFeedback";
 import { BeginnerGuide } from "./BeginnerGuide";
 import { AudienceOutcomePanel } from "./AudienceOutcomePanel";
+import { GlossaryText } from "./GlossaryText";
 
 interface LeftPanelProps {
   slug: string;
@@ -73,8 +74,8 @@ export function LeftPanel({
       <span className="mb-2 block font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
         {step.tag}
       </span>
-      <h1 className="mb-1.5 text-xl font-bold leading-tight text-core-text sm:text-[1.45rem]">{meta.title}</h1>
-      <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary">{meta.tagline}</p>
+      <h1 className="mb-1.5 text-xl font-bold leading-tight text-core-text sm:text-[1.45rem]"><GlossaryText text={meta.title} /></h1>
+      <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
@@ -98,16 +99,16 @@ export function LeftPanel({
           <span>Escena {String(current + 1).padStart(2, "0")}</span>
           <span className="text-core-text-muted">{steps.length} pasos</span>
         </div>
-        <h2 className="mb-2.5 text-base font-bold leading-snug text-core-text">{step.title}</h2>
+        <h2 className="mb-2.5 text-base font-bold leading-snug text-core-text"><GlossaryText text={step.title} /></h2>
         {isTechnical ? (
           <div className="space-y-2.5">
             {step.paragraphs.map((paragraph, index) => (
               <p key={index} className="text-[0.8rem] leading-relaxed text-core-text-secondary">
-                {paragraph}
+                <GlossaryText text={paragraph} />
               </p>
             ))}
             <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
-              <span className="font-semibold text-core-accent">Impacto:</span> {step.businessImpact}
+              <span className="font-semibold text-core-accent">Impacto:</span> <GlossaryText text={step.businessImpact} />
             </p>
           </div>
         ) : isConceptual ? (
@@ -119,13 +120,13 @@ export function LeftPanel({
               <div className="space-y-2">
                 {step.paragraphs.map((paragraph, index) => (
                   <p key={index} className="text-[0.78rem] leading-relaxed text-core-text-secondary">
-                    {paragraph}
+                    <GlossaryText text={paragraph} />
                   </p>
                 ))}
               </div>
             </div>
             <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
-              <span className="font-semibold text-core-accent">Por qué importa:</span> {step.businessImpact}
+              <span className="font-semibold text-core-accent">Por qué importa:</span> <GlossaryText text={step.businessImpact} />
             </p>
           </div>
         ) : (
@@ -134,10 +135,10 @@ export function LeftPanel({
               <p className="mb-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
                 Idea clave
               </p>
-              <p className="text-[0.82rem] leading-relaxed text-core-text-secondary">{leadParagraph}</p>
+              <p className="text-[0.82rem] leading-relaxed text-core-text-secondary"><GlossaryText text={leadParagraph} /></p>
             </div>
             <p className="text-[0.78rem] leading-relaxed text-core-text-secondary">
-              <span className="font-semibold text-core-text">Valor para el cliente:</span> {step.businessImpact}
+              <span className="font-semibold text-core-text">Valor para el cliente:</span> <GlossaryText text={step.businessImpact} />
             </p>
             {step.paragraphs.length > 1 ? (
               <details className="border-t border-core-border/[0.1] pt-2">
@@ -147,7 +148,7 @@ export function LeftPanel({
                 <div className="mt-2 space-y-2">
                   {step.paragraphs.slice(1).map((paragraph, index) => (
                     <p key={index} className="text-[0.76rem] leading-relaxed text-core-text-muted">
-                      {paragraph}
+                      <GlossaryText text={paragraph} />
                     </p>
                   ))}
                 </div>

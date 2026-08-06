@@ -6,6 +6,7 @@ import type {
   TechnicalSource,
 } from "@/content/types";
 import { useDraggablePanel } from "./useDraggablePanel";
+import { GlossaryText } from "./GlossaryText";
 
 interface FailureScenarioPanelProps {
   scenarios: FailureScenario[];
@@ -103,7 +104,7 @@ export function FailureScenarioPanel({
           ) : null}
           </div>
           {minimized && activeScenario ? (
-            <p className="mt-1 truncate text-[0.66rem] text-core-text-secondary">{activeScenario.label}</p>
+            <p className="mt-1 truncate text-[0.66rem] text-core-text-secondary"><GlossaryText text={activeScenario.label} /></p>
           ) : null}
         </div>
         <div className="flex shrink-0 items-center gap-2">
@@ -146,9 +147,9 @@ export function FailureScenarioPanel({
                       : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40 hover:bg-core-accent/[0.06] hover:text-core-text"
                   }`}
                 >
-                  <span className="block text-xs font-semibold">{scenario.label}</span>
+                  <span className="block text-xs font-semibold"><GlossaryText text={scenario.label} /></span>
                   <span className="mt-0.5 block text-[0.68rem] leading-relaxed text-core-text-muted">
-                    {scenario.summary}
+                    <GlossaryText text={scenario.summary} />
                   </span>
                 </button>
               );
@@ -190,16 +191,16 @@ export function FailureScenarioPanel({
               {activeStep ? (
                 <div aria-live="polite" className="space-y-2">
                   <div>
-                    <p className="text-sm font-semibold text-core-text">{activeStep.title}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-core-text-secondary">{activeStep.instruction}</p>
+                    <p className="text-sm font-semibold text-core-text"><GlossaryText text={activeStep.title} /></p>
+                    <p className="mt-1 text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={activeStep.instruction} /></p>
                   </div>
                   <div className="border-l-2 border-core-accent/70 pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
-                    <p><span className="font-semibold text-core-text">Evidencia:</span> {activeStep.evidence}</p>
-                    <p className="mt-1"><span className="font-semibold text-core-text">Resultado esperado:</span> {activeStep.expected}</p>
+                    <p><span className="font-semibold text-core-text">Evidencia:</span> <GlossaryText text={activeStep.evidence} /></p>
+                    <p className="mt-1"><span className="font-semibold text-core-text">Resultado esperado:</span> <GlossaryText text={activeStep.expected} /></p>
                   </div>
                 </div>
               ) : (
-                <p className="text-xs leading-relaxed text-core-text-secondary">{activeScenario.detail}</p>
+                <p className="text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={activeScenario.detail} /></p>
               )}
 
               {activeStep?.decision ? (
@@ -223,7 +224,7 @@ export function FailureScenarioPanel({
                               : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40 hover:bg-core-accent/[0.06] hover:text-core-text"
                           }`}
                         >
-                          {option.label}
+                          <GlossaryText text={option.label} />
                         </button>
                       );
                     })}
@@ -231,7 +232,7 @@ export function FailureScenarioPanel({
                   {selectedDecisionOption ? (
                     <div className={`border px-2.5 py-2 text-[0.68rem] leading-relaxed ${decisionTone[selectedDecisionOption.outcome]}`}>
                       <p className="font-semibold">{decisionToneLabel[selectedDecisionOption.outcome]}</p>
-                      <p className="mt-1">{selectedDecisionOption.feedback}</p>
+                      <p className="mt-1"><GlossaryText text={selectedDecisionOption.feedback} /></p>
                     </div>
                   ) : (
                     <p className="text-[0.66rem] leading-relaxed text-core-text-muted">
@@ -264,10 +265,10 @@ export function FailureScenarioPanel({
 
               <div className="space-y-2 border-t border-core-border/[0.12] pt-2">
                 <p className="text-[0.68rem] leading-relaxed text-core-text-muted">
-                  <span className="font-semibold text-core-text">Afecta:</span> {activeScenario.affectedNodes.join(", ")}
+                  <span className="font-semibold text-core-text">Afecta:</span> <GlossaryText text={activeScenario.affectedNodes.join(", ")} />
                 </p>
                 <p className="border-l-2 border-core-warning pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
-                  {activeScenario.limitation}
+                  <GlossaryText text={activeScenario.limitation} />
                 </p>
               </div>
 
