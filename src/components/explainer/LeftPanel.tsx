@@ -59,7 +59,7 @@ export function LeftPanel({
   const leadParagraph = step.paragraphs[0] ?? "";
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-6">
+    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-5">
       <BrandMark />
 
       <Link
@@ -77,7 +77,7 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary">{meta.tagline}</p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
-      <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} />
+      {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
         <ExplainerFeedback slug={slug} />
         <SceneShareControl

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import type { AnimationSpec, SceneNode } from "@/lib/animation-spec/types";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { LeftPanel } from "./LeftPanel";
@@ -9,6 +9,9 @@ import type { AudienceMode } from "./AudienceModeToggle";
 import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
 
 const AUTOPLAY_STEP_MS = 6500;
+const MIN_LEFT_PANEL_WIDTH = 320;
+const MAX_LEFT_PANEL_WIDTH = 560;
+const DEFAULT_LEFT_PANEL_WIDTH = 400;
 
 interface ExplainerLayoutProps {
   slug: string;
@@ -44,8 +47,31 @@ export function ExplainerLayout({
   const [audienceMode, setAudienceMode] = useState<AudienceMode>(initialAudienceMode);
   const [presentationActive, setPresentationActive] = useState(false);
   const [presentationPlaying, setPresentationPlaying] = useState(false);
+  const [leftPanelWidth, setLeftPanelWidth] = useState(DEFAULT_LEFT_PANEL_WIDTH);
+  const [isResizingPanel, setIsResizingPanel] = useState(false);
   const initializedFromLink = useRef(false);
   const previousScenarioRef = useRef<string | null>(initialScenarioId);
+  const resizePointerRef = useRef<number | null>(null);
+
+  const beginPanelResize = useCallback((event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (event.button !== 0) return;
+    resizePointerRef.current = event.pointerId;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsResizingPanel(true);
+    event.preventDefault();
+  }, []);
+
+  const handlePanelResize = useCallback((event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (resizePointerRef.current !== event.pointerId) return;
+    setLeftPanelWidth(Math.min(MAX_LEFT_PANEL_WIDTH, Math.max(MIN_LEFT_PANEL_WIDTH, event.clientX)));
+  }, []);
+
+  const endPanelResize = useCallback((event: ReactPointerEvent<HTMLButtonElement>) => {
+    if (resizePointerRef.current !== event.pointerId) return;
+    resizePointerRef.current = null;
+    setIsResizingPanel(false);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  }, []);
   const step = steps[current]!;
   const scene = spec.scenes[step.sceneId];
 
@@ -197,28 +223,50 @@ export function ExplainerLayout({
 
   return (
     <div
-      className="grid h-screen grid-cols-1 md:grid-cols-[440px_1fr]"
+      className={`grid h-screen grid-cols-1 md:grid-cols-[var(--left-panel-width)_minmax(0,1fr)] ${isResizingPanel ? "select-none" : ""}`}
+      style={{ "--left-panel-width": `${leftPanelWidth}px` } as CSSProperties}
       data-presentation-mode={presentationActive ? "active" : "inactive"}
     >
-      <LeftPanel
-        slug={slug}
-        meta={meta}
-        steps={steps}
-        scene={scene}
-        current={current}
-        onSelectStep={selectStep}
-        onPrev={goPrev}
-        onNext={goNext}
-        presentationActive={presentationActive}
-        presentationPlaying={presentationPlaying}
-        onEnterPresentation={enterPresentation}
-        onExitPresentation={exitPresentation}
-        onTogglePresentation={togglePresentation}
-        onResetPresentation={resetPresentation}
-        audienceMode={audienceMode}
-        onAudienceModeChange={setAudienceMode}
-        activeFailureScenarioId={activeFailureScenarioId}
-      />
+      <div className="relative min-w-0">
+        <LeftPanel
+          slug={slug}
+          meta={meta}
+          steps={steps}
+          scene={scene}
+          current={current}
+          onSelectStep={selectStep}
+          onPrev={goPrev}
+          onNext={goNext}
+          presentationActive={presentationActive}
+          presentationPlaying={presentationPlaying}
+          onEnterPresentation={enterPresentation}
+          onExitPresentation={exitPresentation}
+          onTogglePresentation={togglePresentation}
+          onResetPresentation={resetPresentation}
+          audienceMode={audienceMode}
+          onAudienceModeChange={setAudienceMode}
+          activeFailureScenarioId={activeFailureScenarioId}
+        />
+        <button
+          type="button"
+          role="separator"
+          aria-label="Ajustar ancho del panel de explicación"
+          aria-orientation="vertical"
+          aria-valuemin={MIN_LEFT_PANEL_WIDTH}
+          aria-valuemax={MAX_LEFT_PANEL_WIDTH}
+          aria-valuenow={leftPanelWidth}
+          title="Arrastra para ajustar el ancho"
+          className="absolute right-0 top-0 z-30 hidden h-full w-1 cursor-col-resize border-0 bg-transparent transition-colors hover:bg-core-accent/60 focus-visible:bg-core-accent/60 md:block"
+          onPointerDown={beginPanelResize}
+          onPointerMove={handlePanelResize}
+          onPointerUp={endPanelResize}
+          onPointerCancel={endPanelResize}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft") setLeftPanelWidth((width) => Math.max(MIN_LEFT_PANEL_WIDTH, width - 16));
+            if (event.key === "ArrowRight") setLeftPanelWidth((width) => Math.min(MAX_LEFT_PANEL_WIDTH, width + 16));
+          }}
+        />
+      </div>
       <div className="relative hidden min-h-[320px] md:block">
         <VisualCanvas
           scene={scene}

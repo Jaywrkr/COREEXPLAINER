@@ -54,7 +54,7 @@ export function FailureScenarioPanel({
   selectedDecisionOptionId,
   onDecisionOptionChange,
 }: FailureScenarioPanelProps) {
-  const [minimized, setMinimized] = useState(false);
+  const [minimized, setMinimized] = useState(true);
   const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
   const safeStepIndex = Math.min(Math.max(activeGuidedStepIndex, 0), Math.max(guidedSteps.length - 1, 0));
@@ -77,7 +77,7 @@ export function FailureScenarioPanel({
       ref={panelRef}
       aria-label="Escenarios interactivos de fallo"
       style={panelStyle}
-      className={`absolute bottom-14 left-4 z-10 w-[min(26rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
+      className={`absolute right-4 top-4 z-10 max-h-[calc(100%-2rem)] w-[min(22rem,calc(100%-2rem))] overflow-y-auto border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
         minimized ? "p-2.5" : "p-4"
       } ${isDragging ? "select-none" : ""}`}
     >
@@ -102,6 +102,9 @@ export function FailureScenarioPanel({
             </p>
           ) : null}
           </div>
+          {minimized && activeScenario ? (
+            <p className="mt-1 truncate text-[0.66rem] text-core-text-secondary">{activeScenario.label}</p>
+          ) : null}
         </div>
         <div className="flex shrink-0 items-center gap-2">
           {activeScenario ? (
