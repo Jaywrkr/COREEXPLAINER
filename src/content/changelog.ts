@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.56.0";
+export const currentVersion = "0.57.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.57.0",
+    date: "06 ago 2026",
+    title: "Escenarios con ciclo completo de diagnóstico",
+    changes: [
+      "Cada tema debe declarar al menos un escenario de fallo para poder publicarse.",
+      "Los escenarios authored deben cubrir observar, diagnosticar, recuperar y validar; el resto usa el fallback común de cuatro fases.",
+      "La Fase 5 documenta la cobertura de escenarios y mantiene explícito que la simulación no ejecuta cambios reales.",
+    ],
+  },
   {
     version: "0.56.0",
     date: "06 ago 2026",

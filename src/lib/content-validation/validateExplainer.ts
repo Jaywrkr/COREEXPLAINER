@@ -5,6 +5,7 @@ import type {
   TechnicalIntegrityAssurance,
   TechnicalIntegrityDomain,
   TechnicalIntegrityProfile,
+  GuidedScenarioStepKind,
 } from "@/content/types";
 
 const MIN_STEPS = 4;
@@ -252,6 +253,10 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   }
 
   const scenarioIds = new Set<string>();
+  const requiredScenarioKinds = new Set<GuidedScenarioStepKind>(["observe", "diagnose", "recover", "validate"]);
+  if (!Array.isArray(meta.failureScenarios) || meta.failureScenarios.length === 0) {
+    add("meta.failureScenarios must contain at least one guided failure scenario");
+  }
   for (const [index, scenario] of (meta.failureScenarios ?? []).entries()) {
     const label = `meta.failureScenarios[${index}]`;
     if (!isNonEmptyText(scenario.id)) add(`${label}.id must be a non-empty string`);
@@ -335,6 +340,12 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
               add(`${stepLabel}.decision must contain exactly one recommended option`);
             }
           }
+        }
+      }
+      const guidedKinds = new Set<GuidedScenarioStepKind>(scenario.guidedSteps.map((guidedStep) => guidedStep.kind));
+      for (const requiredKind of requiredScenarioKinds) {
+        if (!guidedKinds.has(requiredKind)) {
+          add(`${label}.guidedSteps must include a '${requiredKind}' phase`);
         }
       }
     }

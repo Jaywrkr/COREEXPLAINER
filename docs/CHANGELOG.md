@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.57.0] - 2026-08-06
+
+- Cada tema debe declarar al menos un escenario de fallo para poder publicarse.
+- Los escenarios authored deben cubrir observar, diagnosticar, recuperar y validar; el resto usa el fallback común de cuatro fases.
+- La Fase 5 documenta la cobertura de escenarios y mantiene explícito que la simulación no ejecuta cambios reales.
+
 ## [0.56.0] - 2026-08-06
 
 - El canvas puede recibir foco y admite `+`, `-`, `0` para zoom y restablecimiento sin depender del ratón.

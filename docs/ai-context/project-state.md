@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Actualización v0.56.0 (06-08-2026):** el canvas es enfocable, ofrece atajos de teclado para zoom/restablecimiento y respeta `prefers-reduced-motion` pausando la emisión de paquetes sin perder interacción. Cliente y Conceptual mantienen el resultado esperado por escena; las auditorías quedan documentadas en `docs/audits/`.
+**Actualización v0.57.0 (06-08-2026):** cada tema debe declarar un escenario de fallo. Los escenarios authored deben cubrir observar, diagnosticar, recuperar y validar; cuando no hay pasos authored, el motor aplica el fallback común de cuatro fases. El canvas mantiene accesibilidad, movimiento respetuoso y auditorías documentadas.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
 
