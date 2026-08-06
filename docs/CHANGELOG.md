@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.53.0] - 2026-08-06
+
+- Cliente y Conceptual incluyen una guía compacta para interpretar tarjetas, flechas, animación y escenarios de fallo.
+- La interfaz aclara que el movimiento es conceptual, no telemetría en vivo, y que los fallos no ejecutan acciones sobre infraestructura real.
+- La auditoría de comprensión de la Fase 1 queda documentada para repetirla y ampliarla en los siguientes ciclos.
+
 ## [0.52.0] - 2026-08-06
 
 - Cliente y Conceptual muestran una lectura visual sencilla al seleccionar un componente del diagrama.
