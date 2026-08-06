@@ -1,7 +1,9 @@
 import type { NodeKind, SceneNode } from "@/lib/animation-spec/types";
+import type { AudienceMode } from "./AudienceModeToggle";
 
 interface NodeDetailCardProps {
   node: SceneNode;
+  audienceMode: AudienceMode;
   onClose: () => void;
 }
 
@@ -23,7 +25,15 @@ const KIND_DESCRIPTIONS: Record<NodeKind, string> = {
   external: "Representa un usuario, sistema o servicio que está fuera de la plataforma.",
 };
 
-export function NodeDetailCard({ node, onClose }: NodeDetailCardProps) {
+/** Shows the selected node at the depth chosen for the current audience. */
+export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardProps) {
+  const isTechnical = audienceMode === "technical";
+  const visualReading = node.rps
+    ? "Este componente genera actividad que avanza hacia otros componentes."
+    : node.capacity
+      ? "Este componente recibe actividad y muestra cómo se acumula su uso."
+      : "Este componente participa en el recorrido que explica esta escena.";
+
   return (
     <section
       role="dialog"
@@ -64,26 +74,40 @@ export function NodeDetailCard({ node, onClose }: NodeDetailCardProps) {
           </div>
         ) : null}
 
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-core-border/[0.1] pt-3 text-xs">
-          {node.capacity ? (
-            <div>
-              <dt className="font-mono text-[0.6rem] uppercase text-core-text-muted">Capacidad</dt>
-              <dd className="mt-0.5 font-semibold text-core-text">{node.capacity} unidades</dd>
-            </div>
-          ) : null}
-          {node.rps ? (
-            <div>
-              <dt className="font-mono text-[0.6rem] uppercase text-core-text-muted">Emisión</dt>
-              <dd className="mt-0.5 font-semibold text-core-text">{node.rps} paquetes/s</dd>
-            </div>
-          ) : null}
-          {node.killable ? (
-            <div className="col-span-2">
-              <dt className="font-mono text-[0.6rem] uppercase text-core-text-muted">Interacción</dt>
-              <dd className="mt-0.5 font-semibold text-core-text">Admite simulación de falla</dd>
-            </div>
-          ) : null}
-        </dl>
+        {isTechnical ? (
+          <dl className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-core-border/[0.1] pt-3 text-xs">
+            {node.capacity ? (
+              <div>
+                <dt className="font-mono text-[0.6rem] uppercase text-core-text-muted">Capacidad</dt>
+                <dd className="mt-0.5 font-semibold text-core-text">{node.capacity} unidades</dd>
+              </div>
+            ) : null}
+            {node.rps ? (
+              <div>
+                <dt className="font-mono text-[0.6rem] uppercase text-core-text-muted">Emisión</dt>
+                <dd className="mt-0.5 font-semibold text-core-text">{node.rps} paquetes/s</dd>
+              </div>
+            ) : null}
+            {node.killable ? (
+              <div className="col-span-2">
+                <dt className="font-mono text-[0.6rem] uppercase text-core-text-muted">Interacción</dt>
+                <dd className="mt-0.5 font-semibold text-core-text">Admite simulación de falla</dd>
+              </div>
+            ) : null}
+          </dl>
+        ) : (
+          <div className="border-t border-core-border/[0.1] pt-3">
+            <p className="mb-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">
+              Lectura visual
+            </p>
+            <p className="text-xs leading-relaxed text-core-text-secondary">{visualReading}</p>
+            {node.killable ? (
+              <p className="mt-2 text-xs leading-relaxed text-core-text-secondary">
+                Puedes explorar qué cambia si este componente deja de estar disponible.
+              </p>
+            ) : null}
+          </div>
+        )}
       </div>
     </section>
   );

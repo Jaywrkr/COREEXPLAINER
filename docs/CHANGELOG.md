@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.52.0] - 2026-08-06
+
+- Cliente y Conceptual muestran una lectura visual sencilla al seleccionar un componente del diagrama.
+- Técnico conserva capacidad, emisión y simulación de falla para revisar el comportamiento del modelo.
+- La misma ficha explica qué representa el nodo y qué papel cumple en la escena sin añadir campos libres al spec.
+
 ## [0.51.0] - 2026-08-06
 
 - Cada tema ofrece Cliente, Conceptual y Técnico para ajustar la profundidad a la persona que lo está viendo.
