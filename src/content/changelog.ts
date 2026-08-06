@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.57.0";
+export const currentVersion = "0.58.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.58.0",
+    date: "06 ago 2026",
+    title: "Vigencia temporal de fuentes",
+    changes: [
+      "Las fechas de revisión y consulta deben ser fechas ISO reales y no pueden estar en el futuro.",
+      "Una fuente no puede haber sido consultada después de la fecha declarada de revisión del tema.",
+      "Las fuentes marcadas review-needed quedan registradas como advertencias para la siguiente revisión.",
+    ],
+  },
   {
     version: "0.57.0",
     date: "06 ago 2026",

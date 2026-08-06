@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.58.0] - 2026-08-06
+
+- Las fechas de revisión y consulta deben ser fechas ISO reales y no pueden estar en el futuro.
+- Una fuente no puede haber sido consultada después de la fecha declarada de revisión del tema.
+- Las fuentes marcadas `review-needed` quedan registradas como advertencias para la siguiente revisión.
+
 ## [0.57.0] - 2026-08-06
 
 - Cada tema debe declarar al menos un escenario de fallo para poder publicarse.
