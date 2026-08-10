@@ -236,8 +236,12 @@ function validateSemanticCoherence(
     const scene = spec.scenes[step.sceneId];
     if (!scene) continue;
     const narrative = [step.title, step.caption, ...step.paragraphs, step.businessImpact].join(" ").toLowerCase();
-    const namedNodes = scene.nodes.filter((node) => node.name.length >= 4 && narrative.includes(node.name.toLowerCase()));
-    if (namedNodes.length === 0) warn(`step '${step.id}' does not mention any visible node by name; check text-diagram alignment`);
+    const referencedNodes = scene.nodes.filter((node) => {
+      const nodeName = node.name.length >= 4 && narrative.includes(node.name.toLowerCase());
+      const nodeId = node.id.length >= 4 && narrative.includes(node.id.toLowerCase().replaceAll("-", " "));
+      return nodeName || nodeId;
+    });
+    if (referencedNodes.length === 0) warn(`step '${step.id}' does not mention any visible node by name or ID; check text-diagram alignment`);
   }
 
   for (const scenario of meta.failureScenarios ?? []) {
@@ -247,9 +251,9 @@ function validateSemanticCoherence(
       const node = scene.nodes.find((candidate) => candidate.id === nodeId);
       if (node && node.killable !== true) warn(`scenario '${scenario.id}' disables node '${nodeId}' but that node is not marked killable`);
     }
-    const affectedNames = scenario.affectedNodes.join(" ").toLowerCase();
-    const knownAffected = scene.nodes.some((node) => affectedNames.includes(node.name.toLowerCase()));
-    if (!knownAffected) warn(`scenario '${scenario.id}' affectedNodes do not name a visible node from scene '${scenario.sceneId}'`);
+    const affectedReferences = new Set(scenario.affectedNodes.map((value) => value.toLowerCase()));
+    const knownAffected = scene.nodes.some((node) => affectedReferences.has(node.id.toLowerCase()) || affectedReferences.has(node.name.toLowerCase()));
+    if (!knownAffected) warn(`scenario '${scenario.id}' affectedNodes do not reference a visible node ID or name from scene '${scenario.sceneId}'`);
   }
 }
 

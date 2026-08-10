@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.100.0] - 2026-08-10
+
+- El content gate semántico reconoce nodos por su ID técnico o por su nombre visible.
+- Se eliminan advertencias falsas de escenarios que usan correctamente `affectedNodes` como IDs.
+- Las advertencias que permanecen quedan enfocadas en revisión editorial y coherencia real.
+
 ## [0.99.0] - 2026-08-09
 
 - El endpoint de IA reserva un presupuesto de tokens por IP y ventana antes de llamar al proveedor.
