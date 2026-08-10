@@ -7,6 +7,7 @@ import type {
 } from "@/content/types";
 import type { Scene } from "@/lib/animation-spec/types";
 import { evaluateWhatIfImpact } from "@/lib/semantic-model/evaluateWhatIf";
+import { evaluateTechnicalRules, type TechnicalFindingSeverity } from "@/lib/semantic-model/evaluateTechnicalRules";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
 
@@ -71,6 +72,7 @@ export function FailureScenarioPanel({
     .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
     .filter((source): source is TechnicalSource => Boolean(source));
   const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds) : null;
+  const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact) : [];
 
   useEffect(() => {
     if (!activeStep?.decision && selectedDecisionOptionId) onDecisionOptionChange(null);
@@ -287,6 +289,31 @@ export function FailureScenarioPanel({
                     <p className="border-l-2 border-core-success pl-2 text-core-success">El resto del grafo conserva un camino desde una entrada.</p>
                   )}
                 </div>
+              ) : null}
+
+              {technicalFindings.length ? (
+                <details className="border-t border-core-border/[0.12] pt-2">
+                  <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                    Reglas y evidencia · {technicalFindings.length} hallazgos
+                  </summary>
+                  <div className="mt-2 space-y-1.5">
+                    {technicalFindings.map((finding) => {
+                      const severityClass: Record<TechnicalFindingSeverity, string> = {
+                        critical: "border-core-error/60 text-core-error",
+                        warning: "border-core-warning/60 text-core-warning",
+                        info: "border-core-accent/50 text-core-accent",
+                      };
+                      return (
+                        <article key={finding.id} className={`border-l-2 pl-2 text-[0.64rem] leading-relaxed ${severityClass[finding.severity]}`}>
+                          <p className="font-semibold">{finding.title}</p>
+                          <p className="text-core-text-secondary">{finding.detail}</p>
+                          <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Evidencia:</span> {finding.evidence}</p>
+                          <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Recomendación:</span> {finding.recommendation}</p>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </details>
               ) : null}
 
               <div className="space-y-2 border-t border-core-border/[0.12] pt-2">
