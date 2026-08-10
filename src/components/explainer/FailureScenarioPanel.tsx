@@ -5,10 +5,13 @@ import type {
   GuidedScenarioDecisionOutcome,
   TechnicalSource,
 } from "@/content/types";
+import type { Scene } from "@/lib/animation-spec/types";
+import { evaluateWhatIfImpact } from "@/lib/semantic-model/evaluateWhatIf";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
 
 interface FailureScenarioPanelProps {
+  scene: Scene;
   scenarios: FailureScenario[];
   activeScenarioId: string | null;
   onSelectScenario: (scenarioId: string | null) => void;
@@ -45,6 +48,7 @@ const decisionToneLabel: Record<GuidedScenarioDecisionOutcome, string> = {
  * diagnosis, recovery and validation without implying a production runbook.
  */
 export function FailureScenarioPanel({
+  scene,
   scenarios,
   activeScenarioId,
   onSelectScenario,
@@ -66,6 +70,7 @@ export function FailureScenarioPanel({
   const activeSources = (activeStep?.sourceIds ?? [])
     .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
     .filter((source): source is TechnicalSource => Boolean(source));
+  const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds) : null;
 
   useEffect(() => {
     if (!activeStep?.decision && selectedDecisionOptionId) onDecisionOptionChange(null);
@@ -260,6 +265,27 @@ export function FailureScenarioPanel({
                       </a>
                     ))}
                   </div>
+                </div>
+              ) : null}
+
+              {whatIfImpact ? (
+                <div className="space-y-1.5 border-t border-core-border/[0.12] pt-2 text-[0.66rem] leading-relaxed text-core-text-muted">
+                  <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">
+                    Impacto calculado
+                  </p>
+                  <p>
+                    <span className="font-semibold text-core-text">Relaciones interrumpidas:</span> {whatIfImpact.brokenRelationshipCount}
+                  </p>
+                  <p>
+                    <span className="font-semibold text-core-text">Componentes alcanzables:</span> {whatIfImpact.reachableNodeIds.length} de {scene.nodes.length}
+                  </p>
+                  {whatIfImpact.affectedNodeIds.length ? (
+                    <p className="border-l-2 border-core-warning pl-2 text-core-warning">
+                      Sin camino desde una entrada: {whatIfImpact.affectedNodeIds.map((id) => scene.nodes.find((node) => node.id === id)?.name ?? id).join(", ")}
+                    </p>
+                  ) : (
+                    <p className="border-l-2 border-core-success pl-2 text-core-success">El resto del grafo conserva un camino desde una entrada.</p>
+                  )}
                 </div>
               ) : null}
 

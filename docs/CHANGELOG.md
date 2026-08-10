@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.62.0] - 2026-08-09
+
+- Al activar un escenario se calculan relaciones interrumpidas y componentes que siguen siendo alcanzables.
+- El panel identifica nodos disponibles que quedan sin camino desde una entrada del grafo.
+- El análisis usa la topología real de la escena y deja claro que es una hipótesis conceptual, no una medición de producción.
+
 ## [0.61.0] - 2026-08-09
 
 - El modo Técnico puede desplegar una lectura semántica de entradas, salidas, roles y relaciones de cada escena.

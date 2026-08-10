@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Actualización v0.61.0 (09-08-2026):** el modo Técnico incorpora un modelo semántico derivado del animation spec (`src/lib/semantic-model/`) que identifica roles, entradas, salidas y relaciones. Se muestra bajo demanda en la ficha técnica y prepara las reglas de consistencia y análisis what-if. El glosario, panel redimensionable y validaciones se mantienen.
+**Actualización v0.62.0 (09-08-2026):** los escenarios activos calculan impacto what-if sobre el modelo semántico: relaciones interrumpidas, componentes alcanzables y nodos sin camino desde una entrada. Se muestra dentro del escenario expandido y se mantiene como hipótesis conceptual, no telemetría real.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
 

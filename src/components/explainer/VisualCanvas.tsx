@@ -436,6 +436,7 @@ export function VisualCanvas({
             onReset={resetVisibility}
           />
           <FailureScenarioPanel
+            scene={scene}
             scenarios={failureScenarios}
             activeScenarioId={activeFailureScenarioId}
             onSelectScenario={onFailureScenarioChange}
