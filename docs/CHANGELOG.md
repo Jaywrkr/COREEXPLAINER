@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.63.0] - 2026-08-09
+
+- Los escenarios what-if producen hallazgos críticos, advertencias e información según el impacto calculado.
+- Cada hallazgo explica qué ocurre, qué evidencia revisar y qué decisión queda pendiente.
+- La simulación mantiene límites explícitos: no hace sizing, no mide producción ni ejecuta recuperación.
+
 ## [0.62.0] - 2026-08-09
 
 - Al activar un escenario se calculan relaciones interrumpidas y componentes que siguen siendo alcanzables.
