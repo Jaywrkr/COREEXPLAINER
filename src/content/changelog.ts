@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.114.0";
+export const currentVersion = "0.115.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.115.0",
+    date: "10 ago 2026",
+    title: "Regresiones automatizadas del guard de IA",
+    changes: [
+      "Se añade `npm run test:ai-guards` para comprobar costes sin tarifas, fallback de Redis y contrato seguro de `/api/health`.",
+      "La suite no llama a OpenAI ni a Redis y puede ejecutarse en cada PR.",
+      "La restauración de variables de entorno evita contaminar el proceso de desarrollo.",
+    ],
+  },
   {
     version: "0.114.0",
     date: "10 ago 2026",

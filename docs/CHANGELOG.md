@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.115.0] - 2026-08-10
+
+- Nuevo comando `npm run test:ai-guards` para probar el cálculo de costes, el fallback de cuotas y `/api/health`.
+- Las pruebas son offline: no consumen proveedor de IA ni Redis.
+
 ## [0.114.0] - 2026-08-10
 
 - `/api/health` muestra versión, estado de IA, modo de cuota e identidad firmada sin revelar valores sensibles.
