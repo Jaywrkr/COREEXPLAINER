@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.65.0";
+export const currentVersion = "0.66.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.66.0",
+    date: "09 ago 2026",
+    title: "Checklist de verificacion guiada",
+    changes: [
+      "Cada escenario con pasos guiados incluye una lista compacta para marcar evidencia revisada.",
+      "El estado permite pendiente, revisado y no aplica, y se conserva localmente por explicacion y escenario.",
+      "No se envian datos ni se presenta el checklist como ticket o certificacion del entorno.",
+    ],
+  },
   {
     version: "0.65.0",
     date: "09 ago 2026",

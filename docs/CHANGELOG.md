@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.66.0] - 2026-08-09
+
+- Cada escenario con pasos guiados incluye una lista compacta para marcar evidencia revisada.
+- El estado permite pendiente, revisado y no aplica, y se conserva localmente por explicacion y escenario.
+- No se envian datos ni se presenta el checklist como ticket o certificacion del entorno.
+
 ## [0.65.0] - 2026-08-09
 
 - Los hallazgos derivados del contrato tecnico conservan sus fuentes y componentes relacionados.

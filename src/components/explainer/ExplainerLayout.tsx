@@ -271,6 +271,7 @@ export function ExplainerLayout({
         <VisualCanvas
           scene={scene}
           sceneId={step.sceneId}
+          explainerSlug={slug}
           audienceMode={audienceMode}
           selectedNode={selectedNode}
           onNodeSelect={setSelectedNode}
