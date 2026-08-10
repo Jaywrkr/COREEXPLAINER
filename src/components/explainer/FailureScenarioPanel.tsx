@@ -14,6 +14,7 @@ import { GlossaryText } from "./GlossaryText";
 
 interface FailureScenarioPanelProps {
   scene: Scene;
+  explainerSlug: string;
   integrityReport: TechnicalIntegrityReport | null;
   scenarios: FailureScenario[];
   activeScenarioId: string | null;
@@ -52,6 +53,7 @@ const decisionToneLabel: Record<GuidedScenarioDecisionOutcome, string> = {
  */
 export function FailureScenarioPanel({
   scene,
+  explainerSlug,
   integrityReport,
   scenarios,
   activeScenarioId,
@@ -64,8 +66,11 @@ export function FailureScenarioPanel({
   onDecisionOptionChange,
 }: FailureScenarioPanelProps) {
   const [minimized, setMinimized] = useState(true);
+  const [checklist, setChecklist] = useState<Record<string, "done" | "na">>({});
+  const [checklistReady, setChecklistReady] = useState(false);
   const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
+  const checklistKey = activeScenario ? `core-explainer:verification:${explainerSlug}:${activeScenario.id}` : null;
   const safeStepIndex = Math.min(Math.max(activeGuidedStepIndex, 0), Math.max(guidedSteps.length - 1, 0));
   const activeStep = guidedSteps[safeStepIndex] ?? null;
   const selectedDecisionOption = activeStep?.decision?.options.find(
@@ -76,6 +81,44 @@ export function FailureScenarioPanel({
     .filter((source): source is TechnicalSource => Boolean(source));
   const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds) : null;
   const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact, integrityReport) : [];
+
+  useEffect(() => {
+    setChecklistReady(false);
+    if (!checklistKey) {
+      setChecklist({});
+      setChecklistReady(true);
+      return;
+    }
+    try {
+      const saved = window.localStorage.getItem(checklistKey);
+      const parsed = saved ? JSON.parse(saved) : {};
+      setChecklist(parsed && typeof parsed === "object" ? parsed : {});
+    } catch {
+      setChecklist({});
+    } finally {
+      setChecklistReady(true);
+    }
+  }, [checklistKey]);
+
+  useEffect(() => {
+    if (!checklistReady || !checklistKey) return;
+    try {
+      window.localStorage.setItem(checklistKey, JSON.stringify(checklist));
+    } catch {
+      // The checklist remains usable for the current session if storage is unavailable.
+    }
+  }, [checklist, checklistKey, checklistReady]);
+
+  const toggleChecklistItem = (stepId: string) => {
+    setChecklist((current) => {
+      const status = current[stepId];
+      if (!status) return { ...current, [stepId]: "done" };
+      if (status === "done") return { ...current, [stepId]: "na" };
+      const next = { ...current };
+      delete next[stepId];
+      return next;
+    });
+  };
 
   useEffect(() => {
     if (!activeStep?.decision && selectedDecisionOptionId) onDecisionOptionChange(null);
@@ -271,6 +314,39 @@ export function FailureScenarioPanel({
                     ))}
                   </div>
                 </div>
+              ) : null}
+
+              {guidedSteps.length ? (
+                <details className="border-t border-core-border/[0.12] pt-2">
+                  <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                    Checklist de verificación · {Object.keys(checklist).length}/{guidedSteps.length}
+                  </summary>
+                  <div className="mt-2 space-y-1">
+                    {guidedSteps.map((step) => {
+                      const status = checklist[step.id];
+                      const label = status === "done" ? "Revisado" : status === "na" ? "No aplica" : "Pendiente";
+                      return (
+                        <button
+                          key={step.id}
+                          type="button"
+                          onClick={() => toggleChecklistItem(step.id)}
+                          className={`flex w-full items-center justify-between gap-2 border px-2 py-1.5 text-left text-[0.64rem] transition-colors ${
+                            status === "done"
+                              ? "border-core-success/40 bg-core-success/10 text-core-text"
+                              : status === "na"
+                                ? "border-core-border/30 bg-core-panel text-core-text-muted"
+                                : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40"
+                          }`}
+                          aria-label={`${step.title}: ${label}. Pulsar para cambiar estado.`}
+                        >
+                          <span className="min-w-0 truncate"><GlossaryText text={step.title} /></span>
+                          <span className="shrink-0 font-mono text-[0.56rem] uppercase tracking-[0.05em]">{label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-1 text-[0.58rem] text-core-text-muted">Solo se guarda en este navegador. Pulsa cada fila para cambiar: pendiente → revisado → no aplica.</p>
+                </details>
               ) : null}
 
               {whatIfImpact ? (

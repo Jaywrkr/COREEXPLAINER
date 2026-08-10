@@ -21,6 +21,7 @@ import type { AudienceMode } from "./AudienceModeToggle";
 interface VisualCanvasProps {
   scene: Scene;
   sceneId: string;
+  explainerSlug: string;
   audienceMode: AudienceMode;
   selectedNode: SceneNode | null;
   onNodeSelect: (node: SceneNode | null) => void;
@@ -75,6 +76,7 @@ function clamp(value: number, min: number, max: number) {
 export function VisualCanvas({
   scene,
   sceneId,
+  explainerSlug,
   audienceMode,
   selectedNode,
   onNodeSelect,
@@ -437,6 +439,7 @@ export function VisualCanvas({
           />
           <FailureScenarioPanel
             scene={scene}
+            explainerSlug={explainerSlug}
             integrityReport={integrityReport}
             scenarios={failureScenarios}
             activeScenarioId={activeFailureScenarioId}
