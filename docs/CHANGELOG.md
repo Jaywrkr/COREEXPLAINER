@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.61.0] - 2026-08-09
+
+- El modo Técnico puede desplegar una lectura semántica de entradas, salidas, roles y relaciones de cada escena.
+- La semántica se deriva del mismo animation spec que dibuja el canvas para evitar una segunda fuente de verdad.
+- Los componentes quedan preparados para reglas de consistencia y análisis what-if en la siguiente fase.
+
 ## [0.60.0] - 2026-08-06
 
 - Siglas y términos frecuentes muestran una explicación sencilla al pasar el cursor o recibir foco.

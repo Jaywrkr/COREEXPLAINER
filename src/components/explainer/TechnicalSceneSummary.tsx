@@ -1,6 +1,7 @@
 import type { Scene } from "@/lib/animation-spec/types";
 import type { ExplainerStep, TechnicalReview } from "@/content/types";
 import { GlossaryText } from "./GlossaryText";
+import { SemanticModelSummary } from "./SemanticModelSummary";
 
 interface TechnicalSceneSummaryProps {
   scene: Scene;
@@ -35,6 +36,7 @@ export function TechnicalSceneSummary({ scene, step, review }: TechnicalSceneSum
           <dd className="inline">{citedSources.length} fuente(s) citada(s) para este paso</dd>
         </div>
       </dl>
+      <SemanticModelSummary scene={scene} />
     </section>
   );
 }

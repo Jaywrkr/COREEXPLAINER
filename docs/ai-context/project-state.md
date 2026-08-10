@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-**Actualización v0.60.0 (06-08-2026):** el texto técnico usa el glosario contextual de `src/components/explainer/GlossaryText.tsx`: siglas y términos frecuentes muestran una definición simple al hover o foco en contenido, escenarios, fichas y diagnósticos. Se mantienen el panel redimensionable, Cliente bajo demanda, validaciones temporales y auditorías.
+**Actualización v0.61.0 (09-08-2026):** el modo Técnico incorpora un modelo semántico derivado del animation spec (`src/lib/semantic-model/`) que identifica roles, entradas, salidas y relaciones. Se muestra bajo demanda en la ficha técnica y prepara las reglas de consistencia y análisis what-if. El glosario, panel redimensionable y validaciones se mantienen.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.
 

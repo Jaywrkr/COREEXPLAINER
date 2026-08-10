@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.60.0";
+export const currentVersion = "0.61.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.61.0",
+    date: "09 ago 2026",
+    title: "Modelo semántico de arquitectura",
+    changes: [
+      "El modo Técnico puede desplegar una lectura semántica de entradas, salidas, roles y relaciones de cada escena.",
+      "La semántica se deriva del mismo animation spec que dibuja el canvas para evitar una segunda fuente de verdad.",
+      "Los componentes quedan preparados para reglas de consistencia y análisis what-if en la siguiente fase.",
+    ],
+  },
   {
     version: "0.60.0",
     date: "06 ago 2026",
