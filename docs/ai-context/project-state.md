@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.135.0 (10-08-2026):** `npm run test:review-priority` cubre la regla compartida por la cola y el informe de revisión. CI y el runbook local ejecutan el test para evitar divergencias de score.
+
 **Actualizacion v0.134.0 (10-08-2026):** la cola `TechnicalReviewQueue` reutiliza `getReviewPriority`, el mismo score del informe CLI, y muestra prioridad/fuentes por confirmar por explainer. El orden es informativo y no aprueba contenido.
 
 **Actualizacion v0.133.0 (10-08-2026):** GitHub Actions guarda `technical-review-report.md` como artefacto identificable por `run_id`, con retención de 14 días. Así el especialista puede descargar el mismo informe generado por el PR.

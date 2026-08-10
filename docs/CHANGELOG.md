@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.135.0] - 2026-08-10
+
+- Se añade `npm run test:review-priority`.
+- CI protege la regla compartida entre cola visual e informe CLI.
+
 ## [0.134.0] - 2026-08-10
 
 - La cola de revisión técnica comparte el score de prioridad del informe CLI.
