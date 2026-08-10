@@ -3,6 +3,8 @@ import { execFileSync } from "node:child_process";
 
 const output = execFileSync(process.execPath, ["node_modules/tsx/dist/cli.mjs", "scripts/technical-review-report.ts", "--json"], { encoding: "utf8" });
 const report = JSON.parse(output) as {
+  schemaVersion: string;
+  appVersion: string;
   generatedAt: string;
   summary: { explainers: number; pending: number; staleSources: number; warnings: number };
   rows: Array<{ priority: number; slug: string; title: string }>;
@@ -10,6 +12,8 @@ const report = JSON.parse(output) as {
 };
 
 assert.match(report.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
+assert.equal(report.schemaVersion, "1.0");
+assert.equal(report.appVersion, "0.138.0");
 assert.equal(report.summary.explainers, 22);
 assert.equal(report.summary.pending, 22);
 assert.equal(report.rows.length, report.summary.explainers);

@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.138.0 (10-08-2026):** el informe JSON de revision tecnica declara `schemaVersion: 1.0` y la version de aplicacion (`appVersion`). La regresion protege estos metadatos para que futuros consumidores automatizados puedan detectar cambios de contrato.
+
 **Actualizacion v0.137.0 (10-08-2026):** `npm run test:technical-review-report` ejecuta el informe JSON y valida parseo, resumen de 22 explainers, regla de prioridad, campos esenciales y orden descendente. CI lo ejecuta en cada PR.
 
 **Actualizacion v0.136.0 (10-08-2026):** `report:technical-review:json` expone el resumen, filas y regla de prioridad en JSON. CI publica Markdown y JSON en el mismo artefacto para consumo humano y automatizado.

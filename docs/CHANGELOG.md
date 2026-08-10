@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.138.0] - 2026-08-10
+
+- El informe JSON de revision tecnica incluye `schemaVersion` y `appVersion`.
+- La regresion valida ambos metadatos para evitar romper consumidores automatizados.
+
 ## [0.137.0] - 2026-08-10
 
 - Se añade `npm run test:technical-review-report`.

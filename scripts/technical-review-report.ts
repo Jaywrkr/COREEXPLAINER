@@ -1,5 +1,8 @@
 import { explainerRegistry, explainerValidationWarnings } from "../src/content/registry";
 import { getReviewPriority } from "../src/lib/review/reviewPriority";
+import packageJson from "../package.json";
+
+const REPORT_SCHEMA_VERSION = "1.0";
 
 function safe(value: string): string {
   return value.replace(/[\r\n|]+/g, " ").trim();
@@ -32,6 +35,8 @@ const warningCount = rows.reduce((sum, row) => sum + row.warnings.length, 0);
 
 if (process.argv.includes("--json")) {
   console.log(JSON.stringify({
+    schemaVersion: REPORT_SCHEMA_VERSION,
+    appVersion: packageJson.version,
     generatedAt: new Date().toISOString(),
     summary: { explainers: rows.length, pending, staleSources: stale, warnings: warningCount },
     rows,
