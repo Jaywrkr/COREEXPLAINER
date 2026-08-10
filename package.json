@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.112.0",
+  "version": "0.113.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -28,5 +28,11 @@
     "tailwindcss": "^3.4.4",
     "tsx": "^4.23.11",
     "typescript": "^5.5.3"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.26",
+      "sharp": "0.35.3"
+    }
   }
 }
