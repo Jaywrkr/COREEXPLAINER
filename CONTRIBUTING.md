@@ -19,8 +19,10 @@ npm audit --omit=dev --audit-level=high
 npm run validate:content
 npm run report:technical-review
 npm run report:technical-review:json
+npm run report:technical-review:package -- --output-dir technical-review-package
 npm run test:review-priority
 npm run test:technical-review-report
+npm run test:technical-review-package
 npm run test:ai-guards
 npm run test:workbench-export
 npm run typecheck

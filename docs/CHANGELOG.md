@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.139.0] - 2026-08-10
+
+- Se añade `report:technical-review:package` para generar un paquete de auditoría reproducible.
+- El paquete contiene Markdown, JSON y un manifiesto con versión, resumen y hashes SHA-256.
+- CI publica el paquete completo y valida su contrato offline.
+
 ## [0.138.0] - 2026-08-10
 
 - El informe JSON de revision tecnica incluye `schemaVersion` y `appVersion`.
