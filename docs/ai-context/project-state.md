@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.79.0 (09-08-2026):** `targetArchitecture.decisionOptions` alimenta un laboratorio de decisiones bajo demanda. VCF ofrece opciones autoradas con beneficios, trade-offs y evidencia; no hay puntuación automática.
+
 **Actualizacion v0.78.0 (09-08-2026):** el progreso de `targetArchitecture.roadmap` se incluye en la ficha HTML y el resumen de sesión, junto con el estado, evidencia y salida de cada fase.
 
 **Actualizacion v0.77.0 (09-08-2026):** las fases de `targetArchitecture.roadmap` tienen estado local pendiente/revisada/no aplica por explicación y escenario. El avance se muestra bajo demanda.

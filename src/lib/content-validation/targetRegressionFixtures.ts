@@ -39,4 +39,10 @@ export function assertTargetArchitectureRegression() {
     roadmap: [{ id: "assess", title: "Evaluar", objective: "Objetivo", evidence: "Evidencia", exitCriteria: "Salida", sourceIds: ["missing"] }],
   };
   expect(validateTargetArchitecture(unknownPhaseSource, sources).some((error) => error.includes("roadmap[0].sourceIds")), "unknown roadmap sources must fail");
+
+  const incompleteDecision = {
+    ...valid,
+    decisionOptions: [{ id: "only", title: "Una", summary: "Resumen", benefits: "Beneficio", tradeoffs: "Trade-off", evidence: "Evidencia" }],
+  };
+  expect(validateTargetArchitecture(incompleteDecision, sources).some((error) => error.includes("decisionOptions must contain at least two")), "a decision lab must offer at least two options");
 }

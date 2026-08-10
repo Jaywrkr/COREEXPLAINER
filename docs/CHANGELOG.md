@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.79.0] - 2026-08-09
+
+- Los objetivos pueden declarar opciones técnicas con beneficios, trade-offs y evidencia.
+- VCF incluye tres opciones autoradas: resiliencia, estandarización y evolución por oleadas.
+- La validación exige al menos dos opciones y comprueba sus campos y fuentes.
+
 ## [0.78.0] - 2026-08-09
 
 - El resumen muestra cuántas fases del roadmap fueron revisadas.

@@ -83,6 +83,7 @@ export function FailureScenarioPanel({
   const [checklistReady, setChecklistReady] = useState(false);
   const [roadmapStatus, setRoadmapStatus] = useState<Record<string, "done" | "na">>({});
   const [roadmapReady, setRoadmapReady] = useState(false);
+  const [selectedDecisionLabId, setSelectedDecisionLabId] = useState<string | null>(null);
   const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
   const checklistKey = activeScenario ? `core-explainer:verification:${explainerSlug}:${activeScenario.id}` : null;
@@ -103,6 +104,7 @@ export function FailureScenarioPanel({
   const linkedSourceCount = new Set(technicalFindings.flatMap((finding) => finding.sourceIds ?? [])).size;
   const roadmapPhases = targetArchitecture?.roadmap ?? [];
   const reviewedRoadmapCount = Object.keys(roadmapStatus).length;
+  const selectedDecisionLab = targetArchitecture?.decisionOptions?.find((option) => option.id === selectedDecisionLabId) ?? null;
 
   useEffect(() => {
     setChecklistReady(false);
@@ -563,6 +565,34 @@ export function FailureScenarioPanel({
                         })}
                       </ol>
                       <p className="mt-1 text-[0.58rem] text-core-text-muted">Solo se guarda en este navegador. Pulsa una fase para cambiar: pendiente → revisada → no aplica.</p>
+                    </details>
+                  ) : null}
+                  {targetArchitecture?.decisionOptions?.length ? (
+                    <details className="mt-2 border-t border-core-border/[0.12] pt-2">
+                      <summary className="cursor-pointer list-none font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                        Laboratorio de decisiones · {targetArchitecture.decisionOptions.length} opciones
+                      </summary>
+                      <div className="mt-2 grid gap-1.5">
+                        {targetArchitecture.decisionOptions.map((option) => (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => setSelectedDecisionLabId(option.id)}
+                            aria-pressed={selectedDecisionLabId === option.id}
+                            className={`border px-2.5 py-2 text-left text-[0.64rem] transition-colors ${selectedDecisionLabId === option.id ? "border-core-accent/60 bg-core-accent/10 text-core-text" : "border-core-border/[0.12] text-core-text-secondary hover:border-core-accent/40"}`}
+                          >
+                            <span className="block font-semibold">{option.title}</span>
+                            <span className="mt-0.5 block leading-relaxed">{option.summary}</span>
+                          </button>
+                        ))}
+                      </div>
+                      {selectedDecisionLab ? (
+                        <div className="mt-2 space-y-1 border-l-2 border-core-accent/60 pl-2 text-[0.64rem] leading-relaxed text-core-text-secondary">
+                          <p><span className="font-semibold text-core-text">Beneficio:</span> {selectedDecisionLab.benefits}</p>
+                          <p><span className="font-semibold text-core-text">Trade-off:</span> {selectedDecisionLab.tradeoffs}</p>
+                          <p><span className="font-semibold text-core-text">Evidencia:</span> {selectedDecisionLab.evidence}</p>
+                        </div>
+                      ) : <p className="mt-1 text-[0.58rem] text-core-text-muted">Selecciona una opción para comparar beneficio, trade-off y evidencia.</p>}
                     </details>
                   ) : null}
                   <p className="mt-1 text-[0.6rem] leading-relaxed text-core-text-muted">

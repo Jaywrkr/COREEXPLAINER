@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.78.0";
+export const currentVersion = "0.79.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.79.0",
+    date: "09 ago 2026",
+    title: "Laboratorio de decisiones",
+    changes: [
+      "Los objetivos pueden declarar opciones técnicas con beneficios, trade-offs y evidencia.",
+      "VCF incluye tres opciones autoradas: resiliencia, estandarización y evolución por oleadas.",
+      "La validación exige al menos dos opciones y comprueba sus campos y fuentes.",
+    ],
+  },
   {
     version: "0.78.0",
     date: "09 ago 2026",
