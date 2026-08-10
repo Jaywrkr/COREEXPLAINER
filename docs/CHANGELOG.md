@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.67.0] - 2026-08-09
+
+- Cada escenario activo puede mostrar pasos revisados, hallazgos abiertos, criticos y fuentes enlazadas.
+- El resumen propone el siguiente criterio de cierre sin afirmar que la infraestructura real este validada.
+- La informacion permanece dentro del escenario y se mantiene compacta hasta que la audiencia la abre.
+
 ## [0.66.0] - 2026-08-09
 
 - Cada escenario con pasos guiados incluye una lista compacta para marcar evidencia revisada.

@@ -81,6 +81,10 @@ export function FailureScenarioPanel({
     .filter((source): source is TechnicalSource => Boolean(source));
   const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds) : null;
   const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact, integrityReport) : [];
+  const reviewedStepCount = Object.keys(checklist).length;
+  const openFindingCount = technicalFindings.filter((finding) => finding.severity !== "info").length;
+  const criticalFindingCount = technicalFindings.filter((finding) => finding.severity === "critical").length;
+  const linkedSourceCount = new Set(technicalFindings.flatMap((finding) => finding.sourceIds ?? [])).size;
 
   useEffect(() => {
     setChecklistReady(false);
@@ -346,6 +350,39 @@ export function FailureScenarioPanel({
                     })}
                   </div>
                   <p className="mt-1 text-[0.58rem] text-core-text-muted">Solo se guarda en este navegador. Pulsa cada fila para cambiar: pendiente → revisado → no aplica.</p>
+                </details>
+              ) : null}
+
+              {activeScenario ? (
+                <details className="border-t border-core-border/[0.12] pt-2">
+                  <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                    Resumen de sesión
+                  </summary>
+                  <div className="mt-2 grid grid-cols-2 gap-1.5 text-[0.64rem]">
+                    <div className="border border-core-border/[0.12] px-2 py-1.5">
+                      <p className="text-core-text-muted">Pasos revisados</p>
+                      <p className="mt-0.5 font-mono text-core-text">{reviewedStepCount}/{guidedSteps.length}</p>
+                    </div>
+                    <div className="border border-core-border/[0.12] px-2 py-1.5">
+                      <p className="text-core-text-muted">Hallazgos abiertos</p>
+                      <p className={`mt-0.5 font-mono ${openFindingCount ? "text-core-warning" : "text-core-success"}`}>{openFindingCount}</p>
+                    </div>
+                    <div className="border border-core-border/[0.12] px-2 py-1.5">
+                      <p className="text-core-text-muted">Críticos</p>
+                      <p className={`mt-0.5 font-mono ${criticalFindingCount ? "text-core-error" : "text-core-success"}`}>{criticalFindingCount}</p>
+                    </div>
+                    <div className="border border-core-border/[0.12] px-2 py-1.5">
+                      <p className="text-core-text-muted">Fuentes enlazadas</p>
+                      <p className="mt-0.5 font-mono text-core-text">{linkedSourceCount}</p>
+                    </div>
+                  </div>
+                  <p className="mt-2 border-l-2 border-core-accent/60 pl-2 text-[0.64rem] leading-relaxed text-core-text-secondary">
+                    {criticalFindingCount
+                      ? "La sesión aún tiene condiciones críticas que deben revisarse antes de afirmar continuidad."
+                      : openFindingCount
+                        ? "La sesión tiene advertencias abiertas; conviene completar la evidencia antes de cerrar la explicación."
+                        : "No quedan advertencias abiertas en este escenario; confirma igualmente la prueba funcional."}
+                  </p>
                 </details>
               ) : null}
 
