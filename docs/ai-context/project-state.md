@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.77.0 (09-08-2026):** las fases de `targetArchitecture.roadmap` tienen estado local pendiente/revisada/no aplica por explicación y escenario. El avance se muestra bajo demanda.
+
 **Actualizacion v0.76.0 (09-08-2026):** `targetArchitecture.roadmap` permite declarar fases de assessment con objetivo, evidencia, criterio de salida y fuentes. La comparación de VCF muestra el primer roadmap autorado bajo demanda.
 
 **Actualizacion v0.75.0 (09-08-2026):** existe `npm run validate:content`, un comando independiente que importa el registro, ejecuta el content gate y las regresiones, y confirma el número de explainers sin levantar Next.js.

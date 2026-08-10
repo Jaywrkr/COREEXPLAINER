@@ -81,9 +81,12 @@ export function FailureScenarioPanel({
   const [minimized, setMinimized] = useState(true);
   const [checklist, setChecklist] = useState<Record<string, "done" | "na">>({});
   const [checklistReady, setChecklistReady] = useState(false);
+  const [roadmapStatus, setRoadmapStatus] = useState<Record<string, "done" | "na">>({});
+  const [roadmapReady, setRoadmapReady] = useState(false);
   const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
   const checklistKey = activeScenario ? `core-explainer:verification:${explainerSlug}:${activeScenario.id}` : null;
+  const roadmapKey = activeScenario ? `core-explainer:roadmap:${explainerSlug}:${activeScenario.id}` : null;
   const safeStepIndex = Math.min(Math.max(activeGuidedStepIndex, 0), Math.max(guidedSteps.length - 1, 0));
   const activeStep = guidedSteps[safeStepIndex] ?? null;
   const selectedDecisionOption = activeStep?.decision?.options.find(
@@ -126,6 +129,33 @@ export function FailureScenarioPanel({
     }
   }, [checklist, checklistKey, checklistReady]);
 
+  useEffect(() => {
+    setRoadmapReady(false);
+    if (!roadmapKey) {
+      setRoadmapStatus({});
+      setRoadmapReady(true);
+      return;
+    }
+    try {
+      const saved = window.localStorage.getItem(roadmapKey);
+      const parsed = saved ? JSON.parse(saved) : {};
+      setRoadmapStatus(parsed && typeof parsed === "object" ? parsed : {});
+    } catch {
+      setRoadmapStatus({});
+    } finally {
+      setRoadmapReady(true);
+    }
+  }, [roadmapKey]);
+
+  useEffect(() => {
+    if (!roadmapReady || !roadmapKey) return;
+    try {
+      window.localStorage.setItem(roadmapKey, JSON.stringify(roadmapStatus));
+    } catch {
+      // Roadmap progress remains usable for the current session if storage is unavailable.
+    }
+  }, [roadmapKey, roadmapReady, roadmapStatus]);
+
   const toggleChecklistItem = (stepId: string) => {
     setChecklist((current) => {
       const status = current[stepId];
@@ -133,6 +163,17 @@ export function FailureScenarioPanel({
       if (status === "done") return { ...current, [stepId]: "na" };
       const next = { ...current };
       delete next[stepId];
+      return next;
+    });
+  };
+
+  const toggleRoadmapPhase = (phaseId: string) => {
+    setRoadmapStatus((current) => {
+      const status = current[phaseId];
+      if (!status) return { ...current, [phaseId]: "done" };
+      if (status === "done") return { ...current, [phaseId]: "na" };
+      const next = { ...current };
+      delete next[phaseId];
       return next;
     });
   };
@@ -486,18 +527,30 @@ export function FailureScenarioPanel({
                   {targetArchitecture?.roadmap?.length ? (
                     <details className="mt-2 border-t border-core-border/[0.12] pt-2">
                       <summary className="cursor-pointer list-none font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted [&::-webkit-details-marker]:hidden">
-                        Roadmap de assessment · {targetArchitecture.roadmap.length} fases
+                        Roadmap de assessment · {Object.keys(roadmapStatus).length}/{targetArchitecture.roadmap.length}
                       </summary>
                       <ol className="mt-2 space-y-2">
-                        {targetArchitecture.roadmap.map((phase, index) => (
-                          <li key={phase.id} className="border-l-2 border-core-accent/50 pl-2 text-[0.64rem] leading-relaxed">
-                            <p className="font-semibold text-core-text">{index + 1}. {phase.title}</p>
-                            <p className="text-core-text-secondary">{phase.objective}</p>
-                            <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Evidencia:</span> {phase.evidence}</p>
-                            <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Salida:</span> {phase.exitCriteria}</p>
-                          </li>
-                        ))}
+                        {targetArchitecture.roadmap.map((phase, index) => {
+                          const status = roadmapStatus[phase.id];
+                          const label = status === "done" ? "Revisada" : status === "na" ? "No aplica" : "Pendiente";
+                          return (
+                            <li key={phase.id} className="border-l-2 border-core-accent/50 pl-2 text-[0.64rem] leading-relaxed">
+                              <button
+                                type="button"
+                                onClick={() => toggleRoadmapPhase(phase.id)}
+                                className="w-full text-left"
+                                aria-label={`${phase.title}: ${label}. Pulsar para cambiar estado.`}
+                              >
+                                <p className="flex items-center justify-between gap-2 font-semibold text-core-text"><span>{index + 1}. {phase.title}</span><span className="shrink-0 font-mono text-[0.54rem] uppercase tracking-[0.05em] text-core-text-muted">{label}</span></p>
+                                <p className="text-core-text-secondary">{phase.objective}</p>
+                                <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Evidencia:</span> {phase.evidence}</p>
+                                <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Salida:</span> {phase.exitCriteria}</p>
+                              </button>
+                            </li>
+                          );
+                        })}
                       </ol>
+                      <p className="mt-1 text-[0.58rem] text-core-text-muted">Solo se guarda en este navegador. Pulsa una fase para cambiar: pendiente → revisada → no aplica.</p>
                     </details>
                   ) : null}
                   <p className="mt-1 text-[0.6rem] leading-relaxed text-core-text-muted">
