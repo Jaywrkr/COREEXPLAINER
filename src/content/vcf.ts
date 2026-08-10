@@ -52,6 +52,17 @@ export const vcfFailureScenarios: FailureScenario[] = [
 ];
 
 export const vcfMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Plataforma integrada con dependencias explícitas",
+    summary: "El objetivo es explicar cómputo, storage, red, gestión y cargas como un conjunto conectado, no como silos independientes.",
+    expectedChanges: [
+      "Dependencias de cómputo, storage y networking visibles en la misma escena.",
+      "Caminos de gestión y datos diferenciados para analizar fallos.",
+      "Capacidad, políticas y evidencia de recuperación revisadas antes de afirmar continuidad.",
+    ],
+    limitations: "La ficha no define una lista de componentes ni sizing para un cliente concreto; la release y compatibilidad deben validarse por proyecto.",
+    sourceIds: ["vcf-platform", "vcf-91-faq", "vcf-networking"],
+  },
   technicalIntegrity: vcfTechnicalIntegrity,
   brandContext: brandContext.virtualization,
   storyboardDoc: "docs/examples/vcf/storyboard.md",

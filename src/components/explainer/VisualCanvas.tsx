@@ -8,6 +8,7 @@ import type {
   TechnicalIntegrityDiagnostic,
   TechnicalIntegrityProfile,
   TechnicalSource,
+  TargetArchitecture,
 } from "@/content/types";
 import { evaluateTopologyIntegrity } from "@/lib/technical-integrity/evaluateTopology";
 import { useTheme } from "@/lib/theme/ThemeProvider";
@@ -22,6 +23,7 @@ interface VisualCanvasProps {
   scene: Scene;
   sceneId: string;
   explainerSlug: string;
+  targetArchitecture?: TargetArchitecture;
   audienceMode: AudienceMode;
   selectedNode: SceneNode | null;
   onNodeSelect: (node: SceneNode | null) => void;
@@ -77,6 +79,7 @@ export function VisualCanvas({
   scene,
   sceneId,
   explainerSlug,
+  targetArchitecture,
   audienceMode,
   selectedNode,
   onNodeSelect,
@@ -440,6 +443,7 @@ export function VisualCanvas({
           <FailureScenarioPanel
             scene={scene}
             explainerSlug={explainerSlug}
+            targetArchitecture={targetArchitecture}
             integrityReport={integrityReport}
             scenarios={failureScenarios}
             activeScenarioId={activeFailureScenarioId}

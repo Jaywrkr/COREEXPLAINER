@@ -29,6 +29,16 @@ export interface ExplainerMeta {
   failureScenarios?: FailureScenario[];
   /** Optional semantic checks for the topology shown by a scene. */
   technicalIntegrity?: TechnicalIntegrityProfile;
+  /** Optional authored target architecture used by current/target comparisons. */
+  targetArchitecture?: TargetArchitecture;
+}
+
+export interface TargetArchitecture {
+  label: string;
+  summary: string;
+  expectedChanges: string[];
+  limitations: string;
+  sourceIds?: string[];
 }
 
 export type TechnicalIntegrityDomain =
