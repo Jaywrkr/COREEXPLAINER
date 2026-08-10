@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.91.0] - 2026-08-09
+
+- El content gate incorpora revisión semántica entre texto, diagrama, fuentes y escenarios.
+- Las advertencias de deuda editorial aparecen en `npm run validate:content`.
+- Los errores estructurales siguen bloqueando el registro; las advertencias se resuelven progresivamente.
+
 ## [0.90.0] - 2026-08-09
 
 - Los endpoints IA incorporan límites de cuerpo, rate limiting temporal y timeout.

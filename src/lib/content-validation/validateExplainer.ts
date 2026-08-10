@@ -191,6 +191,69 @@ export function validateTargetArchitecture(target: TargetArchitecture, technical
 }
 
 /**
+ * Editorial/semantic checks that TypeScript cannot express. These are warnings
+ * when the content can still render, and errors only for relationships that
+ * would make the explanation misleading or impossible to simulate.
+ */
+function validateSemanticCoherence(
+  meta: ExplainerMeta,
+  steps: ExplainerStep[],
+  spec: AnimationSpec,
+  technicalSourceIds: ReadonlySet<string>,
+  add: (message: string) => void,
+  warn: (message: string) => void,
+) {
+  const referencedSourceIds = new Set<string>();
+  for (const step of steps) for (const sourceId of step.sourceIds) referencedSourceIds.add(sourceId);
+  for (const sourceId of meta.targetArchitecture?.sourceIds ?? []) referencedSourceIds.add(sourceId);
+  for (const phase of meta.targetArchitecture?.roadmap ?? []) for (const sourceId of phase.sourceIds ?? []) referencedSourceIds.add(sourceId);
+  for (const option of meta.targetArchitecture?.decisionOptions ?? []) for (const sourceId of option.sourceIds ?? []) referencedSourceIds.add(sourceId);
+  for (const scenario of meta.failureScenarios ?? []) {
+    for (const guidedStep of scenario.guidedSteps ?? []) for (const sourceId of guidedStep.sourceIds ?? []) referencedSourceIds.add(sourceId);
+  }
+  for (const sourceId of technicalSourceIds) {
+    if (!referencedSourceIds.has(sourceId)) warn(`technical source '${sourceId}' is not connected to a step, scenario, target or decision`);
+  }
+
+  for (const [sceneId, scene] of Object.entries(spec.scenes)) {
+    const degree = new Map(scene.nodes.map((node) => [node.id, 0]));
+    for (const edge of scene.edges) {
+      if (!degree.has(edge.from) || !degree.has(edge.to)) {
+        add(`scene '${sceneId}' contains an edge with an unknown endpoint`);
+        continue;
+      }
+      degree.set(edge.from, (degree.get(edge.from) ?? 0) + 1);
+      degree.set(edge.to, (degree.get(edge.to) ?? 0) + 1);
+    }
+    for (const node of scene.nodes) {
+      if ((degree.get(node.id) ?? 0) === 0 && scene.nodes.length > 1) {
+        warn(`scene '${sceneId}' node '${node.id}' is isolated from every relationship`);
+      }
+    }
+  }
+
+  for (const step of steps) {
+    const scene = spec.scenes[step.sceneId];
+    if (!scene) continue;
+    const narrative = [step.title, step.caption, ...step.paragraphs, step.businessImpact].join(" ").toLowerCase();
+    const namedNodes = scene.nodes.filter((node) => node.name.length >= 4 && narrative.includes(node.name.toLowerCase()));
+    if (namedNodes.length === 0) warn(`step '${step.id}' does not mention any visible node by name; check text-diagram alignment`);
+  }
+
+  for (const scenario of meta.failureScenarios ?? []) {
+    const scene = spec.scenes[scenario.sceneId];
+    if (!scene) continue;
+    for (const nodeId of scenario.deadNodeIds) {
+      const node = scene.nodes.find((candidate) => candidate.id === nodeId);
+      if (node && node.killable !== true) warn(`scenario '${scenario.id}' disables node '${nodeId}' but that node is not marked killable`);
+    }
+    const affectedNames = scenario.affectedNodes.join(" ").toLowerCase();
+    const knownAffected = scene.nodes.some((node) => affectedNames.includes(node.name.toLowerCase()));
+    if (!knownAffected) warn(`scenario '${scenario.id}' affectedNodes do not name a visible node from scene '${scenario.sceneId}'`);
+  }
+}
+
+/**
  * Validates the complete content/visual pairing before it enters the topic
  * registry. This is intentionally stricter than TypeScript: future generated
  * content must have a complete narrative and explicit technical context.
@@ -459,6 +522,8 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   for (const sceneId of sceneIds) {
     if (!referencedSceneIds.has(sceneId)) warnings.push(`scene '${sceneId}' is not referenced by any content step`);
   }
+
+  validateSemanticCoherence(meta, steps, spec, technicalSourceIds, add, (message) => warnings.push(message));
 
   const result = { slug, errors, warnings };
   if (errors.length > 0) throw new ExplainerContentError(slug, errors);
