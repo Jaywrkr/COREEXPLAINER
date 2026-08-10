@@ -101,6 +101,8 @@ export function FailureScenarioPanel({
   const openFindingCount = technicalFindings.filter((finding) => finding.severity !== "info").length;
   const criticalFindingCount = technicalFindings.filter((finding) => finding.severity === "critical").length;
   const linkedSourceCount = new Set(technicalFindings.flatMap((finding) => finding.sourceIds ?? [])).size;
+  const roadmapPhases = targetArchitecture?.roadmap ?? [];
+  const reviewedRoadmapCount = Object.keys(roadmapStatus).length;
 
   useEffect(() => {
     setChecklistReady(false);
@@ -185,6 +187,10 @@ export function FailureScenarioPanel({
       const status = checklist[step.id] === "done" ? "Revisado" : checklist[step.id] === "na" ? "No aplica" : "Pendiente";
       return `<li><strong>${escapeHtml(step.title)}</strong>: ${status}</li>`;
     }).join("");
+    const roadmapRows = roadmapPhases.map((phase) => {
+      const status = roadmapStatus[phase.id] === "done" ? "Revisada" : roadmapStatus[phase.id] === "na" ? "No aplica" : "Pendiente";
+      return `<li><strong>${escapeHtml(phase.title)}</strong>: ${status}<br>${escapeHtml(phase.objective)}<br><em>Evidencia:</em> ${escapeHtml(phase.evidence)}<br><em>Salida:</em> ${escapeHtml(phase.exitCriteria)}</li>`;
+    }).join("");
     const findingRows = technicalFindings.map((finding) => (
       `<li><strong>${escapeHtml(finding.title)}</strong><br>${escapeHtml(finding.detail)}<br><em>Evidencia:</em> ${escapeHtml(finding.evidence)}<br><em>Recomendacion:</em> ${escapeHtml(finding.recommendation)}</li>`
     )).join("");
@@ -192,7 +198,7 @@ export function FailureScenarioPanel({
     const sourceRows = technicalSources.filter((source) => sourceIds.has(source.id)).map((source) => (
       `<li><a href="${escapeHtml(source.url)}">${escapeHtml(source.title)}</a> · consultada ${escapeHtml(source.accessedAt)}</li>`
     )).join("");
-    const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Ficha de sesión · ${escapeHtml(activeScenario.label)}</title><style>body{font:16px system-ui,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;color:#172033}h1{margin-bottom:4px}h2{margin-top:28px;border-bottom:1px solid #d8dee8;padding-bottom:6px}li{margin:8px 0;line-height:1.45}.meta{color:#5b6678;font-size:14px}.note{border-left:4px solid #64748b;padding:10px 14px;background:#f4f6f8}@media print{body{margin:0}}</style></head><body><h1>Ficha de sesión</h1><p class="meta">CORESOLUTIONS · ${escapeHtml(explainerSlug)} · ${generatedAt}</p><h2>Escenario</h2><p><strong>${escapeHtml(activeScenario.label)}</strong></p><p>${escapeHtml(activeScenario.summary)}</p><h2>Resumen</h2><ul><li>Pasos revisados: ${reviewedStepCount}/${guidedSteps.length}</li><li>Hallazgos abiertos: ${openFindingCount}</li><li>Hallazgos críticos: ${criticalFindingCount}</li><li>Fuentes enlazadas: ${linkedSourceCount}</li></ul><h2>Checklist</h2><ul>${checklistRows || "<li>No hay pasos guiados.</li>"}</ul><h2>Hallazgos</h2><ul>${findingRows || "<li>No hay hallazgos calculados.</li>"}</ul><h2>Fuentes</h2><ul>${sourceRows || "<li>No hay fuentes enlazadas a los hallazgos.</li>"}</ul><p class="note">Esta ficha resume un escenario conceptual del explainer. No certifica una configuración real, no reemplaza pruebas funcionales y no constituye un runbook de producción.</p></body></html>`;
+    const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Ficha de sesión · ${escapeHtml(activeScenario.label)}</title><style>body{font:16px system-ui,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;color:#172033}h1{margin-bottom:4px}h2{margin-top:28px;border-bottom:1px solid #d8dee8;padding-bottom:6px}li{margin:8px 0;line-height:1.45}.meta{color:#5b6678;font-size:14px}.note{border-left:4px solid #64748b;padding:10px 14px;background:#f4f6f8}@media print{body{margin:0}}</style></head><body><h1>Ficha de sesión</h1><p class="meta">CORESOLUTIONS · ${escapeHtml(explainerSlug)} · ${generatedAt}</p><h2>Escenario</h2><p><strong>${escapeHtml(activeScenario.label)}</strong></p><p>${escapeHtml(activeScenario.summary)}</p><h2>Resumen</h2><ul><li>Pasos revisados: ${reviewedStepCount}/${guidedSteps.length}</li><li>Fases de roadmap revisadas: ${reviewedRoadmapCount}/${roadmapPhases.length}</li><li>Hallazgos abiertos: ${openFindingCount}</li><li>Hallazgos críticos: ${criticalFindingCount}</li><li>Fuentes enlazadas: ${linkedSourceCount}</li></ul><h2>Roadmap de assessment</h2><ul>${roadmapRows || "<li>No hay roadmap autorado.</li>"}</ul><h2>Checklist</h2><ul>${checklistRows || "<li>No hay pasos guiados.</li>"}</ul><h2>Hallazgos</h2><ul>${findingRows || "<li>No hay hallazgos calculados.</li>"}</ul><h2>Fuentes</h2><ul>${sourceRows || "<li>No hay fuentes enlazadas a los hallazgos.</li>"}</ul><p class="note">Esta ficha resume un escenario conceptual del explainer. No certifica una configuración real, no reemplaza pruebas funcionales y no constituye un runbook de producción.</p></body></html>`;
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -329,6 +335,12 @@ export function FailureScenarioPanel({
                     <p className="text-sm font-semibold text-core-text"><GlossaryText text={activeStep.title} /></p>
                     <p className="mt-1 text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={activeStep.instruction} /></p>
                   </div>
+                  {roadmapPhases.length ? (
+                    <div className="mt-1.5 border border-core-border/[0.12] px-2 py-1.5 text-[0.64rem]">
+                      <p className="text-core-text-muted">Roadmap revisado</p>
+                      <p className="mt-0.5 font-mono text-core-text">{reviewedRoadmapCount}/{roadmapPhases.length} fases</p>
+                    </div>
+                  ) : null}
                   <div className="border-l-2 border-core-accent/70 pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
                     <p><span className="font-semibold text-core-text">Evidencia:</span> <GlossaryText text={activeStep.evidence} /></p>
                     <p className="mt-1"><span className="font-semibold text-core-text">Resultado esperado:</span> <GlossaryText text={activeStep.expected} /></p>

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.78.0] - 2026-08-09
+
+- El resumen muestra cuántas fases del roadmap fueron revisadas.
+- La ficha HTML exportada incluye estado, evidencia y criterio de salida de cada fase.
+- La exportación mantiene los límites conceptuales y no agrega datos remotos.
+
 ## [0.77.0] - 2026-08-09
 
 - Las fases de assessment pueden marcarse como pendientes, revisadas o no aplicables durante una sesión.
