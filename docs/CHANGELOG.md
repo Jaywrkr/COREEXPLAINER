@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.87.0] - 2026-08-09
+
+- Se puede descargar un brief Markdown de assessment desde cada explicación.
+- El brief reúne preguntas, escenas, roadmaps, riesgos, decisiones y fuentes.
+- La generación es local y conserva los límites de la explicación.
+
 ## [0.86.0] - 2026-08-09
 
 - Se añade un copiloto contextual por explicación.
