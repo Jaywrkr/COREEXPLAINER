@@ -20,7 +20,7 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
   const [answer, setAnswer] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [actions, setActions] = useState<CopilotAction[]>([]);
-  const [usage, setUsage] = useState<AiUsageTelemetry>({ requests: 0, failures: 0, totalTokens: 0 });
+  const [usage, setUsage] = useState<AiUsageTelemetry>({ requests: 0, failures: 0, totalTokens: 0, estimatedCostUsd: 0 });
 
   useEffect(() => { setUsage(readAiUsage()); }, []);
 
@@ -47,9 +47,9 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed, context }),
       });
-      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number } };
+      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number } };
       setActions(Array.isArray(payload.actions) ? payload.actions : []);
-      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0));
+      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0));
       setAnswer(payload.message ?? "No se recibió respuesta.");
     } catch {
       setUsage(recordAiUsage(false));
@@ -85,7 +85,7 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
           </button>
         </div>
         {answer ? <div className="border-l-2 border-core-accent/60 pl-2 text-[0.66rem] leading-relaxed text-core-text-secondary whitespace-pre-wrap">{answer}</div> : null}
-        {usage.requests ? <p className="text-[0.54rem] text-core-text-muted">Uso local: {usage.requests} consulta(s) · {usage.totalTokens || "—"} tokens registrados{usage.failures ? ` · ${usage.failures} fallo(s)` : ""}</p> : null}
+        {usage.requests ? <p className="text-[0.54rem] text-core-text-muted">Uso local: {usage.requests} consulta(s) · {usage.totalTokens || "—"} tokens{usage.estimatedCostUsd ? ` · coste estimado US$ ${usage.estimatedCostUsd.toFixed(4)}` : ""}{usage.failures ? ` · ${usage.failures} fallo(s)` : ""}</p> : null}
         {actions.length ? (
           <div className="flex flex-wrap gap-1.5">
             {actions.map((action) => {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.109.0] - 2026-08-10
+
+- Copilot estima el coste cuando el despliegue define `AI_INPUT_COST_PER_MILLION_USD` y `AI_OUTPUT_COST_PER_MILLION_USD`.
+- La interfaz muestra el coste acumulado junto a consultas y tokens; sin ambas variables no se muestra ningún precio.
+- Es telemetría orientativa del navegador y no reemplaza la factura del proveedor ni una cuota multiusuario.
+
 ## [0.108.0] - 2026-08-10
 
 - El paquete Markdown incorpora el seguimiento local guardado para el explainer.

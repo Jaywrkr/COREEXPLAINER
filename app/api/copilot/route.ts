@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
+import { estimateAiCost } from "@/lib/ai/costEstimate";
 import type { CopilotAction } from "@/lib/ai/copilotContract";
 
 const MAX_QUESTION_LENGTH = 600;
@@ -10,7 +11,7 @@ interface CopilotRequest {
   context?: string;
 }
 
-interface AiUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string }
+interface AiUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string; estimatedCostUsd?: number; costSource?: "environment" }
 
 function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage, retryAfter?: number) {
   const headers: Record<string, string> = { "Cache-Control": "no-store" };
@@ -92,6 +93,8 @@ export async function POST(request: Request) {
 
   const payload = (await upstream.json()) as { choices?: Array<{ message?: { content?: string } }>; usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number } };
   const usage: AiUsage = { inputTokens: payload.usage?.prompt_tokens, outputTokens: payload.usage?.completion_tokens, totalTokens: payload.usage?.total_tokens, model };
+  const cost = estimateAiCost(usage.inputTokens, usage.outputTokens);
+  if (cost) { usage.estimatedCostUsd = cost.costUsd; usage.costSource = cost.source; }
   const message = payload.choices?.[0]?.message?.content?.trim();
   if (message) {
     try {

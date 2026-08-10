@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.108.0";
+export const currentVersion = "0.109.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.109.0",
+    date: "10 ago 2026",
+    title: "Telemetría de coste configurable para IA",
+    changes: [
+      "El endpoint de Copilot puede devolver un coste estimado cuando el despliegue configura explícitamente las tarifas de entrada y salida por millón de tokens.",
+      "El panel muestra el coste acumulado junto a las consultas y tokens registrados; si faltan tarifas, no inventa precios.",
+      "La estimación es orientativa y local: no sustituye la facturación del proveedor ni las cuotas multiusuario.",
+    ],
+  },
   {
     version: "0.108.0",
     date: "10 ago 2026",

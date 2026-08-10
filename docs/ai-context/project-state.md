@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.109.0 (10-08-2026):** Copilot calcula un coste estimado solo cuando el despliegue configura `AI_INPUT_COST_PER_MILLION_USD` y `AI_OUTPUT_COST_PER_MILLION_USD`. Las tarifas no se hardcodean para evitar precios obsoletos; el total se devuelve con la respuesta, se acumula en la telemetría local y se muestra en el panel. Es una estimación orientativa, no facturación ni cuota persistente multiusuario.
+
 **Actualizacion v0.108.0 (10-08-2026):** `TechnicalReviewPacketDownload` incluye el seguimiento local guardado por `TechnicalReviewAssignment` en el Markdown exportado. Se lee al hacer click, no se transmite y mantiene el carácter no aprobatorio del paquete.
 
 **Actualizacion v0.107.0 (10-08-2026):** `TechnicalReviewAssignment` permite registrar localmente responsable, fecha objetivo, notas y estado de seguimiento por explainer. Se guarda solo en `localStorage`; “listo para PR” no cambia `reviewStatus` ni publica contenido.
