@@ -173,6 +173,17 @@ export function validateTargetArchitecture(target: TargetArchitecture, technical
         for (const sourceId of option.sourceIds ?? []) {
           if (!technicalSourceIds.has(sourceId)) errors.push(`${label}.sourceIds references unknown technical source '${sourceId}'`);
         }
+        for (const field of ["roadmapPhaseIds", "scenarioIds"] as const) {
+          const ids = option[field];
+          if (ids) {
+            const seen = new Set<string>();
+            for (const id of ids) {
+              if (!isNonEmptyText(id)) errors.push(`${label}.${field} cannot contain empty IDs`);
+              if (seen.has(id)) errors.push(`${label}.${field} '${id}' is duplicated`);
+              seen.add(id);
+            }
+          }
+        }
       }
     }
   }
@@ -269,6 +280,16 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   }
   if (meta.targetArchitecture) {
     for (const error of validateTargetArchitecture(meta.targetArchitecture, technicalSourceIds)) add(error);
+    const roadmapIds = new Set(meta.targetArchitecture.roadmap?.map((phase) => phase.id) ?? []);
+    const scenarioIds = new Set(meta.failureScenarios?.map((scenario) => scenario.id) ?? []);
+    for (const [index, option] of (meta.targetArchitecture.decisionOptions ?? []).entries()) {
+      for (const phaseId of option.roadmapPhaseIds ?? []) {
+        if (!roadmapIds.has(phaseId)) add(`meta.targetArchitecture.decisionOptions[${index}].roadmapPhaseIds references unknown roadmap phase '${phaseId}'`);
+      }
+      for (const scenarioId of option.scenarioIds ?? []) {
+        if (!scenarioIds.has(scenarioId)) add(`meta.targetArchitecture.decisionOptions[${index}].scenarioIds references unknown scenario '${scenarioId}'`);
+      }
+    }
   }
   if (meta.reviewStatus !== "pending" && meta.reviewStatus !== "reviewed") {
     add("meta.reviewStatus must be 'pending' or 'reviewed'");

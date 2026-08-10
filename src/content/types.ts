@@ -60,6 +60,8 @@ export interface ArchitectureDecisionOption {
   tradeoffs: string;
   evidence: string;
   sourceIds?: string[];
+  roadmapPhaseIds?: string[];
+  scenarioIds?: string[];
 }
 
 export type TechnicalIntegrityDomain =

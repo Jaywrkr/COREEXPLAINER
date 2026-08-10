@@ -591,6 +591,24 @@ export function FailureScenarioPanel({
                           <p><span className="font-semibold text-core-text">Beneficio:</span> {selectedDecisionLab.benefits}</p>
                           <p><span className="font-semibold text-core-text">Trade-off:</span> {selectedDecisionLab.tradeoffs}</p>
                           <p><span className="font-semibold text-core-text">Evidencia:</span> {selectedDecisionLab.evidence}</p>
+                          {selectedDecisionLab.roadmapPhaseIds?.length ? (
+                            <p><span className="font-semibold text-core-text">Fases a revisar:</span> {selectedDecisionLab.roadmapPhaseIds.map((phaseId) => targetArchitecture.roadmap?.find((phase) => phase.id === phaseId)?.title ?? phaseId).join(", ")}</p>
+                          ) : null}
+                          {selectedDecisionLab.scenarioIds?.length ? (
+                            <div>
+                              <p className="font-semibold text-core-text">Escenarios para validar:</p>
+                              <div className="mt-1 flex flex-wrap gap-1">
+                                {selectedDecisionLab.scenarioIds.map((scenarioId) => {
+                                  const scenario = scenarios.find((candidate) => candidate.id === scenarioId);
+                                  return scenario ? (
+                                    <button key={scenarioId} type="button" onClick={() => onSelectScenario(scenarioId)} className="border border-core-accent/40 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">
+                                      {scenario.label}
+                                    </button>
+                                  ) : <span key={scenarioId} className="text-core-text-muted">{scenarioId}</span>;
+                                })}
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
                       ) : <p className="mt-1 text-[0.58rem] text-core-text-muted">Selecciona una opción para comparar beneficio, trade-off y evidencia.</p>}
                     </details>
