@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.117.0";
+export const currentVersion = "0.118.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.118.0",
+    date: "10 ago 2026",
+    title: "Plantilla de revisión técnica para PR",
+    changes: [
+      "Cada PR declara objetivo, alcance, fuentes, coherencia de diagrama, escenarios, seguridad y validaciones ejecutadas.",
+      "El bloque de revisión humana registra responsable, explainers revisados, resultado y paquete de evidencia.",
+      "La plantilla recuerda explícitamente no activar deployments de Vercel accidentalmente.",
+    ],
+  },
   {
     version: "0.117.0",
     date: "10 ago 2026",

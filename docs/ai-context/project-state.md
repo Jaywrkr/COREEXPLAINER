@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.118.0 (10-08-2026):** `.github/pull_request_template.md` convierte el checklist técnico en parte del flujo de merge: exige fuentes y fecha, coherencia de nodos/aristas/animación/texto, escenarios con límites y evidencia, controles de IA, validaciones locales y responsable humano.
+
 **Actualizacion v0.117.0 (10-08-2026):** Dependabot queda configurado semanalmente para npm y GitHub Actions con grupos separados de producción/desarrollo. `SECURITY.md` dirige los reportes por GitHub Security Advisories y prohíbe compartir claves, tokens, prompts o datos de clientes en issues públicos.
 
 **Actualizacion v0.116.0 (10-08-2026):** `.github/workflows/quality.yml` protege cada PR y push a `main` con `npm ci`, `npm audit --omit=dev --audit-level=high`, validación de 22 explainers, `test:ai-guards`, typecheck, lint y build. El job usa Node 20, permisos `contents: read`, timeout de 10 minutos y cancelación por rama.
