@@ -19,6 +19,10 @@ export const instanaMeta: ExplainerMeta = {
     ],
     limitations: "La cobertura, retención, sensores, permisos y edición deben validarse en el entorno real.",
     sourceIds: ["instana-capabilities", "instana-investigation", "instana-deployment"],
+    decisionOptions: [
+      { id: "coverage-first", title: "Priorizar cobertura", summary: "Cubrir primero servicios y dependencias críticas.", benefits: "Reduce zonas ciegas y mejora la calidad del contexto durante incidentes.", tradeoffs: "Requiere inventario, agentes, sensores, permisos y gobierno de datos antes de prometer resultados.", evidence: "Mapa de servicios, porcentaje de cobertura, señales recibidas y dependencias prioritarias.", sourceIds: ["instana-capabilities", "instana-fullstack"], scenarioIds: ["instrumentation-gap", "topology-drift"] },
+      { id: "investigation-first", title: "Priorizar investigación", summary: "Optimizar la correlación de señales y cambios para reducir el tiempo de diagnóstico.", benefits: "Ayuda a enfocar la respuesta en impacto y causa probable, con contexto compartido.", tradeoffs: "Una hipótesis seguirá siendo débil si la cobertura, retención o calidad de señales es insuficiente.", evidence: "Casos de incidente, trazas, métricas, logs, cambios y criterio de remediación.", sourceIds: ["instana-investigation", "instana-apm"], scenarioIds: ["false-cause", "telemetry-pipeline"] },
+    ],
   },
   chip: "Observabilidad · IBM Instana",
   title: "Cómo IBM Instana conecta una señal con el impacto de una aplicación",
