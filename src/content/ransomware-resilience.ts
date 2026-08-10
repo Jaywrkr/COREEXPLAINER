@@ -53,6 +53,17 @@ export const ransomwareFailureScenarios: FailureScenario[] = [
 ];
 
 export const ransomwareResilienceMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Ciberresiliencia con recuperación limpia",
+    summary: "El objetivo es reducir exposición y radio de explosión, detectar a tiempo, contener y recuperar desde copias confiables.",
+    expectedChanges: [
+      "Identidad, endpoints, red y workloads cubiertos por controles coordinados.",
+      "Copias separadas, offline o inmutables con administración protegida.",
+      "Clean room, validación de integridad y aceptación antes de volver a producción.",
+    ],
+    limitations: "La cobertura real, tiempos de detección, limpieza y recuperación requieren ejercicios y evidencias del cliente.",
+    sourceIds: ["cisa-guide", "cisa-advisory", "veeam-immutability", "ibm-security", "checkpoint-ransomware"],
+  },
   chip: "Ciberresiliencia · Ransomware",
   title: "Cómo reducir el radio de explosión y recuperar con confianza",
   tagline:

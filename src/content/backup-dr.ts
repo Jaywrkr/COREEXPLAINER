@@ -53,6 +53,17 @@ export const backupDrFailureScenarios: FailureScenario[] = [
 ];
 
 export const backupDrMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Recuperación comprobable y protegida",
+    summary: "El objetivo es que RPO, RTO, copias, replicación y restauración formen una cadena con evidencia, no solo un inventario de backups.",
+    expectedChanges: [
+      "Objetivos de negocio traducidos a políticas de protección y prioridades.",
+      "Copias separadas por dominios de fallo, con inmutabilidad u offline cuando aplica.",
+      "Restauraciones funcionales y criterios de aceptación practicados.",
+    ],
+    limitations: "El RPO/RTO, sizing, soporte de plataforma y diseño de sitio alterno deben validarse por workload.",
+    sourceIds: ["nist-contingency", "nist-rto", "veeam-architecture", "veeam-immutability", "ibm-replication"],
+  },
   brandContext: brandContext.backupDr,
   chip: "Continuidad · Backup y DR",
   title: "De una copia a una recuperación comprobable",

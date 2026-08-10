@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.71.0";
+export const currentVersion = "0.72.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.72.0",
+    date: "09 ago 2026",
+    title: "Objetivos autorados para continuidad, seguridad, storage y plataforma",
+    changes: [
+      "Backup/DR, ransomware, SAN y Kubernetes declaran objetivos con cambios esperados y límites.",
+      "La comparación actual/objetivo cubre ahora continuidad, ciberresiliencia, almacenamiento y cloud-native.",
+      "Cada objetivo reutiliza fuentes técnicas existentes y evita promesas de sizing, compatibilidad o certificación.",
+    ],
+  },
   {
     version: "0.71.0",
     date: "09 ago 2026",
