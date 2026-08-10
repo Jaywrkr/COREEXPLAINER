@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.98.0] - 2026-08-09
+
+- El dashboard muestra métricas locales de utilidad.
+- Se registran navegación, escenarios, workflows, briefs y borradores.
+- Los eventos no salen del navegador y pueden borrarse.
+
 ## [0.97.0] - 2026-08-09
 
 - El dashboard incorpora una biblioteca de patrones reutilizables de CORESOLUTIONS.

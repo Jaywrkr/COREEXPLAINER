@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta } from "@/content/types";
+import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 
 type WorkflowStatus = "draft" | "technical-review" | "source-review" | "commercial-review" | "approved" | "published" | "review-due";
 
@@ -34,9 +35,9 @@ export function ContentWorkflowPanel({ slug, meta }: ContentWorkflowPanelProps) 
   const canAdvance = status === "technical-review" ? meta.reviewStatus === "reviewed" : status === "source-review" ? staleSources === 0 : true;
   const advance = () => {
     if (!canAdvance) return;
-    if (status === "review-due") { setStatus("technical-review"); return; }
+    if (status === "review-due") { setStatus("technical-review"); recordProductEvent({ name: "workflow-advance", slug }); return; }
     const next = stages[stageIndex + 1];
-    if (next) setStatus(next.id);
+    if (next) { setStatus(next.id); recordProductEvent({ name: "workflow-advance", slug, id: next.id }); }
   };
   const markDue = () => setStatus("review-due");
 
