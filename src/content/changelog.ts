@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.85.0";
+export const currentVersion = "0.86.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.86.0",
+    date: "09 ago 2026",
+    title: "Copiloto grounded por explicación",
+    changes: [
+      "Cada explicación incorpora un copiloto bajo demanda con contexto de CORESOLUTIONS, escena, target y fuentes.",
+      "El endpoint limita la pregunta y el contexto, exige una clave de servidor y rechaza respuestas fuera del alcance autorado.",
+      "La interfaz mantiene la explicación disponible si el proveedor de IA no está configurado o no responde.",
+    ],
+  },
   {
     version: "0.85.0",
     date: "09 ago 2026",

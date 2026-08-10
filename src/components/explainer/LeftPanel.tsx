@@ -14,6 +14,7 @@ import { ExplainerFeedback } from "./ExplainerFeedback";
 import { BeginnerGuide } from "./BeginnerGuide";
 import { AudienceOutcomePanel } from "./AudienceOutcomePanel";
 import { GlossaryText } from "./GlossaryText";
+import { CopilotPanel } from "./CopilotPanel";
 
 interface LeftPanelProps {
   slug: string;
@@ -78,6 +79,7 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
+      <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} />
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
         <ExplainerFeedback slug={slug} />

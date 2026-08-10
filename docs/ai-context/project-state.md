@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.86.0 (09-08-2026):** cada explicación tiene un copiloto grounded bajo demanda. `CopilotPanel` envía pregunta y contexto autorado a `/api/copilot`; el servidor exige `OPENAI_API_KEY`, limita tamaños y ordena responder con fuentes, límites y evidencia. Sin clave, la app sigue funcionando y muestra un mensaje de configuración.
+
 **Actualizacion v0.85.0 (09-08-2026):** cada explainer tiene una revisión técnica asistida bajo demanda. El motor local inspecciona integridad, arquitectura objetivo, roadmap, decisiones, escenarios y vigencia de fuentes; devuelve hallazgos con severidad, evidencia y acción. Es una base determinista y grounded para futuras capacidades de IA.
 
 **Actualizacion v0.84.0 (09-08-2026):** el laboratorio de decisiones muestra las fases de roadmap enlazadas como controles accionables. Desde una opción seleccionada se puede marcar cada fase como revisada, no aplica o pendiente; el estado se conserva localmente.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.86.0] - 2026-08-09
+
+- Se añade un copiloto contextual por explicación.
+- El copiloto usa únicamente el contenido autorado enviado como contexto y muestra sus límites.
+- Si falta la configuración de IA, la explicación continúa funcionando sin interrupciones.
+
 ## [0.85.0] - 2026-08-09
 
 - Cada explicación incluye una revisión técnica asistida basada en contenido local.
