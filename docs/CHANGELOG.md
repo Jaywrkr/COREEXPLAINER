@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.73.0] - 2026-08-09
+
+- El build valida etiqueta, resumen, límites y cambios esperados de cada targetArchitecture.
+- Las fuentes declaradas por un objetivo deben existir en el catálogo técnico del explainer.
+- Los errores de objetivos incompletos o referencias rotas bloquean la publicación del contenido.
+
 ## [0.72.0] - 2026-08-09
 
 - Backup/DR, ransomware, SAN y Kubernetes declaran objetivos con cambios esperados y límites.

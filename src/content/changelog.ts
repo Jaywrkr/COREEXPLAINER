@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.72.0";
+export const currentVersion = "0.73.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.73.0",
+    date: "09 ago 2026",
+    title: "Validacion automatica de objetivos",
+    changes: [
+      "El build valida etiqueta, resumen, limites y cambios esperados de cada targetArchitecture.",
+      "Las fuentes declaradas por un objetivo deben existir en el catalogo tecnico del explainer.",
+      "Los errores de objetivos incompletos o referencias rotas bloquean la publicacion del contenido.",
+    ],
+  },
   {
     version: "0.72.0",
     date: "09 ago 2026",
