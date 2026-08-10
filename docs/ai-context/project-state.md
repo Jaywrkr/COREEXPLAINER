@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.136.0 (10-08-2026):** `report:technical-review:json` expone el resumen, filas y regla de prioridad en JSON. CI publica Markdown y JSON en el mismo artefacto para consumo humano y automatizado.
+
 **Actualizacion v0.135.0 (10-08-2026):** `npm run test:review-priority` cubre la regla compartida por la cola y el informe de revisión. CI y el runbook local ejecutan el test para evitar divergencias de score.
 
 **Actualizacion v0.134.0 (10-08-2026):** la cola `TechnicalReviewQueue` reutiliza `getReviewPriority`, el mismo score del informe CLI, y muestra prioridad/fuentes por confirmar por explainer. El orden es informativo y no aprueba contenido.

@@ -30,6 +30,16 @@ const pending = rows.filter((row) => row.reviewStatus === "pending").length;
 const stale = rows.reduce((sum, row) => sum + row.staleSources, 0);
 const warningCount = rows.reduce((sum, row) => sum + row.warnings.length, 0);
 
+if (process.argv.includes("--json")) {
+  console.log(JSON.stringify({
+    generatedAt: new Date().toISOString(),
+    summary: { explainers: rows.length, pending, staleSources: stale, warnings: warningCount },
+    rows,
+    priorityRule: { pending: 100, staleSource: 10, warning: 5 },
+  }, null, 2));
+  process.exit(0);
+}
+
 console.log("# CORESOLUTIONS · informe reproducible de revisión técnica");
 console.log("");
 console.log("> Informe de priorización. No aprueba contenido ni sustituye una revisión especialista.");

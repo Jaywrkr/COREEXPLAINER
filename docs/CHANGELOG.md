@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.136.0] - 2026-08-10
+
+- `report:technical-review:json` genera una versión machine-readable del informe.
+- CI publica Markdown y JSON en el artefacto de revisión.
+
 ## [0.135.0] - 2026-08-10
 
 - Se añade `npm run test:review-priority`.
