@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.76.0] - 2026-08-09
+
+- Los objetivos autorados pueden declarar fases de assessment con objetivo, evidencia y criterio de salida.
+- La UI muestra el roadmap bajo demanda dentro de la comparación actual/objetivo.
+- La validación comprueba fases duplicadas y fuentes inexistentes, y las regresiones cubren esos casos.
+
 ## [0.75.0] - 2026-08-09
 
 - Se agregó `npm run validate:content` para ejecutar el content gate sin iniciar un build de Next.js.

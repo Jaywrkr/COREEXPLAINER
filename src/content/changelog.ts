@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.75.0";
+export const currentVersion = "0.76.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.76.0",
+    date: "09 ago 2026",
+    title: "Motor de assessment y roadmap",
+    changes: [
+      "Los objetivos autorados pueden declarar fases de assessment con objetivo, evidencia y criterio de salida.",
+      "La UI muestra el roadmap bajo demanda dentro de la comparacion actual/objetivo.",
+      "La validacion comprueba fases duplicadas y fuentes inexistentes, y las regresiones cubren esos casos.",
+    ],
+  },
   {
     version: "0.75.0",
     date: "09 ago 2026",

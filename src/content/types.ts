@@ -39,6 +39,16 @@ export interface TargetArchitecture {
   expectedChanges: string[];
   limitations: string;
   sourceIds?: string[];
+  roadmap?: AssessmentRoadmapPhase[];
+}
+
+export interface AssessmentRoadmapPhase {
+  id: string;
+  title: string;
+  objective: string;
+  evidence: string;
+  exitCriteria: string;
+  sourceIds?: string[];
 }
 
 export type TechnicalIntegrityDomain =

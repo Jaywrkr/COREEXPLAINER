@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.76.0 (09-08-2026):** `targetArchitecture.roadmap` permite declarar fases de assessment con objetivo, evidencia, criterio de salida y fuentes. La comparación de VCF muestra el primer roadmap autorado bajo demanda.
+
 **Actualizacion v0.75.0 (09-08-2026):** existe `npm run validate:content`, un comando independiente que importa el registro, ejecuta el content gate y las regresiones, y confirma el número de explainers sin levantar Next.js.
 
 **Actualizacion v0.74.0 (09-08-2026):** el registro ejecuta `assertTargetArchitectureRegression` junto con las regresiones de integridad. Se cubren objetivos válidos, fuentes desconocidas y contratos incompletos.
