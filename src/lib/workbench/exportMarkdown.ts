@@ -29,6 +29,15 @@ function safeText(value: string): string {
   return value.replace(/[\r\n]+/g, " ").trim();
 }
 
+export function isSafeHttpUrl(value: string): boolean {
+  try {
+    const protocol = new URL(value).protocol;
+    return protocol === "http:" || protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Builds a deterministic, plain-text work package. It intentionally contains
  * no browser APIs so the export contract can be regression-tested offline.
@@ -52,7 +61,7 @@ export function buildWorkbenchMarkdown(input: WorkbenchExportInput): string {
         `- Detalle: ${safeText(item.detail)}`,
         `- Evidencia: ${safeText(item.evidence)}`,
         item.sourceIds.length ? `- Fuentes: ${item.sourceIds.join(", ")}` : "- Fuentes: confirmar antes de ejecutar",
-        ...(item.sourceLabels?.length ? item.sourceLabels.map((label) => `- Referencia: ${safeText(label)}`) : item.sourceLabel ? [`- Referencia: ${safeText(item.sourceLabel)}`] : [""]),
+        ...(item.sourceLabels?.filter(isSafeHttpUrl).length ? item.sourceLabels.filter(isSafeHttpUrl).map((label) => `- Referencia: ${safeText(label)}`) : item.sourceLabel && isSafeHttpUrl(item.sourceLabel) ? [`- Referencia: ${safeText(item.sourceLabel)}`] : [""]),
         "",
       ]),
     ]),

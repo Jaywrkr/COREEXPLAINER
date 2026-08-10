@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.130.0] - 2026-08-10
+
+- La UI y el exportador solo enlazan URLs `http` o `https` del catálogo.
+- Protocolos inseguros o URLs malformadas no se convierten en enlaces.
+- La regresión offline cubre el rechazo de `javascript:`.
+
 ## [0.129.0] - 2026-08-10
 
 - Las exportaciones Markdown incluyen URLs registradas para cada fuente asociada.

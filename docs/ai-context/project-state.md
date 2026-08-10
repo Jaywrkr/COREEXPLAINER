@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.130.0 (10-08-2026):** `isSafeHttpUrl` limita los enlaces de fuente del Workbench y sus exportaciones a `http`/`https`. Una URL insegura o malformada no se vuelve enlace; la regresión offline cubre `javascript:`.
+
 **Actualizacion v0.129.0 (10-08-2026):** el exportador Markdown incluye las URLs del catálogo para cada `sourceId` con coincidencia exacta. Las referencias desconocidas siguen sin URL inventada y se mantienen como pendientes.
 
 **Actualizacion v0.128.0 (10-08-2026):** los IDs de fuente de cada tarea del Workbench enlazan a la URL del catálogo cuando existe una coincidencia exacta; los IDs desconocidos permanecen como texto para no inventar referencias.

@@ -1,5 +1,8 @@
 import assert from "node:assert/strict";
-import { buildWorkbenchMarkdown } from "@/lib/workbench/exportMarkdown";
+import { buildWorkbenchMarkdown, isSafeHttpUrl } from "@/lib/workbench/exportMarkdown";
+
+assert.equal(isSafeHttpUrl("https://docs.example.test/source"), true);
+assert.equal(isSafeHttpUrl("javascript:alert(1)"), false);
 
 const markdown = buildWorkbenchMarkdown({
   title: "Demo\nsegura",
@@ -16,7 +19,7 @@ const markdown = buildWorkbenchMarkdown({
       detail: "Revisar\nrelaciones",
       evidence: "Fuente y límite",
       sourceIds: [],
-      sourceLabels: ["https://docs.example.test/contract"],
+      sourceLabels: ["https://docs.example.test/contract", "javascript:alert(1)"],
       checked: true,
     }],
   }],
@@ -29,6 +32,7 @@ assert.match(markdown, /Estado local: revisado/);
 assert.match(markdown, /Fuentes: confirmar antes de ejecutar/);
 assert.match(markdown, /Fuentes a confirmar/);
 assert.match(markdown, /https:\/\/docs\.example\.test\/contract/);
+assert.doesNotMatch(markdown, /javascript:alert/);
 assert.doesNotMatch(markdown, /Demo\nsegura/);
 assert.doesNotMatch(markdown, /Revisar\nrelaciones/);
 console.log("Workbench export regression checks passed.");
