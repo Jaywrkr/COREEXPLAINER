@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.75.0] - 2026-08-09
+
+- Se agregó `npm run validate:content` para ejecutar el content gate sin iniciar un build de Next.js.
+- El comando carga el registro completo, ejecuta regresiones y confirma los 22 explainers revisados.
+- La validación queda disponible antes de abrir una rama o revisar un PR de contenido.
+
 ## [0.74.0] - 2026-08-09
 
 - Se agregaron fixtures de build para objetivos completos, fuentes desconocidas y objetivos incompletos.

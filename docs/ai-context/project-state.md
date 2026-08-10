@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.75.0 (09-08-2026):** existe `npm run validate:content`, un comando independiente que importa el registro, ejecuta el content gate y las regresiones, y confirma el número de explainers sin levantar Next.js.
+
 **Actualizacion v0.74.0 (09-08-2026):** el registro ejecuta `assertTargetArchitectureRegression` junto con las regresiones de integridad. Se cubren objetivos válidos, fuentes desconocidas y contratos incompletos.
 
 **Actualizacion v0.73.0 (09-08-2026):** `validateExplainerContent` valida `targetArchitecture`: campos obligatorios, cambios esperados, IDs duplicados y fuentes existentes. Un objetivo roto bloquea el build.

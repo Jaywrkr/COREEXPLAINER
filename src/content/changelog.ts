@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.74.0";
+export const currentVersion = "0.75.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.75.0",
+    date: "09 ago 2026",
+    title: "Comando de validacion de contenido",
+    changes: [
+      "Se agrego npm run validate:content para ejecutar el content gate sin iniciar un build de Next.js.",
+      "El comando carga el registro completo, ejecuta regresiones y confirma los 22 explainers revisados.",
+      "La validacion queda disponible antes de abrir una rama o revisar un PR de contenido.",
+    ],
+  },
   {
     version: "0.74.0",
     date: "09 ago 2026",
