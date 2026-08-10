@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.77.0] - 2026-08-09
+
+- Las fases de assessment pueden marcarse como pendientes, revisadas o no aplicables durante una sesión.
+- El estado se conserva localmente por explicación y escenario, sin backend ni datos de cliente.
+- El contador del roadmap muestra el avance sin convertirlo en una puntuación de madurez.
+
 ## [0.76.0] - 2026-08-09
 
 - Los objetivos autorados pueden declarar fases de assessment con objetivo, evidencia y criterio de salida.
