@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.121.0";
+export const currentVersion = "0.122.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.122.0",
+    date: "10 ago 2026",
+    title: "Paquete de trabajo con progreso y fuentes pendientes",
+    changes: [
+      "El progreso local se resume entre Implementar, Soportar y Mantener.",
+      "La descarga genera un paquete completo con estados revisado/pendiente y fuentes por confirmar.",
+      "Las tareas sin fuente o con review-needed quedan visibles para revisión humana antes de ejecutar.",
+    ],
+  },
   {
     version: "0.121.0",
     date: "10 ago 2026",
