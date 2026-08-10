@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.81.0] - 2026-08-09
+
+- Instana, Turbonomic y webMethods incorporan dos decisiones autoradas propias de su dominio.
+- Cada decisión enlaza escenarios para validar cobertura, automatización, APIs, runtimes o interoperabilidad.
+- La misma validación comprueba que las referencias de escenarios existan en el contenido.
+
 ## [0.80.0] - 2026-08-09
 
 - Cada decisión puede enlazar fases de roadmap y escenarios que permiten comprobarla.

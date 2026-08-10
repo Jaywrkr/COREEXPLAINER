@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.80.0";
+export const currentVersion = "0.81.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.81.0",
+    date: "09 ago 2026",
+    title: "Laboratorios de decisiones por dominio",
+    changes: [
+      "Instana, Turbonomic y webMethods incorporan dos decisiones autoradas propias de su dominio.",
+      "Cada decisión enlaza escenarios para validar cobertura, automatización, APIs, runtimes o interoperabilidad.",
+      "La misma validación comprueba que las referencias de escenarios existan en el contenido.",
+    ],
+  },
   {
     version: "0.80.0",
     date: "09 ago 2026",

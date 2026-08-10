@@ -19,6 +19,10 @@ export const webMethodsMeta: ExplainerMeta = {
     ],
     limitations: "La topología final depende de edición, interoperabilidad, conectividad, datos, seguridad y operación del cliente.",
     sourceIds: ["wm-overview", "wm-architecture", "wm-interoperability", "wm-gateway"],
+    decisionOptions: [
+      { id: "api-first", title: "Priorizar APIs y gobierno", summary: "Establecer contratos, seguridad, cuotas y ownership antes de ampliar integraciones.", benefits: "Reduce interfaces opacas y hace operable el consumo de servicios.", tradeoffs: "Puede exigir trabajo de versionado, mapping y adaptación de consumidores existentes.", evidence: "Contratos, políticas, identidad, rate limits, errores y portal de publicación.", sourceIds: ["wm-gateway", "wm-gateway-components"], scenarioIds: ["api-policy", "mapping-error"] },
+      { id: "hybrid-first", title: "Priorizar patrón híbrido", summary: "Definir dónde se ejecuta cada runtime según datos, conectividad y operación.", benefits: "Permite modernizar sin mover todo al mismo lugar y respeta dependencias de sistemas existentes.", tradeoffs: "Aumenta la importancia de conectividad, credenciales, interoperabilidad y observabilidad entre dominios.", evidence: "Matriz de ubicación, rutas, VPE/VPN, versiones y ownership operativo.", sourceIds: ["wm-architecture", "wm-interoperability"], scenarioIds: ["runtime-unavailable", "version-mismatch"] },
+    ],
   },
   chip: "Integración · IBM webMethods",
   title: "Cómo IBM webMethods conecta APIs, aplicaciones, eventos y B2B",
