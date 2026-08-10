@@ -5,6 +5,7 @@ export interface WorkbenchExportItem {
   evidence: string;
   sourceIds: string[];
   sourceLabel?: string;
+  sourceLabels?: string[];
   checked?: boolean;
 }
 
@@ -51,7 +52,7 @@ export function buildWorkbenchMarkdown(input: WorkbenchExportInput): string {
         `- Detalle: ${safeText(item.detail)}`,
         `- Evidencia: ${safeText(item.evidence)}`,
         item.sourceIds.length ? `- Fuentes: ${item.sourceIds.join(", ")}` : "- Fuentes: confirmar antes de ejecutar",
-        item.sourceLabel ? `- Referencia: ${safeText(item.sourceLabel)}` : "",
+        ...(item.sourceLabels?.length ? item.sourceLabels.map((label) => `- Referencia: ${safeText(label)}`) : item.sourceLabel ? [`- Referencia: ${safeText(item.sourceLabel)}`] : [""]),
         "",
       ]),
     ]),

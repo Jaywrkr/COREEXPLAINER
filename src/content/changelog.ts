@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.128.0";
+export const currentVersion = "0.129.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.129.0",
+    date: "10 ago 2026",
+    title: "URLs de fuentes en el paquete descargado",
+    changes: [
+      "El Markdown exportado incluye las URLs registradas para cada sourceId con coincidencia en el catálogo.",
+      "La vista actual y el paquete completo comparten esta trazabilidad.",
+      "Las fuentes sin coincidencia siguen declaradas como pendientes, sin URL inventada.",
+    ],
+  },
   {
     version: "0.128.0",
     date: "10 ago 2026",

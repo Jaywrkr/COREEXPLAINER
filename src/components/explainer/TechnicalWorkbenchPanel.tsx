@@ -117,7 +117,14 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
     if (!item.sourceIds.length) return true;
     return item.sourceIds.some((id) => sources.find((source) => source.id === id)?.validity === "review-needed");
   });
-  const toExportItem = (item: WorkItem): WorkbenchExportItem => ({ ...item, checked: Boolean(checked[item.id]) });
+  const toExportItem = (item: WorkItem): WorkbenchExportItem => ({
+    ...item,
+    checked: Boolean(checked[item.id]),
+    sourceLabels: item.sourceIds.flatMap((id) => {
+      const source = sources.find((candidate) => candidate.id === id);
+      return source ? [source.url] : [];
+    }),
+  });
   const saveMarkdown = (markdown: string, filename: string) => {
     const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);

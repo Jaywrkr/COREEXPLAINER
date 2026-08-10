@@ -16,6 +16,7 @@ const markdown = buildWorkbenchMarkdown({
       detail: "Revisar\nrelaciones",
       evidence: "Fuente y límite",
       sourceIds: [],
+      sourceLabels: ["https://docs.example.test/contract"],
       checked: true,
     }],
   }],
@@ -27,6 +28,7 @@ assert.match(markdown, /Demo segura/);
 assert.match(markdown, /Estado local: revisado/);
 assert.match(markdown, /Fuentes: confirmar antes de ejecutar/);
 assert.match(markdown, /Fuentes a confirmar/);
+assert.match(markdown, /https:\/\/docs\.example\.test\/contract/);
 assert.doesNotMatch(markdown, /Demo\nsegura/);
 assert.doesNotMatch(markdown, /Revisar\nrelaciones/);
 console.log("Workbench export regression checks passed.");

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.129.0] - 2026-08-10
+
+- Las exportaciones Markdown incluyen URLs registradas para cada fuente asociada.
+- Las fuentes sin coincidencia permanecen como pendientes sin inventar URL.
+
 ## [0.128.0] - 2026-08-10
 
 - Los IDs de fuente del Workbench enlazan directamente a la URL registrada cuando existe.
