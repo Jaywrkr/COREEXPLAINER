@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BrandMark } from "@/components/explainer/BrandMark";
 import { ExplainerFeedback } from "@/components/explainer/ExplainerFeedback";
 import { getExplainersByCategory } from "@/content/registry";
+import { ExplainerDraftCreator } from "@/components/dashboard/ExplainerDraftCreator";
 
 export const metadata: Metadata = {
   title: "Explicadores técnicos · CORESOLUTIONS",
@@ -20,6 +21,8 @@ export default function ExplainerDashboardPage() {
         Explicaciones visuales interactivas, organizadas por categoría, listas para usarse en
         conversaciones con clientes.
       </p>
+
+      <ExplainerDraftCreator />
 
       {categories.length === 0 && (
         <p className="font-mono text-sm text-core-text-muted">Todavía no hay explicadores publicados.</p>

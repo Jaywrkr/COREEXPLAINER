@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.87.0";
+export const currentVersion = "0.88.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.88.0",
+    date: "09 ago 2026",
+    title: "Creador asistido de explainers",
+    changes: [
+      "El dashboard permite definir tema, audiencia, marcas y objetivo para generar un borrador estructurado.",
+      "Con OPENAI_API_KEY el borrador usa IA con un contrato JSON controlado; sin clave se ofrece una plantilla local editable.",
+      "El resultado incluye escenas, riesgos, preguntas de evidencia, gaps de validación y fuentes a confirmar.",
+    ],
+  },
   {
     version: "0.87.0",
     date: "09 ago 2026",

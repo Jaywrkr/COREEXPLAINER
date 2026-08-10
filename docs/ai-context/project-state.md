@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.88.0 (09-08-2026):** el dashboard incluye `ExplainerDraftCreator`. Recibe tema, audiencia, marcas y objetivo; genera tres escenas, riesgos, preguntas, gaps y fuentes a confirmar mediante `/api/creator` o plantilla local. Descarga JSON editable y no publica contenido automáticamente.
+
 **Actualizacion v0.87.0 (09-08-2026):** `AssessmentBriefControl` genera localmente un brief Markdown por explainer con preguntas, escenas, evidencia, fases, riesgos, decisiones, fuentes y límites. Es una salida editable para workshops/propuestas y no sube datos del cliente.
 
 **Actualizacion v0.86.0 (09-08-2026):** cada explicación tiene un copiloto grounded bajo demanda. `CopilotPanel` envía pregunta y contexto autorado a `/api/copilot`; el servidor exige `OPENAI_API_KEY`, limita tamaños y ordena responder con fuentes, límites y evidencia. Sin clave, la app sigue funcionando y muestra un mensaje de configuración.
