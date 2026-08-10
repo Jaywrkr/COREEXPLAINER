@@ -151,7 +151,7 @@ export const vcfSteps: ExplainerStep[] = [
     ],
     businessImpact: "Resultado esperado del diseño: crecer de forma planificada sin rediseñar toda la plataforma por cada incremento.",
     sceneId: "workloads",
-    caption: "Las apps consumen recursos del clúster con placement gestionado",
+    caption: "Usuarios → Clúster de cómputo → App / VM con placement gestionado",
     sourceIds: ["vcf-platform", "vcf-91-faq", "vsphere-ha-capacity"],
   },
 ];

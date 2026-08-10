@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.102.0] - 2026-08-10
+
+- El nodo Active Directory de NAS/private cloud queda marcado como `killable` para el escenario de indisponibilidad.
+- La topología y el escenario ya no contradicen el contrato de simulación.
+
+## [0.101.0] - 2026-08-10
+
+- Las escenas pueden declarar `allowIsolatedNodes` cuando los nodos desconectados son parte intencional de la explicación.
+- VCF usa esta marca para representar la fase inicial de silos antes de mostrar la unificación.
+- La excepción no afecta errores de endpoints desconocidos ni referencias inválidas.
+
 ## [0.100.0] - 2026-08-10
 
 - El content gate semántico reconoce nodos por su ID técnico o por su nombre visible.

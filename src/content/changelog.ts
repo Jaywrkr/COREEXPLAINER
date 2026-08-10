@@ -9,9 +9,28 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.100.0";
+export const currentVersion = "0.102.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.102.0",
+    date: "10 ago 2026",
+    title: "Escenario de identidad coherente",
+    changes: [
+      "El nodo Active Directory de NAS/private cloud queda marcado como simulable en el escenario de indisponibilidad.",
+      "El content gate detecta ahora una configuración coherente entre deadNodeIds y killable.",
+    ],
+  },
+  {
+    version: "0.101.0",
+    date: "10 ago 2026",
+    title: "Topología intencional en el content gate",
+    changes: [
+      "Las escenas pueden declarar explícitamente que sus nodos aislados son parte del mensaje.",
+      "La escena inicial de VCF marca sus silos como intencionales antes de la unificación.",
+      "Los endpoints desconocidos y las referencias inválidas siguen siendo errores del gate.",
+    ],
+  },
   {
     version: "0.100.0",
     date: "10 ago 2026",

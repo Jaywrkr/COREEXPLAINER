@@ -53,6 +53,8 @@ export interface SceneEdge {
 export interface Scene {
   nodes: SceneNode[];
   edges: SceneEdge[];
+  /** Explicitly true when this scene intentionally introduces disconnected silos. */
+  allowIsolatedNodes?: boolean;
 }
 
 export interface AnimationSpec {

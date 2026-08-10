@@ -14,7 +14,7 @@
     ] },
     "identity": { "nodes": [
       { "id": "user", "name": "Usuario", "subtitle": "Solicitud", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
-      { "id": "directory", "name": "Active Directory", "subtitle": "Identidad y grupos", "x": 0.3, "y": 0.25, "kind": "control-plane", "capacity": 80 },
+      { "id": "directory", "name": "Active Directory", "subtitle": "Identidad y grupos", "x": 0.3, "y": 0.25, "kind": "control-plane", "capacity": 80, "killable": true },
       { "id": "dns", "name": "DNS / NTP", "subtitle": "Dependencias", "x": 0.3, "y": 0.75, "kind": "network", "capacity": 70 },
       { "id": "nas", "name": "Synology NAS", "subtitle": "Cliente de dominio", "x": 0.58, "y": 0.5, "kind": "storage", "capacity": 85 },
       { "id": "share", "name": "ACL del share", "subtitle": "Autorización", "x": 0.82, "y": 0.5, "kind": "control-plane", "capacity": 75 },

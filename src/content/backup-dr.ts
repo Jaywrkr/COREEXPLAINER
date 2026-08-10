@@ -109,7 +109,7 @@ export const backupDrSteps: ExplainerStep[] = [
     ],
     businessImpact: "La conversación deja de ser “¿tenemos backup?” y pasa a ser “¿qué servicio recuperamos, en cuánto tiempo y con qué pérdida aceptada?” .",
     sceneId: "objectives",
-    caption: "Objetivo de negocio → política de protección → evidencia de recuperación",
+    caption: "Servicio crítico → BIA / política → Plan de protección → Criterio de aceptación",
     sourceIds: ["nist-contingency", "nist-rto"],
   },
   {

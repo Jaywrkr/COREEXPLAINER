@@ -129,7 +129,7 @@ export const vsphereHaSteps: ExplainerStep[] = [
     businessImpact:
       "El resultado esperado es recuperar la ejecución bajo las condiciones configuradas, no prometer cero interrupción.",
     sceneId: "restart",
-    caption: "Reinicio en host alterno · la aplicación vuelve a atender",
+    caption: "Host ESXi 2 → VM reiniciándose → Servicio disponible",
     sourceIds: ["vsphere-ha-restart", "vsphere-ha-retries"],
   },
   {

@@ -99,7 +99,7 @@ export const kubernetesSteps: ExplainerStep[] = [
     businessImpact:
       "La plataforma convierte parte de la operación en una relación observable entre intención, estado actual y acciones de reconciliación.",
     sceneId: "desired-state",
-    caption: "Manifiesto → API → controlador → Pods deseados",
+    caption: "Equipo / Git → Kubernetes API → Controller Manager → Pod frontend",
     sourceIds: ["k8s-architecture", "k8s-deployments"],
   },
   {
@@ -155,7 +155,7 @@ export const kubernetesSteps: ExplainerStep[] = [
     businessImpact:
       "La operación madura observa estados, eventos, probes y dependencias; no confunde “objeto deseado” con “servicio de negocio saludable”.",
     sceneId: "failure",
-    caption: "Nodos · Pods · probes · imágenes · capacidad",
+    caption: "Service · Pod frontend 1 · Nodo worker 1 · Readiness probe · Registry de imágenes",
     sourceIds: ["k8s-architecture", "k8s-scheduler", "k8s-probes", "k8s-deployments"],
   },
 ];

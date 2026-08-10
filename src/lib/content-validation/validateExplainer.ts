@@ -226,7 +226,7 @@ function validateSemanticCoherence(
       degree.set(edge.to, (degree.get(edge.to) ?? 0) + 1);
     }
     for (const node of scene.nodes) {
-      if ((degree.get(node.id) ?? 0) === 0 && scene.nodes.length > 1) {
+      if (!scene.allowIsolatedNodes && (degree.get(node.id) ?? 0) === 0 && scene.nodes.length > 1) {
         warn(`scene '${sceneId}' node '${node.id}' is isolated from every relationship`);
       }
     }
