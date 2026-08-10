@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { checkAiAccess, providerSignal } from "@/lib/ai/endpointGuard";
 
 interface CreatorRequest {
   topic?: string;
@@ -10,6 +11,10 @@ interface CreatorRequest {
 const limit = (value: string | undefined, max: number) => (value?.trim() ?? "").slice(0, max);
 
 export async function POST(request: Request) {
+  const access = checkAiAccess(request);
+  if (!access.allowed) return NextResponse.json({ message: access.message, fallback: true }, { status: access.status });
+  const declaredLength = Number(request.headers.get("content-length") ?? 0);
+  if (declaredLength > 4_000) return NextResponse.json({ message: "La solicitud es demasiado grande.", fallback: true }, { status: 413 });
   let body: CreatorRequest;
   try {
     body = (await request.json()) as CreatorRequest;
@@ -58,6 +63,7 @@ export async function POST(request: Request) {
       ],
     }),
     cache: "no-store",
+    signal: providerSignal(),
   });
 
   if (!upstream.ok) return NextResponse.json({ message: "El proveedor de IA no respondió.", fallback: true }, { status: 502 });
