@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.96.0] - 2026-08-09
+
+- El copiloto muestra telemetría local de consultas, fallos y tokens.
+- No se guardan prompts ni respuestas fuera del navegador.
+- Los metadatos de uso se devuelven sin exponer secretos.
+
 ## [0.95.0] - 2026-08-09
 
 - El copiloto puede proponer abrir fuentes o activar escenarios.

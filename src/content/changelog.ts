@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.95.0";
+export const currentVersion = "0.96.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.96.0",
+    date: "09 ago 2026",
+    title: "Telemetría local de uso de IA",
+    changes: [
+      "El copiloto registra localmente consultas, fallos y tokens devueltos por el proveedor.",
+      "La interfaz muestra el uso de la sesión sin guardar prompts ni respuestas en un servicio externo.",
+      "El endpoint devuelve metadatos de tokens sin exponer la clave ni contenido sensible adicional.",
+    ],
+  },
   {
     version: "0.95.0",
     date: "09 ago 2026",

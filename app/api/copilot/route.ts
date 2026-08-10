@@ -10,8 +10,10 @@ interface CopilotRequest {
   context?: string;
 }
 
-function response(message: string, status = 200, actions: CopilotAction[] = []) {
-  return NextResponse.json({ message, actions }, { status });
+interface AiUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string }
+
+function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage) {
+  return NextResponse.json({ message, actions, usage }, { status, headers: { "Cache-Control": "no-store" } });
 }
 
 export async function POST(request: Request) {
@@ -80,7 +82,8 @@ export async function POST(request: Request) {
     return response("El servicio de IA no respondió. La explicación sigue disponible sin el copiloto; revisa la configuración y vuelve a intentarlo.", 502);
   }
 
-  const payload = (await upstream.json()) as { choices?: Array<{ message?: { content?: string } }> };
+  const payload = (await upstream.json()) as { choices?: Array<{ message?: { content?: string } }>; usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number } };
+  const usage: AiUsage = { inputTokens: payload.usage?.prompt_tokens, outputTokens: payload.usage?.completion_tokens, totalTokens: payload.usage?.total_tokens, model };
   const message = payload.choices?.[0]?.message?.content?.trim();
   if (message) {
     try {
@@ -88,9 +91,9 @@ export async function POST(request: Request) {
       const actions = Array.isArray(parsed.actions)
         ? parsed.actions.filter((action): action is CopilotAction => Boolean(action) && typeof action === "object" && ((action as CopilotAction).type === "open-source" || (action as CopilotAction).type === "activate-scenario") && typeof (action as CopilotAction).id === "string" && typeof (action as CopilotAction).label === "string").slice(0, 3)
         : [];
-      return response(typeof parsed.message === "string" ? parsed.message : "El copiloto no devolvió una explicación utilizable.", 200, actions);
+      return response(typeof parsed.message === "string" ? parsed.message : "El copiloto no devolvió una explicación utilizable.", 200, actions, usage);
     } catch {
-      return response(message, 200);
+      return response(message, 200, [], usage);
     }
   }
   return message ? response(message) : response("El copiloto no devolvió una respuesta utilizable.", 502);

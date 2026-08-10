@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.96.0 (09-08-2026):** `usageTelemetry` registra localmente consultas, fallos y tokens del copiloto. `/api/copilot` devuelve uso agregado del proveedor; la UI no persiste prompts ni respuestas fuera del navegador.
+
 **Actualizacion v0.95.0 (09-08-2026):** el copiloto devuelve `CopilotAction` filtradas (`open-source` o `activate-scenario`). `CopilotPanel` solo muestra botones si el ID existe en las fuentes o escenarios actuales; la acción requiere click explícito y no ejecuta cambios remotos.
 
 **Actualizacion v0.94.0 (09-08-2026):** `ContentWorkflowPanel` muestra y persiste localmente el estado de cada explainer: borrador, revisión técnica, fuentes, comercial, aprobado, publicado o revisión vencida. El avance queda bloqueado cuando la revisión editorial está pendiente o hay fuentes `review-needed`.
