@@ -1,4 +1,5 @@
 import type { Scene } from "@/lib/animation-spec/types";
+import type { TechnicalIntegrityReport } from "@/content/types";
 import type { WhatIfImpact } from "./evaluateWhatIf";
 
 export type TechnicalFindingSeverity = "critical" | "warning" | "info";
@@ -13,8 +14,25 @@ export interface TechnicalFinding {
 }
 
 /** Turns graph impact into reviewable, vendor-neutral technical findings. */
-export function evaluateTechnicalRules(scene: Scene, impact: WhatIfImpact): TechnicalFinding[] {
+export function evaluateTechnicalRules(
+  scene: Scene,
+  impact: WhatIfImpact,
+  integrityReport?: TechnicalIntegrityReport | null,
+): TechnicalFinding[] {
   const findings: TechnicalFinding[] = [];
+
+  if (integrityReport?.diagnostics.length) {
+    for (const diagnostic of integrityReport.diagnostics) {
+      findings.push({
+        id: `integrity-${diagnostic.id}`,
+        severity: diagnostic.severity === "error" ? "critical" : "warning",
+        title: `${diagnostic.title} · ${integrityReport.domain}`,
+        detail: diagnostic.detail,
+        evidence: diagnostic.rationale,
+        recommendation: diagnostic.recommendation,
+      });
+    }
+  }
 
   if (impact.status === "blocked") {
     findings.push({
