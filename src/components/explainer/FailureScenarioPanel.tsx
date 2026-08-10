@@ -592,7 +592,27 @@ export function FailureScenarioPanel({
                           <p><span className="font-semibold text-core-text">Trade-off:</span> {selectedDecisionLab.tradeoffs}</p>
                           <p><span className="font-semibold text-core-text">Evidencia:</span> {selectedDecisionLab.evidence}</p>
                           {selectedDecisionLab.roadmapPhaseIds?.length ? (
-                            <p><span className="font-semibold text-core-text">Fases a revisar:</span> {selectedDecisionLab.roadmapPhaseIds.map((phaseId) => targetArchitecture.roadmap?.find((phase) => phase.id === phaseId)?.title ?? phaseId).join(", ")}</p>
+                            <div>
+                              <p className="font-semibold text-core-text">Fases a revisar:</p>
+                              <div className="mt-1 flex flex-wrap gap-1">
+                                {selectedDecisionLab.roadmapPhaseIds.map((phaseId) => {
+                                  const phase = targetArchitecture.roadmap?.find((candidate) => candidate.id === phaseId);
+                                  const status = roadmapStatus[phaseId];
+                                  const statusLabel = status === "done" ? "Revisada" : status === "na" ? "No aplica" : "Pendiente";
+                                  return phase ? (
+                                    <button
+                                      key={phaseId}
+                                      type="button"
+                                      onClick={() => toggleRoadmapPhase(phaseId)}
+                                      className="border border-core-accent/40 px-1.5 py-0.5 text-left text-[0.58rem] text-core-accent hover:bg-core-accent/10"
+                                      aria-label={`${phase.title}: ${statusLabel}. Pulsar para cambiar estado.`}
+                                    >
+                                      {phase.title} · {statusLabel}
+                                    </button>
+                                  ) : <span key={phaseId} className="text-core-text-muted">{phaseId}</span>;
+                                })}
+                              </div>
+                            </div>
                           ) : null}
                           {selectedDecisionLab.scenarioIds?.length ? (
                             <div>

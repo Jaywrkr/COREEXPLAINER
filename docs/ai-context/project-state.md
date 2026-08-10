@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.84.0 (09-08-2026):** el laboratorio de decisiones muestra las fases de roadmap enlazadas como controles accionables. Desde una opción seleccionada se puede marcar cada fase como revisada, no aplica o pendiente; el estado se conserva localmente.
+
 **Actualizacion v0.83.0 (09-08-2026):** las opciones de decisión de Instana, Turbonomic y webMethods enlazan `roadmapPhaseIds` además de sus escenarios. El laboratorio puede llevar al usuario desde una alternativa hasta la fase y evidencia que debe comprobar.
 
 **Actualizacion v0.82.0 (09-08-2026):** Instana, Turbonomic y webMethods declaran roadmaps de assessment por dominio. Cada uno ordena la evaluacion en tres fases con objetivo, evidencia, criterio de salida y fuentes; se muestran bajo demanda en la comparacion de arquitectura.

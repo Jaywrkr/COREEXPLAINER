@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.83.0";
+export const currentVersion = "0.84.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.84.0",
+    date: "09 ago 2026",
+    title: "Ruta accionable desde decisiones",
+    changes: [
+      "Las fases de roadmap enlazadas desde una decisión ahora se muestran como controles compactos.",
+      "Cada fase puede marcarse como revisada, no aplica o pendiente directamente desde el laboratorio.",
+      "La selección mantiene el estado local de la sesión y conserva los escenarios como validaciones complementarias.",
+    ],
+  },
   {
     version: "0.83.0",
     date: "09 ago 2026",
