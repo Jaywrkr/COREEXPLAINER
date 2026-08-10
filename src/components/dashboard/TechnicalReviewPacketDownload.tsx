@@ -16,7 +16,20 @@ interface TechnicalReviewPacketDownloadProps {
   warnings: string[];
 }
 
-function markdownForReview({ slug, title, scope, lastReviewedAt, validationDoc, sources, warnings }: TechnicalReviewPacketDownloadProps) {
+interface LocalReviewTracking {
+  reviewer?: string;
+  targetDate?: string;
+  notes?: string;
+  status?: string;
+}
+
+function readLocalTracking(slug: string): LocalReviewTracking | null {
+  try {
+    return JSON.parse(window.localStorage.getItem(`core-explainer:technical-review:${slug}`) ?? "null") as LocalReviewTracking | null;
+  } catch { return null; }
+}
+
+function markdownForReview({ slug, title, scope, lastReviewedAt, validationDoc, sources, warnings }: TechnicalReviewPacketDownloadProps, tracking: LocalReviewTracking | null) {
   const checklist = [
     "[ ] Confirmar producto, versión/release, HCL y licenciamiento aplicables.",
     "[ ] Contrastar que el diagrama representa las relaciones y dependencias reales.",
@@ -38,6 +51,13 @@ function markdownForReview({ slug, title, scope, lastReviewedAt, validationDoc, 
     "## Checklist del especialista",
     "",
     ...checklist,
+    "",
+    "## Seguimiento local",
+    "",
+    `- Estado local: ${tracking?.status ?? "unassigned"}`,
+    `- Responsable: ${tracking?.reviewer || "(sin asignar)"}`,
+    `- Fecha objetivo: ${tracking?.targetDate || "(sin fecha)"}`,
+    `- Notas: ${tracking?.notes || "(sin notas)"}`,
     "",
     "## Advertencias del content gate",
     "",
@@ -62,7 +82,7 @@ function markdownForReview({ slug, title, scope, lastReviewedAt, validationDoc, 
 
 export function TechnicalReviewPacketDownload(props: TechnicalReviewPacketDownloadProps) {
   const download = () => {
-    const blob = new Blob([markdownForReview(props)], { type: "text/markdown;charset=utf-8" });
+    const blob = new Blob([markdownForReview(props, readLocalTracking(props.slug))], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
