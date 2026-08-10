@@ -16,6 +16,8 @@ function redisClient(): Redis | null {
   return client;
 }
 
+export function persistentQuotaConfigured() { return Boolean(redisClient()); }
+
 function windowKey(now: number) { return Math.floor(now / WINDOW_MS); }
 function retryAfter(now: number) { return Math.max(1, Math.ceil(((windowKey(now) + 1) * WINDOW_MS - now) / 1000)); }
 

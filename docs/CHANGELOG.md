@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.114.0] - 2026-08-10
+
+- `/api/health` muestra versión, estado de IA, modo de cuota e identidad firmada sin revelar valores sensibles.
+- La respuesta usa `Cache-Control: no-store` para no ocultar cambios de configuración del despliegue.
+
 ## [0.113.0] - 2026-08-10
 
 - Overrides de seguridad fijan PostCSS `8.5.26` y Sharp `0.35.3` para las dependencias transitivas de Next.js.
