@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.115.0";
+export const currentVersion = "0.116.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.116.0",
+    date: "10 ago 2026",
+    title: "Quality gate automático de PR",
+    changes: [
+      "GitHub Actions ejecuta audit, content gate, regresiones de IA, typecheck, lint y build en cada PR y push a main.",
+      "El workflow usa npm ci, Node.js 20, permisos mínimos y cancelación de ejecuciones obsoletas.",
+      "Las garantías de contenido y seguridad dejan de depender de una ejecución manual local.",
+    ],
+  },
   {
     version: "0.115.0",
     date: "10 ago 2026",

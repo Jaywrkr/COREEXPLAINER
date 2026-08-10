@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.116.0 (10-08-2026):** `.github/workflows/quality.yml` protege cada PR y push a `main` con `npm ci`, `npm audit --omit=dev --audit-level=high`, validación de 22 explainers, `test:ai-guards`, typecheck, lint y build. El job usa Node 20, permisos `contents: read`, timeout de 10 minutos y cancelación por rama.
+
 **Actualizacion v0.115.0 (10-08-2026):** `npm run test:ai-guards` ejecuta regresiones offline para asegurar que no se invente un coste sin tarifas, que el fallback de Redis funcione sin variables y que `/api/health` no-cachee ni exponga secretos. Las variables de entorno se restauran al terminar.
 
 **Actualizacion v0.114.0 (10-08-2026):** `/api/health` devuelve una señal operativa sin secretos: versión, IA habilitada/configurada, modo de cuota (`shared-redis` o `process-local`) e identidad HMAC configurada. Es dinámico y usa `no-store`, por lo que sirve para comprobar un despliegue de Vercel sin mostrar tokens ni prompts.
