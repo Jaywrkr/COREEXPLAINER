@@ -246,6 +246,7 @@ export function ExplainerLayout({
           audienceMode={audienceMode}
           onAudienceModeChange={setAudienceMode}
           activeFailureScenarioId={activeFailureScenarioId}
+          onSelectScenario={setActiveFailureScenarioId}
         />
         <button
           type="button"

@@ -36,6 +36,7 @@ interface LeftPanelProps {
   audienceMode: AudienceMode;
   onAudienceModeChange: (mode: AudienceMode) => void;
   activeFailureScenarioId: string | null;
+  onSelectScenario: (scenarioId: string | null) => void;
 }
 
 export function LeftPanel({
@@ -56,6 +57,7 @@ export function LeftPanel({
   audienceMode,
   onAudienceModeChange,
   activeFailureScenarioId,
+  onSelectScenario,
 }: LeftPanelProps) {
   const step = steps[current]!;
   const isTechnical = audienceMode === "technical";
@@ -81,7 +83,7 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
-      <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} />
+      <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
       <AssessmentBriefControl meta={meta} steps={steps} />
       <ContentWorkflowPanel slug={slug} meta={meta} />
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}

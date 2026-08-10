@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, readJsonBody } from "@/lib/ai/endpointGuard";
+import type { CopilotAction } from "@/lib/ai/copilotContract";
 
 const MAX_QUESTION_LENGTH = 600;
 const MAX_CONTEXT_LENGTH = 14000;
@@ -9,8 +10,8 @@ interface CopilotRequest {
   context?: string;
 }
 
-function response(message: string, status = 200) {
-  return NextResponse.json({ message }, { status });
+function response(message: string, status = 200, actions: CopilotAction[] = []) {
+  return NextResponse.json({ message, actions }, { status });
 }
 
 export async function POST(request: Request) {
@@ -54,6 +55,7 @@ export async function POST(request: Request) {
         {
           role: "system",
           content: [
+            "Devuelve JSON válido con las claves message y actions. actions solo puede usar open-source o activate-scenario con IDs existentes en el contexto; si no hay una acción segura, devuelve [].",
             "Eres el copiloto técnico de CORESOLUTIONS.",
             "Responde únicamente con el contexto autorado que recibes.",
             "Si el contexto no permite responder, dilo claramente y pide la evidencia faltante.",
@@ -68,6 +70,7 @@ export async function POST(request: Request) {
           content: `CONTEXTO AUTORADO:\n${context}\n\nPREGUNTA:\n${question}`,
         },
       ],
+      response_format: { type: "json_object" },
     }),
     cache: "no-store",
     signal: providerSignal(),
@@ -79,5 +82,16 @@ export async function POST(request: Request) {
 
   const payload = (await upstream.json()) as { choices?: Array<{ message?: { content?: string } }> };
   const message = payload.choices?.[0]?.message?.content?.trim();
+  if (message) {
+    try {
+      const parsed = JSON.parse(message) as { message?: unknown; actions?: unknown };
+      const actions = Array.isArray(parsed.actions)
+        ? parsed.actions.filter((action): action is CopilotAction => Boolean(action) && typeof action === "object" && ((action as CopilotAction).type === "open-source" || (action as CopilotAction).type === "activate-scenario") && typeof (action as CopilotAction).id === "string" && typeof (action as CopilotAction).label === "string").slice(0, 3)
+        : [];
+      return response(typeof parsed.message === "string" ? parsed.message : "El copiloto no devolvió una explicación utilizable.", 200, actions);
+    } catch {
+      return response(message, 200);
+    }
+  }
   return message ? response(message) : response("El copiloto no devolvió una respuesta utilizable.", 502);
 }

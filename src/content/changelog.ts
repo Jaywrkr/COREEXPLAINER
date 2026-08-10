@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.94.0";
+export const currentVersion = "0.95.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.95.0",
+    date: "09 ago 2026",
+    title: "Acciones controladas desde el copiloto",
+    changes: [
+      "El copiloto puede proponer abrir una fuente o activar un escenario mediante acciones explícitas.",
+      "El servidor filtra las acciones a una allowlist y limita a tres acciones por respuesta.",
+      "La interfaz valida que la fuente o escenario exista antes de ejecutar cualquier acción local.",
+    ],
+  },
   {
     version: "0.94.0",
     date: "09 ago 2026",
