@@ -1,10 +1,25 @@
+import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 20;
 const DEFAULT_TOKEN_BUDGET = 12_000;
 const requestWindows = new Map<string, { startedAt: number; count: number }>();
 const tokenWindows = new Map<string, { startedAt: number; reserved: number }>();
 
+function signedIdentityKey(request: Request): string | undefined {
+  const secret = process.env.AI_IDENTITY_SIGNING_SECRET?.trim();
+  const subject = request.headers.get("x-coresolutions-user")?.trim();
+  const signature = request.headers.get("x-coresolutions-user-signature")?.trim().toLowerCase();
+  if (!secret || secret.length < 16 || !subject || subject.length > 160 || !signature || !/^[a-f0-9]{64}$/.test(signature)) return undefined;
+  const expected = createHmac("sha256", secret).update(subject, "utf8").digest("hex");
+  const valid = timingSafeEqual(Buffer.from(signature, "hex"), Buffer.from(expected, "hex"));
+  if (!valid) return undefined;
+  return `user:${createHash("sha256").update(subject, "utf8").digest("hex").slice(0, 32)}`;
+}
+
 function clientKey(request: Request) {
+  const identity = signedIdentityKey(request);
+  if (identity) return identity;
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
   return forwarded || request.headers.get("x-real-ip") || "anonymous";
 }

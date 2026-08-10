@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.111.0] - 2026-08-10
+
+- El guard de IA soporta identidad autenticada mediante `x-coresolutions-user`, su firma HMAC y `AI_IDENTITY_SIGNING_SECRET`.
+- Con una firma válida, el límite temporal se aplica por usuario; sin ella se mantiene el fallback por IP.
+- La clave interna usa un hash y no guarda el identificador original.
+
 ## [0.110.0] - 2026-08-10
 
 - El generador asistido registra tokens, fallos y coste estimado en la misma telemetría local de Copilot.
