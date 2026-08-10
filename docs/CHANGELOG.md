@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.71.0] - 2026-08-09
+
+- Instana, Turbonomic y webMethods declaran objetivos de arquitectura con cambios esperados y límites.
+- La comparación actual/objetivo mantiene la misma estructura para explicar plataforma, optimización e integración.
+- Cada objetivo reutiliza fuentes existentes del explainer y no agrega promesas de sizing o compatibilidad.
+
 ## [0.70.0] - 2026-08-09
 
 - Los explainers pueden declarar una arquitectura objetivo con resumen, cambios esperados y limites.

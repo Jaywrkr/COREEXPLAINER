@@ -9,6 +9,17 @@ export const instanaFailureScenarios: FailureScenario[] = [
 ];
 
 export const instanaMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Observabilidad de recorrido completo",
+    summary: "El objetivo es conectar experiencia, servicios, infraestructura y señales para investigar incidentes con contexto común.",
+    expectedChanges: [
+      "Cobertura de los servicios y dependencias prioritarias.",
+      "Trazas, métricas, logs y cambios correlacionados con una pregunta operativa.",
+      "Investigación asistida por evidencia y remediación sujeta a validación humana.",
+    ],
+    limitations: "La cobertura, retención, sensores, permisos y edición deben validarse en el entorno real.",
+    sourceIds: ["instana-capabilities", "instana-investigation", "instana-deployment"],
+  },
   chip: "Observabilidad · IBM Instana",
   title: "Cómo IBM Instana conecta una señal con el impacto de una aplicación",
   tagline: "Una explicación visual de descubrimiento, mapas dinámicos, trazas, métricas, logs e investigación de incidentes con límites explícitos.",

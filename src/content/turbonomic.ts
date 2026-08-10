@@ -9,6 +9,17 @@ export const turbonomicFailureScenarios: FailureScenario[] = [
 ];
 
 export const turbonomicMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Optimización gobernada por demanda",
+    summary: "El objetivo es relacionar aplicaciones, recursos, restricciones y acciones para optimizar con guardrails operativos.",
+    expectedChanges: [
+      "Targets y supply chain representan las dependencias que se quieren optimizar.",
+      "Las recomendaciones se revisan contra demanda, capacidad, políticas y restricciones.",
+      "La automatización empieza con aprobación y evidencia antes de ampliar su alcance.",
+    ],
+    limitations: "No se garantiza una acción segura sin validar métricas, permisos, ventanas, licencias, soporte y rollback.",
+    sourceIds: ["turb-targets", "turb-actions", "turb-workflow", "turb-plans"],
+  },
   chip: "Optimización · IBM Turbonomic",
   title: "Cómo IBM Turbonomic decide qué recurso necesita cada aplicación",
   tagline: "Una explicación visual de targets, supply chain, mercado, acciones, políticas de automatización y planes what-if.",
