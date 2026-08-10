@@ -140,6 +140,24 @@ export function validateTargetArchitecture(target: TargetArchitecture, technical
       }
     }
   }
+  if (target.roadmap !== undefined) {
+    if (!Array.isArray(target.roadmap) || target.roadmap.length === 0) {
+      errors.push("meta.targetArchitecture.roadmap must contain at least one phase when provided");
+    } else {
+      const phaseIds = new Set<string>();
+      for (const [index, phase] of target.roadmap.entries()) {
+        const label = `meta.targetArchitecture.roadmap[${index}]`;
+        for (const field of ["id", "title", "objective", "evidence", "exitCriteria"] as const) {
+          if (!isNonEmptyText(phase[field])) errors.push(`${label}.${field} must be a non-empty string`);
+        }
+        if (phaseIds.has(phase.id)) errors.push(`${label}.id '${phase.id}' is duplicated`);
+        phaseIds.add(phase.id);
+        for (const sourceId of phase.sourceIds ?? []) {
+          if (!technicalSourceIds.has(sourceId)) errors.push(`${label}.sourceIds references unknown technical source '${sourceId}'`);
+        }
+      }
+    }
+  }
   return errors;
 }
 

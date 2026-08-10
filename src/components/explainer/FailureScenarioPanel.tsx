@@ -483,6 +483,23 @@ export function FailureScenarioPanel({
                       <p className="mt-1 text-[0.6rem] text-core-text-muted">Límite: {targetArchitecture.limitations}</p>
                     </div>
                   ) : null}
+                  {targetArchitecture?.roadmap?.length ? (
+                    <details className="mt-2 border-t border-core-border/[0.12] pt-2">
+                      <summary className="cursor-pointer list-none font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                        Roadmap de assessment · {targetArchitecture.roadmap.length} fases
+                      </summary>
+                      <ol className="mt-2 space-y-2">
+                        {targetArchitecture.roadmap.map((phase, index) => (
+                          <li key={phase.id} className="border-l-2 border-core-accent/50 pl-2 text-[0.64rem] leading-relaxed">
+                            <p className="font-semibold text-core-text">{index + 1}. {phase.title}</p>
+                            <p className="text-core-text-secondary">{phase.objective}</p>
+                            <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Evidencia:</span> {phase.evidence}</p>
+                            <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Salida:</span> {phase.exitCriteria}</p>
+                          </li>
+                        ))}
+                      </ol>
+                    </details>
+                  ) : null}
                   <p className="mt-1 text-[0.6rem] leading-relaxed text-core-text-muted">
                     El objetivo representa una intención autorada, no una recomendación automática de diseño.
                   </p>

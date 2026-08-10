@@ -24,4 +24,19 @@ export function assertTargetArchitectureRegression() {
   const errors = validateTargetArchitecture(incomplete, sources);
   expect(errors.some((error) => error.includes("label")), "empty target labels must fail");
   expect(errors.some((error) => error.includes("expectedChanges")), "empty target changes must fail");
+
+  const duplicatePhase = {
+    ...valid,
+    roadmap: [
+      { id: "assess", title: "Evaluar", objective: "Objetivo", evidence: "Evidencia", exitCriteria: "Salida" },
+      { id: "assess", title: "Repetida", objective: "Objetivo", evidence: "Evidencia", exitCriteria: "Salida" },
+    ],
+  };
+  expect(validateTargetArchitecture(duplicatePhase, sources).some((error) => error.includes("roadmap[1].id")), "duplicate roadmap phases must fail");
+
+  const unknownPhaseSource = {
+    ...valid,
+    roadmap: [{ id: "assess", title: "Evaluar", objective: "Objetivo", evidence: "Evidencia", exitCriteria: "Salida", sourceIds: ["missing"] }],
+  };
+  expect(validateTargetArchitecture(unknownPhaseSource, sources).some((error) => error.includes("roadmap[0].sourceIds")), "unknown roadmap sources must fail");
 }

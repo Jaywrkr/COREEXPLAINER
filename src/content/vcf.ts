@@ -62,6 +62,11 @@ export const vcfMeta: ExplainerMeta = {
     ],
     limitations: "La ficha no define una lista de componentes ni sizing para un cliente concreto; la release y compatibilidad deben validarse por proyecto.",
     sourceIds: ["vcf-platform", "vcf-91-faq", "vcf-networking"],
+    roadmap: [
+      { id: "discover", title: "Descubrir dependencias", objective: "Alinear cargas, hosts, storage, red, gestión y objetivos de continuidad.", evidence: "Inventario, matriz de dependencias, capacidad actual y objetivos RPO/RTO.", exitCriteria: "Cada carga prioritaria tiene dueño, dependencias y criterio de éxito identificados.", sourceIds: ["vcf-platform"] },
+      { id: "assess", title: "Evaluar brechas", objective: "Contrastar el estado actual con las relaciones y políticas que la plataforma necesita.", evidence: "Caminos de gestión y datos, capacidad, compatibilidad, red y estado de protección.", exitCriteria: "Las brechas tienen impacto, evidencia pendiente y prioridad acordada.", sourceIds: ["vcf-networking", "vsan-datastore"] },
+      { id: "prove", title: "Probar resiliencia", objective: "Demostrar que un fallo controlado conserva el servicio esperado o revela una limitación aceptada.", evidence: "Prueba de failover, validación funcional, observación y plan de rollback.", exitCriteria: "La prueba queda documentada con resultado, responsable y acciones pendientes.", sourceIds: ["vsphere-ha-restart", "vsphere-ha-capacity"] },
+    ],
   },
   technicalIntegrity: vcfTechnicalIntegrity,
   brandContext: brandContext.virtualization,
