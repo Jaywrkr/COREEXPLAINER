@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.68.0 (09-08-2026):** el resumen de escenario ofrece `Descargar ficha HTML`, un archivo autonomo generado en el navegador con checklist, hallazgos, fuentes y limites. No hay subida ni persistencia remota.
+
 **Actualizacion v0.67.0 (09-08-2026):** cada escenario activo incluye un resumen de sesion bajo demanda: pasos revisados, hallazgos abiertos, criticos y fuentes enlazadas. Se mantiene local y conceptual.
 
 **Actualizacion v0.66.0 (09-08-2026):** los escenarios guiados incluyen un checklist local de verificacion. Cada paso puede quedar pendiente, revisado o no aplica; el estado se guarda por `slug` y escenario en `localStorage`, sin backend.
