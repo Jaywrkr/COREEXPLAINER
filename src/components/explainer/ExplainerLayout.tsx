@@ -272,6 +272,7 @@ export function ExplainerLayout({
           scene={scene}
           sceneId={step.sceneId}
           explainerSlug={slug}
+          targetArchitecture={meta.targetArchitecture}
           audienceMode={audienceMode}
           selectedNode={selectedNode}
           onNodeSelect={setSelectedNode}

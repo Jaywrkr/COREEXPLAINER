@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.70.0 (09-08-2026):** `ExplainerMeta.targetArchitecture` permite declarar objetivos autorados con resumen, cambios esperados, limites y fuentes. VCF es el primer explainer que lo usa; la UI lo muestra solo dentro de la comparacion actual/objetivo.
+
 **Actualizacion v0.69.0 (09-08-2026):** los escenarios tienen una comparacion actual/objetivo bajo demanda. Objetivo es la escena base documentada; actual es el grafo tras retirar los nodos del escenario. No se inventa un target de diseño.
 
 **Actualizacion v0.68.0 (09-08-2026):** el resumen de escenario ofrece `Descargar ficha HTML`, un archivo autonomo generado en el navegador con checklist, hallazgos, fuentes y limites. No hay subida ni persistencia remota.

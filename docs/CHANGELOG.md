@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.70.0] - 2026-08-09
+
+- Los explainers pueden declarar una arquitectura objetivo con resumen, cambios esperados y limites.
+- La comparacion actual/objetivo muestra el objetivo editorial cuando existe, sin inferir un diseño de cliente.
+- VCF incorpora el primer objetivo explicito como referencia conceptual y trazable.
+
 ## [0.69.0] - 2026-08-09
 
 - Los escenarios muestran la topologia base documentada frente al estado resultante del fallo.

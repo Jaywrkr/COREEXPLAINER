@@ -5,6 +5,7 @@ import type {
   GuidedScenarioDecisionOutcome,
   TechnicalIntegrityReport,
   TechnicalSource,
+  TargetArchitecture,
 } from "@/content/types";
 import type { Scene } from "@/lib/animation-spec/types";
 import { evaluateWhatIfImpact } from "@/lib/semantic-model/evaluateWhatIf";
@@ -15,6 +16,7 @@ import { GlossaryText } from "./GlossaryText";
 interface FailureScenarioPanelProps {
   scene: Scene;
   explainerSlug: string;
+  targetArchitecture?: TargetArchitecture;
   integrityReport: TechnicalIntegrityReport | null;
   scenarios: FailureScenario[];
   activeScenarioId: string | null;
@@ -64,6 +66,7 @@ function escapeHtml(value: string) {
 export function FailureScenarioPanel({
   scene,
   explainerSlug,
+  targetArchitecture,
   integrityReport,
   scenarios,
   activeScenarioId,
@@ -455,7 +458,7 @@ export function FailureScenarioPanel({
                   </summary>
                   <div className="mt-2 grid grid-cols-2 gap-1.5 text-[0.64rem]">
                     <div className="border border-core-success/30 bg-core-success/5 px-2 py-1.5">
-                      <p className="text-core-text-muted">Objetivo · escena base</p>
+                      <p className="text-core-text-muted">Objetivo · {targetArchitecture?.label ?? "escena base"}</p>
                       <p className="mt-0.5 font-mono text-core-text">{scene.nodes.length} componentes</p>
                       <p className="font-mono text-core-text">{scene.edges.length} relaciones</p>
                     </div>
@@ -471,8 +474,17 @@ export function FailureScenarioPanel({
                       {whatIfImpact.unavailableNodeIds.map((id) => scene.nodes.find((node) => node.id === id)?.name ?? id).join(", ")} no está disponible.
                     </p>
                   ) : null}
+                  {targetArchitecture ? (
+                    <div className="mt-2 border-l-2 border-core-success/60 pl-2 text-[0.64rem] leading-relaxed text-core-text-secondary">
+                      <p>{targetArchitecture.summary}</p>
+                      <ul className="mt-1 list-disc space-y-0.5 pl-4">
+                        {targetArchitecture.expectedChanges.map((change) => <li key={change}>{change}</li>)}
+                      </ul>
+                      <p className="mt-1 text-[0.6rem] text-core-text-muted">Límite: {targetArchitecture.limitations}</p>
+                    </div>
+                  ) : null}
                   <p className="mt-1 text-[0.6rem] leading-relaxed text-core-text-muted">
-                    El objetivo representa la topología documentada, no una recomendación automática de diseño.
+                    El objetivo representa una intención autorada, no una recomendación automática de diseño.
                   </p>
                 </details>
               ) : null}

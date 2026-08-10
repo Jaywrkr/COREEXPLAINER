@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.69.0";
+export const currentVersion = "0.70.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.70.0",
+    date: "09 ago 2026",
+    title: "Objetivos de arquitectura autorados",
+    changes: [
+      "Los explainers pueden declarar una arquitectura objetivo con resumen, cambios esperados y limites.",
+      "La comparacion actual/objetivo muestra el objetivo editorial cuando existe, sin inferir un diseño de cliente.",
+      "VCF incorpora el primer objetivo explicito como referencia conceptual y trazable.",
+    ],
+  },
   {
     version: "0.69.0",
     date: "09 ago 2026",
