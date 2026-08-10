@@ -10,6 +10,7 @@ import type {
 import type { Scene } from "@/lib/animation-spec/types";
 import { evaluateWhatIfImpact } from "@/lib/semantic-model/evaluateWhatIf";
 import { evaluateTechnicalRules, type TechnicalFindingSeverity } from "@/lib/semantic-model/evaluateTechnicalRules";
+import { generateAssistedTechnicalReview, type AssistedReviewSeverity, type AssistedTechnicalReview } from "@/lib/ai/technicalReviewAssistant";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
 
@@ -84,6 +85,7 @@ export function FailureScenarioPanel({
   const [roadmapStatus, setRoadmapStatus] = useState<Record<string, "done" | "na">>({});
   const [roadmapReady, setRoadmapReady] = useState(false);
   const [selectedDecisionLabId, setSelectedDecisionLabId] = useState<string | null>(null);
+  const [assistedReview, setAssistedReview] = useState<AssistedTechnicalReview | null>(null);
   const { panelRef, panelStyle, dragHandleProps, isDragging } = useDraggablePanel();
   const activeScenario = scenarios.find((scenario) => scenario.id === activeScenarioId) ?? null;
   const checklistKey = activeScenario ? `core-explainer:verification:${explainerSlug}:${activeScenario.id}` : null;
@@ -105,6 +107,9 @@ export function FailureScenarioPanel({
   const roadmapPhases = targetArchitecture?.roadmap ?? [];
   const reviewedRoadmapCount = Object.keys(roadmapStatus).length;
   const selectedDecisionLab = targetArchitecture?.decisionOptions?.find((option) => option.id === selectedDecisionLabId) ?? null;
+  const runAssistedReview = () => {
+    setAssistedReview(generateAssistedTechnicalReview({ scene, targetArchitecture, integrityReport, scenarios, technicalSources }));
+  };
 
   useEffect(() => {
     setChecklistReady(false);
@@ -638,6 +643,46 @@ export function FailureScenarioPanel({
                   </p>
                 </details>
               ) : null}
+
+              <details className="border-t border-core-border/[0.12] pt-2">
+                <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                  Revisión técnica asistida
+                </summary>
+                <div className="mt-2 space-y-2">
+                  <p className="text-[0.62rem] leading-relaxed text-core-text-secondary">
+                    Revisa el contenido local, las reglas del diagrama, los escenarios y el roadmap. No consulta el entorno del cliente ni afirma que la arquitectura esté validada.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={runAssistedReview}
+                    className="border border-core-accent/40 px-2 py-1 text-[0.6rem] font-semibold text-core-accent hover:bg-core-accent/10"
+                  >
+                    {assistedReview ? "Actualizar revisión" : "Revisar esta explicación"}
+                  </button>
+                  {assistedReview ? (
+                    <div className="space-y-1.5">
+                      <p className="text-[0.58rem] text-core-text-muted">
+                        Alcance: contenido local · confianza: {assistedReview.confidence === "high" ? "alta" : "media"}
+                      </p>
+                      {assistedReview.findings.length ? assistedReview.findings.map((finding) => {
+                        const severityClass: Record<AssistedReviewSeverity, string> = {
+                          critical: "border-core-error/60 text-core-error",
+                          warning: "border-core-warning/60 text-core-warning",
+                          info: "border-core-accent/50 text-core-accent",
+                        };
+                        return (
+                          <article key={finding.id} className={`border-l-2 pl-2 text-[0.62rem] leading-relaxed ${severityClass[finding.severity]}`}>
+                            <p className="font-semibold">{finding.title}</p>
+                            <p className="text-core-text-secondary">{finding.detail}</p>
+                            <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Evidencia:</span> {finding.evidence}</p>
+                            <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Acción:</span> {finding.action}</p>
+                          </article>
+                        );
+                      }) : <p className="text-[0.62rem] text-core-text-secondary">No se detectaron gaps con las reglas locales actuales.</p>}
+                    </div>
+                  ) : null}
+                </div>
+              </details>
 
               {technicalFindings.length ? (
                 <details className="border-t border-core-border/[0.12] pt-2">
