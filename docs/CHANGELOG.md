@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.134.0] - 2026-08-10
+
+- La cola de revisión técnica comparte el score de prioridad del informe CLI.
+- Cada explainer muestra prioridad y fuentes por confirmar.
+- El orden sigue siendo informativo y no cambia estados editoriales.
+
 ## [0.133.0] - 2026-08-10
 
 - CI guarda el informe de revisión técnica como artefacto descargable.

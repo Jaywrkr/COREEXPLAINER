@@ -1,4 +1,5 @@
 import { explainerRegistry, explainerValidationWarnings } from "../src/content/registry";
+import { getReviewPriority } from "../src/lib/review/reviewPriority";
 
 function safe(value: string): string {
   return value.replace(/[\r\n|]+/g, " ").trim();
@@ -9,7 +10,7 @@ const rows = explainerRegistry.map((entry) => {
   const staleSources = sources.filter((source) => source.validity === "review-needed").length;
   const warnings = explainerValidationWarnings[entry.slug] ?? [];
   const integrity = entry.meta.technicalIntegrity;
-  const priority = (entry.meta.reviewStatus === "pending" ? 100 : 0) + (staleSources * 10) + (warnings.length * 5);
+  const priority = getReviewPriority({ reviewStatus: entry.meta.reviewStatus, staleSources, warningCount: warnings.length });
   return {
     slug: entry.slug,
     title: entry.meta.title,

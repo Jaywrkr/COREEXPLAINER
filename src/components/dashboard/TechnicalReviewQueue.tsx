@@ -2,12 +2,19 @@ import Link from "next/link";
 import { explainerValidationWarnings, getAllExplainers } from "@/content/registry";
 import { TechnicalReviewPacketDownload } from "./TechnicalReviewPacketDownload";
 import { TechnicalReviewAssignment } from "./TechnicalReviewAssignment";
+import { getReviewPriority } from "@/lib/review/reviewPriority";
 
 /** Read-only queue for specialists; it never turns pending content into approval. */
 export function TechnicalReviewQueue() {
   const pending = getAllExplainers()
     .filter((entry) => entry.meta.reviewStatus !== "reviewed")
-    .sort((a, b) => a.meta.technicalReview.lastReviewedAt.localeCompare(b.meta.technicalReview.lastReviewedAt));
+    .sort((a, b) => {
+      const aWarnings = explainerValidationWarnings[a.slug] ?? [];
+      const bWarnings = explainerValidationWarnings[b.slug] ?? [];
+      const aPriority = getReviewPriority({ reviewStatus: a.meta.reviewStatus, staleSources: a.meta.technicalReview.sources.filter((source) => source.validity === "review-needed").length, warningCount: aWarnings.length });
+      const bPriority = getReviewPriority({ reviewStatus: b.meta.reviewStatus, staleSources: b.meta.technicalReview.sources.filter((source) => source.validity === "review-needed").length, warningCount: bWarnings.length });
+      return bPriority - aPriority || a.meta.technicalReview.lastReviewedAt.localeCompare(b.meta.technicalReview.lastReviewedAt);
+    });
 
   return (
     <details className="mb-10 border border-core-warning/25 bg-core-warning/[0.03] p-4">
@@ -20,6 +27,8 @@ export function TechnicalReviewQueue() {
         </p>
         {pending.map((entry) => {
           const warnings = explainerValidationWarnings[entry.slug] ?? [];
+          const staleSources = entry.meta.technicalReview.sources.filter((source) => source.validity === "review-needed").length;
+          const priority = getReviewPriority({ reviewStatus: entry.meta.reviewStatus, staleSources, warningCount: warnings.length });
           return (
             <article key={entry.slug} className="border border-core-border/[0.12] bg-core-panel/50 p-3">
               <div className="flex flex-wrap items-start justify-between gap-2">
@@ -27,6 +36,7 @@ export function TechnicalReviewQueue() {
                   <Link href={`/explainer/${entry.slug}`} className="text-sm font-semibold text-core-text hover:text-core-accent hover:underline">
                     {entry.meta.title}
                   </Link>
+                  <p className="mt-1 font-mono text-[0.58rem] text-core-warning">Prioridad de revisión: {priority}{staleSources ? ` · ${staleSources} fuente(s) por confirmar` : ""}</p>
                   <p className="mt-0.5 text-[0.66rem] text-core-text-muted">
                     Última revisión declarada: {entry.meta.technicalReview.lastReviewedAt} · {entry.meta.technicalReview.sources.length} fuentes
                   </p>
