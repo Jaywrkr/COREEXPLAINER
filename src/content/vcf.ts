@@ -21,6 +21,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
       "La simulación no representa una migración en vivo ni garantiza que todas las VMs se recuperen.",
     affectedNodes: ["Host ESXi 1"],
     deadNodeIds: ["host1"],
+    simulation: { mode: "capacity", impact: "Se pierde capacidad de cómputo y el margen de recuperación debe comprobarse.", remainingCapacityPercent: 65 },
     guidedSteps: vcfGuidedSteps["host-failure"],
   },
   {
@@ -34,6 +35,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
       "No implica que el sistema pueda mantener todas las cargas ante cualquier combinación de fallos.",
     affectedNodes: ["Host ESXi 1", "Host ESXi 2"],
     deadNodeIds: ["host1", "host2"],
+    simulation: { mode: "capacity", impact: "La reserva disponible se reduce de forma crítica; el resultado depende del sizing real.", remainingCapacityPercent: 35 },
     guidedSteps: vcfGuidedSteps["multiple-host-failure"],
   },
   {
@@ -47,6 +49,7 @@ export const vcfFailureScenarios: FailureScenario[] = [
       "Es una simplificación conceptual; el impacto real depende de la arquitectura y del estado de cada servicio.",
     affectedNodes: ["vCenter"],
     deadNodeIds: ["vcenter"],
+    simulation: { mode: "dependency", impact: "El plano de gestión queda fuera de servicio aunque el camino de datos pueda continuar.", externalDependency: "vCenter" },
     guidedSteps: vcfGuidedSteps["management-plane-loss"],
   },
 ];

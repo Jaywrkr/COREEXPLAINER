@@ -26,6 +26,16 @@ export function explainWhatIfImpact(
     : impact.status === "degraded"
       ? "Algunos componentes siguen disponibles, pero el servicio completo no está demostrado porque existen componentes sin camino."
       : "El grafo conserva un camino lógico, pero eso no demuestra que la aplicación, los datos ni las sesiones funcionen en un entorno real.";
+  const profileMeaning = impact.mode === "latency"
+    ? `La simulación añade ${impact.addedLatencyMs ?? "una"} ms de latencia conceptual; debe validarse con métricas extremo a extremo.`
+    : impact.mode === "capacity"
+      ? `La simulación conserva aproximadamente ${impact.remainingCapacityPercent ?? "una parte de la"} capacidad; el sizing real requiere consumo, reserva y política.`
+      : impact.mode === "dependency"
+        ? `La dependencia externa «${impact.externalDependency ?? "no identificada"}» queda fuera del grafo y necesita una comprobación independiente.`
+        : impact.mode === "observability"
+          ? "El servicio puede continuar, pero la pérdida de telemetría reduce la capacidad de diagnosticar y demostrar el resultado."
+          : impact.impact;
+  const enrichedMeaning = [customerMeaning, profileMeaning].filter(Boolean).join(" ");
   const evidence = [
     `Probar el escenario «${scenario.label}» con tráfico o una prueba funcional representativa.`,
     "Confirmar rutas, dependencias, identidad, datos y criterio de rollback.",
@@ -37,7 +47,7 @@ export function explainWhatIfImpact(
       title: option.title,
       phaseTitles: (option.roadmapPhaseIds ?? []).map((phaseId) => targetArchitecture?.roadmap?.find((phase) => phase.id === phaseId)?.title ?? phaseId),
     }));
-  return { outcome, customerMeaning, evidence, relatedDecisions };
+  return { outcome, customerMeaning: enrichedMeaning, evidence, relatedDecisions };
 }
 
 export function getSceneNodeNames(scene: Scene, ids: readonly string[]) {

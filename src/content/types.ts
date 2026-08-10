@@ -184,8 +184,24 @@ export interface FailureScenario {
   limitation: string;
   affectedNodes: string[];
   deadNodeIds: string[];
+  /** Optional richer simulation profile; omitted scenarios keep hard-down behavior. */
+  simulation?: FailureSimulationProfile;
   /** Optional authored sequence for the guided diagnosis/recovery flow. */
   guidedSteps?: GuidedScenarioStep[];
+}
+
+export type FailureSimulationMode = "hard-down" | "degraded" | "latency" | "capacity" | "dependency" | "observability";
+
+export interface FailureSimulationProfile {
+  mode: FailureSimulationMode;
+  /** Human-readable service impact shown next to the graph result. */
+  impact: string;
+  /** Optional percentage of capacity that remains available. */
+  remainingCapacityPercent?: number;
+  /** Optional conceptual added latency in milliseconds. */
+  addedLatencyMs?: number;
+  /** Optional dependency name that is outside the scene. */
+  externalDependency?: string;
 }
 
 export type GuidedScenarioStepKind = "observe" | "diagnose" | "recover" | "validate";

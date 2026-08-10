@@ -448,6 +448,21 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         if (!sceneNodeIds.has(nodeId)) add(`${label}.deadNodeIds references unknown node '${nodeId}'`);
       }
     }
+    if (scenario.simulation) {
+      const simulationLabel = `${label}.simulation`;
+      const allowedModes = new Set(["hard-down", "degraded", "latency", "capacity", "dependency", "observability"]);
+      if (!allowedModes.has(scenario.simulation.mode)) add(`${simulationLabel}.mode is not supported`);
+      if (!isNonEmptyText(scenario.simulation.impact)) add(`${simulationLabel}.impact must be a non-empty string`);
+      if (scenario.simulation.remainingCapacityPercent !== undefined && (!Number.isFinite(scenario.simulation.remainingCapacityPercent) || scenario.simulation.remainingCapacityPercent < 0 || scenario.simulation.remainingCapacityPercent > 100)) {
+        add(`${simulationLabel}.remainingCapacityPercent must be between 0 and 100`);
+      }
+      if (scenario.simulation.addedLatencyMs !== undefined && (!Number.isFinite(scenario.simulation.addedLatencyMs) || scenario.simulation.addedLatencyMs < 0)) {
+        add(`${simulationLabel}.addedLatencyMs cannot be negative`);
+      }
+      if (scenario.simulation.mode === "dependency" && !isNonEmptyText(scenario.simulation.externalDependency)) {
+        add(`${simulationLabel}.externalDependency is required for dependency mode`);
+      }
+    }
 
     if (scenario.guidedSteps) {
       if (scenario.guidedSteps.length < 3) {

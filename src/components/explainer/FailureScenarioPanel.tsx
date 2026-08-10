@@ -100,7 +100,7 @@ export function FailureScenarioPanel({
   const activeSources = (activeStep?.sourceIds ?? [])
     .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
     .filter((source): source is TechnicalSource => Boolean(source));
-  const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds) : null;
+  const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds, activeScenario.simulation) : null;
   const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact, integrityReport) : [];
   const reviewedStepCount = Object.keys(checklist).length;
   const openFindingCount = technicalFindings.filter((finding) => finding.severity !== "info").length;
