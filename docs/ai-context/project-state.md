@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.103.0 (10-08-2026):** las fuentes `k8s-ingress`, `coresolutions-profile`, `ibm-partner`, `veeam-storage`, `lenovo-veeam` e `ibm-lpm-concept` quedaron conectadas a pasos u objetivos que las usan. `npm run validate:content` mantiene solo advertencias de revisión técnica pendiente.
+
 **Actualizacion v0.102.0 (10-08-2026):** el escenario `directory-unavailable` de NAS/private cloud ahora apunta a un nodo `Active Directory` marcado como `killable`, haciendo coherentes la simulación y la topología visual.
 
 **Actualizacion v0.101.0 (10-08-2026):** `Scene.allowIsolatedNodes` documenta topologías desconectadas intencionales, como los silos iniciales de VCF. El content gate sigue validando endpoints y referencias; la excepción solo evita tratar una escena conceptual de “antes” como un nodo olvidado.

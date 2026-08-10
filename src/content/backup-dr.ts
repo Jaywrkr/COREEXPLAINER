@@ -62,7 +62,7 @@ export const backupDrMeta: ExplainerMeta = {
       "Restauraciones funcionales y criterios de aceptación practicados.",
     ],
     limitations: "El RPO/RTO, sizing, soporte de plataforma y diseño de sitio alterno deben validarse por workload.",
-    sourceIds: ["nist-contingency", "nist-rto", "veeam-architecture", "veeam-immutability", "ibm-replication"],
+    sourceIds: ["nist-contingency", "nist-rto", "veeam-architecture", "veeam-immutability", "ibm-replication", "coresolutions-profile", "ibm-partner"],
   },
   brandContext: brandContext.backupDr,
   chip: "Continuidad · Backup y DR",
@@ -123,7 +123,7 @@ export const backupDrSteps: ExplainerStep[] = [
     businessImpact: "La arquitectura conecta la plataforma que ejecuta la aplicación con una copia operable y gobernada, sin confundir disponibilidad local con backup.",
     sceneId: "protection",
     caption: "VMware/VCF + Lenovo → Veeam → repositorio de backup",
-    sourceIds: ["veeam-about", "veeam-architecture", "veeam-vsphere", "lenovo-solutions"],
+    sourceIds: ["veeam-about", "veeam-architecture", "veeam-vsphere", "lenovo-solutions", "lenovo-veeam"],
   },
   {
     id: "copies",
@@ -136,7 +136,7 @@ export const backupDrSteps: ExplainerStep[] = [
     businessImpact: "La defensa se diseña en capas: copia primaria, copia protegida, separación de credenciales y capacidad de restaurar en un entorno limpio.",
     sceneId: "copies",
     caption: "Backup → repositorio protegido → copia en almacenamiento IBM",
-    sourceIds: ["cisa-ransomware", "veeam-repository", "veeam-immutability", "ibm-safeguarded", "ibm-snapshots"],
+    sourceIds: ["cisa-ransomware", "veeam-repository", "veeam-immutability", "veeam-storage", "ibm-safeguarded", "ibm-snapshots"],
   },
   {
     id: "recovery",

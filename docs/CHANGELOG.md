@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.103.0] - 2026-08-10
+
+- Se conectaron las seis fuentes que el gate había identificado como no utilizadas.
+- Kubernetes ahora explica Ingress, y Power/AIX enlaza la fuente conceptual de Live Partition Mobility.
+- Backup/DR trazabiliza fuentes de CORESOLUTIONS, IBM, Veeam y Lenovo en sus objetivos y pasos.
+- Las advertencias restantes son únicamente revisiones técnicas pendientes.
+
 ## [0.102.0] - 2026-08-10
 
 - El nodo Active Directory de NAS/private cloud queda marcado como `killable` para el escenario de indisponibilidad.
