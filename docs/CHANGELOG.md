@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.127.0] - 2026-08-10
+
+- Cada tarea del Workbench muestra sus IDs de fuente o indica que deben confirmarse.
+- El encabezado distingue tareas con fuentes por confirmar de fuentes únicas.
+
 ## [0.126.0] - 2026-08-10
 
 - El quality gate de GitHub ejecuta `npm run test:workbench-export` en cada PR y push a `main`.

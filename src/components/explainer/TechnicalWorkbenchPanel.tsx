@@ -113,7 +113,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
   }));
   const totalItems = progress.reduce((sum, entry) => sum + entry.total, 0);
   const totalCompleted = progress.reduce((sum, entry) => sum + entry.completed, 0);
-  const sourcesToConfirm = allModes.flatMap((candidate) => items[candidate]).filter((item) => {
+  const itemsNeedingSourceConfirmation = allModes.flatMap((candidate) => items[candidate]).filter((item) => {
     if (!item.sourceIds.length) return true;
     return item.sourceIds.some((id) => sources.find((source) => source.id === id)?.validity === "review-needed");
   });
@@ -135,7 +135,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
     totalCompleted: currentItems.filter((item) => checked[item.id]).length,
     totalItems: currentItems.length,
     sections: [{ label: modeLabels[mode], items: currentItems.map(toExportItem) }],
-    sourcesToConfirm: sourcesToConfirm.filter((item) => currentItems.some((current) => current.id === item.id)).map((item) => `${item.title} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`),
+    sourcesToConfirm: itemsNeedingSourceConfirmation.filter((item) => currentItems.some((current) => current.id === item.id)).map((item) => `${item.title} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`),
   }), `coresolutions-${slug}-${mode}-workbench.md`);
   const downloadCompleteWithContract = () => saveMarkdown(buildWorkbenchMarkdown({
     title: meta.title,
@@ -145,7 +145,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
     totalCompleted,
     totalItems,
     sections: allModes.map((candidate) => ({ label: modeLabels[candidate], items: items[candidate].map(toExportItem) })),
-    sourcesToConfirm: sourcesToConfirm.map((item) => `${item.title} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`),
+    sourcesToConfirm: itemsNeedingSourceConfirmation.map((item) => `${item.title} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`),
   }), `coresolutions-${slug}-workbench-package.md`);
   const toggle = (id: string) => {
     setChecked((current) => {
@@ -162,7 +162,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
       `CORESOLUTIONS · ${slug} · paquete completo`,
       `Marcas en alcance: ${meta.brandContext.map((brand) => `${brand.name} (${brand.role})`).join("; ")}`,
       `Progreso local: ${totalCompleted}/${totalItems} revisados`,
-      `Fuentes a confirmar: ${sourcesToConfirm.length}`,
+      `Tareas con fuentes a confirmar: ${itemsNeedingSourceConfirmation.length}`,
       "",
       "> Documento conceptual generado desde contenido autorado. No ejecuta cambios, no certifica un entorno real y debe adaptarse al runbook aprobado.",
       "",
@@ -179,7 +179,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
         ]),
       ]),
       "## Fuentes a confirmar",
-      ...(sourcesToConfirm.length ? sourcesToConfirm.map((item) => `- ${safeText(item.title)} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`) : ["- Ninguna identificada por las reglas actuales."]),
+      ...(itemsNeedingSourceConfirmation.length ? itemsNeedingSourceConfirmation.map((item) => `- ${safeText(item.title)} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`) : ["- Ninguna identificada por las reglas actuales."]),
       "",
       "## Límites",
       "- Validar versiones, compatibilidad, sizing, permisos, ventana y rollback en el entorno real.",
@@ -220,7 +220,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
   return (
     <details className="mb-3 border border-core-accent/20 bg-core-panel/30">
       <summary className="cursor-pointer list-none px-3 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent [&::-webkit-details-marker]:hidden">
-        Technical Workbench · {totalCompleted}/{totalItems} revisados · {sourcesToConfirm.length} fuentes por confirmar
+        Technical Workbench · {totalCompleted}/{totalItems} revisados · {itemsNeedingSourceConfirmation.length} tareas con fuentes por confirmar
       </summary>
       <div className="border-t border-core-border/[0.1] p-3">
         <p className="mb-1 text-[0.68rem] leading-relaxed text-core-text-muted">Convierte la explicación en una lista técnica de implementación, soporte o mantenimiento. No sustituye el runbook aprobado ni ejecuta acciones.</p>
@@ -230,7 +230,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
           <button type="button" onClick={downloadCurrentWithContract} className="ml-auto border border-core-border/[0.15] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:text-core-text">Descargar vista actual</button>
           <button type="button" onClick={downloadCompleteWithContract} className="border border-core-accent/40 px-2 py-1 text-[0.6rem] font-semibold text-core-accent hover:border-core-accent/70">Descargar paquete completo</button>
         </div>
-        {currentItems.length ? <div className="space-y-2">{currentItems.map((item) => <label key={item.id} className="flex gap-2 border border-core-border/[0.1] p-2"><input type="checkbox" checked={Boolean(checked[item.id])} onChange={() => toggle(item.id)} className="mt-0.5 accent-core-accent" /><span className="min-w-0 text-[0.67rem] leading-relaxed"><span className="font-semibold text-core-text">{item.title}</span><span className="mt-0.5 block text-core-text-secondary">{item.detail}</span><span className="mt-0.5 block text-core-text-muted"><span className="font-semibold">Evidencia:</span> {item.evidence}</span>{item.sourceLabel ? <a href={item.sourceLabel} target="_blank" rel="noreferrer" className="mt-0.5 block truncate text-core-accent hover:underline">Fuente: {item.sourceLabel}</a> : null}</span></label>)}</div> : <p className="text-[0.68rem] text-core-text-muted">Este tema aún no declara elementos para esta vista. Añádelos al contenido autorado antes de prometer una guía específica.</p>}
+        {currentItems.length ? <div className="space-y-2">{currentItems.map((item) => <label key={item.id} className="flex gap-2 border border-core-border/[0.1] p-2"><input type="checkbox" checked={Boolean(checked[item.id])} onChange={() => toggle(item.id)} className="mt-0.5 accent-core-accent" /><span className="min-w-0 text-[0.67rem] leading-relaxed"><span className="font-semibold text-core-text">{item.title}</span><span className="mt-0.5 block text-core-text-secondary">{item.detail}</span><span className="mt-0.5 block text-core-text-muted"><span className="font-semibold">Evidencia:</span> {item.evidence}</span><span className="mt-0.5 block text-core-text-muted"><span className="font-semibold">Fuentes:</span> {item.sourceIds.length ? item.sourceIds.join(", ") : "confirmar antes de ejecutar"}</span>{item.sourceLabel ? <a href={item.sourceLabel} target="_blank" rel="noreferrer" className="mt-0.5 block truncate text-core-accent hover:underline">Fuente: {item.sourceLabel}</a> : null}</span></label>)}</div> : <p className="text-[0.68rem] text-core-text-muted">Este tema aún no declara elementos para esta vista. Añádelos al contenido autorado antes de prometer una guía específica.</p>}
       </div>
     </details>
   );
