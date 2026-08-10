@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.82.0] - 2026-08-09
+
+- Instana incorpora un roadmap de cobertura, correlacion y operacion.
+- Turbonomic incorpora un roadmap de modelado, planificacion y gobierno.
+- webMethods incorpora un roadmap de contratos, runtime e integracion operable.
+
 ## [0.81.0] - 2026-08-09
 
 - Instana, Turbonomic y webMethods incorporan dos decisiones autoradas propias de su dominio.
