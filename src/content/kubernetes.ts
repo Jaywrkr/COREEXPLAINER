@@ -53,6 +53,17 @@ export const kubernetesFailureScenarios: FailureScenario[] = [
 ];
 
 export const kubernetesMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Plataforma Kubernetes operable",
+    summary: "El objetivo es que estado deseado, scheduling, red, servicio, rollout y self-healing estén conectados con señales de salud y operación.",
+    expectedChanges: [
+      "Workloads declarativos con réplicas, constraints y despliegues reproducibles.",
+      "Services, ingress y probes representan el camino real de la aplicación.",
+      "Rollouts, capacidad y recuperación se validan con observabilidad y criterios de aceptación.",
+    ],
+    limitations: "CNI, ingress, storage, seguridad, proveedor y versión del clúster deben validarse para cada implementación.",
+    sourceIds: ["k8s-architecture", "k8s-scheduler", "k8s-services", "k8s-deployments", "k8s-probes"],
+  },
   brandContext: brandContext.cloud,
   chip: "Cloud native · Kubernetes",
   title: "Cómo llega una aplicación a estar disponible en Kubernetes",

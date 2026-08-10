@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.72.0] - 2026-08-09
+
+- Backup/DR, ransomware, SAN y Kubernetes declaran objetivos con cambios esperados y límites.
+- La comparación actual/objetivo cubre ahora continuidad, ciberresiliencia, almacenamiento y cloud-native.
+- Cada objetivo reutiliza fuentes técnicas existentes y evita promesas de sizing, compatibilidad o certificación.
+
 ## [0.71.0] - 2026-08-09
 
 - Instana, Turbonomic y webMethods declaran objetivos de arquitectura con cambios esperados y límites.

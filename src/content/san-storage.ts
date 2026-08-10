@@ -53,6 +53,17 @@ export const sanStorageFailureScenarios: FailureScenario[] = [
 ];
 
 export const sanStorageMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "SAN extremo a extremo con paths redundantes",
+    summary: "El objetivo es que host, HBA, fabrics, cabina, mapping y multipath formen un camino de datos trazable y sin punto único de fallo no aceptado.",
+    expectedChanges: [
+      "Zoning, mapping y permisos de volumen alineados con cada host.",
+      "Fabrics y paths separados, visibles y probados en el sistema consumidor.",
+      "Replicación y migración tratadas como relaciones distintas del acceso primario.",
+    ],
+    limitations: "El protocolo, HCL, firmware, multipath y diseño final dependen del modelo y del sistema operativo del cliente.",
+    sourceIds: ["ibm-host-attachment", "ibm-host-mapping", "ibm-replication", "lenovo-san", "lenovo-vmware"],
+  },
   chip: "Storage · SAN empresarial",
   title: "Cómo llega un volumen SAN hasta una aplicación",
   tagline:
