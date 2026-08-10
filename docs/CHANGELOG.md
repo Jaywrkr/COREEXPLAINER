@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.69.0] - 2026-08-09
+
+- Los escenarios muestran la topologia base documentada frente al estado resultante del fallo.
+- La brecha resume componentes no disponibles y relaciones que dejan de estar activas.
+- El objetivo se presenta como referencia del modelo, no como recomendacion automatica de arquitectura.
+
 ## [0.68.0] - 2026-08-09
 
 - El resumen de un escenario se puede descargar como HTML autonomo desde el navegador.
