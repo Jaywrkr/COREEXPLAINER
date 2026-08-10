@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.137.0] - 2026-08-10
+
+- Se añade `npm run test:technical-review-report`.
+- CI valida parseo JSON, resumen, 22 filas, regla de prioridad y orden.
+
 ## [0.136.0] - 2026-08-10
 
 - `report:technical-review:json` genera una versión machine-readable del informe.

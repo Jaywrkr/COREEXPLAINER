@@ -20,6 +20,7 @@ npm run validate:content
 npm run report:technical-review
 npm run report:technical-review:json
 npm run test:review-priority
+npm run test:technical-review-report
 npm run test:ai-guards
 npm run test:workbench-export
 npm run typecheck

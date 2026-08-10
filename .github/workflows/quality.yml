@@ -36,6 +36,8 @@ jobs:
         run: npm run --silent report:technical-review:json > technical-review-report.json
       - name: Run review priority regressions
         run: npm run test:review-priority
+      - name: Run technical review report regressions
+        run: npm run test:technical-review-report
       - name: Upload technical review report
         uses: actions/upload-artifact@v4
         with:
