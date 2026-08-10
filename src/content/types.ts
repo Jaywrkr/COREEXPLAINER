@@ -40,6 +40,7 @@ export interface TargetArchitecture {
   limitations: string;
   sourceIds?: string[];
   roadmap?: AssessmentRoadmapPhase[];
+  decisionOptions?: ArchitectureDecisionOption[];
 }
 
 export interface AssessmentRoadmapPhase {
@@ -48,6 +49,16 @@ export interface AssessmentRoadmapPhase {
   objective: string;
   evidence: string;
   exitCriteria: string;
+  sourceIds?: string[];
+}
+
+export interface ArchitectureDecisionOption {
+  id: string;
+  title: string;
+  summary: string;
+  benefits: string;
+  tradeoffs: string;
+  evidence: string;
   sourceIds?: string[];
 }
 

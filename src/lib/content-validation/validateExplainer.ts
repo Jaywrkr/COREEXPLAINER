@@ -158,6 +158,24 @@ export function validateTargetArchitecture(target: TargetArchitecture, technical
       }
     }
   }
+  if (target.decisionOptions !== undefined) {
+    if (!Array.isArray(target.decisionOptions) || target.decisionOptions.length < 2) {
+      errors.push("meta.targetArchitecture.decisionOptions must contain at least two options when provided");
+    } else {
+      const optionIds = new Set<string>();
+      for (const [index, option] of target.decisionOptions.entries()) {
+        const label = `meta.targetArchitecture.decisionOptions[${index}]`;
+        for (const field of ["id", "title", "summary", "benefits", "tradeoffs", "evidence"] as const) {
+          if (!isNonEmptyText(option[field])) errors.push(`${label}.${field} must be a non-empty string`);
+        }
+        if (optionIds.has(option.id)) errors.push(`${label}.id '${option.id}' is duplicated`);
+        optionIds.add(option.id);
+        for (const sourceId of option.sourceIds ?? []) {
+          if (!technicalSourceIds.has(sourceId)) errors.push(`${label}.sourceIds references unknown technical source '${sourceId}'`);
+        }
+      }
+    }
+  }
   return errors;
 }
 
