@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.74.0 (09-08-2026):** el registro ejecuta `assertTargetArchitectureRegression` junto con las regresiones de integridad. Se cubren objetivos válidos, fuentes desconocidas y contratos incompletos.
+
 **Actualizacion v0.73.0 (09-08-2026):** `validateExplainerContent` valida `targetArchitecture`: campos obligatorios, cambios esperados, IDs duplicados y fuentes existentes. Un objetivo roto bloquea el build.
 
 **Actualizacion v0.72.0 (09-08-2026):** backup/DR, ransomware, SAN y Kubernetes declaran `targetArchitecture`. La comparación editorial cubre continuidad, ciberresiliencia, storage y plataforma cloud-native.
