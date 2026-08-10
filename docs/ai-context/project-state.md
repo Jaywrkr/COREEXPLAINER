@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.106.0 (10-08-2026):** la cola de revisión enlaza al explainer real; las fichas `docs/...` se muestran como rutas de repositorio porque no son rutas públicas de Next/Vercel. El paquete exportado usa la misma referencia sin afirmar que exista una URL desplegada.
+
 **Actualizacion v0.105.0 (10-08-2026):** la cola técnica ofrece `TechnicalReviewPacketDownload`, que genera un Markdown con alcance, fuentes, advertencias, checklist y campos de resultado. Es una salida editable para el especialista y no modifica `reviewStatus`.
 
 **Actualizacion v0.104.0 (10-08-2026):** `TechnicalReviewQueue` muestra en el dashboard los explainers con `reviewStatus: pending`, ordenados por fecha declarada, con alcance, fuentes, advertencias del gate y enlaces a su ficha técnica. Es una cola informativa; la aprobación sigue requiriendo revisión humana y cambio explícito de contenido.
