@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.68.0] - 2026-08-09
+
+- El resumen de un escenario se puede descargar como HTML autonomo desde el navegador.
+- La ficha incluye checklist, hallazgos, fuentes y limites de la simulacion.
+- La exportacion no envia informacion a un servidor y queda lista para imprimir o guardar como PDF.
+
 ## [0.67.0] - 2026-08-09
 
 - Cada escenario activo puede mostrar pasos revisados, hallazgos abiertos, criticos y fuentes enlazadas.

@@ -46,6 +46,16 @@ const decisionToneLabel: Record<GuidedScenarioDecisionOutcome, string> = {
   unsafe: "No es suficiente",
 };
 
+function escapeHtml(value: string) {
+  return value.replace(/[&<>'\"]/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "'": "&#39;",
+    '"': "&quot;",
+  })[character] ?? character);
+}
+
 /**
  * Guided failure simulations are deliberately content-driven. The panel
  * explains the selected outcome and walks the audience through observation,
@@ -122,6 +132,30 @@ export function FailureScenarioPanel({
       delete next[stepId];
       return next;
     });
+  };
+
+  const downloadSessionSummary = () => {
+    if (!activeScenario) return;
+    const generatedAt = new Date().toLocaleDateString("es-EC", { dateStyle: "long" });
+    const checklistRows = guidedSteps.map((step) => {
+      const status = checklist[step.id] === "done" ? "Revisado" : checklist[step.id] === "na" ? "No aplica" : "Pendiente";
+      return `<li><strong>${escapeHtml(step.title)}</strong>: ${status}</li>`;
+    }).join("");
+    const findingRows = technicalFindings.map((finding) => (
+      `<li><strong>${escapeHtml(finding.title)}</strong><br>${escapeHtml(finding.detail)}<br><em>Evidencia:</em> ${escapeHtml(finding.evidence)}<br><em>Recomendacion:</em> ${escapeHtml(finding.recommendation)}</li>`
+    )).join("");
+    const sourceIds = new Set(technicalFindings.flatMap((finding) => finding.sourceIds ?? []));
+    const sourceRows = technicalSources.filter((source) => sourceIds.has(source.id)).map((source) => (
+      `<li><a href="${escapeHtml(source.url)}">${escapeHtml(source.title)}</a> · consultada ${escapeHtml(source.accessedAt)}</li>`
+    )).join("");
+    const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Ficha de sesión · ${escapeHtml(activeScenario.label)}</title><style>body{font:16px system-ui,sans-serif;max-width:820px;margin:40px auto;padding:0 20px;color:#172033}h1{margin-bottom:4px}h2{margin-top:28px;border-bottom:1px solid #d8dee8;padding-bottom:6px}li{margin:8px 0;line-height:1.45}.meta{color:#5b6678;font-size:14px}.note{border-left:4px solid #64748b;padding:10px 14px;background:#f4f6f8}@media print{body{margin:0}}</style></head><body><h1>Ficha de sesión</h1><p class="meta">CORESOLUTIONS · ${escapeHtml(explainerSlug)} · ${generatedAt}</p><h2>Escenario</h2><p><strong>${escapeHtml(activeScenario.label)}</strong></p><p>${escapeHtml(activeScenario.summary)}</p><h2>Resumen</h2><ul><li>Pasos revisados: ${reviewedStepCount}/${guidedSteps.length}</li><li>Hallazgos abiertos: ${openFindingCount}</li><li>Hallazgos críticos: ${criticalFindingCount}</li><li>Fuentes enlazadas: ${linkedSourceCount}</li></ul><h2>Checklist</h2><ul>${checklistRows || "<li>No hay pasos guiados.</li>"}</ul><h2>Hallazgos</h2><ul>${findingRows || "<li>No hay hallazgos calculados.</li>"}</ul><h2>Fuentes</h2><ul>${sourceRows || "<li>No hay fuentes enlazadas a los hallazgos.</li>"}</ul><p class="note">Esta ficha resume un escenario conceptual del explainer. No certifica una configuración real, no reemplaza pruebas funcionales y no constituye un runbook de producción.</p></body></html>`;
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `coresolutions-${explainerSlug}-${activeScenario.id}-sesion.html`;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   useEffect(() => {
@@ -383,6 +417,13 @@ export function FailureScenarioPanel({
                         ? "La sesión tiene advertencias abiertas; conviene completar la evidencia antes de cerrar la explicación."
                         : "No quedan advertencias abiertas en este escenario; confirma igualmente la prueba funcional."}
                   </p>
+                  <button
+                    type="button"
+                    onClick={downloadSessionSummary}
+                    className="mt-2 border border-core-accent/40 px-2 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-accent transition-colors hover:border-core-accent hover:bg-core-accent/10"
+                  >
+                    Descargar ficha HTML
+                  </button>
                 </details>
               ) : null}
 
