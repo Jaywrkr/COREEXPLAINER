@@ -3,6 +3,7 @@ import type {
   FailureScenario,
   GuidedScenarioStep,
   GuidedScenarioDecisionOutcome,
+  TechnicalIntegrityReport,
   TechnicalSource,
 } from "@/content/types";
 import type { Scene } from "@/lib/animation-spec/types";
@@ -13,6 +14,7 @@ import { GlossaryText } from "./GlossaryText";
 
 interface FailureScenarioPanelProps {
   scene: Scene;
+  integrityReport: TechnicalIntegrityReport | null;
   scenarios: FailureScenario[];
   activeScenarioId: string | null;
   onSelectScenario: (scenarioId: string | null) => void;
@@ -50,6 +52,7 @@ const decisionToneLabel: Record<GuidedScenarioDecisionOutcome, string> = {
  */
 export function FailureScenarioPanel({
   scene,
+  integrityReport,
   scenarios,
   activeScenarioId,
   onSelectScenario,
@@ -72,7 +75,7 @@ export function FailureScenarioPanel({
     .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
     .filter((source): source is TechnicalSource => Boolean(source));
   const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds) : null;
-  const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact) : [];
+  const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact, integrityReport) : [];
 
   useEffect(() => {
     if (!activeStep?.decision && selectedDecisionOptionId) onDecisionOptionChange(null);

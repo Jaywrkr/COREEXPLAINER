@@ -437,6 +437,7 @@ export function VisualCanvas({
           />
           <FailureScenarioPanel
             scene={scene}
+            integrityReport={integrityReport}
             scenarios={failureScenarios}
             activeScenarioId={activeFailureScenarioId}
             onSelectScenario={onFailureScenarioChange}

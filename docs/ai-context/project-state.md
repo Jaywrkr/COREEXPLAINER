@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.64.0 (09-08-2026):** los escenarios combinan las reglas generales de `evaluateTechnicalRules.ts` con los diagnosticos del contrato tecnico por escena (`evaluateTopologyIntegrity`). Las relaciones y caminos requeridos por dominio se muestran como evidencia accionable sin convertir el diagrama en una validacion de produccion.
+
 **Actualización v0.63.0 (09-08-2026):** los impactos what-if generan reglas técnicas accionables en `src/lib/semantic-model/evaluateTechnicalRules.ts`: severidad, detalle, evidencia y recomendación. El panel las muestra bajo demanda y mantiene los límites de simulación conceptual.
 
 **Actualización v0.51.0 (06-08-2026):** el selector de audiencia ofrece Cliente, Conceptual y Técnico. Cliente prioriza impacto, Conceptual explica relaciones principales y Técnico muestra auditoría, evidencia y límites. El mismo nivel viaja en `mode=` dentro de los enlaces directos.

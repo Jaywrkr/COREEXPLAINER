@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.63.0";
+export const currentVersion = "0.64.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.64.0",
+    date: "09 ago 2026",
+    title: "Reglas por dominio en escenarios",
+    changes: [
+      "Los escenarios incorporan los diagnosticos del contrato tecnico de la escena y su dominio.",
+      "Una relacion o camino requerido que falla se muestra con severidad, justificacion y recomendacion basada en la explicacion.",
+      "La evidencia sigue siendo conceptual: no se ejecutan comandos ni se afirma que el entorno real este validado.",
+    ],
+  },
   {
     version: "0.63.0",
     date: "09 ago 2026",

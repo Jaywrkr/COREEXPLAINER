@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.64.0] - 2026-08-09
+
+- Los escenarios incorporan los diagnosticos del contrato tecnico de la escena y su dominio.
+- Una relacion o camino requerido que falla se muestra con severidad, justificacion y recomendacion basada en la explicacion.
+- La evidencia sigue siendo conceptual: no se ejecutan comandos ni se afirma que el entorno real este validado.
+
 ## [0.63.0] - 2026-08-09
 
 - Los escenarios what-if producen hallazgos críticos, advertencias e información según el impacto calculado.
