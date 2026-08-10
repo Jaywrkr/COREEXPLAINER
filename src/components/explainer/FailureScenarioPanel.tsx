@@ -11,6 +11,7 @@ import type { Scene } from "@/lib/animation-spec/types";
 import { evaluateWhatIfImpact } from "@/lib/semantic-model/evaluateWhatIf";
 import { evaluateTechnicalRules, type TechnicalFindingSeverity } from "@/lib/semantic-model/evaluateTechnicalRules";
 import { generateAssistedTechnicalReview, type AssistedReviewSeverity, type AssistedTechnicalReview } from "@/lib/ai/technicalReviewAssistant";
+import { explainWhatIfImpact } from "@/lib/ai/whatIfImpactAssistant";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
 
@@ -107,6 +108,9 @@ export function FailureScenarioPanel({
   const roadmapPhases = targetArchitecture?.roadmap ?? [];
   const reviewedRoadmapCount = Object.keys(roadmapStatus).length;
   const selectedDecisionLab = targetArchitecture?.decisionOptions?.find((option) => option.id === selectedDecisionLabId) ?? null;
+  const whatIfSummary = activeScenario && whatIfImpact
+    ? explainWhatIfImpact(scene, activeScenario, whatIfImpact, targetArchitecture)
+    : null;
   const runAssistedReview = () => {
     setAssistedReview(generateAssistedTechnicalReview({ scene, targetArchitecture, integrityReport, scenarios, technicalSources }));
   };
@@ -487,6 +491,35 @@ export function FailureScenarioPanel({
                   >
                     Descargar ficha HTML
                   </button>
+                </details>
+              ) : null}
+
+              {whatIfSummary ? (
+                <details className="border-t border-core-border/[0.12] pt-2">
+                  <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                    Lectura asistida del impacto
+                  </summary>
+                  <div className="mt-2 space-y-1.5 text-[0.64rem] leading-relaxed text-core-text-secondary">
+                    <p className="font-semibold text-core-text">{whatIfSummary.outcome}</p>
+                    <p>{whatIfSummary.customerMeaning}</p>
+                    <div>
+                      <p className="font-semibold text-core-text">Evidencia a revisar</p>
+                      <ul className="mt-0.5 list-disc space-y-0.5 pl-4">
+                        {whatIfSummary.evidence.map((item) => <li key={item}>{item}</li>)}
+                      </ul>
+                    </div>
+                    {whatIfSummary.relatedDecisions.length ? (
+                      <div>
+                        <p className="font-semibold text-core-text">Decisiones relacionadas</p>
+                        <ul className="mt-0.5 list-disc space-y-0.5 pl-4">
+                          {whatIfSummary.relatedDecisions.map((decision) => (
+                            <li key={decision.title}>{decision.title}{decision.phaseTitles.length ? ` · fases: ${decision.phaseTitles.join(", ")}` : ""}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ) : null}
+                    <p className="text-[0.58rem] text-core-text-muted">Resultado conceptual del grafo: no ejecuta una prueba ni consulta el entorno real.</p>
+                  </div>
                 </details>
               ) : null}
 
