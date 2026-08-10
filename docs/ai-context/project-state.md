@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.82.0 (09-08-2026):** Instana, Turbonomic y webMethods declaran roadmaps de assessment por dominio. Cada uno ordena la evaluacion en tres fases con objetivo, evidencia, criterio de salida y fuentes; se muestran bajo demanda en la comparacion de arquitectura.
+
 **Actualizacion v0.81.0 (09-08-2026):** Instana, Turbonomic y webMethods usan laboratorios de decisiones autorados con escenarios de validación. El usuario puede navegar de la opción elegida al fallo que debe comprobar.
 
 **Actualizacion v0.80.0 (09-08-2026):** las opciones de decisión pueden enlazar `roadmapPhaseIds` y `scenarioIds`. La UI muestra esas relaciones y permite abrir escenarios; el content gate valida referencias.

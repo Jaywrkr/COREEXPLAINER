@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.81.0";
+export const currentVersion = "0.82.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.82.0",
+    date: "09 ago 2026",
+    title: "Roadmaps de assessment por dominio",
+    changes: [
+      "Instana incorpora un recorrido de cobertura, correlacion y operacion para ordenar la adopcion de observabilidad.",
+      "Turbonomic incorpora fases de modelado, planificacion y gobierno para conectar recomendaciones con ejecucion segura.",
+      "webMethods incorpora fases de contratos, runtime e integracion operable para evaluar APIs y flujos de forma progresiva.",
+    ],
+  },
   {
     version: "0.81.0",
     date: "09 ago 2026",

@@ -19,6 +19,11 @@ export const turbonomicMeta: ExplainerMeta = {
     ],
     limitations: "No se garantiza una acción segura sin validar métricas, permisos, ventanas, licencias, soporte y rollback.",
     sourceIds: ["turb-targets", "turb-actions", "turb-workflow", "turb-plans"],
+    roadmap: [
+      { id: "model", title: "Modelar demanda y supply", objective: "Validar targets, relaciones, métricas y restricciones.", evidence: "Inventario, conectores, demanda, capacidad y dependencias.", exitCriteria: "El modelo representa las cargas prioritarias y sus proveedores.", sourceIds: ["turb-targets", "turb-hypervisor"] },
+      { id: "plan", title: "Comparar acciones", objective: "Analizar alternativas bajo políticas y escenarios what-if.", evidence: "Acciones explicadas, constraints, headroom y plan comparativo.", exitCriteria: "Cada acción tiene impacto y supuestos revisados.", sourceIds: ["turb-actions", "turb-plans"] },
+      { id: "govern", title: "Gobernar ejecución", objective: "Definir aprobación, ventanas, workflows y rollback.", evidence: "Políticas, permisos, workflow, aceptación y reversión.", exitCriteria: "Solo se automatizan acciones con guardrails demostrados.", sourceIds: ["turb-workflow", "turb-pressure"] },
+    ],
     decisionOptions: [
       { id: "recommend-first", title: "Empezar con recomendaciones", summary: "Revisar acciones antes de permitir ejecución automática.", benefits: "Permite calibrar demanda, constraints y confianza con bajo riesgo operativo.", tradeoffs: "La captura de valor es más gradual y requiere disciplina para revisar acciones.", evidence: "Targets válidos, acciones explicadas, restricciones y aceptación del operador.", sourceIds: ["turb-actions", "turb-workflow"], scenarioIds: ["automation-risk", "constraint"] },
       { id: "optimize-first", title: "Priorizar optimización", summary: "Atacar primero presión, capacidad y demanda de workloads prioritarios.", benefits: "Conecta decisiones de infraestructura con salud, rendimiento y coste del servicio.", tradeoffs: "Una mala representación de demanda o supply chain puede producir recomendaciones incorrectas.", evidence: "Métricas, relaciones, headroom, prioridades y plan what-if comparado.", sourceIds: ["turb-targets", "turb-plans", "turb-pressure"], scenarioIds: ["target-discovery", "bad-demand"] },
