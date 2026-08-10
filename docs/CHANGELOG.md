@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.140.0] - 2026-08-10
+
+- El informe técnico incorpora la matriz completa de fuentes por explainer.
+- Cada fuente conserva ID, título, URL segura, fecha consultada, producto, versión, referencia y vigencia.
+- El Markdown del paquete incluye una sección de evidencia concreta para revisión especialista.
+
 ## [0.139.0] - 2026-08-10
 
 - Se añade `report:technical-review:package` para generar un paquete de auditoría reproducible.
