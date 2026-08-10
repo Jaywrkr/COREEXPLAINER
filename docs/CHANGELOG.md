@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.92.0] - 2026-08-09
+
+- La evidencia de pasos y roadmap tiene registro propio por escenario.
+- Cada elemento puede estar pendiente, validado o bloqueado.
+- Se conservan las fuentes relacionadas y el estado permanece local.
+
 ## [0.91.0] - 2026-08-09
 
 - El content gate incorpora revisión semántica entre texto, diagrama, fuentes y escenarios.
