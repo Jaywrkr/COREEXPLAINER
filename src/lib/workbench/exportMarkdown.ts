@@ -17,6 +17,8 @@ export interface WorkbenchExportSection {
 export interface WorkbenchExportInput {
   title: string;
   slug: string;
+  appVersion: string;
+  generatedAt?: string;
   brands: string[];
   sections: WorkbenchExportSection[];
   sourcesToConfirm: string[];
@@ -44,6 +46,8 @@ export function isSafeHttpUrl(value: string): boolean {
  */
 export function buildWorkbenchMarkdown(input: WorkbenchExportInput): string {
   const lines = [
+    `Versión de la aplicación: ${safeText(input.appVersion)}`,
+    ...(input.generatedAt ? [`Generado: ${safeText(input.generatedAt)}`] : [""]),
     `# Technical Workbench · ${safeText(input.title)}`,
     "",
     `CORESOLUTIONS · ${safeText(input.slug)} · ${input.complete ? "paquete completo" : "vista actual"}`,

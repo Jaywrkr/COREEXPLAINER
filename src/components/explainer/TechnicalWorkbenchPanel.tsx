@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import { currentVersion } from "@/content/changelog";
 import { buildWorkbenchMarkdown, isSafeHttpUrl, type WorkbenchExportItem } from "@/lib/workbench/exportMarkdown";
 
 type WorkbenchMode = "implement" | "support" | "maintain" | "validate";
@@ -137,6 +138,8 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
   const downloadCurrentWithContract = () => saveMarkdown(buildWorkbenchMarkdown({
     title: meta.title,
     slug,
+    appVersion: currentVersion,
+    generatedAt: new Date().toISOString(),
     brands: meta.brandContext.map((brand) => `${brand.name} (${brand.role})`),
     complete: false,
     totalCompleted: currentItems.filter((item) => checked[item.id]).length,
@@ -147,6 +150,8 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
   const downloadCompleteWithContract = () => saveMarkdown(buildWorkbenchMarkdown({
     title: meta.title,
     slug,
+    appVersion: currentVersion,
+    generatedAt: new Date().toISOString(),
     brands: meta.brandContext.map((brand) => `${brand.name} (${brand.role})`),
     complete: true,
     totalCompleted,

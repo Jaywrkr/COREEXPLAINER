@@ -7,6 +7,8 @@ assert.equal(isSafeHttpUrl("javascript:alert(1)"), false);
 const markdown = buildWorkbenchMarkdown({
   title: "Demo\nsegura",
   slug: "demo",
+  appVersion: "0.130.0",
+  generatedAt: "2026-08-10T12:00:00.000Z",
   brands: ["IBM · observabilidad"],
   complete: true,
   totalCompleted: 1,
@@ -27,6 +29,8 @@ const markdown = buildWorkbenchMarkdown({
 });
 
 assert.match(markdown, /paquete completo/);
+assert.match(markdown, /Versión de la aplicación: 0\.130\.0/);
+assert.match(markdown, /Generado: 2026-08-10T12:00:00\.000Z/);
 assert.match(markdown, /Demo segura/);
 assert.match(markdown, /Estado local: revisado/);
 assert.match(markdown, /Fuentes: confirmar antes de ejecutar/);

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.131.0] - 2026-08-10
+
+- Cada exportación del Workbench registra la versión de la aplicación.
+- El paquete incluye fecha ISO de generación para facilitar tickets y handoffs.
+
 ## [0.130.0] - 2026-08-10
 
 - La UI y el exportador solo enlazan URLs `http` o `https` del catálogo.
