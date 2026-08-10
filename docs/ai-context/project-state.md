@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.107.0 (10-08-2026):** `TechnicalReviewAssignment` permite registrar localmente responsable, fecha objetivo, notas y estado de seguimiento por explainer. Se guarda solo en `localStorage`; “listo para PR” no cambia `reviewStatus` ni publica contenido.
+
 **Actualizacion v0.106.0 (10-08-2026):** la cola de revisión enlaza al explainer real; las fichas `docs/...` se muestran como rutas de repositorio porque no son rutas públicas de Next/Vercel. El paquete exportado usa la misma referencia sin afirmar que exista una URL desplegada.
 
 **Actualizacion v0.105.0 (10-08-2026):** la cola técnica ofrece `TechnicalReviewPacketDownload`, que genera un Markdown con alcance, fuentes, advertencias, checklist y campos de resultado. Es una salida editable para el especialista y no modifica `reviewStatus`.
