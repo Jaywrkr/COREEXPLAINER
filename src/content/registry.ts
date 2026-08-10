@@ -297,6 +297,10 @@ export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);
 }
 
+export function getAllExplainers(): ExplainerDefinition[] {
+  return explainerRegistry;
+}
+
 export function getExplainersByCategory(): { category: ExplainerCategory; items: ExplainerDefinition[] }[] {
   const byCategory = new Map<ExplainerCategory, ExplainerDefinition[]>();
   for (const entry of explainerRegistry) {
