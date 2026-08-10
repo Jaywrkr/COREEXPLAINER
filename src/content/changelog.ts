@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.116.0";
+export const currentVersion = "0.117.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.117.0",
+    date: "10 ago 2026",
+    title: "Mantenimiento y reporte de seguridad",
+    changes: [
+      "Dependabot revisa semanalmente dependencias npm y GitHub Actions, agrupando actualizaciones para que cada PR pase el quality gate.",
+      "SECURITY.md define cómo reportar vulnerabilidades sin publicar secretos ni datos de clientes.",
+      "Las actualizaciones mayores del framework siguen requiriendo una migración revisada, no una automatización ciega.",
+    ],
+  },
   {
     version: "0.116.0",
     date: "10 ago 2026",
