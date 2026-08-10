@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.132.0 (10-08-2026):** `npm run report:technical-review` produce una tabla reproducible de prioridad para los explainers, combinando estado editorial, fuentes `review-needed`, advertencias, escenarios, integridad y roadmap. CI la genera como orientación; no aprueba contenido.
+
 **Actualizacion v0.131.0 (10-08-2026):** las exportaciones del Workbench incluyen versión de aplicación y fecha ISO de generación, permitiendo identificar el release usado en un ticket o handoff.
 
 **Actualizacion v0.130.0 (10-08-2026):** `isSafeHttpUrl` limita los enlaces de fuente del Workbench y sus exportaciones a `http`/`https`. Una URL insegura o malformada no se vuelve enlace; la regresión offline cubre `javascript:`.

@@ -30,6 +30,8 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
       - name: Validate authored content
         run: npm run validate:content
+      - name: Generate technical review prioritization
+        run: npm run report:technical-review
       - name: Run AI guard regressions
         run: npm run test:ai-guards
       - name: Run Workbench export regressions

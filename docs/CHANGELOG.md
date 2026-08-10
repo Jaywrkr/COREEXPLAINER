@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.132.0] - 2026-08-10
+
+- Nuevo `npm run report:technical-review` para priorizar la revisión de explainers.
+- El informe combina estado, fuentes pendientes, advertencias, escenarios, integridad y roadmap.
+- GitHub Actions lo genera en cada PR sin aprobar contenido automáticamente.
+
 ## [0.131.0] - 2026-08-10
 
 - Cada exportación del Workbench registra la versión de la aplicación.
