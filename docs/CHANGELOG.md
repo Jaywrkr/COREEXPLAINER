@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.83.0] - 2026-08-09
+
+- Las decisiones de Instana enlazan sus fases de roadmap y escenarios de validación.
+- Las decisiones de Turbonomic enlazan modelado, planificación y gobierno.
+- Las decisiones de webMethods enlazan contratos, runtime y operación.
+
 ## [0.82.0] - 2026-08-09
 
 - Instana incorpora un roadmap de cobertura, correlacion y operacion.

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.82.0";
+export const currentVersion = "0.83.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.83.0",
+    date: "09 ago 2026",
+    title: "Decisiones conectadas al roadmap",
+    changes: [
+      "Las decisiones de Instana enlazan cobertura, correlacion y operacion con la evidencia que debe comprobarse.",
+      "Las decisiones de Turbonomic enlazan modelado, planificacion y gobierno para separar recomendacion de ejecucion.",
+      "Las decisiones de webMethods enlazan contratos, runtime y operacion para validar integraciones hibridas de forma progresiva.",
+    ],
+  },
   {
     version: "0.82.0",
     date: "09 ago 2026",
