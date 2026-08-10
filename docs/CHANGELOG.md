@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.126.0] - 2026-08-10
+
+- El quality gate de GitHub ejecuta `npm run test:workbench-export` en cada PR y push a `main`.
+- `CONTRIBUTING.md` incluye la misma regresión para validación local.
+
 ## [0.125.0] - 2026-08-10
 
 - La generación Markdown del Workbench usa un contrato reutilizable y testeable sin navegador.

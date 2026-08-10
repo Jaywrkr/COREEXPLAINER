@@ -18,6 +18,7 @@ npm ci
 npm audit --omit=dev --audit-level=high
 npm run validate:content
 npm run test:ai-guards
+npm run test:workbench-export
 npm run typecheck
 npm run lint
 npm run build

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.125.0";
+export const currentVersion = "0.126.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.126.0",
+    date: "10 ago 2026",
+    title: "Quality gate para exportaciones del Workbench",
+    changes: [
+      "GitHub Actions ejecuta la regresión de exportación Markdown en cada PR y push a main.",
+      "El runbook local de contribución incluye el mismo control.",
+      "Una rotura de formato ya no puede pasar inadvertida durante una revisión de código.",
+    ],
+  },
   {
     version: "0.125.0",
     date: "10 ago 2026",

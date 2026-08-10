@@ -32,6 +32,8 @@ jobs:
         run: npm run validate:content
       - name: Run AI guard regressions
         run: npm run test:ai-guards
+      - name: Run Workbench export regressions
+        run: npm run test:workbench-export
       - name: Typecheck
         run: npm run typecheck
       - name: Lint
