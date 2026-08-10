@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.125.0 (10-08-2026):** la exportación Markdown del Workbench se genera mediante `src/lib/workbench/exportMarkdown.ts`, compartida por las salidas focalizada y completa. `npm run test:workbench-export` cubre estados, fuentes pendientes y normalización de saltos de línea sin depender del navegador.
+
 **Actualizacion v0.124.0 (10-08-2026):** el Workbench ofrece dos salidas: la vista actual para compartir un hallazgo focalizado y el paquete completo con las cuatro vistas. Ambas conservan estados, fuentes y límites; ninguna ejecuta acciones.
 
 **Actualizacion v0.123.0 (10-08-2026):** el Technical Workbench añade la vista `Validar`. Resume el estado de revisión humana, vigencia de fuentes y contratos de integridad declarados para las escenas como checklist exportable; no ejecuta validaciones ni convierte el estado local en aprobación.

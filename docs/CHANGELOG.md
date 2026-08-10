@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.125.0] - 2026-08-10
+
+- La generación Markdown del Workbench usa un contrato reutilizable y testeable sin navegador.
+- Las exportaciones focalizada y completa comparten estados, fuentes y límites.
+- Se añade `npm run test:workbench-export` como regresión offline.
+
 ## [0.124.0] - 2026-08-10
 
 - El Workbench permite descargar la vista activa como Markdown independiente.

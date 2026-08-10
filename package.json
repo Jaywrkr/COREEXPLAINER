@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.124.0",
+  "version": "0.125.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -10,7 +10,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "validate:content": "tsx scripts/validate-content.ts",
-    "test:ai-guards": "tsx scripts/test-ai-guards.ts"
+    "test:ai-guards": "tsx scripts/test-ai-guards.ts",
+    "test:workbench-export": "tsx scripts/test-workbench-export.ts"
   },
   "dependencies": {
     "@upstash/redis": "^1.38.2",
