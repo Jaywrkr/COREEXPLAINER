@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.112.0] - 2026-08-10
+
+- El guard de IA puede compartir solicitudes y tokens entre instancias mediante Upstash Redis.
+- La integración es opcional: sin `UPSTASH_REDIS_REST_URL` y `UPSTASH_REDIS_REST_TOKEN` se mantiene el guard local.
+- Las claves expiran a los diez minutos y respetan la identidad HMAC cuando el gateway la proporciona.
+
 ## [0.111.0] - 2026-08-10
 
 - El guard de IA soporta identidad autenticada mediante `x-coresolutions-user`, su firma HMAC y `AI_IDENTITY_SIGNING_SECRET`.

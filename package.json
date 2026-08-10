@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.111.0",
+  "version": "0.112.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -12,6 +12,7 @@
     "validate:content": "tsx scripts/validate-content.ts"
   },
   "dependencies": {
+    "@upstash/redis": "^1.38.2",
     "next": "15.5.22",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

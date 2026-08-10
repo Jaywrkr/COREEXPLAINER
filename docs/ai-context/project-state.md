@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.112.0 (10-08-2026):** `persistentQuota` usa `@upstash/redis` cuando existen `UPSTASH_REDIS_REST_URL` y `UPSTASH_REDIS_REST_TOKEN`. Las ventanas de diez minutos comparten solicitudes y tokens entre instancias serverless; sin esas variables se mantiene el fallback en memoria. La clave combina la identidad HMAC validada o la IP y no almacena prompts.
+
 **Actualizacion v0.111.0 (10-08-2026):** `endpointGuard` puede derivar una clave de cuota por usuario a partir de `x-coresolutions-user` y `x-coresolutions-user-signature`, verificadas con HMAC-SHA256 usando `AI_IDENTITY_SIGNING_SECRET`. Sin firma válida usa el fallback por IP. El gateway debe eliminar cualquier header recibido del navegador e inyectar los suyos; la app no confía en un identificador libre.
 
 **Actualizacion v0.110.0 (10-08-2026):** el generador de explainers (`/api/creator` y `ExplainerDraftCreator`) devuelve y registra el uso del proveedor, incluyendo tokens y coste estimado cuando hay tarifas configuradas. La telemetría se comparte con Copilot en `localStorage`; los fallos incrementan el contador y la plantilla local sigue diferenciada de una generación IA.

@@ -1,4 +1,5 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+import { reservePersistentQuota } from "@/lib/ai/persistentQuota";
 
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_REQUESTS_PER_WINDOW = 20;
@@ -35,9 +36,11 @@ export async function readJsonBody<T>(request: Request, maxBytes: number): Promi
   try { return JSON.parse(raw) as T; } catch { return null; }
 }
 
-export function checkAiAccess(request: Request): { allowed: true } | { allowed: false; status: number; message: string } {
+export async function checkAiAccess(request: Request): Promise<{ allowed: true } | { allowed: false; status: number; message: string; retryAfter?: number }> {
   if (process.env.AI_ENDPOINT_ENABLED === "false") return { allowed: false, status: 503, message: "Las capacidades de IA están desactivadas en este entorno." };
   const key = clientKey(request);
+  const persistent = await reservePersistentQuota(key, 0, Number.MAX_SAFE_INTEGER);
+  if (persistent && !persistent.allowed) return { allowed: false, status: 429, retryAfter: persistent.retryAfter, message: "Límite temporal de solicitudes de IA alcanzado. Inténtalo más tarde." };
   const now = Date.now();
   const current = requestWindows.get(key);
   if (!current || now - current.startedAt >= WINDOW_MS) {
@@ -50,8 +53,10 @@ export function checkAiAccess(request: Request): { allowed: true } | { allowed: 
 }
 
 /** Reserves expected output before provider call; instance-local safety brake. */
-export function reserveAiTokens(request: Request, estimatedTokens: number): { allowed: true } | { allowed: false; status: number; message: string; retryAfter: number } {
+export async function reserveAiTokens(request: Request, estimatedTokens: number): Promise<{ allowed: true } | { allowed: false; status: number; message: string; retryAfter: number }> {
   const key = clientKey(request);
+  const persistent = await reservePersistentQuota(key, estimatedTokens, tokenBudget(), Date.now(), false);
+  if (persistent && !persistent.allowed) return { allowed: false, status: 429, retryAfter: persistent.retryAfter, message: "Presupuesto temporal de tokens de IA alcanzado. Inténtalo más tarde." };
   const now = Date.now();
   const current = tokenWindows.get(key);
   const active = current && now - current.startedAt < WINDOW_MS ? current : { startedAt: now, reserved: 0 };
