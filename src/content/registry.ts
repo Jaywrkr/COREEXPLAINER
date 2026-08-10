@@ -49,6 +49,7 @@ import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.jso
 import { technicalIntegrityProfiles } from "./technical-integrity";
 import { enrichTechnicalReview } from "./technical-source-catalog";
 import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
+import { assertTargetArchitectureRegression } from "@/lib/content-validation/targetRegressionFixtures";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -267,6 +268,7 @@ const definitions: ExplainerDefinition[] = [
 ];
 
 assertTechnicalIntegrityRegression();
+assertTargetArchitectureRegression();
 
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.

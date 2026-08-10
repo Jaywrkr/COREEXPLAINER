@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.74.0] - 2026-08-09
+
+- Se agregaron fixtures de build para objetivos completos, fuentes desconocidas y objetivos incompletos.
+- La validación del contrato se reutiliza fuera del registro para proteger futuras ediciones de contenido.
+- El build ejecuta estas regresiones junto con las pruebas de integridad técnica existentes.
+
 ## [0.73.0] - 2026-08-09
 
 - El build valida etiqueta, resumen, límites y cambios esperados de cada targetArchitecture.

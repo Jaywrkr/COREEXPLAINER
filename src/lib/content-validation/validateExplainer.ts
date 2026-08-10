@@ -5,6 +5,7 @@ import type {
   TechnicalIntegrityAssurance,
   TechnicalIntegrityDomain,
   TechnicalIntegrityProfile,
+  TargetArchitecture,
   GuidedScenarioStepKind,
 } from "@/content/types";
 
@@ -115,6 +116,33 @@ function validateTechnicalIntegrityProfile(
   }
 }
 
+/** Validates the authored target contract independently of a full explainer. */
+export function validateTargetArchitecture(target: TargetArchitecture, technicalSourceIds: ReadonlySet<string>): string[] {
+  const errors: string[] = [];
+  if (!isNonEmptyText(target.label)) errors.push("meta.targetArchitecture.label must be a non-empty string");
+  if (!isNonEmptyText(target.summary)) errors.push("meta.targetArchitecture.summary must be a non-empty string");
+  if (!isNonEmptyText(target.limitations)) errors.push("meta.targetArchitecture.limitations must be a non-empty string");
+  if (!Array.isArray(target.expectedChanges) || target.expectedChanges.length === 0) {
+    errors.push("meta.targetArchitecture.expectedChanges must contain at least one item");
+  } else if (target.expectedChanges.some((change) => !isNonEmptyText(change))) {
+    errors.push("meta.targetArchitecture.expectedChanges cannot contain empty text");
+  }
+  if (target.sourceIds !== undefined) {
+    if (!Array.isArray(target.sourceIds) || target.sourceIds.length === 0) {
+      errors.push("meta.targetArchitecture.sourceIds must contain at least one source when provided");
+    } else {
+      const sourceIds = new Set<string>();
+      for (const sourceId of target.sourceIds) {
+        if (!isNonEmptyText(sourceId)) errors.push("meta.targetArchitecture.sourceIds cannot contain empty IDs");
+        if (sourceIds.has(sourceId)) errors.push(`meta.targetArchitecture.sourceIds '${sourceId}' is duplicated`);
+        sourceIds.add(sourceId);
+        if (!technicalSourceIds.has(sourceId)) errors.push(`meta.targetArchitecture.sourceIds references unknown technical source '${sourceId}'`);
+      }
+    }
+  }
+  return errors;
+}
+
 /**
  * Validates the complete content/visual pairing before it enters the topic
  * registry. This is intentionally stricter than TypeScript: future generated
@@ -204,30 +232,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
     }
   }
   if (meta.targetArchitecture) {
-    const target = meta.targetArchitecture;
-    if (!isNonEmptyText(target.label)) add("meta.targetArchitecture.label must be a non-empty string");
-    if (!isNonEmptyText(target.summary)) add("meta.targetArchitecture.summary must be a non-empty string");
-    if (!isNonEmptyText(target.limitations)) add("meta.targetArchitecture.limitations must be a non-empty string");
-    if (!Array.isArray(target.expectedChanges) || target.expectedChanges.length === 0) {
-      add("meta.targetArchitecture.expectedChanges must contain at least one item");
-    } else if (target.expectedChanges.some((change) => !isNonEmptyText(change))) {
-      add("meta.targetArchitecture.expectedChanges cannot contain empty text");
-    }
-    if (target.sourceIds !== undefined) {
-      if (!Array.isArray(target.sourceIds) || target.sourceIds.length === 0) {
-        add("meta.targetArchitecture.sourceIds must contain at least one source when provided");
-      } else {
-        const targetSourceIds = new Set<string>();
-        for (const sourceId of target.sourceIds) {
-          if (!isNonEmptyText(sourceId)) add("meta.targetArchitecture.sourceIds cannot contain empty IDs");
-          if (targetSourceIds.has(sourceId)) add(`meta.targetArchitecture.sourceIds '${sourceId}' is duplicated`);
-          targetSourceIds.add(sourceId);
-          if (!technicalSourceIds.has(sourceId)) {
-            add(`meta.targetArchitecture.sourceIds references unknown technical source '${sourceId}'`);
-          }
-        }
-      }
-    }
+    for (const error of validateTargetArchitecture(meta.targetArchitecture, technicalSourceIds)) add(error);
   }
   if (meta.reviewStatus !== "pending" && meta.reviewStatus !== "reviewed") {
     add("meta.reviewStatus must be 'pending' or 'reviewed'");
