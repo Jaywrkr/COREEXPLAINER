@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.127.0";
+export const currentVersion = "0.128.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.128.0",
+    date: "10 ago 2026",
+    title: "Enlaces directos a fuentes del Workbench",
+    changes: [
+      "Los IDs de fuente con URL registrada se pueden abrir directamente desde cada tarea.",
+      "Los IDs sin coincidencia permanecen como texto y no se inventa una referencia.",
+      "La trazabilidad sigue dependiendo del catálogo técnico autorado.",
+    ],
+  },
   {
     version: "0.127.0",
     date: "10 ago 2026",

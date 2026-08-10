@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.128.0] - 2026-08-10
+
+- Los IDs de fuente del Workbench enlazan directamente a la URL registrada cuando existe.
+- Los IDs sin coincidencia permanecen como texto, sin inventar referencias.
+
 ## [0.127.0] - 2026-08-10
 
 - Cada tarea del Workbench muestra sus IDs de fuente o indica que deben confirmarse.

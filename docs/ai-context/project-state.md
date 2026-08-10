@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.128.0 (10-08-2026):** los IDs de fuente de cada tarea del Workbench enlazan a la URL del catálogo cuando existe una coincidencia exacta; los IDs desconocidos permanecen como texto para no inventar referencias.
+
 **Actualizacion v0.127.0 (10-08-2026):** cada tarea del Workbench expone sus IDs de fuente en la UI y el resumen usa el lenguaje `tareas con fuentes por confirmar`, evitando confundir tareas pendientes con fuentes únicas.
 
 **Actualizacion v0.126.0 (10-08-2026):** el workflow `.github/workflows/quality.yml` y el runbook local ejecutan `npm run test:workbench-export`, protegiendo el contrato de exportación Markdown en cada PR y push a `main`.
