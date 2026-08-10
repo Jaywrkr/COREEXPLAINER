@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { explainerValidationWarnings, getAllExplainers } from "@/content/registry";
+import { TechnicalReviewPacketDownload } from "./TechnicalReviewPacketDownload";
 
 /** Read-only queue for specialists; it never turns pending content into approval. */
 export function TechnicalReviewQueue() {
@@ -29,9 +30,20 @@ export function TechnicalReviewQueue() {
                     Última revisión declarada: {entry.meta.technicalReview.lastReviewedAt} · {entry.meta.technicalReview.sources.length} fuentes
                   </p>
                 </div>
-                <a href={`/${entry.meta.technicalValidationDoc}`} className="border border-core-accent/35 px-2 py-1 text-[0.58rem] font-semibold text-core-accent hover:bg-core-accent/10">
-                  Abrir ficha técnica
-                </a>
+                <div className="flex flex-wrap gap-1.5">
+                  <a href={`/${entry.meta.technicalValidationDoc}`} className="border border-core-accent/35 px-2 py-1 text-[0.58rem] font-semibold text-core-accent hover:bg-core-accent/10">
+                    Abrir ficha técnica
+                  </a>
+                  <TechnicalReviewPacketDownload
+                    slug={entry.slug}
+                    title={entry.meta.title}
+                    scope={entry.meta.technicalReview.scope}
+                    lastReviewedAt={entry.meta.technicalReview.lastReviewedAt}
+                    validationDoc={entry.meta.technicalValidationDoc}
+                    sources={entry.meta.technicalReview.sources.map((source) => ({ title: source.title, url: source.url, accessedAt: source.accessedAt }))}
+                    warnings={warnings}
+                  />
+                </div>
               </div>
               <p className="mt-2 text-[0.68rem] leading-relaxed text-core-text-secondary">{entry.meta.technicalReview.scope}</p>
               {warnings.length ? <p className="mt-1 text-[0.6rem] text-core-warning">Gate: {warnings.length} advertencia(s) de revisión humana.</p> : null}

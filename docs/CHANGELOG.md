@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.105.0] - 2026-08-10
+
+- Cada pendiente de la cola técnica puede descargar un paquete Markdown de revisión.
+- Incluye alcance, fecha, fuentes, advertencias del gate y checklist para el especialista.
+- La descarga es una salida de trabajo; no aprueba, publica ni certifica contenido.
+
 ## [0.104.0] - 2026-08-10
 
 - El dashboard incluye una cola de revisión técnica humana para los explainers pendientes.
