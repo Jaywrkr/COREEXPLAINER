@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.65.0] - 2026-08-09
+
+- Los hallazgos derivados del contrato tecnico conservan sus fuentes y componentes relacionados.
+- Cada fuente se puede abrir bajo demanda desde el bloque Reglas y evidencia.
+- La interfaz mantiene los enlaces ocultos hasta que la audiencia los solicita.
+
 ## [0.64.0] - 2026-08-09
 
 - Los escenarios incorporan los diagnosticos del contrato tecnico de la escena y su dominio.

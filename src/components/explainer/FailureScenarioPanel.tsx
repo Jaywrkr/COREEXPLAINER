@@ -306,12 +306,36 @@ export function FailureScenarioPanel({
                         warning: "border-core-warning/60 text-core-warning",
                         info: "border-core-accent/50 text-core-accent",
                       };
+                      const findingSources = (finding.sourceIds ?? [])
+                        .map((sourceId) => technicalSources.find((source) => source.id === sourceId))
+                        .filter((source): source is TechnicalSource => Boolean(source));
                       return (
                         <article key={finding.id} className={`border-l-2 pl-2 text-[0.64rem] leading-relaxed ${severityClass[finding.severity]}`}>
                           <p className="font-semibold">{finding.title}</p>
                           <p className="text-core-text-secondary">{finding.detail}</p>
                           <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Evidencia:</span> {finding.evidence}</p>
                           <p className="mt-0.5 text-core-text-muted"><span className="font-semibold text-core-text">Recomendación:</span> {finding.recommendation}</p>
+                          {findingSources.length ? (
+                            <details className="mt-1 text-core-text-muted">
+                              <summary className="cursor-pointer list-none font-mono text-[0.58rem] uppercase tracking-[0.06em] hover:text-core-text [&::-webkit-details-marker]:hidden">
+                                Fuentes de la regla · {findingSources.length}
+                              </summary>
+                              <ul className="mt-1 space-y-0.5 pl-3">
+                                {findingSources.map((source) => (
+                                  <li key={source.id}>
+                                    <a
+                                      href={source.url}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="text-core-accent underline decoration-core-accent/40 underline-offset-2 hover:text-core-text"
+                                    >
+                                      {source.title}
+                                    </a>
+                                  </li>
+                                ))}
+                              </ul>
+                            </details>
+                          ) : null}
                         </article>
                       );
                     })}

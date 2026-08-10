@@ -11,6 +11,8 @@ export interface TechnicalFinding {
   detail: string;
   evidence: string;
   recommendation: string;
+  sourceIds?: string[];
+  nodeIds?: string[];
 }
 
 /** Turns graph impact into reviewable, vendor-neutral technical findings. */
@@ -30,6 +32,8 @@ export function evaluateTechnicalRules(
         detail: diagnostic.detail,
         evidence: diagnostic.rationale,
         recommendation: diagnostic.recommendation,
+        sourceIds: diagnostic.sourceIds,
+        nodeIds: diagnostic.nodeIds,
       });
     }
   }
