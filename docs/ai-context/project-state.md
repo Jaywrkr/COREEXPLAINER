@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.94.0 (09-08-2026):** `ContentWorkflowPanel` muestra y persiste localmente el estado de cada explainer: borrador, revisión técnica, fuentes, comercial, aprobado, publicado o revisión vencida. El avance queda bloqueado cuando la revisión editorial está pendiente o hay fuentes `review-needed`.
+
 **Actualizacion v0.93.0 (09-08-2026):** `FailureScenario.simulation` permite perfiles `hard-down`, `degraded`, `latency`, `capacity`, `dependency` y `observability`. `evaluateWhatIfImpact` conserva reachability y añade impacto, capacidad, latencia y dependencia; los escenarios antiguos usan `hard-down` por defecto.
 
 **Actualizacion v0.92.0 (09-08-2026):** `EvidenceTrackerPanel` materializa evidencia de pasos guiados y fases de roadmap como registros con tipo, detalle, fuentes y estado pendiente/validada/bloqueada. Se persiste localmente por explainer y escenario.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.94.0] - 2026-08-09
+
+- Se incorpora un workflow local de revisión de contenido.
+- Las transiciones requieren revisión técnica y fuentes actuales cuando corresponde.
+- Un contenido publicado puede marcarse como revisión vencida.
+
 ## [0.93.0] - 2026-08-09
 
 - Los escenarios soportan perfiles de capacidad, latencia, dependencia y observabilidad.
