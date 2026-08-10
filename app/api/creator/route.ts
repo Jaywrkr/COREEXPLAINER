@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { checkAiAccess, providerSignal } from "@/lib/ai/endpointGuard";
+import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
 
 interface CreatorRequest {
   topic?: string;
@@ -10,11 +10,17 @@ interface CreatorRequest {
 
 const limit = (value: string | undefined, max: number) => (value?.trim() ?? "").slice(0, max);
 
+function json(message: string, status: number, fallback = true, retryAfter?: number) {
+  const headers: Record<string, string> = { "Cache-Control": "no-store" };
+  if (retryAfter) headers["Retry-After"] = String(retryAfter);
+  return NextResponse.json({ message, fallback }, { status, headers });
+}
+
 export async function POST(request: Request) {
   const access = checkAiAccess(request);
-  if (!access.allowed) return NextResponse.json({ message: access.message, fallback: true }, { status: access.status });
+  if (!access.allowed) return json(access.message, access.status);
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
-  if (declaredLength > 4_000) return NextResponse.json({ message: "La solicitud es demasiado grande.", fallback: true }, { status: 413 });
+  if (declaredLength > 4_000) return json("La solicitud es demasiado grande.", 413);
   let body: CreatorRequest;
   try {
     body = (await request.json()) as CreatorRequest;
@@ -35,13 +41,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "El generador IA no está configurado en este entorno.", fallback: true }, { status: 503 });
   }
 
+  const configuredOutput = Number(process.env.AI_MAX_OUTPUT_TOKENS);
+  const maxOutputTokens = Number.isFinite(configuredOutput) && configuredOutput > 0 ? Math.min(Math.floor(configuredOutput), 1_400) : 1_400;
+  const estimatedInputTokens = Math.ceil(JSON.stringify({ topic, audience, brands, goal }).length / 4);
+  const budget = reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
+  if (!budget.allowed) return json(budget.message, budget.status, true, budget.retryAfter);
+
   const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: process.env.OPENAI_MODEL ?? "gpt-4o-mini",
       temperature: 0.2,
-      max_tokens: 1400,
+      max_tokens: maxOutputTokens,
       response_format: { type: "json_object" },
       messages: [
         {
