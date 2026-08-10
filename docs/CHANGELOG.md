@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.80.0] - 2026-08-09
+
+- Cada decisión puede enlazar fases de roadmap y escenarios que permiten comprobarla.
+- Los escenarios enlazados se pueden abrir directamente desde el laboratorio de decisiones.
+- La validación bloquea fases o escenarios referenciados que no existan en el explainer.
+
 ## [0.79.0] - 2026-08-09
 
 - Los objetivos pueden declarar opciones técnicas con beneficios, trade-offs y evidencia.

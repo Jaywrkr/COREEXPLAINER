@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.79.0";
+export const currentVersion = "0.80.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.80.0",
+    date: "09 ago 2026",
+    title: "Decisiones conectadas con validacion",
+    changes: [
+      "Cada decision puede enlazar fases de roadmap y escenarios que permiten comprobarla.",
+      "Los escenarios enlazados se pueden abrir directamente desde el laboratorio de decisiones.",
+      "La validacion bloquea fases o escenarios referenciados que no existan en el explainer.",
+    ],
+  },
   {
     version: "0.79.0",
     date: "09 ago 2026",
