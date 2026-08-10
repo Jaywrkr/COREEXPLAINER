@@ -448,6 +448,35 @@ export function FailureScenarioPanel({
                 </div>
               ) : null}
 
+              {whatIfImpact ? (
+                <details className="border-t border-core-border/[0.12] pt-2">
+                  <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
+                    Comparación actual / objetivo
+                  </summary>
+                  <div className="mt-2 grid grid-cols-2 gap-1.5 text-[0.64rem]">
+                    <div className="border border-core-success/30 bg-core-success/5 px-2 py-1.5">
+                      <p className="text-core-text-muted">Objetivo · escena base</p>
+                      <p className="mt-0.5 font-mono text-core-text">{scene.nodes.length} componentes</p>
+                      <p className="font-mono text-core-text">{scene.edges.length} relaciones</p>
+                    </div>
+                    <div className="border border-core-warning/30 bg-core-warning/5 px-2 py-1.5">
+                      <p className="text-core-text-muted">Actual · escenario</p>
+                      <p className="mt-0.5 font-mono text-core-text">{scene.nodes.length - whatIfImpact.unavailableNodeIds.length} disponibles</p>
+                      <p className="font-mono text-core-text">{scene.edges.length - whatIfImpact.brokenRelationshipCount} relaciones activas</p>
+                    </div>
+                  </div>
+                  {whatIfImpact.unavailableNodeIds.length ? (
+                    <p className="mt-2 text-[0.64rem] leading-relaxed text-core-text-secondary">
+                      <span className="font-semibold text-core-text">Brecha simulada:</span>{" "}
+                      {whatIfImpact.unavailableNodeIds.map((id) => scene.nodes.find((node) => node.id === id)?.name ?? id).join(", ")} no está disponible.
+                    </p>
+                  ) : null}
+                  <p className="mt-1 text-[0.6rem] leading-relaxed text-core-text-muted">
+                    El objetivo representa la topología documentada, no una recomendación automática de diseño.
+                  </p>
+                </details>
+              ) : null}
+
               {technicalFindings.length ? (
                 <details className="border-t border-core-border/[0.12] pt-2">
                   <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
