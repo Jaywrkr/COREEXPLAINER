@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.133.0] - 2026-08-10
+
+- CI guarda el informe de revisión técnica como artefacto descargable.
+- El artefacto tiene una retención de 14 días y se identifica con el `run_id`.
+- El flujo local conserva el mismo comando de generación.
+
 ## [0.132.0] - 2026-08-10
 
 - Nuevo `npm run report:technical-review` para priorizar la revisión de explainers.

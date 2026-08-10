@@ -17,6 +17,7 @@
 npm ci
 npm audit --omit=dev --audit-level=high
 npm run validate:content
+npm run report:technical-review
 npm run test:ai-guards
 npm run test:workbench-export
 npm run typecheck

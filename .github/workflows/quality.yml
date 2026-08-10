@@ -31,7 +31,14 @@ jobs:
       - name: Validate authored content
         run: npm run validate:content
       - name: Generate technical review prioritization
-        run: npm run report:technical-review
+        run: npm run report:technical-review > technical-review-report.md
+      - name: Upload technical review report
+        uses: actions/upload-artifact@v4
+        with:
+          name: technical-review-report-${{ github.run_id }}
+          path: technical-review-report.md
+          if-no-files-found: error
+          retention-days: 14
       - name: Run AI guard regressions
         run: npm run test:ai-guards
       - name: Run Workbench export regressions

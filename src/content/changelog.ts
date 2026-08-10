@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.132.0";
+export const currentVersion = "0.133.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.133.0",
+    date: "10 ago 2026",
+    title: "Artefacto descargable de revisión técnica en CI",
+    changes: [
+      "GitHub Actions guarda el informe de priorización como artefacto del workflow.",
+      "El artefacto conserva el reporte de la ejecución durante 14 días para facilitar la revisión del PR.",
+      "La validación local mantiene el mismo comando y salida Markdown.",
+    ],
+  },
   {
     version: "0.132.0",
     date: "10 ago 2026",
