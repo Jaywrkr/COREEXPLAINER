@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.70.0";
+export const currentVersion = "0.71.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.71.0",
+    date: "09 ago 2026",
+    title: "Objetivos autorados para observabilidad e integración",
+    changes: [
+      "Instana, Turbonomic y webMethods declaran objetivos de arquitectura con cambios esperados y límites.",
+      "La comparación actual/objetivo mantiene la misma estructura para explicar plataforma, optimización e integración.",
+      "Cada objetivo reutiliza fuentes existentes del explainer y no agrega promesas de sizing o compatibilidad.",
+    ],
+  },
   {
     version: "0.70.0",
     date: "09 ago 2026",

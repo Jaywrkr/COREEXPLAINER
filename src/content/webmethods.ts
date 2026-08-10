@@ -9,6 +9,17 @@ export const webMethodsFailureScenarios: FailureScenario[] = [
 ];
 
 export const webMethodsMeta: ExplainerMeta = {
+  targetArchitecture: {
+    label: "Integración híbrida gobernada",
+    summary: "El objetivo es conectar APIs, aplicaciones, eventos y B2B con control separado de la ejecución, políticas y trazabilidad.",
+    expectedChanges: [
+      "Contratos de API, mapping y errores explícitos en cada flujo.",
+      "Runtimes ubicados según conectividad, soberanía y cercanía a los datos.",
+      "Gateway, portal, seguridad, observabilidad y ownership tratados como parte del servicio.",
+    ],
+    limitations: "La topología final depende de edición, interoperabilidad, conectividad, datos, seguridad y operación del cliente.",
+    sourceIds: ["wm-overview", "wm-architecture", "wm-interoperability", "wm-gateway"],
+  },
   chip: "Integración · IBM webMethods",
   title: "Cómo IBM webMethods conecta APIs, aplicaciones, eventos y B2B",
   tagline: "Una explicación visual de control plane, runtimes, Integration Server, API Gateway, gobierno, seguridad y operación híbrida.",
