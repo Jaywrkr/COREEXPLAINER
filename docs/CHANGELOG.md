@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.120.0] - 2026-08-10
+
+- Nuevo `TechnicalWorkbenchPanel` con vistas Implementar, Soportar y Mantener para cada explainer.
+- Permite checklist local y descarga Markdown de tareas, evidencia, fuentes y límites.
+- No ejecuta cambios ni sustituye un runbook o una validación del entorno real.
+
 ## [0.119.0] - 2026-08-10
 
 - `CONTRIBUTING.md` documenta el flujo de ramas, PR, validaciones, contenido técnico, IA, secretos y Vercel.
