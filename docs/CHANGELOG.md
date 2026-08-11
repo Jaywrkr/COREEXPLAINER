@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.172.0] - 2026-08-11
+
+- La telemetría local de IA separa Copilot, Creator y eventos desconocidos.
+- El dashboard permite revisar y exportar consultas, tokens, fallos y coste estimado.
+- Los datos son locales y orientativos; no son facturación ni cuota compartida.
+
 ## [0.171.0] - 2026-08-11
 
 - El dashboard y el informe técnico muestran cobertura de impactos de cambio.

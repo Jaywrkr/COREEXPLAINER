@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.171.0";
+export const currentVersion = "0.172.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.172.0",
+    date: "11 ago 2026",
+    title: "Gobierno local de uso y coste de IA",
+    changes: [
+      "La telemetría local separa Copilot, Creator y eventos desconocidos, normaliza valores inválidos y evita costes negativos.",
+      "El dashboard ofrece un resumen exportable de consultas, tokens, fallos y coste estimado sin enviarlo a terceros.",
+      "La política mantiene el límite: las cifras locales no son facturación ni reemplazan la cuota compartida del servidor.",
+    ],
+  },
   {
     version: "0.171.0",
     date: "11 ago 2026",

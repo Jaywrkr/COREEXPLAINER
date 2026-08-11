@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import type { FailureScenario, TechnicalSource } from "@/content/types";
 import type { CopilotAction, CopilotPolicy } from "@/lib/ai/copilotContract";
-import { readAiUsage, recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
+import { emptyAiUsage, readAiUsage, recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
 
 interface CopilotPanelProps {
   meta: ExplainerMeta;
@@ -21,7 +21,7 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
   const [busy, setBusy] = useState(false);
   const [actions, setActions] = useState<CopilotAction[]>([]);
   const [policy, setPolicy] = useState<CopilotPolicy | null>(null);
-  const [usage, setUsage] = useState<AiUsageTelemetry>({ requests: 0, failures: 0, totalTokens: 0, estimatedCostUsd: 0 });
+  const [usage, setUsage] = useState<AiUsageTelemetry>(() => emptyAiUsage());
 
   useEffect(() => { setUsage(readAiUsage()); }, []);
 
@@ -59,10 +59,10 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
       const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number }; policy?: CopilotPolicy };
       setActions(Array.isArray(payload.actions) ? payload.actions : []);
       setPolicy(payload.policy ?? null);
-      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0));
+      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0, "copilot"));
       setAnswer(payload.message ?? "No se recibió respuesta.");
     } catch {
-      setUsage(recordAiUsage(false));
+      setUsage(recordAiUsage(false, 0, 0, "copilot"));
       setAnswer("No se pudo conectar con el copiloto. La explicación sigue disponible sin IA.");
     } finally {
       setBusy(false);

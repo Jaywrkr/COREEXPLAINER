@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.172.0 (11-08-2026):** `usageTelemetry` separa uso de IA por superficie (`copilot|creator|unknown`), normaliza datos y descarta deltas negativos. El dashboard ofrece resumen JSON y borrado local; no hay envío de telemetría ni sustitución de la cuota/facturación del proveedor.
+
 **Actualizacion v0.171.0 (11-08-2026):** `calculateTechnicalCoverage` y el informe técnico cuentan `impactCount`, `highRiskImpactCount` e `impactsWithScenarios`, derivados de `buildImplementationWorkPackage`. El dashboard los muestra como indicadores editoriales; el informe JSON usa `schemaVersion: 1.3`.
 
 **Actualizacion v0.170.0 (11-08-2026):** `impactReview.ts` añade revisión local de `changeImpacts` con estados `pending|reviewed|blocked|accepted`, nota mínima para aceptar, resumen de avance y exportación Markdown/JSON. El estado vive en `localStorage`, no sincroniza ni autoriza cambios.

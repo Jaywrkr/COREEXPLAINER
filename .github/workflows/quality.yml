@@ -82,6 +82,8 @@ jobs:
           retention-days: 14
       - name: Run AI guard regressions
         run: npm run test:ai-guards
+      - name: Run AI usage telemetry regressions
+        run: npm run test:ai-usage-telemetry
       - name: Run Workbench export regressions
         run: npm run test:workbench-export
       - name: Typecheck

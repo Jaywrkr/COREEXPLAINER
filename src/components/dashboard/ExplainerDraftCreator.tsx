@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
-import { recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
+import { emptyAiUsage, recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
 import type { CreatorPolicy } from "@/lib/ai/creatorPolicy";
 
 interface DraftScene { id: string; title: string; paragraphs: string[]; businessImpact: string }
@@ -33,7 +33,7 @@ export function ExplainerDraftCreator() {
   const [draft, setDraft] = useState<ExplainerDraft | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [usage, setUsage] = useState<AiUsageTelemetry>({ requests: 0, failures: 0, totalTokens: 0, estimatedCostUsd: 0 });
+  const [usage, setUsage] = useState<AiUsageTelemetry>(() => emptyAiUsage());
   const [policy, setPolicy] = useState<CreatorPolicy | null>(null);
 
   const generate = async () => {
@@ -44,10 +44,10 @@ export function ExplainerDraftCreator() {
       const response = await fetch("/api/creator", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ topic, audience, brands, goal }) });
       const payload = (await response.json()) as CreatorResponse;
       setPolicy(payload.policy ?? null);
-      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0));
+      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0, "creator"));
       if (payload.draft) { setDraft(payload.draft); setStatus("Borrador generado por IA. Validar antes de publicarlo."); }
       else { setDraft(localDraft(topic, audience, brands, goal)); setStatus(`${payload.message ?? "IA no disponible"} Se generó una plantilla local editable.`); }
-    } catch { setUsage(recordAiUsage(false)); setDraft(localDraft(topic, audience, brands, goal)); setStatus("No se pudo conectar con IA. Se generó una plantilla local editable."); }
+    } catch { setUsage(recordAiUsage(false, 0, 0, "creator")); setDraft(localDraft(topic, audience, brands, goal)); setStatus("No se pudo conectar con IA. Se generó una plantilla local editable."); }
     finally { setBusy(false); }
   };
 
