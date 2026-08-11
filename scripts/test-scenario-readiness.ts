@@ -22,4 +22,7 @@ assert.equal(queue[0]?.score, 0);
 assert.ok(queue[0]?.missing.includes("simulación tipada"));
 assert.match(buildScenarioReadinessMarkdown(queue, "0.154.0", "2026-08-11T00:00:00.000Z"), /Backlog de madurez/);
 assert.match(buildScenarioReadinessMarkdown(queue, "0.154.0", "2026-08-11T00:00:00.000Z"), /no ejecuta acciones/i);
+const reorderedMeta = { ...meta, failureScenarios: [{ ...meta.failureScenarios![1]!, guidedSteps: [...meta.failureScenarios![1]!.guidedSteps!].reverse() }] };
+const reordered = buildScenarioReadinessQueue([{ slug: "tema", title: "Tema", meta: reorderedMeta }]);
+assert.ok(reordered[0]?.missing.includes("flujo causal observe/diagnose/recover/validate"));
 console.log("Scenario readiness regression checks passed.");

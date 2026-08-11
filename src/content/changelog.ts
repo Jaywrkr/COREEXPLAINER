@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.240.0";
+export const currentVersion = "0.241.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.241.0",
+    date: "2026-08-11",
+    title: "Readiness alineado con causalidad",
+    changes: [
+      "La cola de madurez solo considera completo un flujo observe/diagnose/recover/validate en ese orden.",
+      "Un escenario desordenado ya no aparece listo para soporte aunque tenga cuatro fases.",
+      "La regresión protege la diferencia entre cantidad de pasos y calidad causal.",
+    ],
+  },
   {
     version: "0.240.0",
     date: "2026-08-11",

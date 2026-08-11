@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.241.0 (11-08-2026):** `scenarioReadiness` y `isScenarioReadyForSupport` usan el mismo flujo causal ordenado `observe` → `diagnose` → `recover` → `validate` que el content gate; un escenario con cuatro fases desordenadas queda pendiente.
+
 **Actualizacion v0.240.0 (11-08-2026):** `validateFailureScenarioNarrative` exige orden causal `observe` → `diagnose` → `recover` → `validate` en escenarios con simulación enriquecida. El flujo sigue siendo conceptual y no un runbook de producción.
 
 **Actualizacion v0.239.0 (11-08-2026):** `validateEvidenceLedger` limita `kind` a `documentary`/`observed`/`hypothesis`/`acceptance` y `provenance` a `authored`/`derived`; los valores desconocidos bloquean el ledger antes de revisión o exportación.

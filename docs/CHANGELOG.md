@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.241.0] - 2026-08-11
+
+### Readiness alineado con causalidad
+
+- La cola de madurez solo considera completo el flujo `observe → diagnose → recover → validate` en ese orden.
+- Un escenario desordenado deja de aparecer listo para soporte aunque tenga cuatro fases.
+- Se protege la diferencia entre cantidad de pasos y calidad causal.
+
 ## [0.240.0] - 2026-08-11
 
 ### Secuencia causal en escenarios guiados

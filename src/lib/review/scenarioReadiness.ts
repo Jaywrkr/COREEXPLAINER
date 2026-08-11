@@ -1,4 +1,5 @@
 import type { ExplainerMeta } from "@/content/types";
+import type { GuidedScenarioStepKind } from "@/content/types";
 
 export interface ScenarioReadinessInput {
   slug: string;
@@ -15,16 +16,22 @@ export interface ScenarioReadinessItem {
   missing: string[];
 }
 
+const CAUSAL_GUIDED_FLOW: readonly GuidedScenarioStepKind[] = ["observe", "diagnose", "recover", "validate"];
+
+function hasCausalGuidedFlow(steps: NonNullable<ExplainerMeta["failureScenarios"]>[number]["guidedSteps"]): boolean {
+  return Boolean(steps && steps.length >= CAUSAL_GUIDED_FLOW.length && CAUSAL_GUIDED_FLOW.every((kind, index) => steps[index]?.kind === kind));
+}
+
 function readinessForScenario(meta: ExplainerMeta, scenario: NonNullable<ExplainerMeta["failureScenarios"]>[number]): ScenarioReadinessItem {
   const guidedSteps = scenario.guidedSteps ?? [];
   const hasSimulation = Boolean(scenario.simulation);
-  const hasGuidedFlow = guidedSteps.length >= 4 && new Set(guidedSteps.map((step) => step.kind)).size === 4;
+  const hasGuidedFlow = hasCausalGuidedFlow(guidedSteps);
   const hasEvidence = guidedSteps.length > 0 && guidedSteps.every((step) => Boolean(step.evidence?.trim()));
   const hasCurrentSources = guidedSteps.length > 0 && guidedSteps.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current"));
   const checks = [hasSimulation, hasGuidedFlow, hasEvidence, hasCurrentSources];
   const missing = [
     !hasSimulation ? "simulación tipada" : null,
-    !hasGuidedFlow ? "flujo observe/diagnose/recover/validate" : null,
+    !hasGuidedFlow ? "flujo causal observe/diagnose/recover/validate" : null,
     !hasEvidence ? "evidencia por fase" : null,
     !hasCurrentSources ? "fuentes vigentes" : null,
   ].filter((value): value is string => Boolean(value));
@@ -34,8 +41,7 @@ function readinessForScenario(meta: ExplainerMeta, scenario: NonNullable<Explain
 export function isScenarioReadyForSupport(meta: ExplainerMeta, scenario: NonNullable<ExplainerMeta["failureScenarios"]>[number]): boolean {
   const guidedSteps = scenario.guidedSteps ?? [];
   return Boolean(scenario.simulation)
-    && guidedSteps.length >= 4
-    && new Set(guidedSteps.map((step) => step.kind)).size === 4
+    && hasCausalGuidedFlow(guidedSteps)
     && guidedSteps.every((step) => Boolean(step.evidence?.trim()))
     && guidedSteps.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current"));
 }
