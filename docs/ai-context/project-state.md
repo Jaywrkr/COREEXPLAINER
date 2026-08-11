@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.98.0 (09-08-2026):** `productTelemetry` registra localmente eventos de navegación, escenarios, workflow, briefs y borradores. `UsageMetricsPanel` muestra un resumen en el dashboard y permite borrar los datos; no hay envío externo.
+
 **Actualizacion v0.97.0 (09-08-2026):** `solutionPatterns` y `PatternLibrary` incorporan patrones reutilizables de CORESOLUTIONS con problema, resultado, marcas, señales, evidencia, riesgos, explainers y fecha de revisión.
 
 **Actualizacion v0.96.0 (09-08-2026):** `usageTelemetry` registra localmente consultas, fallos y tokens del copiloto. `/api/copilot` devuelve uso agregado del proveedor; la UI no persiste prompts ni respuestas fuera del navegador.

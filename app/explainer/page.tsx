@@ -5,6 +5,7 @@ import { ExplainerFeedback } from "@/components/explainer/ExplainerFeedback";
 import { getExplainersByCategory } from "@/content/registry";
 import { ExplainerDraftCreator } from "@/components/dashboard/ExplainerDraftCreator";
 import { PatternLibrary } from "@/components/dashboard/PatternLibrary";
+import { UsageMetricsPanel } from "@/components/dashboard/UsageMetricsPanel";
 
 export const metadata: Metadata = {
   title: "Explicadores técnicos · CORESOLUTIONS",
@@ -25,6 +26,7 @@ export default function ExplainerDashboardPage() {
 
       <ExplainerDraftCreator />
       <PatternLibrary />
+      <UsageMetricsPanel />
 
       {categories.length === 0 && (
         <p className="font-mono text-sm text-core-text-muted">Todavía no hay explicadores publicados.</p>

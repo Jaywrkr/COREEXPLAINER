@@ -1,6 +1,7 @@
 "use client";
 
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 
 interface AssessmentBriefControlProps {
   meta: ExplainerMeta;
@@ -68,6 +69,7 @@ function buildBrief(meta: ExplainerMeta, steps: ExplainerStep[]) {
 export function AssessmentBriefControl({ meta, steps }: AssessmentBriefControlProps) {
   const download = () => {
     const content = buildBrief(meta, steps);
+    recordProductEvent({ name: "brief-download", slug: meta.title });
     const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");

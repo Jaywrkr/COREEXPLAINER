@@ -7,6 +7,7 @@ import { LeftPanel } from "./LeftPanel";
 import { VisualCanvas } from "./VisualCanvas";
 import type { AudienceMode } from "./AudienceModeToggle";
 import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
+import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 
 const AUTOPLAY_STEP_MS = 6500;
 const MIN_LEFT_PANEL_WIDTH = 320;
@@ -93,6 +94,18 @@ export function ExplainerLayout({
     (option) => option.id === selectedDecisionOptionId,
   ) ?? null;
   const guidedFocusNodeIds = selectedDecisionOption?.focusNodeIds ?? activeGuidedStep?.focusNodeIds ?? [];
+
+  useEffect(() => {
+    recordProductEvent({ name: "scene-view", slug, id: step.sceneId });
+  }, [slug, step.sceneId]);
+
+  useEffect(() => {
+    recordProductEvent({ name: "explainer-view", slug });
+  }, [slug]);
+
+  useEffect(() => {
+    if (activeFailureScenarioId) recordProductEvent({ name: "scenario-open", slug, id: activeFailureScenarioId });
+  }, [activeFailureScenarioId, slug]);
 
   useEffect(() => {
     setSelectedNode(null);
