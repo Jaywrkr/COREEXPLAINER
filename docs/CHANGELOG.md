@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.85.0] - 2026-08-09
+
+- Cada explicación incluye una revisión técnica asistida basada en contenido local.
+- Los hallazgos muestran severidad, evidencia y acción recomendada.
+- La revisión no consulta entornos reales ni sustituye la validación de un especialista.
+
+## [0.84.0] - 2026-08-09
+
+- Las fases enlazadas desde una decisión aparecen como controles compactos.
+- Una fase puede marcarse como revisada, no aplica o pendiente desde el laboratorio.
+- El estado sigue siendo local y no se presenta como una validación automática.
+
 ## [0.83.0] - 2026-08-09
 
 - Las decisiones de Instana enlazan sus fases de roadmap y escenarios de validación.
