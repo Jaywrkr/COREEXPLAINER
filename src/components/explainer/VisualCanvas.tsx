@@ -18,6 +18,7 @@ import { DiagramLegend } from "./DiagramLegend";
 import { NodeDetailCard } from "./NodeDetailCard";
 import { TechnicalIntegrityPanel } from "./TechnicalIntegrityPanel";
 import type { AudienceMode } from "./AudienceModeToggle";
+import { CanvasViewControls } from "./CanvasViewControls";
 
 interface VisualCanvasProps {
   scene: Scene;
@@ -472,35 +473,17 @@ export function VisualCanvas({
           ) : null}
         </button>
       ) : null}
-      <div className="absolute left-4 top-4 flex border border-core-border/[0.14] bg-core-panel font-mono text-xs text-core-text-secondary shadow-sm">
-        <button
-          type="button"
-          onClick={() => zoomFromCenter(1 / 1.2)}
-          className="px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text"
-          aria-label="Alejar diagrama"
-        >
+      <CanvasViewControls
+        scale={viewport.scale}
+        technical={isTechnicalMode}
+        onZoomOut={() => zoomFromCenter(1 / 1.2)}
+        onZoomIn={() => zoomFromCenter(1.2)}
+        onReset={resetViewport}
+      />{/*
+
           −
-        </button>
-        <span className="flex min-w-14 items-center justify-center border-x border-core-border/[0.14] px-2 text-core-text" aria-live="polite">
-          {Math.round(viewport.scale * 100)}%
-        </span>
-        <button
-          type="button"
-          onClick={() => zoomFromCenter(1.2)}
-          className="px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text"
-          aria-label="Acercar diagrama"
-        >
-          +
-        </button>
-        <button
-          type="button"
-          onClick={resetViewport}
-          className="border-l border-core-border/[0.14] px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text"
-        >
-          Restablecer
-        </button>
-      </div>
-      <p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isGuidedMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
+
+      */}<p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isGuidedMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
         Arrastra para mover · rueda para zoom
       </p>
     </div>

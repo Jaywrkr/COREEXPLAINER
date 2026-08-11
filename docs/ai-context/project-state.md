@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.189.0 (11-08-2026):** `CanvasViewControls` reduce el ruido inicial del canvas en modo cliente con un control `details` para zoom/reset. El modo técnico conserva la barra completa. No cambia el motor de interacción: arrastre, selección, rueda, teclas `+/-/0` y reset siguen funcionando.
+
 **Actualizacion v0.188.0 (11-08-2026):** el modo cliente usa `ClientStoryCard` como entrada narrativa compacta: idea, cambio esperado y pregunta de decision. La explicacion larga ya no se repite en la primera lectura; el detalle adicional queda bajo demanda. Modos conceptual/tecnico mantienen sus superficies completas.
 
 **Actualizacion v0.187.0 (11-08-2026):** `PatternLibrary` permite buscar y filtrar patrones por texto y marca, y comparar como maximo dos lado a lado. `patternComparison.ts` mantiene la seleccion pura y sus regresiones. La comparacion organiza evidencia y riesgos; no afirma compatibilidad ni sustituye una validacion de arquitectura.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.189.0] - 2026-08-11
+
+- El modo cliente compacta los controles de zoom en un control de vista bajo demanda.
+- El modo técnico conserva la barra completa.
+- La navegación del diagrama y los atajos siguen disponibles.
+
 ## [0.188.0] - 2026-08-11
 
 - El modo cliente muestra una narrativa compacta con idea, cambio y pregunta de decision.

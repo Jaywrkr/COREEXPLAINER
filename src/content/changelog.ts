@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.188.0";
+export const currentVersion = "0.189.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.189.0",
+    date: "11 ago 2026",
+    title: "Canvas con controles contextuales",
+    changes: [
+      "El modo cliente compacta los controles de zoom y los abre solo cuando se necesitan.",
+      "El modo tecnico conserva la barra completa para ajuste rapido de la vista.",
+      "Mover, seleccionar nodos, zoom con rueda y atajos de teclado siguen disponibles.",
+    ],
+  },
   {
     version: "0.188.0",
     date: "11 ago 2026",
