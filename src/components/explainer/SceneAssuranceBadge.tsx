@@ -7,6 +7,7 @@ import { GlossaryText } from "./GlossaryText";
 interface SceneAssuranceBadgeProps {
   report?: TechnicalIntegrityReport | null;
   sourceCount: number;
+  staleSourceCount: number;
   technical: boolean;
 }
 
@@ -23,10 +24,10 @@ const STATUS_LABELS: Record<TechnicalIntegrityReport["status"], string> = {
 };
 
 /** Makes the boundary between authored model, sources and observed environment explicit. */
-export function SceneAssuranceBadge({ report, sourceCount, technical }: SceneAssuranceBadgeProps) {
+export function SceneAssuranceBadge({ report, sourceCount, staleSourceCount, technical }: SceneAssuranceBadgeProps) {
   const [open, setOpen] = useState(false);
   const status = report?.status ?? "valid";
-  const hasAlert = status !== "valid";
+  const hasAlert = status !== "valid" || staleSourceCount > 0;
   const label = report ? ASSURANCE_LABELS[report.assurance] : "Modelo autorado";
 
   return (
@@ -40,6 +41,7 @@ export function SceneAssuranceBadge({ report, sourceCount, technical }: SceneAss
         <p><span className="font-semibold text-core-text">Estado:</span> <GlossaryText text={technical ? STATUS_LABELS[status] : "Representación conceptual para explicar la idea"} /></p>
         {technical && report ? <p className="mt-1"><span className="font-semibold text-core-text">Reglas:</span> {report.checkedRules} comprobaciones · {report.diagnostics.length} hallazgos</p> : null}
         {technical ? <p className="mt-1"><span className="font-semibold text-core-text">Fuentes declaradas:</span> {sourceCount}</p> : null}
+        {technical && staleSourceCount > 0 ? <p className="mt-1 text-core-warning"><span className="font-semibold">Fuentes a revisar:</span> {staleSourceCount}</p> : null}
         <p className="mt-1 border-t border-core-border/[0.1] pt-1 text-core-text-muted">Esto valida el modelo autorado, no demuestra el estado de la red real del cliente.</p>
       </div>
     </details>

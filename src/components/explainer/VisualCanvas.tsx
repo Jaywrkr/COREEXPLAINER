@@ -487,7 +487,7 @@ export function VisualCanvas({
       */}<p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isGuidedMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
         Arrastra para mover · rueda para zoom
       </p>
-      <SceneAssuranceBadge report={integrityReport} sourceCount={technicalSources.length} technical={isTechnicalMode} />
+      <SceneAssuranceBadge report={integrityReport} sourceCount={technicalSources.length} staleSourceCount={technicalSources.filter((source) => source.validity === "review-needed").length} technical={isTechnicalMode} />
     </div>
   );
 }

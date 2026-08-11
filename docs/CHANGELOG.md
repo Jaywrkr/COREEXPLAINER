@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.195.0] - 2026-08-11
+
+- El badge del canvas señala fuentes `review-needed`.
+- Técnico puede ver cuántas referencias deben actualizarse.
+- La advertencia no se presenta como estado de la infraestructura real.
+
 ## [0.194.0] - 2026-08-11
 
 - Un perfil `reviewed` requiere fuentes actuales en sus reglas enlazadas.

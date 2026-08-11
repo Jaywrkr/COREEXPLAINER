@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.194.0";
+export const currentVersion = "0.195.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.195.0",
+    date: "11 ago 2026",
+    title: "Señal visible de frescura de fuentes",
+    changes: [
+      "El badge del canvas cambia a estado de atención cuando existen fuentes review-needed.",
+      "En técnico muestra cuántas referencias deben actualizarse, sin abrir el workbench completo.",
+      "La advertencia mantiene la distinción entre trazabilidad editorial y estado real del cliente.",
+    ],
+  },
   {
     version: "0.194.0",
     date: "11 ago 2026",
