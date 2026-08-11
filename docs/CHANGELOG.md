@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.89.0] - 2026-08-09
+
+- La simulación what-if incluye una lectura asistida del impacto.
+- El resultado conecta evidencia faltante y decisiones relacionadas.
+- Se mantiene la diferencia entre simulación conceptual y prueba real.
+
 ## [0.88.0] - 2026-08-09
 
 - El dashboard incorpora un creador asistido de borradores de explainers.
