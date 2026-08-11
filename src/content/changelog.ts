@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.91.0";
+export const currentVersion = "0.92.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.92.0",
+    date: "09 ago 2026",
+    title: "Registro de evidencia por escenario",
+    changes: [
+      "Cada paso guiado y fase de roadmap se convierte en un elemento de evidencia rastreable.",
+      "La evidencia puede marcarse como pendiente, validada o bloqueada y conserva las fuentes relacionadas.",
+      "El estado se guarda localmente por explainer y escenario, sin afirmar ejecución automática de pruebas.",
+    ],
+  },
   {
     version: "0.91.0",
     date: "09 ago 2026",

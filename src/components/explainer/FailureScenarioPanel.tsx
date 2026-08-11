@@ -12,6 +12,7 @@ import { evaluateWhatIfImpact } from "@/lib/semantic-model/evaluateWhatIf";
 import { evaluateTechnicalRules, type TechnicalFindingSeverity } from "@/lib/semantic-model/evaluateTechnicalRules";
 import { generateAssistedTechnicalReview, type AssistedReviewSeverity, type AssistedTechnicalReview } from "@/lib/ai/technicalReviewAssistant";
 import { explainWhatIfImpact } from "@/lib/ai/whatIfImpactAssistant";
+import { EvidenceTrackerPanel } from "./EvidenceTrackerPanel";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
 
@@ -522,6 +523,14 @@ export function FailureScenarioPanel({
                   </div>
                 </details>
               ) : null}
+
+              <EvidenceTrackerPanel
+                explainerSlug={explainerSlug}
+                scenarioId={activeScenarioId}
+                guidedSteps={guidedSteps}
+                roadmapPhases={roadmapPhases}
+                technicalSources={technicalSources}
+              />
 
               {whatIfImpact ? (
                 <div className="space-y-1.5 border-t border-core-border/[0.12] pt-2 text-[0.66rem] leading-relaxed text-core-text-muted">
