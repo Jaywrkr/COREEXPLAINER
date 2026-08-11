@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.212.0 (11-08-2026):** `claimLanguageGate` revisa títulos, captions, párrafos e impacto de cada paso para detectar promesas absolutas. Si no hay `sourceIds` ni una limitación explícita, genera una advertencia accionable; no bloquea el renderizado. La regresión vive en `scripts/test-claim-language-gate.ts`.
+
 **Actualizacion v0.211.0 (11-08-2026):** `sanitizeCopilotMessage` limpia caracteres de control y limita la respuesta del modelo a 5.000 caracteres antes de enviarla a la UI. La protección de acciones sigue separada mediante `sanitizeCopilotActions`.
 
 **Actualizacion v0.210.0 (11-08-2026):** `ExplainerDraftCreator` muestra la proveniencia `origen: IA · revisar` o `origen: plantilla local`. `/api/creator` declara `generatedBy: local-template` en fallbacks para evitar confundir estructura válida con aprobación técnica.

@@ -12,6 +12,7 @@ import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
 import { validateFailureScenarioNarrative, validateFailureScenarioSourceFreshness, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 import { reviewedStepSourceIssues } from "@/lib/content-validation/reviewSourceGate";
+import { findAbsoluteClaimLanguage } from "@/lib/content-validation/claimLanguageGate";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -551,6 +552,21 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   }
 
   validateSemanticCoherence(meta, steps, spec, technicalSourceIds, add, (message) => warnings.push(message));
+
+  for (const issue of findAbsoluteClaimLanguage(
+    steps.flatMap((step, stepIndex) => [
+      { path: `steps[${stepIndex}].title`, text: step.title, sourceIds: step.sourceIds },
+      { path: `steps[${stepIndex}].caption`, text: step.caption, sourceIds: step.sourceIds },
+      { path: `steps[${stepIndex}].businessImpact`, text: step.businessImpact, sourceIds: step.sourceIds },
+      ...step.paragraphs.map((text, paragraphIndex) => ({
+        path: `steps[${stepIndex}].paragraphs[${paragraphIndex}]`,
+        text,
+        sourceIds: step.sourceIds,
+      })),
+    ]),
+  )) {
+    warnings.push(`${issue.path}: ${issue.message}; add a citation or state the condition/limit`);
+  }
 
   // Evidence is a publication contract, not only an export concern. Keep the
   // structured ledger behind the same gate so generated or newly authored

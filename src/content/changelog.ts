@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.211.0";
+export const currentVersion = "0.212.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.212.0",
+    date: "11 ago 2026",
+    title: "Puerta de lenguaje de promesas técnicas",
+    changes: [
+      "El content gate detecta lenguaje absoluto como ‘garantiza’, ‘siempre’, ‘nunca’, ‘sin downtime’, ‘automático’ y ‘cero impacto’.",
+      "La advertencia exige una fuente o una limitación explícita para evitar convertir un patrón conceptual en una promesa operativa.",
+      "La regla es una revisión accionable y no bloquea el renderizado; incluye regresión automatizada para claims respaldados o cualificados.",
+    ],
+  },
   {
     version: "0.211.0",
     date: "11 ago 2026",

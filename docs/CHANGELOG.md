@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.212.0] - 2026-08-11
+
+- El content gate detecta lenguaje absoluto: “garantiza”, “siempre”, “nunca”, “sin downtime”, “automático” y “cero impacto”.
+- La revisión pide una fuente o una limitación explícita antes de tratar la frase como técnicamente defendible.
+- La regla es una advertencia, no un bloqueo de renderizado, y tiene regresión automatizada.
+
 ## [0.211.0] - 2026-08-11
 
 - La respuesta textual del copiloto se normaliza antes de renderizarse.
