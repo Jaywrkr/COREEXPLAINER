@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.222.0] - 2026-08-11
+
+- El informe técnico JSON y Markdown incluyen motivo, antigüedad y fecha sugerida de revisión por fuente.
+- El resumen distingue fuentes vigentes, fuentes para revisar y fechas inválidas.
+- El contrato del informe pasa a `schemaVersion: 1.4`; el paquete descargable tiene regresión actualizada.
+
 ## [0.221.0] - 2026-08-11
 
 - Las fuentes muestran cuántos días han pasado desde su acceso y una fecha sugerida de revisión.

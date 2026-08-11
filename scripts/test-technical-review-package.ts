@@ -15,12 +15,12 @@ try {
     summary: { explainers: number };
   };
   assert.equal(manifest.packageSchemaVersion, "1.0");
-  assert.equal(manifest.appVersion, "0.187.0");
+  assert.equal(manifest.appVersion, "0.222.0");
   assert.match(manifest.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
   assert.deepEqual(manifest.files.map((file) => file.path), ["technical-review-report.md", "technical-review-report.json"]);
   assert.ok(manifest.files.every((file) => /^[a-f0-9]{64}$/.test(file.sha256)));
   assert.equal(manifest.summary.explainers, 22);
-  assert.match(readFileSync(join(outputDir, "technical-review-report.json"), "utf8"), /"schemaVersion": "1\.3"/);
+  assert.match(readFileSync(join(outputDir, "technical-review-report.json"), "utf8"), /"schemaVersion": "1\.4"/);
   console.log("Technical review package regression checks passed.");
 } finally {
   rmSync(outputDir, { recursive: true, force: true });

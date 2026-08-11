@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.222.0 (11-08-2026):** `technical-review-report` y el paquete de revisión exponen por fuente `freshness` (`ageDays`, `dueAt`, `status`, `reason`) y un resumen agregado. El contrato JSON pasa de schema 1.3 a 1.4; estas señales orientan mantenimiento editorial y no certifican compatibilidad ni el entorno del cliente.
+
 **Actualizacion v0.221.0 (11-08-2026):** la UI de revisión técnica explica la frescura de cada fuente con antigüedad, fecha sugerida y motivo (`within-window`, `manual-review`, `outside-window` o `invalid-date`). La ventana es de 180 días, se deriva sin mutar el catálogo y conserva la diferencia entre referencia editorial y validación del entorno.
 
 **Actualizacion v0.220.0 (11-08-2026):** `validateSolutionPatterns` acepta un mapa de marcas por explainer y rechaza marcas de patrones que no estén declaradas en ningún vínculo. El registry cruza automáticamente `brandContext`; se corrigieron `Aruba HPE` mediante `active-active-dc` y `Turbonomic` a `IBM Turbonomic`.
