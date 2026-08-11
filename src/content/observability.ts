@@ -134,7 +134,7 @@ export const observabilitySteps: ExplainerStep[] = [
     businessImpact:
       "La observabilidad útil no es acumular datos: es poder pasar de un síntoma agregado a evidencia contextual sin perder el límite de coste y privacidad.",
     sceneId: "correlation",
-    caption: "Alerta → métrica → trace ID → spans y logs relacionados",
+    caption: "Alerta / síntoma → Backend métricas → Alerting → Backend trazas y Backend logs",
     sourceIds: ["otel-context", "otel-sampling", "otel-metrics", "otel-logs", "prom-alerting"],
   },
   {

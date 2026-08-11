@@ -99,7 +99,7 @@ export const kubernetesSteps: ExplainerStep[] = [
     businessImpact:
       "La plataforma convierte parte de la operación en una relación observable entre intención, estado actual y acciones de reconciliación.",
     sceneId: "desired-state",
-    caption: "Manifiesto → API → controlador → Pods deseados",
+    caption: "Equipo / Git → Kubernetes API → Controller Manager → Pod frontend",
     sourceIds: ["k8s-architecture", "k8s-deployments"],
   },
   {
@@ -122,13 +122,13 @@ export const kubernetesSteps: ExplainerStep[] = [
     title: "El Service ofrece un punto estable frente a Pods cambiantes",
     paragraphs: [
       "Los Pods son reemplazables y sus direcciones pueden cambiar. Un Service selecciona endpoints mediante labels y ofrece una abstracción estable para que otros clientes encuentren las réplicas disponibles.",
-      "La readiness de cada Pod influye en los endpoints que reciben tráfico. Estar ejecutando no equivale automáticamente a estar listo para atender solicitudes.",
+      "La readiness de cada Pod influye en los endpoints que reciben tráfico. Un Ingress puede publicar rutas HTTP(S) hacia un Service, pero requiere un Ingress Controller y no reemplaza el balanceo interno del Service. Estar ejecutando no equivale automáticamente a estar listo para atender solicitudes.",
     ],
     businessImpact:
       "La aplicación puede escalar o reemplazar réplicas sin obligar a cada consumidor a conocer la identidad de cada Pod.",
     sceneId: "service",
     caption: "Cliente → Service → endpoints listos → Pods",
-    sourceIds: ["k8s-services", "k8s-probes"],
+    sourceIds: ["k8s-services", "k8s-ingress", "k8s-probes"],
   },
   {
     id: "rollout",
@@ -155,7 +155,7 @@ export const kubernetesSteps: ExplainerStep[] = [
     businessImpact:
       "La operación madura observa estados, eventos, probes y dependencias; no confunde “objeto deseado” con “servicio de negocio saludable”.",
     sceneId: "failure",
-    caption: "Nodos · Pods · probes · imágenes · capacidad",
+    caption: "Service · Pod frontend 1 · Nodo worker 1 · Readiness probe · Registry de imágenes",
     sourceIds: ["k8s-architecture", "k8s-scheduler", "k8s-probes", "k8s-deployments"],
   },
 ];

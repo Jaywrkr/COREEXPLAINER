@@ -4,6 +4,7 @@
   "title": "Cómo funciona VMware Cloud Foundation",
   "scenes": {
     "silos": {
+      "allowIsolatedNodes": true,
       "nodes": [
         { "id": "compute", "name": "Cómputo", "subtitle": "Servidores", "x": 0.22, "y": 0.22, "kind": "compute" },
         { "id": "storage", "name": "Storage", "subtitle": "Arreglo dedicado", "x": 0.22, "y": 0.5, "kind": "storage" },

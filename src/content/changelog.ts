@@ -9,9 +9,49 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.99.0";
+export const currentVersion = "0.103.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.103.0",
+    date: "10 ago 2026",
+    title: "Cobertura completa de fuentes declaradas",
+    changes: [
+      "Kubernetes explica Ingress y lo enlaza con la fuente oficial correspondiente.",
+      "Backup/DR conecta fuentes de CORESOLUTIONS, IBM, Veeam y Lenovo con el objetivo o paso que las usa.",
+      "Power/AIX conecta la fuente conceptual de Live Partition Mobility con la escena de plataforma.",
+      "El content gate queda con advertencias únicamente de revisión técnica pendiente.",
+    ],
+  },
+  {
+    version: "0.102.0",
+    date: "10 ago 2026",
+    title: "Escenario de identidad coherente",
+    changes: [
+      "El nodo Active Directory de NAS/private cloud queda marcado como simulable en el escenario de indisponibilidad.",
+      "El content gate detecta ahora una configuración coherente entre deadNodeIds y killable.",
+    ],
+  },
+  {
+    version: "0.101.0",
+    date: "10 ago 2026",
+    title: "Topología intencional en el content gate",
+    changes: [
+      "Las escenas pueden declarar explícitamente que sus nodos aislados son parte del mensaje.",
+      "La escena inicial de VCF marca sus silos como intencionales antes de la unificación.",
+      "Los endpoints desconocidos y las referencias inválidas siguen siendo errores del gate.",
+    ],
+  },
+  {
+    version: "0.100.0",
+    date: "10 ago 2026",
+    title: "Content gate consciente de IDs",
+    changes: [
+      "La revisión semántica reconoce referencias a nodos por ID o por nombre visible.",
+      "Los escenarios ya no generan falsos positivos cuando affectedNodes usa IDs del diagrama.",
+      "Las advertencias restantes representan deuda editorial real y quedan más enfocadas.",
+    ],
+  },
   {
     version: "0.99.0",
     date: "09 ago 2026",

@@ -1,5 +1,13 @@
 # Estado del proyecto
 
+**Actualizacion v0.103.0 (10-08-2026):** las fuentes `k8s-ingress`, `coresolutions-profile`, `ibm-partner`, `veeam-storage`, `lenovo-veeam` e `ibm-lpm-concept` quedaron conectadas a pasos u objetivos que las usan. `npm run validate:content` mantiene solo advertencias de revisión técnica pendiente.
+
+**Actualizacion v0.102.0 (10-08-2026):** el escenario `directory-unavailable` de NAS/private cloud ahora apunta a un nodo `Active Directory` marcado como `killable`, haciendo coherentes la simulación y la topología visual.
+
+**Actualizacion v0.101.0 (10-08-2026):** `Scene.allowIsolatedNodes` documenta topologías desconectadas intencionales, como los silos iniciales de VCF. El content gate sigue validando endpoints y referencias; la excepción solo evita tratar una escena conceptual de “antes” como un nodo olvidado.
+
+**Actualizacion v0.100.0 (10-08-2026):** el content gate semántico acepta referencias de texto a nodos por nombre o ID, y valida `affectedNodes` contra ambos campos. Esto reduce falsos positivos sin relajar los errores de endpoints desconocidos.
+
 **Actualizacion v0.99.0 (09-08-2026):** `endpointGuard` reserva el coste estimado de cada consulta del copiloto por IP y ventana antes de llamar al proveedor. `AI_TOKEN_BUDGET_PER_WINDOW` (por defecto 12.000) y `AI_MAX_OUTPUT_TOKENS` (por defecto 700, máximo 1.200) son límites de seguridad de instancia; el exceso devuelve `429` con `Retry-After`. Para cuotas multiusuario se requiere identidad y almacenamiento persistente.
 
 **Actualizacion v0.98.0 (09-08-2026):** `productTelemetry` registra localmente eventos de navegación, escenarios, workflow, briefs y borradores. `UsageMetricsPanel` muestra un resumen en el dashboard y permite borrar los datos; no hay envío externo.
