@@ -30,6 +30,7 @@ export function UsageMetricsPanel() {
         <div><p className="text-core-text-muted">Temas únicos</p><p className="font-mono text-core-text">{metrics.uniqueExplainers}</p></div>
         <div><p className="text-core-text-muted">Escenas vistas</p><p className="font-mono text-core-text">{metrics.sceneViews}</p></div>
         <div><p className="text-core-text-muted">Escenarios abiertos</p><p className="font-mono text-core-text">{Object.values(metrics.scenarios).reduce((total, value) => total + value, 0)}</p></div>
+        <div><p className="text-core-text-muted">Pasos de escenario revisados</p><p className="font-mono text-core-text">{metrics.scenarioStepsReviewed}</p></div>
         <div><p className="text-core-text-muted">Acciones copiloto</p><p className="font-mono text-core-text">{metrics.copilotActions}</p></div>
       </div>
       <div className="mt-2 grid gap-2 text-xs sm:grid-cols-4">

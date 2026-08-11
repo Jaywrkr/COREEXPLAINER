@@ -1,4 +1,4 @@
-export type ProductEventName = "explainer-view" | "scene-view" | "scenario-open" | "workflow-advance" | "brief-download" | "draft-generate" | "presentation-start" | "presentation-exit" | "focus-toggle" | "campaign-export" | "copilot-action";
+export type ProductEventName = "explainer-view" | "scene-view" | "scenario-open" | "scenario-step-reviewed" | "workflow-advance" | "brief-download" | "draft-generate" | "presentation-start" | "presentation-exit" | "focus-toggle" | "campaign-export" | "copilot-action";
 
 export interface ProductEvent { name: ProductEventName; slug?: string; id?: string; at: string }
 export interface ProductMetrics {
@@ -7,6 +7,7 @@ export interface ProductMetrics {
   sceneViews: number;
   explainers: Record<string, number>;
   scenarios: Record<string, number>;
+  scenarioStepsReviewed: number;
   workflows: number;
   briefs: number;
   drafts: number;
@@ -22,7 +23,7 @@ const MAX_EVENTS = 500;
 export const PRODUCT_METRICS_CHANGED_EVENT = "core-explainer:metrics-changed";
 
 export function emptyProductMetrics(): ProductMetrics {
-  return { totalEvents: 0, uniqueExplainers: 0, sceneViews: 0, explainers: {}, scenarios: {}, workflows: 0, briefs: 0, drafts: 0, presentationsStarted: 0, presentationsExited: 0, focusToggles: 0, campaignExports: 0, copilotActions: 0 };
+  return { totalEvents: 0, uniqueExplainers: 0, sceneViews: 0, explainers: {}, scenarios: {}, scenarioStepsReviewed: 0, workflows: 0, briefs: 0, drafts: 0, presentationsStarted: 0, presentationsExited: 0, focusToggles: 0, campaignExports: 0, copilotActions: 0 };
 }
 
 function clean(value: unknown, max = 160): string | undefined {
@@ -33,12 +34,14 @@ function clean(value: unknown, max = 160): string | undefined {
 
 export function normalizeProductEvents(value: unknown): ProductEvent[] {
   if (!Array.isArray(value)) return [];
-  const allowed = new Set<ProductEventName>(["explainer-view", "scene-view", "scenario-open", "workflow-advance", "brief-download", "draft-generate", "presentation-start", "presentation-exit", "focus-toggle", "campaign-export", "copilot-action"]);
+  const allowed = new Set<ProductEventName>(["explainer-view", "scene-view", "scenario-open", "scenario-step-reviewed", "workflow-advance", "brief-download", "draft-generate", "presentation-start", "presentation-exit", "focus-toggle", "campaign-export", "copilot-action"]);
   return value.flatMap((candidate) => {
     if (!candidate || typeof candidate !== "object") return [];
     const event = candidate as Partial<ProductEvent>;
     if (!event.name || !allowed.has(event.name) || typeof event.at !== "string") return [];
-    return [{ name: event.name, slug: clean(event.slug), id: clean(event.id), at: event.at } satisfies ProductEvent];
+    const timestamp = Date.parse(event.at);
+    if (!Number.isFinite(timestamp)) return [];
+    return [{ name: event.name, slug: clean(event.slug), id: clean(event.id), at: new Date(timestamp).toISOString() } satisfies ProductEvent];
   }).slice(-MAX_EVENTS);
 }
 
@@ -65,6 +68,7 @@ export function buildProductMetrics(events: ProductEvent[]): ProductMetrics {
   for (const event of events) {
     if (event.slug) metrics.explainers[event.slug] = (metrics.explainers[event.slug] ?? 0) + 1;
     if (event.name === "scenario-open" && event.id) metrics.scenarios[event.id] = (metrics.scenarios[event.id] ?? 0) + 1;
+    if (event.name === "scenario-step-reviewed") metrics.scenarioStepsReviewed += 1;
     if (event.name === "workflow-advance") metrics.workflows += 1;
     if (event.name === "brief-download") metrics.briefs += 1;
     if (event.name === "draft-generate") metrics.drafts += 1;

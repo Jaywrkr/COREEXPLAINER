@@ -16,6 +16,7 @@ import { EvidenceTrackerPanel } from "./EvidenceTrackerPanel";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
 import { canAdvanceGuidedStep, guidedProgress } from "@/lib/scenarios/guidedProgress";
+import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 
 interface FailureScenarioPanelProps {
   scene: Scene;
@@ -176,6 +177,8 @@ export function FailureScenarioPanel({
   const toggleChecklistItem = (stepId: string) => {
     setChecklist((current) => {
       const status = current[stepId];
+      const nextStatus = !status ? "done" : status === "done" ? "na" : "pending";
+      if (activeScenario) recordProductEvent({ name: "scenario-step-reviewed", slug: explainerSlug, id: `${activeScenario.id}:${stepId}:${nextStatus}` });
       if (!status) return { ...current, [stepId]: "done" };
       if (status === "done") return { ...current, [stepId]: "na" };
       const next = { ...current };

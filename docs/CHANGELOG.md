@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.218.0] - 2026-08-11
+
+- Las métricas registran pasos de escenarios revisados, además de escenarios abiertos.
+- Los timestamps inválidos se descartan y los válidos se normalizan a ISO.
+- La telemetría continúa local, limitada a 500 eventos y sin preguntas ni texto de IA.
+
 ## [0.217.0] - 2026-08-11
 
 - Las cuotas locales de IA usan claves hash acotadas en lugar de headers crudos.

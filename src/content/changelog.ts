@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.217.0";
+export const currentVersion = "0.218.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.218.0",
+    date: "11 ago 2026",
+    title: "Métrica de progreso de escenarios",
+    changes: [
+      "El uso de escenarios registra pasos marcados como revisados o no aplicables, no solo aperturas.",
+      "El normalizador de telemetría descarta timestamps inválidos y canoniza los válidos a ISO.",
+      "La métrica permanece local, acotada a 500 eventos y sin almacenar preguntas ni contenido sensible.",
+    ],
+  },
   {
     version: "0.217.0",
     date: "11 ago 2026",

@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.218.0 (11-08-2026):** la telemetría local registra `scenario-step-reviewed` y `ProductMetrics.scenarioStepsReviewed` para medir recorrido real de escenarios. `normalizeProductEvents` descarta timestamps no parseables y canoniza los válidos; conserva el límite de 500 eventos y no captura preguntas ni respuestas.
+
 **Actualizacion v0.217.0 (11-08-2026):** `deriveAiClientKey` endurece las cuotas de IA: usa una identidad firmada cuando existe; si no, prioriza `x-real-ip`, limita el valor a 128 caracteres y almacena solo un hash SHA-256 truncado. Las cuotas ya no guardan headers crudos como claves de memoria.
 
 **Actualizacion v0.216.0 (11-08-2026):** `reviewCopilotMessage` normaliza la respuesta del copiloto, exige una frontera visible de evidencia, extrae citas `[fuente:id]` contra el allowlist del explainer y marca `review-needed` las respuestas sin cita, con IDs desconocidos o afirmaciones absolutas. La UI muestra el estado sin convertirlo en aprobación técnica.
