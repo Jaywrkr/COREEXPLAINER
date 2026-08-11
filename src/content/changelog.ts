@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.237.0";
+export const currentVersion = "0.238.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.238.0",
+    date: "2026-08-11",
+    title: "Estado de fuentes coherente en el ledger",
+    changes: [
+      "Cada sourceId debe tener exactamente un estado de fuente permitido.",
+      "Se rechazan estados inválidos, claves inesperadas y sourceIds duplicados.",
+      "La evidencia exportada conserva una relación auditable entre fuentes y estado editorial.",
+    ],
+  },
   {
     version: "0.237.0",
     date: "2026-08-11",

@@ -3,6 +3,7 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 export type EvidenceKind = "documentary" | "observed" | "hypothesis" | "acceptance";
 export type EvidenceProvenance = "authored" | "derived";
 export type EvidenceSourceStatus = "current" | "review-needed" | "missing";
+const EVIDENCE_SOURCE_STATUSES: ReadonlySet<string> = new Set(["current", "review-needed", "missing"]);
 
 export interface EvidenceRecord {
   id: string;
@@ -172,8 +173,17 @@ export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds
     }
     if (!record.requestedEvidence.trim()) errors.push(`${label}.requestedEvidence must be non-empty`);
     if (!record.sourceIds.length) errors.push(`${label}.sourceIds must contain at least one source`);
+    if (new Set(record.sourceIds).size !== record.sourceIds.length) errors.push(`${label}.sourceIds must not contain duplicates`);
     for (const sourceId of record.sourceIds) {
       if (!knownSourceIds.has(sourceId)) errors.push(`${label}.sourceIds references unknown source '${sourceId}'`);
+    }
+    const expectedStatusIds = new Set(record.sourceIds);
+    for (const sourceId of record.sourceIds) {
+      if (!(sourceId in record.sourceStatus)) errors.push(`${label}.sourceStatus is missing source '${sourceId}'`);
+      else if (!EVIDENCE_SOURCE_STATUSES.has(record.sourceStatus[sourceId] ?? "")) errors.push(`${label}.sourceStatus has an invalid status for source '${sourceId}'`);
+    }
+    for (const sourceId of Object.keys(record.sourceStatus)) {
+      if (!expectedStatusIds.has(sourceId)) errors.push(`${label}.sourceStatus contains an unexpected source '${sourceId}'`);
     }
   }
   return errors;

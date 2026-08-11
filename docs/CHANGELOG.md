@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.238.0] - 2026-08-11
+
+### Estado de fuentes coherente en el ledger
+
+- Cada `sourceId` debe tener exactamente un estado permitido: `current`, `review-needed` o `missing`.
+- Se rechazan estados inválidos, claves inesperadas y `sourceIds` duplicados.
+- La relación entre fuente y estado queda protegida antes de generar paquetes o revisiones.
+
 ## [0.237.0] - 2026-08-11
 
 ### Claim paths resueltos contra el contrato authored
