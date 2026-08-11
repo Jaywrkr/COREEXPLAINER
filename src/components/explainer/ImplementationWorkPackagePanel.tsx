@@ -32,10 +32,11 @@ export function ImplementationWorkPackagePanel({ slug, meta, steps }: Implementa
         <p className="text-[0.62rem] leading-relaxed text-core-text-secondary">
           Convierte este tema en prerrequisitos, fases de trabajo, evidencia de aceptación y controles de mantenimiento. Es una guía conceptual: no ejecuta cambios.
         </p>
-        <div className="grid grid-cols-3 gap-1 border border-core-border/[0.1] bg-core-panel/30 p-2 text-center">
+        <div className="grid grid-cols-4 gap-1 border border-core-border/[0.1] bg-core-panel/30 p-2 text-center">
           <div><p className="font-mono text-[0.58rem] uppercase text-core-text-muted">Preparación</p><p className="font-mono text-sm text-core-accent">{pkg.readiness.score}%</p></div>
           <div><p className="font-mono text-[0.58rem] uppercase text-core-text-muted">Workstreams</p><p className="font-mono text-sm text-core-text">{pkg.workstreams.length}</p></div>
           <div><p className="font-mono text-[0.58rem] uppercase text-core-text-muted">Mantenimiento</p><p className="font-mono text-sm text-core-text">{pkg.maintenanceChecks.length}</p></div>
+          <div><p className="font-mono text-[0.58rem] uppercase text-core-text-muted">Impactos</p><p className="font-mono text-sm text-core-text">{pkg.changeImpacts.length}</p></div>
         </div>
         {pkg.readiness.missing.length ? <p className="text-[0.6rem] text-core-text-muted">Falta para estar lista: {pkg.readiness.missing.join(" · ")}</p> : <p className="text-[0.6rem] text-emerald-300">Tiene la estructura mínima para revisión humana.</p>}
         <div className="flex flex-wrap gap-1.5">

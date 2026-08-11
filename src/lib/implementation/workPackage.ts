@@ -31,8 +31,25 @@ export interface MaintenanceCheck {
   sourceIds: string[];
 }
 
+export type ChangeImpactRisk = "low" | "medium" | "high";
+
+export interface ChangeImpact {
+  id: string;
+  workstreamId: string;
+  changeSummary: string;
+  affectedNodes: string[];
+  dependencyNotes: string[];
+  scenarioIds: string[];
+  risk: ChangeImpactRisk;
+  riskRationale: string;
+  rollbackConcept: string;
+  beforeEvidence: string;
+  afterEvidence: string;
+  sourceIds: string[];
+}
+
 export interface ImplementationWorkPackage {
-  schemaVersion: "1.0";
+  schemaVersion: "1.1";
   slug: string;
   title: string;
   appVersion: string;
@@ -46,6 +63,7 @@ export interface ImplementationWorkPackage {
   prerequisites: ImplementationPrerequisite[];
   workstreams: ImplementationWorkstream[];
   maintenanceChecks: MaintenanceCheck[];
+  changeImpacts: ChangeImpact[];
   limitations: string[];
 }
 
@@ -152,11 +170,43 @@ function buildMaintenanceChecks(meta: ExplainerMeta): MaintenanceCheck[] {
   ];
 }
 
+function riskFor(scenarios: NonNullable<ExplainerMeta["failureScenarios"]>): { risk: ChangeImpactRisk; rationale: string } {
+  if (scenarios.some((scenario) => scenario.simulation?.mode === "hard-down") || scenarios.length >= 2) return { risk: "high", rationale: "El workstream se relaciona con una caída total o con varias rutas de fallo; requiere revisión humana y rollback explícito." };
+  if (scenarios.length === 1) return { risk: "medium", rationale: "Existe un escenario de fallo relacionado; validar dependencias y evidencia antes y después del cambio." };
+  return { risk: "low", rationale: "No hay un escenario de fallo enlazado; confirmar que el alcance no omite una dependencia relevante." };
+}
+
+function buildChangeImpacts(meta: ExplainerMeta, workstreams: ImplementationWorkstream[], prerequisites: ImplementationPrerequisite[]): ChangeImpact[] {
+  const scenarios = meta.failureScenarios ?? [];
+  const dependencyNotes = meta.brandContext.map((brand) => `${clean(brand.name, 100)}: ${clean(brand.scope, 260)}`);
+  const rollbackPrerequisite = prerequisites.find((item) => item.id === "rollback-and-observability")?.evidence ?? "Definir punto de retorno, responsables y señales de salud antes del cambio.";
+  return workstreams.map((stream) => {
+    const linkedScenarios = scenarios.filter((scenario) => stream.scenarioIds.includes(scenario.id));
+    const affectedNodes = unique(linkedScenarios.flatMap((scenario) => scenario.affectedNodes));
+    const risk = riskFor(linkedScenarios);
+    return {
+      id: `impact:${stream.id}`,
+      workstreamId: stream.id,
+      changeSummary: `El trabajo sobre “${stream.title}” puede alterar el flujo representado y sus dependencias declaradas.`,
+      affectedNodes,
+      dependencyNotes,
+      scenarioIds: linkedScenarios.map((scenario) => scenario.id),
+      risk: risk.risk,
+      riskRationale: risk.rationale,
+      rollbackConcept: rollbackPrerequisite,
+      beforeEvidence: "Capturar línea base del servicio, dependencias, salud, capacidad y comportamiento observado antes del cambio.",
+      afterEvidence: stream.acceptanceEvidence,
+      sourceIds: unique([...stream.sourceIds, ...linkedScenarios.flatMap((scenario) => scenario.guidedSteps?.flatMap((step) => step.sourceIds ?? []) ?? [])]),
+    };
+  });
+}
+
 export function buildImplementationWorkPackage(input: WorkPackageInput): ImplementationWorkPackage {
   const prerequisites = buildPrerequisites(input.meta, input.steps);
   const workstreams = buildWorkstreams(input.meta, input.steps);
+  const changeImpacts = buildChangeImpacts(input.meta, workstreams, prerequisites);
   return {
-    schemaVersion: "1.0",
+    schemaVersion: "1.1",
     slug: input.slug,
     title: input.meta.title,
     appVersion: clean(input.appVersion, 40),
@@ -166,6 +216,7 @@ export function buildImplementationWorkPackage(input: WorkPackageInput): Impleme
     prerequisites,
     workstreams,
     maintenanceChecks: buildMaintenanceChecks(input.meta),
+    changeImpacts,
     limitations: [
       "Artefacto conceptual generado desde contenido autorado; no ejecuta comandos ni modifica infraestructura.",
       "Debe adaptarse al runbook aprobado, al contrato de soporte, a la ventana de cambio y a los permisos del cliente.",
@@ -201,6 +252,21 @@ export function buildImplementationWorkPackageMarkdown(pkg: ImplementationWorkPa
     ]),
     "## Controles de mantenimiento",
     ...pkg.maintenanceChecks.map((check) => `- **${check.title}** — disparador: ${check.trigger} Evidencia: ${check.evidence} Escalar si: ${check.escalation}`),
+    "",
+    "## Matriz de impacto de cambios",
+    ...pkg.changeImpacts.flatMap((impact) => [
+      `### ${impact.workstreamId} · Riesgo ${impact.risk}`,
+      `- Cambio: ${impact.changeSummary}`,
+      `- Nodos afectados: ${impact.affectedNodes.join(", ") || "identificar"}`,
+      `- Dependencias: ${impact.dependencyNotes.join(" | ") || "identificar"}`,
+      `- Escenarios: ${impact.scenarioIds.join(", ") || "ninguno enlazado"}`,
+      `- Por qué: ${impact.riskRationale}`,
+      `- Evidencia antes: ${impact.beforeEvidence}`,
+      `- Rollback conceptual: ${impact.rollbackConcept}`,
+      `- Evidencia después: ${impact.afterEvidence}`,
+      `- Fuentes: ${impact.sourceIds.join(", ") || "confirmar"}`,
+      "",
+    ]),
     "",
     "## Límites",
     ...pkg.limitations.map((limitation) => `- ${limitation}`),

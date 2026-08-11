@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.169.0] - 2026-08-11
+
+- El paquete técnico incorpora una matriz de impacto por workstream.
+- Cada impacto relaciona riesgo, dependencias, escenarios, nodos, rollback conceptual y evidencia antes/después.
+- La matriz es derivada y no operacional; no afirma salud, capacidad ni compatibilidad del entorno real.
+
 ## [0.168.0] - 2026-08-11
 
 - Cada explainer puede generar un paquete técnico de implementación y mantenimiento.
