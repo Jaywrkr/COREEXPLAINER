@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.226.0] - 2026-08-11
+
+- Un escenario ya no puede declarar como caído un nodo que no esté marcado `killable` en la escena.
+- La validación distingue nodos visibles de nodos que la animación permite simular.
+- La regresión cubre tanto el caso permitido como el bloqueo de un nodo no simulable.
+
 ## [0.225.0] - 2026-08-11
 
 - Los escenarios comprueban que cada nodo caído esté representado por ID o nombre entre los nodos afectados.

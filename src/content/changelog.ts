@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.225.0";
+export const currentVersion = "0.226.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.226.0",
+    date: "11 ago 2026",
+    title: "Gate de simulabilidad de escenarios",
+    changes: [
+      "Un escenario ya no puede declarar como caído un nodo que no esté marcado killable en la escena.",
+      "La validación conserva la diferencia entre nodos visibles y nodos que la animación permite simular.",
+      "La regresión cubre tanto el caso permitido como el bloqueo de un nodo no simulable.",
+    ],
+  },
   {
     version: "0.225.0",
     date: "11 ago 2026",

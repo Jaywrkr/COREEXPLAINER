@@ -3,6 +3,7 @@ import type { FailureScenario, FailureSimulationProfile, GuidedScenarioStepKind 
 interface ScenarioNodeReference {
   id: string;
   name: string;
+  killable?: boolean;
 }
 
 /**
@@ -86,4 +87,16 @@ export function validateFailureScenarioNodeConsistency(
     }
   }
   return issues;
+}
+
+/** A scenario may only toggle nodes that the animation explicitly permits to fail. */
+export function validateFailureScenarioKillability(
+  scenario: FailureScenario,
+  sceneNodes: ReadonlyArray<ScenarioNodeReference>,
+): string[] {
+  const nodesById = new Map(sceneNodes.map((node) => [node.id, node]));
+  return (scenario.deadNodeIds ?? [])
+    .map((nodeId) => ({ nodeId, node: nodesById.get(nodeId) }))
+    .filter(({ node }) => node && node.killable !== true)
+    .map(({ nodeId }) => `dead node '${nodeId}' is not marked killable in the animation scene`);
 }
