@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.226.0";
+export const currentVersion = "0.227.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.227.0",
+    date: "11 ago 2026",
+    title: "Confirmación explícita de acciones del copiloto",
+    changes: [
+      "Activar un escenario desde una sugerencia de IA requiere una confirmación visible antes de cambiar la escena local.",
+      "Cancelar la acción no genera telemetría de activación ni cambia el escenario actual.",
+      "La política continúa siendo de solo lectura: no se aceptan comandos, URLs arbitrarias ni cambios de infraestructura.",
+    ],
+  },
   {
     version: "0.226.0",
     date: "11 ago 2026",

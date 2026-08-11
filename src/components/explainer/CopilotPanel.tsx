@@ -24,6 +24,7 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
   const [actions, setActions] = useState<CopilotAction[]>([]);
   const [policy, setPolicy] = useState<CopilotPolicy | null>(null);
   const [review, setReview] = useState<CopilotMessageReview | null>(null);
+  const [pendingScenarioAction, setPendingScenarioAction] = useState<CopilotAction | null>(null);
   const [usage, setUsage] = useState<AiUsageTelemetry>(() => emptyAiUsage());
 
   useEffect(() => { setUsage(readAiUsage()); }, []);
@@ -47,6 +48,7 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
     setActions([]);
     setPolicy(null);
     setReview(null);
+    setPendingScenarioAction(null);
     try {
       const response = await fetch("/api/copilot", {
         method: "POST",
@@ -114,9 +116,18 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
               return source ? (
                 <a key={`${action.type}:${action.id}`} href={source.url} target="_blank" rel="noreferrer" onClick={() => recordProductEvent({ name: "copilot-action", slug, id: `${action.type}:${action.id}` })} className="border border-core-accent/40 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">{action.label}</a>
               ) : (
-                <button key={`${action.type}:${action.id}`} type="button" onClick={() => { recordProductEvent({ name: "copilot-action", slug, id: `${action.type}:${action.id}` }); onSelectScenario(scenario!.id); }} className="border border-core-warning/40 px-1.5 py-0.5 text-[0.58rem] text-core-warning hover:bg-core-warning/10">{action.label}</button>
+                <button key={`${action.type}:${action.id}`} type="button" onClick={() => setPendingScenarioAction(action)} className="border border-core-warning/40 px-1.5 py-0.5 text-[0.58rem] text-core-warning hover:bg-core-warning/10">{action.label}</button>
               );
             })}
+          </div>
+        ) : null}
+        {pendingScenarioAction ? (
+          <div className="border border-core-warning/30 bg-core-warning/[0.06] p-2 text-[0.6rem] leading-relaxed text-core-text-secondary">
+            <p><span className="font-semibold text-core-warning">Confirmación requerida:</span> esta acción solo cambia la escena local y no ejecuta nada en infraestructura.</p>
+            <div className="mt-1.5 flex flex-wrap gap-1.5">
+              <button type="button" onClick={() => { recordProductEvent({ name: "copilot-action", slug, id: `${pendingScenarioAction.type}:${pendingScenarioAction.id}` }); onSelectScenario(pendingScenarioAction.id); setPendingScenarioAction(null); }} className="border border-core-warning/50 px-1.5 py-0.5 font-semibold text-core-warning hover:bg-core-warning/10">Confirmar escenario</button>
+              <button type="button" onClick={() => setPendingScenarioAction(null)} className="border border-core-border/[0.2] px-1.5 py-0.5 text-core-text-muted hover:text-core-text">Cancelar</button>
+            </div>
           </div>
         ) : null}
       </div>

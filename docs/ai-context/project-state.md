@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.227.0 (11-08-2026):** `CopilotPanel` exige confirmación visible antes de ejecutar una acción `activate-scenario`; cancelar no registra activación. Las acciones siguen limitadas a fuentes y escenarios allowlisted, sin comandos, URLs arbitrarias ni mutaciones de infraestructura.
+
 **Actualizacion v0.226.0 (11-08-2026):** `validateFailureScenarioKillability` convierte en error cualquier `deadNodeId` que exista en la escena pero no tenga `killable: true`. El gate evita que la UI prometa una simulación interactiva que el contrato visual no autoriza; los 22 explainers actuales pasan.
 
 **Actualizacion v0.225.0 (11-08-2026):** `validateFailureScenarioNodeConsistency` verifica que `deadNodeIds` pertenezca a la escena y aparezca por ID o nombre en `affectedNodes`; también rechaza IDs duplicados. El gate detectó y corrigió `node1` omitido en el escenario `insufficient-resources` de Kubernetes. Esto protege la correspondencia entre narrativa y diagrama sin simular un entorno real.

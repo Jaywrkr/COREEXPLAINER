@@ -15,4 +15,6 @@ assert.deepEqual(actions, [
 ]);
 assert.deepEqual(sanitizeCopilotActions([{ type: "open-source", id: "source-1", label: "   " }], { sourceIds: new Set(["source-1"]), scenarioIds: new Set() }), []);
 assert.equal(sanitizeCopilotActions(Array.from({ length: 5 }, (_, index) => ({ type: "open-source", id: `source-${index}`, label: String(index) })), { sourceIds: new Set(["source-0", "source-1", "source-2", "source-3", "source-4"]), scenarioIds: new Set() }).length, 3);
+// Scenario actions remain allowlisted data; confirmation is enforced by the UI before local activation.
+assert.equal(actions.find((action) => action.type === "activate-scenario")?.id, "scenario-1");
 console.log("Copilot action contract regression checks passed.");

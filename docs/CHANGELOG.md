@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.227.0] - 2026-08-11
+
+- Activar un escenario desde una sugerencia de IA requiere confirmación visible antes de cambiar la escena local.
+- Cancelar no genera telemetría de activación ni cambia el escenario actual.
+- La política sigue siendo de solo lectura: no se aceptan comandos, URLs arbitrarias ni cambios de infraestructura.
+
 ## [0.226.0] - 2026-08-11
 
 - Un escenario ya no puede declarar como caído un nodo que no esté marcado `killable` en la escena.
