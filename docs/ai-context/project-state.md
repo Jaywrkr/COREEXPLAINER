@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.236.0 (11-08-2026):** la UI aplica divulgacion progresiva: `ToolDrawer` permanece cerrado por defecto y el modo cliente ofrece un detalle opcional de representacion. Se conserva el acceso deliberado a herramientas tecnicas y la interaccion del canvas.
+
 **Actualizacion v0.235.0 (11-08-2026):** `isValidClaimPath` limita `EvidenceRecord.claimPaths` a rutas estructuradas de steps, escenarios guiados o `targetArchitecture`; `validateEvidenceLedger` rechaza paths arbitrarios. La evidencia sigue siendo autorada/descriptiva y no prueba el entorno real.
 
 **Actualizacion v0.234.0 (11-08-2026):** `assessPatternReadiness` evalúa `pattern.lastReviewedAt` con `summarizeSourceFreshness`; un patrón fuera de la ventana de 180 días queda `review-needed` y explica `dueAt`/motivo. La biblioteca ya no muestra como listo un patrón viejo aunque sus explainers estén revisados.

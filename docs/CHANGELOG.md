@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.236.0] - 2026-08-11
+
+### UI con divulgación progresiva
+
+- Las herramientas de profundidad permanecen cerradas hasta que la persona las solicita.
+- El modo cliente añade un detalle opcional sobre cómo se representa la escena, sin duplicar la explicación principal.
+- Se mantiene el acceso explícito a evidencia, escenarios, revisión técnica y controles del canvas.
+
 ## [0.235.0] - 2026-08-11
 
 - La evidencia solo puede apuntar a rutas conocidas de steps, escenarios guiados y arquitectura objetivo.

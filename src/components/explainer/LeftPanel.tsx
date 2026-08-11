@@ -98,7 +98,7 @@ export function LeftPanel({
           additionalDetail={step.paragraphs[1]}
         />
       ) : null}
-      <ToolDrawer defaultOpen={isTechnical}>
+      <ToolDrawer>
         <CopilotPanel slug={slug} meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
         <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
         <AssessmentBriefControl slug={slug} meta={meta} steps={steps} />
@@ -122,6 +122,19 @@ export function LeftPanel({
 
       {isTechnical ? (
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
+      ) : null}
+
+      {!isTechnical && !isConceptual ? (
+        <details className="mb-4 border-t border-core-border/[0.1] pt-3">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+            <span>Cómo se representa</span>
+            <span aria-hidden="true" className="text-core-accent">+</span>
+          </summary>
+          <div className="mt-2 space-y-2 text-[0.72rem] leading-relaxed text-core-text-secondary">
+            <p><GlossaryText text={step.paragraphs[1] ?? step.caption} /></p>
+            <p className="border-l-2 border-core-accent/60 pl-2 text-core-text-muted">Puedes pulsar un nodo, arrastrar el diagrama o abrir “Más herramientas” cuando quieras profundizar.</p>
+          </div>
+        </details>
       ) : null}
 
       {isTechnical || isConceptual ? <div className="border-t border-core-border/[0.1] pt-4">

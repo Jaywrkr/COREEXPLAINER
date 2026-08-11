@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.235.0";
+export const currentVersion = "0.236.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.236.0",
+    date: "2026-08-11",
+    title: "UI con divulgación progresiva",
+    changes: [
+      "Las herramientas de profundidad ya no se abren automáticamente, incluso en modo técnico.",
+      "El modo cliente incorpora un detalle opcional para entender cómo se representa la escena sin saturar la lectura inicial.",
+      "La UI conserva navegación, interacción del canvas y acceso explícito a evidencia, escenarios y revisión técnica.",
+    ],
+  },
   {
     version: "0.235.0",
     date: "11 ago 2026",
