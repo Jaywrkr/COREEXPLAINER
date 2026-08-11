@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.160.0 (11-08-2026):** `calculateTechnicalCoverage` expone `scenarioCoveragePercent`, `scenariosWithPartialCoverage` y `scenariosWithNoCoverage`; el panel muestra madurez agregada para priorizar soporte. El indicador es editorial y no mide producción.
+
 **Actualizacion v0.159.0 (11-08-2026):** `validateFailureSimulationProfile` exige parámetros coherentes por modo de escenario y bloquea combinaciones ambiguas antes del registro. La simulación sigue siendo conceptual: no mide ni ejecuta cambios en producción.
 
 **Actualizacion v0.158.0 (11-08-2026):** `validateSolutionPatterns` valida la biblioteca de patrones antes de construir el registro: IDs, campos, listas de evidencia/riesgos, fechas y slugs de explainers. Un patrón inválido bloquea el build; el catálogo continúa siendo conceptual y requiere evaluación del cliente.

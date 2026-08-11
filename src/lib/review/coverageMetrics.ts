@@ -36,10 +36,13 @@ export interface TechnicalCoverage {
   scenariosWithGuidedFlow: number;
   scenariosWithEvidence: number;
   scenariosReadyForSupport: number;
+  scenariosWithPartialCoverage: number;
+  scenariosWithNoCoverage: number;
+  scenarioCoveragePercent: number;
 }
 
 export function calculateTechnicalCoverage(entries: CoverageInput[]): TechnicalCoverage {
-  return entries.reduce<TechnicalCoverage>((coverage, entry) => {
+  const result = entries.reduce<TechnicalCoverage & { scenarioCoverageTotal: number }>((coverage, entry) => {
     coverage.explainers += 1;
     if (entry.reviewStatus === "reviewed") coverage.reviewed += 1;
     else coverage.pending += 1;
@@ -53,6 +56,12 @@ export function calculateTechnicalCoverage(entries: CoverageInput[]): TechnicalC
     coverage.scenariosWithGuidedFlow += profiles.filter((profile) => profile.hasGuidedFlow).length;
     coverage.scenariosWithEvidence += profiles.filter((profile) => profile.hasEvidence).length;
     coverage.scenariosReadyForSupport += profiles.filter((profile) => profile.hasSimulation && profile.hasGuidedFlow && profile.hasEvidence && profile.hasCurrentSources).length;
+    for (const profile of profiles) {
+      const score = [profile.hasSimulation, profile.hasGuidedFlow, profile.hasEvidence, profile.hasCurrentSources].filter(Boolean).length;
+      coverage.scenarioCoverageTotal += score;
+      if (score === 0) coverage.scenariosWithNoCoverage += 1;
+      else if (score < 4) coverage.scenariosWithPartialCoverage += 1;
+    }
     if (entry.integrityAssurance === "reviewed") coverage.integrityReviewed += 1;
     if (entry.integrityAssurance === "source-backed") coverage.integritySourceBacked += 1;
     if (entry.integrityAssurance === "baseline") coverage.integrityBaseline += 1;
@@ -61,5 +70,8 @@ export function calculateTechnicalCoverage(entries: CoverageInput[]): TechnicalC
     coverage.warnings += entry.warningCount;
     coverage.actions += entry.actionCount;
     return coverage;
-  }, { explainers: 0, reviewed: 0, pending: 0, sources: 0, currentSources: 0, reviewNeededSources: 0, explainersWithScenarios: 0, failureScenarios: 0, integrityReviewed: 0, integritySourceBacked: 0, integrityBaseline: 0, explainersWithRoadmap: 0, roadmapPhases: 0, warnings: 0, actions: 0, scenariosWithSimulation: 0, scenariosWithGuidedFlow: 0, scenariosWithEvidence: 0, scenariosReadyForSupport: 0 });
+  }, { explainers: 0, reviewed: 0, pending: 0, sources: 0, currentSources: 0, reviewNeededSources: 0, explainersWithScenarios: 0, failureScenarios: 0, integrityReviewed: 0, integritySourceBacked: 0, integrityBaseline: 0, explainersWithRoadmap: 0, roadmapPhases: 0, warnings: 0, actions: 0, scenariosWithSimulation: 0, scenariosWithGuidedFlow: 0, scenariosWithEvidence: 0, scenariosReadyForSupport: 0, scenariosWithPartialCoverage: 0, scenariosWithNoCoverage: 0, scenarioCoveragePercent: 0, scenarioCoverageTotal: 0 });
+  result.scenarioCoveragePercent = result.failureScenarios === 0 ? 0 : Math.round((result.scenarioCoverageTotal / (result.failureScenarios * 4)) * 100);
+  delete (result as Partial<typeof result>).scenarioCoverageTotal;
+  return result;
 }

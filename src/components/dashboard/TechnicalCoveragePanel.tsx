@@ -33,6 +33,7 @@ export function TechnicalCoveragePanel() {
         <div><p className="text-core-text-muted">Acciones sugeridas</p><p className="font-mono text-core-text">{coverage.actions}</p></div>
       </div>
       <div className="mt-3 grid gap-2 text-[0.62rem] text-core-text-muted sm:grid-cols-3">
+        <p>Madurez agregada de escenarios: <span className="font-mono text-core-text">{coverage.scenarioCoveragePercent}%</span> · {coverage.scenariosWithPartialCoverage} parciales · {coverage.scenariosWithNoCoverage} sin cobertura</p>
         <p>Escenarios: <span className="font-mono text-core-text">{coverage.failureScenarios}</span></p>
         <p>Madurez de fallos: <span className="font-mono text-core-text">{coverage.scenariosReadyForSupport}/{coverage.failureScenarios}</span> listos para soporte · {coverage.scenariosWithSimulation} con simulación</p>
         <p>Roadmap: <span className="font-mono text-core-text">{coverage.explainersWithRoadmap}/{coverage.explainers}</span> explainers · {coverage.roadmapPhases} fases</p>

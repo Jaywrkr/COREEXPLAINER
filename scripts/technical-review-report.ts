@@ -4,7 +4,7 @@ import { buildReviewActions } from "../src/lib/review/reviewActions";
 import { calculateTechnicalCoverage } from "../src/lib/review/coverageMetrics";
 import packageJson from "../package.json";
 
-const REPORT_SCHEMA_VERSION = "1.1";
+const REPORT_SCHEMA_VERSION = "1.2";
 
 function safe(value: string): string {
   return value.replace(/[\r\n|]+/g, " ").trim();

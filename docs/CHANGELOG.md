@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.160.0] - 2026-08-11
+
+- La cobertura técnica agrega porcentaje promedio de madurez de escenarios.
+- Se distinguen escenarios listos, parciales y sin cobertura para priorizar soporte y revisión editorial.
+- Dashboard e informe reutilizan el mismo cálculo determinista; no son métricas de producción.
+- CI protege las nuevas métricas con una regresión offline.
+- El informe técnico incrementa su `schemaVersion` a `1.2` para identificar formalmente los nuevos campos de cobertura.
+
 ## [0.159.0] - 2026-08-11
 
 - Los perfiles de escenarios de fallo validan ahora la semántica de cada modo (`capacity`, `latency`, `dependency`, `degraded`, `observability` y `hard-down`).
