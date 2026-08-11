@@ -13,7 +13,7 @@ const report = JSON.parse(output) as {
 
 assert.match(report.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.equal(report.schemaVersion, "1.1");
-assert.equal(report.appVersion, "0.141.0");
+assert.equal(report.appVersion, "0.142.0");
 assert.equal(report.summary.explainers, 22);
 assert.equal(report.summary.pending, 22);
 assert.equal(report.rows.length, report.summary.explainers);

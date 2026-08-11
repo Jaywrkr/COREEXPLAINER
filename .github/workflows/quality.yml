@@ -34,6 +34,8 @@ jobs:
         run: npm run --silent report:technical-review:package -- --output-dir technical-review-package
       - name: Run review priority regressions
         run: npm run test:review-priority
+      - name: Run review action regressions
+        run: npm run test:review-actions
       - name: Run technical review report regressions
         run: npm run test:technical-review-report
       - name: Run technical review package regressions

@@ -21,6 +21,7 @@ npm run report:technical-review
 npm run report:technical-review:json
 npm run report:technical-review:package -- --output-dir technical-review-package
 npm run test:review-priority
+npm run test:review-actions
 npm run test:technical-review-report
 npm run test:technical-review-package
 npm run test:ai-guards

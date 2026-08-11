@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.142.0] - 2026-08-11
+
+- El dashboard de revisión muestra el backlog técnico colapsado por explainer.
+- UI y CLI comparten `buildReviewActions`, evitando reglas divergentes.
+- CI valida que cada acción tenga evidencia y solo use `sourceIds` existentes.
+
 ## [0.141.0] - 2026-08-11
 
 - El informe técnico añade un backlog estructurado de acciones sugeridas por explainer.
