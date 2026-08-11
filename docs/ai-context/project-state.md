@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.202.0 (11-08-2026):** las acciones visibles del copiloto (`open-source` y `activate-scenario`) generan eventos `copilot-action` en la telemetría local. Solo se registra tipo e ID permitido; no se guardan preguntas, respuestas ni URLs arbitrarias.
+
 **Actualizacion v0.201.0 (11-08-2026):** los pasos guiados pueden enfocar suavemente los nodos declarados como relevantes. El encuadre se cancela con interacción manual, respeta `prefers-reduced-motion` y no altera la topología ni el contenido técnico.
 
 **Actualizacion v0.200.0 (11-08-2026):** el canvas incorpora `CanvasContextCard`, una tarjeta compacta que mantiene tema, paso, audiencia y propósito visibles durante la exploración y el modo Focus. El impacto de negocio se consulta bajo demanda para evitar duplicar la explicación lateral.

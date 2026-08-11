@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.202.0] - 2026-08-11
+
+- Las acciones autorizadas del copiloto generan eventos locales tipados.
+- Se mide el uso de fuentes y escenarios sin almacenar preguntas ni respuestas.
+- El contrato read-only continúa limitando acciones a recursos authorados.
+
 ## [0.201.0] - 2026-08-11
 
 - Los pasos guiados centran suavemente los nodos relevantes del diagrama.

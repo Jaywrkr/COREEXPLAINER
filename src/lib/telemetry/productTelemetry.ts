@@ -1,4 +1,4 @@
-export type ProductEventName = "explainer-view" | "scene-view" | "scenario-open" | "workflow-advance" | "brief-download" | "draft-generate" | "presentation-start" | "presentation-exit" | "focus-toggle" | "campaign-export";
+export type ProductEventName = "explainer-view" | "scene-view" | "scenario-open" | "workflow-advance" | "brief-download" | "draft-generate" | "presentation-start" | "presentation-exit" | "focus-toggle" | "campaign-export" | "copilot-action";
 
 export interface ProductEvent { name: ProductEventName; slug?: string; id?: string; at: string }
 export interface ProductMetrics {
@@ -14,13 +14,14 @@ export interface ProductMetrics {
   presentationsExited: number;
   focusToggles: number;
   campaignExports: number;
+  copilotActions: number;
 }
 
 const EVENTS_KEY = "core-explainer:product-events";
 const MAX_EVENTS = 500;
 
 export function emptyProductMetrics(): ProductMetrics {
-  return { totalEvents: 0, uniqueExplainers: 0, sceneViews: 0, explainers: {}, scenarios: {}, workflows: 0, briefs: 0, drafts: 0, presentationsStarted: 0, presentationsExited: 0, focusToggles: 0, campaignExports: 0 };
+  return { totalEvents: 0, uniqueExplainers: 0, sceneViews: 0, explainers: {}, scenarios: {}, workflows: 0, briefs: 0, drafts: 0, presentationsStarted: 0, presentationsExited: 0, focusToggles: 0, campaignExports: 0, copilotActions: 0 };
 }
 
 function clean(value: unknown, max = 160): string | undefined {
@@ -31,7 +32,7 @@ function clean(value: unknown, max = 160): string | undefined {
 
 export function normalizeProductEvents(value: unknown): ProductEvent[] {
   if (!Array.isArray(value)) return [];
-  const allowed = new Set<ProductEventName>(["explainer-view", "scene-view", "scenario-open", "workflow-advance", "brief-download", "draft-generate", "presentation-start", "presentation-exit", "focus-toggle", "campaign-export"]);
+  const allowed = new Set<ProductEventName>(["explainer-view", "scene-view", "scenario-open", "workflow-advance", "brief-download", "draft-generate", "presentation-start", "presentation-exit", "focus-toggle", "campaign-export", "copilot-action"]);
   return value.flatMap((candidate) => {
     if (!candidate || typeof candidate !== "object") return [];
     const event = candidate as Partial<ProductEvent>;
@@ -69,6 +70,7 @@ export function buildProductMetrics(events: ProductEvent[]): ProductMetrics {
     if (event.name === "presentation-exit") metrics.presentationsExited += 1;
     if (event.name === "focus-toggle") metrics.focusToggles += 1;
     if (event.name === "campaign-export") metrics.campaignExports += 1;
+    if (event.name === "copilot-action") metrics.copilotActions += 1;
   }
   return metrics;
 }

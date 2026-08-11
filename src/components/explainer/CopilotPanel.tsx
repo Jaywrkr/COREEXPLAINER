@@ -5,8 +5,10 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import type { FailureScenario, TechnicalSource } from "@/content/types";
 import type { CopilotAction, CopilotPolicy } from "@/lib/ai/copilotContract";
 import { emptyAiUsage, readAiUsage, recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
+import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 
 interface CopilotPanelProps {
+  slug: string;
   meta: ExplainerMeta;
   step: ExplainerStep;
   audienceMode: "client" | "conceptual" | "technical";
@@ -15,7 +17,7 @@ interface CopilotPanelProps {
   onSelectScenario: (scenarioId: string | null) => void;
 }
 
-export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSources, onSelectScenario }: CopilotPanelProps) {
+export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, technicalSources, onSelectScenario }: CopilotPanelProps) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -107,9 +109,9 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
               const scenario = action.type === "activate-scenario" ? scenarios.find((candidate) => candidate.id === action.id) : null;
               if (!source && !scenario) return null;
               return source ? (
-                <a key={`${action.type}:${action.id}`} href={source.url} target="_blank" rel="noreferrer" className="border border-core-accent/40 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">{action.label}</a>
+                <a key={`${action.type}:${action.id}`} href={source.url} target="_blank" rel="noreferrer" onClick={() => recordProductEvent({ name: "copilot-action", slug, id: `${action.type}:${action.id}` })} className="border border-core-accent/40 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">{action.label}</a>
               ) : (
-                <button key={`${action.type}:${action.id}`} type="button" onClick={() => onSelectScenario(scenario!.id)} className="border border-core-warning/40 px-1.5 py-0.5 text-[0.58rem] text-core-warning hover:bg-core-warning/10">{action.label}</button>
+                <button key={`${action.type}:${action.id}`} type="button" onClick={() => { recordProductEvent({ name: "copilot-action", slug, id: `${action.type}:${action.id}` }); onSelectScenario(scenario!.id); }} className="border border-core-warning/40 px-1.5 py-0.5 text-[0.58rem] text-core-warning hover:bg-core-warning/10">{action.label}</button>
               );
             })}
           </div>
