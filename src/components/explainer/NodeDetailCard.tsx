@@ -1,9 +1,10 @@
-import type { NodeKind, SceneNode } from "@/lib/animation-spec/types";
+import type { EdgeKind, NodeKind, Scene, SceneNode } from "@/lib/animation-spec/types";
 import type { AudienceMode } from "./AudienceModeToggle";
 import { GlossaryText } from "./GlossaryText";
 
 interface NodeDetailCardProps {
   node: SceneNode;
+  scene: Scene;
   audienceMode: AudienceMode;
   onClose: () => void;
 }
@@ -26,9 +27,24 @@ const KIND_DESCRIPTIONS: Record<NodeKind, string> = {
   external: "Representa un usuario, sistema o servicio que está fuera de la plataforma.",
 };
 
+const EDGE_LABELS: Record<EdgeKind, string> = {
+  data: "datos",
+  control: "control",
+  storage: "almacenamiento",
+  dependency: "dependencia",
+  failure: "falla",
+};
+
 /** Shows the selected node at the depth chosen for the current audience. */
-export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardProps) {
+export function NodeDetailCard({ node, scene, audienceMode, onClose }: NodeDetailCardProps) {
   const isTechnical = audienceMode === "technical";
+  const connections = scene.edges
+    .filter((edge) => edge.from === node.id || edge.to === node.id)
+    .map((edge) => {
+      const otherId = edge.from === node.id ? edge.to : edge.from;
+      const other = scene.nodes.find((candidate) => candidate.id === otherId);
+      return { id: `${otherId}-${edge.kind}`, name: other?.name ?? otherId, kind: edge.kind, direction: edge.from === node.id ? "sale hacia" : "recibe de" };
+    });
   const visualReading = node.rps
     ? "Este componente genera actividad que avanza hacia otros componentes."
     : node.capacity
@@ -72,6 +88,24 @@ export function NodeDetailCard({ node, audienceMode, onClose }: NodeDetailCardPr
               En esta escena
             </p>
             <p className="text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={node.subtitle} /></p>
+          </div>
+        ) : null}
+
+        {connections.length ? (
+          <div className="border-t border-core-border/[0.1] pt-3">
+            <div className="flex items-baseline justify-between gap-2">
+              <p className="mb-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Cómo se conecta</p>
+              <span className="font-mono text-[0.56rem] text-core-text-muted">{connections.length} relación{connections.length === 1 ? "" : "es"}</span>
+            </div>
+            <ul className="space-y-1.5" aria-label={`Conexiones de ${node.name}`}>
+              {connections.slice(0, isTechnical ? connections.length : 3).map((connection) => (
+                <li key={connection.id} className="flex items-start gap-2 text-[0.7rem] leading-relaxed text-core-text-secondary">
+                  <span aria-hidden="true" className="mt-1 text-core-accent">●</span>
+                  <span><GlossaryText text={`${connection.direction} ${connection.name}`} />{isTechnical ? <span className="text-core-text-muted"> · {EDGE_LABELS[connection.kind]}</span> : null}</span>
+                </li>
+              ))}
+            </ul>
+            {!isTechnical && connections.length > 3 ? <p className="mt-1 text-[0.62rem] text-core-text-muted">+ {connections.length - 3} conexiones técnicas disponibles en modo técnico.</p> : null}
           </div>
         ) : null}
 

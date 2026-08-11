@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.189.0";
+export const currentVersion = "0.190.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.190.0",
+    date: "11 ago 2026",
+    title: "Contexto de conexiones en nodos",
+    changes: [
+      "Al seleccionar un nodo se muestran sus conexiones reales en la escena actual.",
+      "El modo cliente resume hasta tres relaciones en lenguaje simple; el técnico muestra todas y su tipo.",
+      "La tarjeta mantiene el límite conceptual: describe el diagrama y no afirma telemetría del entorno.",
+    ],
+  },
   {
     version: "0.189.0",
     date: "11 ago 2026",

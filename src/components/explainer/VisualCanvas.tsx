@@ -419,7 +419,7 @@ export function VisualCanvas({
         </p>
       ) : null}
       {selectedNode ? (
-        <NodeDetailCard node={selectedNode} audienceMode={audienceMode} onClose={() => onNodeSelect(null)} />
+        <NodeDetailCard node={selectedNode} scene={scene} audienceMode={audienceMode} onClose={() => onNodeSelect(null)} />
       ) : null}
       {showTechnicalTools && integrityReport ? (
         <TechnicalIntegrityPanel

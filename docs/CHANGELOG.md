@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.190.0] - 2026-08-11
+
+- La tarjeta de nodo muestra las conexiones existentes en la escena actual.
+- Cliente ve un resumen de relaciones; técnico ve todas y el tipo de vínculo.
+- La información describe el modelo autorado y no se presenta como telemetría real.
+
 ## [0.189.0] - 2026-08-11
 
 - El modo cliente compacta los controles de zoom en un control de vista bajo demanda.
