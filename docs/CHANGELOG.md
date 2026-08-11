@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.213.0] - 2026-08-11
+
+- El workflow de contenido usa una máquina de estados pura y testeable.
+- “Revisión vencida” se muestra como estado explícito y vuelve a revisión técnica.
+- Se conservan los bloqueos por revisión humana pendiente y fuentes no vigentes.
+
 ## [0.212.0] - 2026-08-11
 
 - El content gate detecta lenguaje absoluto: “garantiza”, “siempre”, “nunca”, “sin downtime”, “automático” y “cero impacto”.
