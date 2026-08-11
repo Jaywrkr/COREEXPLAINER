@@ -30,6 +30,7 @@ npm run test:creator-policy
 npm run test:support-triage
 npm run test:support-case-pack
 npm run test:evidence-ledger
+npm run test:scenario-readiness
 npm run test:technical-review-report
 npm run test:technical-review-package
 npm run test:ai-guards

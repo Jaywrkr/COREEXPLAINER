@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.153.0] - 2026-08-11
+
+- El dashboard incorpora una cola de madurez por escenario con porcentaje y faltantes concretos.
+- Cada pendiente enlaza directamente a su explainer para completar simulación, fases, evidencia o fuentes.
+- La cola es editorial y no aprueba contenido ni representa salud de producción.
+- CI protege el cálculo determinista con una regresión offline.
+
 ## [0.152.0] - 2026-08-11
 
 - La cobertura técnica mide la madurez de cada escenario de fallo, no solo su existencia.

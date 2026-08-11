@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.152.0",
+  "version": "0.153.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -25,6 +25,7 @@
     "test:support-triage": "tsx scripts/test-support-triage.ts",
     "test:support-case-pack": "tsx scripts/test-support-case-pack.ts",
     "test:evidence-ledger": "tsx scripts/test-evidence-ledger.ts",
+    "test:scenario-readiness": "tsx scripts/test-scenario-readiness.ts",
     "test:technical-review-report": "tsx scripts/test-technical-review-report.ts",
     "test:technical-review-package": "tsx scripts/test-technical-review-package.ts"
   },

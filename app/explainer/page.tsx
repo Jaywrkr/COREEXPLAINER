@@ -8,6 +8,7 @@ import { PatternLibrary } from "@/components/dashboard/PatternLibrary";
 import { UsageMetricsPanel } from "@/components/dashboard/UsageMetricsPanel";
 import { TechnicalReviewQueue } from "@/components/dashboard/TechnicalReviewQueue";
 import { TechnicalCoveragePanel } from "@/components/dashboard/TechnicalCoveragePanel";
+import { ScenarioReadinessQueue } from "@/components/dashboard/ScenarioReadinessQueue";
 
 export const metadata: Metadata = {
   title: "Explicadores técnicos · CORESOLUTIONS",
@@ -30,6 +31,7 @@ export default function ExplainerDashboardPage() {
       <PatternLibrary />
       <UsageMetricsPanel />
       <TechnicalCoveragePanel />
+      <ScenarioReadinessQueue />
       <TechnicalReviewQueue />
 
       {categories.length === 0 && (
