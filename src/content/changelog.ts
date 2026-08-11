@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.177.0";
+export const currentVersion = "0.178.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.178.0",
+    date: "11 ago 2026",
+    title: "Herramientas bajo demanda",
+    changes: [
+      "El modo cliente empieza por la explicación y mantiene copiloto, evidencia, soporte y workflow dentro de un único cajón opcional.",
+      "El modo técnico puede abrir automáticamente el cajón sin perder la posibilidad de cerrarlo.",
+      "Se conserva el comportamiento nativo de details/summary para teclado, lector de pantalla y navegación sin JavaScript.",
+    ],
+  },
   {
     version: "0.177.0",
     date: "11 ago 2026",

@@ -21,6 +21,7 @@ import { TechnicalWorkbenchPanel } from "./TechnicalWorkbenchPanel";
 import { SupportTriagePanel } from "./SupportTriagePanel";
 import { SupportCasePackPanel } from "./SupportCasePackPanel";
 import { ImplementationWorkPackagePanel } from "./ImplementationWorkPackagePanel";
+import { ToolDrawer } from "./ToolDrawer";
 
 interface LeftPanelProps {
   slug: string;
@@ -87,13 +88,15 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
-      <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
-      <AssessmentBriefControl meta={meta} steps={steps} />
-      <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
-      <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
-      <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
-      <ImplementationWorkPackagePanel slug={slug} meta={meta} steps={steps} />
-      <ContentWorkflowPanel slug={slug} meta={meta} />
+      <ToolDrawer defaultOpen={isTechnical}>
+        <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
+        <AssessmentBriefControl meta={meta} steps={steps} />
+        <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
+        <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
+        <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
+        <ImplementationWorkPackagePanel slug={slug} meta={meta} steps={steps} />
+        <ContentWorkflowPanel slug={slug} meta={meta} />
+      </ToolDrawer>
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
         <ExplainerFeedback slug={slug} />

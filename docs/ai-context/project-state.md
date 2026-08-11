@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.178.0 (11-08-2026):** `ToolDrawer` agrupa las herramientas opcionales del explainer (copiloto, evidencia, soporte, workflow y paquetes) bajo demanda. Cliente inicia limpio; técnico puede abrir el grupo por defecto. La explicación, navegación y diagrama permanecen visibles.
+
 **Actualizacion v0.177.0 (11-08-2026):** `SceneTimeline` ofrece navegación contextual por escenas dentro del canvas, con `aria-current`, progreso y estado completado. Se mantiene compacta, desplazable horizontalmente y disponible en Focus/móvil.
 
 **Actualizacion v0.176.0 (11-08-2026):** `ExplainerLayout` ofrece Focus canvas, HUD contextual y persistencia local de ancho/modo. La preferencia se normaliza en `src/lib/ui/preferences.ts`; `F` alterna el foco y el botón devuelve el panel sin perder la escena.

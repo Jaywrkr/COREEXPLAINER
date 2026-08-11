@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.178.0] - 2026-08-11
+
+- Las herramientas avanzadas quedan agrupadas bajo demanda para reducir la carga inicial.
+- El modo cliente prioriza la explicación; el modo técnico puede abrir el grupo automáticamente.
+- Se conserva navegación accesible con `details/summary`.
+
 ## [0.177.0] - 2026-08-11
 
 - El canvas incorpora una timeline narrativa para saltar directamente entre escenas.
