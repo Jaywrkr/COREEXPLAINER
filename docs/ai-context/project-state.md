@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.198.0 (11-08-2026):** `reviewedStepSourceIssues` exige fuentes `current` en cada `ExplainerStep` cuando `meta.reviewStatus` es `reviewed`. El estado `pending` conserva la advertencia y permite continuar la campaña de revisión sin falsear aprobación.
+
 **Actualizacion v0.197.0 (11-08-2026):** `FailureScenarioPanel` marca cada fuente del paso activo como `Vigente` o `Revisar` y muestra una advertencia contextual si alguna está `review-needed`. La UI refleja el gate sin convertir evidencia editorial en telemetría.
 
 **Actualizacion v0.196.0 (11-08-2026):** `validateFailureScenarioSourceFreshness` exige fuentes `current` en los pasos guiados de escenarios con `simulation`. IDs ausentes o `review-needed` bloquean el contenido antes de presentarlo como escenario avanzado.

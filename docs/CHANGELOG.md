@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.198.0] - 2026-08-11
+
+- Contenido `reviewed` requiere fuentes `current` en cada paso narrativo.
+- Contenido `pending` mantiene el workflow y sus advertencias.
+- Se protege la coherencia de evidencia entre texto y diagrama.
+
 ## [0.197.0] - 2026-08-11
 
 - Los pasos guiados muestran el estado vigente o review-needed de sus fuentes.

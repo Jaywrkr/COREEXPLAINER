@@ -11,6 +11,7 @@ import type {
 import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
 import { validateFailureScenarioNarrative, validateFailureScenarioSourceFreshness, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
+import { reviewedStepSourceIssues } from "@/lib/content-validation/reviewSourceGate";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -414,6 +415,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
     }
     referencedSceneIds.add(step.sceneId);
   }
+  for (const issue of reviewedStepSourceIssues(steps, meta.reviewStatus, sourceValidityById)) add(issue);
 
   for (const sceneId of sceneIds) {
     const scene = spec.scenes[sceneId]!;
