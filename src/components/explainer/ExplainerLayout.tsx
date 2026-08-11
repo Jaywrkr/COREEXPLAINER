@@ -221,6 +221,7 @@ export function ExplainerLayout({
         event.preventDefault();
         setPresentationActive(false);
         setPresentationPlaying(false);
+        recordProductEvent({ name: "presentation-exit", slug });
         if (presentationPreviousFocusRef.current !== null) {
           setFocusMode(presentationPreviousFocusRef.current);
           presentationPreviousFocusRef.current = null;
@@ -264,7 +265,7 @@ export function ExplainerLayout({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [presentationActive, steps.length]);
+  }, [presentationActive, slug, steps.length]);
 
   const goPrev = () => {
     setPresentationPlaying(false);
@@ -283,10 +284,12 @@ export function ExplainerLayout({
     setFocusMode(true);
     setPresentationChromeVisible(true);
     setPresentationActive(true);
+    recordProductEvent({ name: "presentation-start", slug });
   };
   const exitPresentation = () => {
     setPresentationActive(false);
     setPresentationPlaying(false);
+    recordProductEvent({ name: "presentation-exit", slug });
     if (presentationPreviousFocusRef.current !== null) {
       setFocusMode(presentationPreviousFocusRef.current);
       presentationPreviousFocusRef.current = null;
@@ -303,6 +306,12 @@ export function ExplainerLayout({
   const resetPresentation = () => {
     setCurrent(0);
     setPresentationPlaying(false);
+  };
+  const toggleFocusMode = () => {
+    setFocusMode((active) => {
+      recordProductEvent({ name: "focus-toggle", slug, id: active ? "exit" : "enter" });
+      return !active;
+    });
   };
 
   return (
@@ -361,7 +370,7 @@ export function ExplainerLayout({
             <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-core-accent">{meta.title}</p>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.62rem] text-core-text-secondary"><span>{step.tag}</span><span className="text-core-text-muted">·</span><span>Paso {String(current + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span><span className="text-core-text-muted">·</span><span>{audienceMode === "client" ? "Cliente" : audienceMode === "conceptual" ? "Conceptual" : "Técnico"}</span></div>
           </div>
-          <button type="button" onClick={() => setFocusMode((active) => !active)} className="pointer-events-auto shrink-0 border border-core-border/[0.16] bg-core-panel/85 px-2.5 py-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted shadow-lg backdrop-blur-md transition-colors hover:border-core-accent/60 hover:text-core-text" aria-pressed={focusMode} title="Atajo: F">
+          <button type="button" onClick={toggleFocusMode} className="pointer-events-auto shrink-0 border border-core-border/[0.16] bg-core-panel/85 px-2.5 py-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted shadow-lg backdrop-blur-md transition-colors hover:border-core-accent/60 hover:text-core-text" aria-pressed={focusMode} title="Atajo: F">
             {focusMode ? "Mostrar panel" : "Focus canvas"}
           </button>
         </div>

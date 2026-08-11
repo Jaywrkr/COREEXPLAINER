@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.185.0";
+export const currentVersion = "0.186.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.186.0",
+    date: "11 ago 2026",
+    title: "Funnel de métricas locales de utilidad",
+    changes: [
+      "Las métricas distinguen temas únicos, escenas vistas, escenarios abiertos, presentaciones, Focus, workflows y exportaciones.",
+      "Los eventos se normalizan, limitan a 500 y descartan nombres o IDs desconocidos antes de agregarse.",
+      "El dashboard puede exportar un snapshot local JSON con alcance explícito; no se envía analítica a terceros.",
+    ],
+  },
   {
     version: "0.185.0",
     date: "11 ago 2026",

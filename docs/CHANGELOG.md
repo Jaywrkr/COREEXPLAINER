@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.186.0] - 2026-08-11
+
+- Las métricas locales muestran un funnel de utilidad más completo.
+- Eventos e IDs se normalizan y se conserva un máximo de 500 eventos.
+- Se puede exportar un snapshot JSON con alcance local y borrar los datos.
+
 ## [0.185.0] - 2026-08-11
 
 - Se añade `AI_MAX_ESTIMATED_COST_USD` como tope opcional por solicitud.
