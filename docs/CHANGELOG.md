@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.170.0] - 2026-08-11
+
+- La matriz de impacto permite registrar revisión local por workstream: pendiente, revisado, bloqueado o aceptado.
+- Aceptar exige una nota/evidencia mínima y el resumen declara bloqueos y pendientes.
+- El estado se conserva en el navegador y se exporta con el paquete; no equivale a autorización operacional.
+
 ## [0.169.0] - 2026-08-11
 
 - El paquete técnico incorpora una matriz de impacto por workstream.

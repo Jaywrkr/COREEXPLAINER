@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.169.0";
+export const currentVersion = "0.170.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.170.0",
+    date: "11 ago 2026",
+    title: "Revisión local de impactos y handoff",
+    changes: [
+      "La matriz de impacto permite marcar cada workstream como pendiente, revisado, bloqueado o aceptado con nota y fecha local.",
+      "Aceptar exige evidencia mínima; el resumen muestra el avance y no confunde revisión editorial con autorización de cambio.",
+      "El estado se conserva solo en el navegador y se exporta como Markdown/JSON junto con el paquete técnico.",
+    ],
+  },
   {
     version: "0.169.0",
     date: "11 ago 2026",

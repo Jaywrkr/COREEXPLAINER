@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.170.0 (11-08-2026):** `impactReview.ts` añade revisión local de `changeImpacts` con estados `pending|reviewed|blocked|accepted`, nota mínima para aceptar, resumen de avance y exportación Markdown/JSON. El estado vive en `localStorage`, no sincroniza ni autoriza cambios.
+
 **Actualizacion v0.169.0 (11-08-2026):** el paquete técnico incluye `changeImpacts` (`schemaVersion: 1.1`) por workstream, con riesgo, dependencias de marcas, escenarios/nodos afectados, rollback conceptual y evidencia antes/después. Se deriva del contenido autorado y mantiene límites no operacionales.
 
 **Actualizacion v0.168.0 (11-08-2026):** `buildImplementationWorkPackage` convierte cada explainer en una ficha conceptual de implementación/mantenimiento con prerrequisitos, workstreams, evidencia de aceptación, controles y readiness. La UI ofrece Markdown/JSON bajo demanda; el artefacto no ejecuta acciones, no cambia infraestructura y requiere adaptación al runbook aprobado.

@@ -32,6 +32,7 @@ npm run test:failure-simulation-validation
 npm run test:source-freshness
 npm run test:version-consistency
 npm run test:implementation-work-package
+npm run test:implementation-impact-review
 npm run test:creator-policy
 npm run test:support-triage
 npm run test:support-case-pack
