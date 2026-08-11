@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.148.0 (11-08-2026):** el panel `SupportTriagePanel` convierte escenarios y escenas en un brief de soporte no operacional: síntoma, capa probable, evidencia a solicitar, comprobación segura y criterio de escalamiento. `buildSupportTriageBrief` es determinista, marca rutas `authored` o `derived` y permite descargar Markdown con límites explícitos. CI ejecuta `test:support-triage`.
+
 **Actualizacion v0.147.0 (11-08-2026):** el generador de borradores IA devuelve `policy.mode: draft-only`, tokens estimados, maximo de salida y coste opcional. La UI deja claro que el resultado requiere validacion especialista y no se publica ni ejecuta automaticamente.
 
 **Actualizacion v0.146.0 (11-08-2026):** el Copiloto expone una politica `read-only` con acciones allowlisted, tokens estimados, maximo de salida y coste estimado si el despliegue configura tarifas. La UI la muestra antes/despues de la consulta y no añade acciones operativas.

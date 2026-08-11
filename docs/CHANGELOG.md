@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.148.0] - 2026-08-11
+
+- Cada explicación incorpora un brief de triage para soporte: síntoma, capa probable, evidencia a solicitar, comprobación segura y criterio de escalamiento.
+- El brief reutiliza escenarios y pasos autorados; cuando faltan, genera rutas derivadas marcadas como tales.
+- Se puede descargar como Markdown conceptual; no ejecuta comandos ni consulta plataformas.
+- CI protege el contrato de triage con una regresión offline.
+
 ## [0.147.0] - 2026-08-11
 
 - El generador de borradores IA expone una política `draft-only` con límites y coste estimado.

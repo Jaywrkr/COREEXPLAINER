@@ -46,6 +46,8 @@ jobs:
         run: npm run test:copilot-policy
       - name: Run Creator policy regressions
         run: npm run test:creator-policy
+      - name: Run Support triage regressions
+        run: npm run test:support-triage
       - name: Run technical review report regressions
         run: npm run test:technical-review-report
       - name: Run technical review package regressions
