@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.104.0] - 2026-08-10
+
+- El dashboard incluye una cola de revisión técnica humana para los explainers pendientes.
+- Cada entrada muestra fecha, alcance, fuentes, advertencias y enlaces a la explicación/ficha técnica.
+- La cola es de solo lectura y no cambia estados editoriales automáticamente.
+
 ## [0.103.0] - 2026-08-10
 
 - Se conectaron las seis fuentes que el gate había identificado como no utilizadas.
