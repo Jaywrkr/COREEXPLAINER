@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.180.0] - 2026-08-11
+
+- Se añade un mapa contextual de evidencia dentro de las herramientas opcionales.
+- Cada registro conecta afirmación, evidencia a solicitar, tipo y fuentes.
+- La UI declara explícitamente que el ledger autorado no valida el entorno real.
+
 ## [0.179.0] - 2026-08-11
 
 - La presentación se ejecuta en Focus canvas con HUD compacto dentro del diagrama.

@@ -22,6 +22,7 @@ import { SupportTriagePanel } from "./SupportTriagePanel";
 import { SupportCasePackPanel } from "./SupportCasePackPanel";
 import { ImplementationWorkPackagePanel } from "./ImplementationWorkPackagePanel";
 import { ToolDrawer } from "./ToolDrawer";
+import { EvidenceMapPanel } from "./EvidenceMapPanel";
 
 interface LeftPanelProps {
   slug: string;
@@ -90,6 +91,7 @@ export function LeftPanel({
       <BeginnerGuide mode={audienceMode} />
       <ToolDrawer defaultOpen={isTechnical}>
         <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
+        <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
         <AssessmentBriefControl meta={meta} steps={steps} />
         <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
         <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
