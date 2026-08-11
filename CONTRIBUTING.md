@@ -26,6 +26,11 @@ npm run test:review-action-tracking
 npm run test:review-action-export
 npm run test:coverage-metrics
 npm run test:copilot-policy
+npm run test:copilot-actions
+npm run test:pattern-validation
+npm run test:failure-simulation-validation
+npm run test:source-freshness
+npm run test:version-consistency
 npm run test:creator-policy
 npm run test:support-triage
 npm run test:support-case-pack

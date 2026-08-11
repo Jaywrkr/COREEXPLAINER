@@ -44,12 +44,22 @@ jobs:
         run: npm run test:coverage-metrics
       - name: Run Copilot policy regressions
         run: npm run test:copilot-policy
+      - name: Run Copilot action contract regressions
+        run: npm run test:copilot-actions
       - name: Run Creator policy regressions
         run: npm run test:creator-policy
       - name: Run Support triage regressions
         run: npm run test:support-triage
       - name: Run Support case pack regressions
         run: npm run test:support-case-pack
+      - name: Run pattern catalog regressions
+        run: npm run test:pattern-validation
+      - name: Run failure simulation regressions
+        run: npm run test:failure-simulation-validation
+      - name: Run source freshness regressions
+        run: npm run test:source-freshness
+      - name: Run version consistency regressions
+        run: npm run test:version-consistency
       - name: Run evidence ledger regressions
         run: npm run test:evidence-ledger
       - name: Run scenario readiness regressions

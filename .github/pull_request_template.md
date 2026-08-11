@@ -26,6 +26,7 @@
 
 - [ ] `npm run validate:content`
 - [ ] `npm run test:ai-guards`
+- [ ] Regresiones técnicas específicas de la fase (incluyendo `npm run test:version-consistency` cuando aplique)
 - [ ] `npm run typecheck`
 - [ ] `npm run lint`
 - [ ] `npm run build`

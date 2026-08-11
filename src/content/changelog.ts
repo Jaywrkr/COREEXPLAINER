@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.166.0";
+export const currentVersion = "0.167.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.167.0",
+    date: "11 ago 2026",
+    title: "Gate de calidad técnica completo en cada PR",
+    changes: [
+      "CI ejecuta también los contratos de acciones del copiloto, patrones, simulaciones de fallo, frescura de fuentes y consistencia de versión.",
+      "La plantilla de PR y CONTRIBUTING documentan la misma checklist para evitar regresiones fuera del workflow.",
+      "La fase mantiene el sistema no operacional: valida contenido y artefactos, pero no despliega ni ejecuta cambios en clientes.",
+    ],
+  },
   {
     version: "0.166.0",
     date: "11 ago 2026",

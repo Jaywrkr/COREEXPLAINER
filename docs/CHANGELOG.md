@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.167.0] - 2026-08-11
+
+- CI ejecuta los contratos de acciones del copiloto, patrones, simulaciones de fallo, frescura de fuentes y consistencia de versión.
+- La plantilla de PR y `CONTRIBUTING.md` documentan la misma checklist de regresiones técnicas.
+- La fase valida artefactos y contenido sin convertir el sistema en una herramienta operacional.
+
 ## [0.166.0] - 2026-08-11
 
 - La versión visible de la aplicación, `package.json`, el changelog y los informes quedan alineados.
