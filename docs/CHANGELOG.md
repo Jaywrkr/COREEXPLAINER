@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.106.0] - 2026-08-10
+
+- La cola de revisión abre el explainer real y ya no genera enlaces web inexistentes bajo `docs/`.
+- El paquete Markdown conserva la ruta documental del repositorio como referencia verificable.
+
 ## [0.105.0] - 2026-08-10
 
 - Cada pendiente de la cola técnica puede descargar un paquete Markdown de revisión.

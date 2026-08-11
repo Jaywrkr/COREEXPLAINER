@@ -31,9 +31,9 @@ export function TechnicalReviewQueue() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
-                  <a href={`/${entry.meta.technicalValidationDoc}`} className="border border-core-accent/35 px-2 py-1 text-[0.58rem] font-semibold text-core-accent hover:bg-core-accent/10">
-                    Abrir ficha técnica
-                  </a>
+                  <Link href={`/explainer/${entry.slug}`} className="border border-core-accent/35 px-2 py-1 text-[0.58rem] font-semibold text-core-accent hover:bg-core-accent/10">
+                    Abrir explainer
+                  </Link>
                   <TechnicalReviewPacketDownload
                     slug={entry.slug}
                     title={entry.meta.title}
@@ -46,6 +46,7 @@ export function TechnicalReviewQueue() {
                 </div>
               </div>
               <p className="mt-2 text-[0.68rem] leading-relaxed text-core-text-secondary">{entry.meta.technicalReview.scope}</p>
+              <p className="mt-1 font-mono text-[0.58rem] text-core-text-muted">Ficha en repositorio: {entry.meta.technicalValidationDoc}</p>
               {warnings.length ? <p className="mt-1 text-[0.6rem] text-core-warning">Gate: {warnings.length} advertencia(s) de revisión humana.</p> : null}
             </article>
           );
