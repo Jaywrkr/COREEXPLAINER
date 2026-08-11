@@ -356,6 +356,7 @@ export function FailureScenarioPanel({
                   <div className="border-l-2 border-core-accent/70 pl-2 text-[0.68rem] leading-relaxed text-core-text-muted">
                     <p><span className="font-semibold text-core-text">Evidencia:</span> <GlossaryText text={activeStep.evidence} /></p>
                     <p className="mt-1"><span className="font-semibold text-core-text">Resultado esperado:</span> <GlossaryText text={activeStep.expected} /></p>
+                    {activeSources.some((source) => source.validity === "review-needed") ? <p className="mt-1 text-core-warning">Una o más fuentes requieren revisión antes de usar este paso como respaldo técnico.</p> : null}
                   </div>
                 </div>
               ) : (
@@ -413,8 +414,8 @@ export function FailureScenarioPanel({
                         href={source.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[0.65rem] leading-relaxed text-core-text-secondary underline decoration-core-accent/40 underline-offset-2 transition-colors hover:text-core-accent"
-                      >
+                        className={`text-[0.65rem] leading-relaxed underline decoration-core-accent/40 underline-offset-2 transition-colors hover:text-core-accent ${source.validity === "review-needed" ? "text-core-warning" : "text-core-text-secondary"}`}
+                      > <span className="mr-1 font-semibold">{source.validity === "review-needed" ? "Revisar" : "Vigente"}</span>
                         {source.title} · revisada {source.accessedAt}
                       </a>
                     ))}

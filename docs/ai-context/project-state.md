@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.197.0 (11-08-2026):** `FailureScenarioPanel` marca cada fuente del paso activo como `Vigente` o `Revisar` y muestra una advertencia contextual si alguna está `review-needed`. La UI refleja el gate sin convertir evidencia editorial en telemetría.
+
 **Actualizacion v0.196.0 (11-08-2026):** `validateFailureScenarioSourceFreshness` exige fuentes `current` en los pasos guiados de escenarios con `simulation`. IDs ausentes o `review-needed` bloquean el contenido antes de presentarlo como escenario avanzado.
 
 **Actualizacion v0.195.0 (11-08-2026):** `SceneAssuranceBadge` recibe `staleSourceCount`; si hay fuentes `review-needed`, cambia a atención y en técnico muestra el conteo. Esto hace visible la frescura editorial sin abrir paneles avanzados ni confundirla con monitoreo del cliente.

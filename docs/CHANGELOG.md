@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.197.0] - 2026-08-11
+
+- Los pasos guiados muestran el estado vigente o review-needed de sus fuentes.
+- Se advierte cuando la evidencia no debe usarse como respaldo hasta actualizar referencias.
+- La señal no se presenta como salud de infraestructura.
+
 ## [0.196.0] - 2026-08-11
 
 - Los pasos guiados de simulaciones avanzadas requieren fuentes `current`.
