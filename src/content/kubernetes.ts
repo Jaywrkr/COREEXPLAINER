@@ -47,7 +47,7 @@ export const kubernetesFailureScenarios: FailureScenario[] = [
       "Requests, limits, taints, affinity y restricciones de topología pueden dejar un Pod en estado Pending aunque el clúster tenga capacidad parcial.",
     limitation:
       "La demo no calcula bin packing ni reproduce el conjunto completo de plugins y políticas del scheduler.",
-    affectedNodes: ["Scheduler", "Pod pendiente"],
+    affectedNodes: ["Scheduler", "Pod pendiente", "Nodo worker 1"],
     deadNodeIds: ["node1"],
   },
 ];

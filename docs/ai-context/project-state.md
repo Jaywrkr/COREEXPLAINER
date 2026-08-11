@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.225.0 (11-08-2026):** `validateFailureScenarioNodeConsistency` verifica que `deadNodeIds` pertenezca a la escena y aparezca por ID o nombre en `affectedNodes`; también rechaza IDs duplicados. El gate detectó y corrigió `node1` omitido en el escenario `insufficient-resources` de Kubernetes. Esto protege la correspondencia entre narrativa y diagrama sin simular un entorno real.
+
 **Actualizacion v0.224.0 (11-08-2026):** `buildReviewActions` reutiliza `summarizeSourceFreshness` y explica en la cola `source-refresh` si cada fuente requiere revisión manual, está fuera de la ventana o tiene fecha inválida. La evidencia incluye las fechas sugeridas; resolver la acción sigue sin mutar contenido ni aprobarlo.
 
 **Actualizacion v0.223.0 (11-08-2026):** `TechnicalReviewPacketDownload` recibe la validez de cada fuente y reutiliza `summarizeSourceFreshness`; el Markdown descargado muestra estado, motivo, antigüedad y fecha sugerida, con el límite explícito de que no certifica el entorno.

@@ -1,5 +1,10 @@
 import type { FailureScenario, FailureSimulationProfile, GuidedScenarioStepKind } from "@/content/types";
 
+interface ScenarioNodeReference {
+  id: string;
+  name: string;
+}
+
 /**
  * Checks that a typed failure mode carries only the parameters that give it
  * technical meaning. This remains conceptual; it never measures a live system.
@@ -57,4 +62,28 @@ export function validateFailureScenarioSourceFreshness(
   const sourceIds = [...new Set(scenario.guidedSteps.flatMap((step) => step.sourceIds ?? []))];
   const stale = sourceIds.filter((sourceId) => sourceValidityById.get(sourceId) !== "current");
   return stale.length ? [`simulation guided steps require current sources; review-needed or missing: ${stale.join(", ")}`] : [];
+}
+
+/** Keeps the failure narrative aligned with the nodes actually visible in its scene. */
+export function validateFailureScenarioNodeConsistency(
+  scenario: FailureScenario,
+  sceneNodes: ReadonlyArray<ScenarioNodeReference>,
+): string[] {
+  const issues: string[] = [];
+  const nodeById = new Map(sceneNodes.map((node) => [node.id, node]));
+  const namesById = new Map(sceneNodes.map((node) => [node.id, node.name.trim().toLowerCase()]));
+  const affected = new Set((scenario.affectedNodes ?? []).map((value) => value.trim().toLowerCase()).filter(Boolean));
+  const seenDead = new Set<string>();
+  for (const deadNodeId of scenario.deadNodeIds ?? []) {
+    if (seenDead.has(deadNodeId)) issues.push(`deadNodeIds contains duplicate node '${deadNodeId}'`);
+    seenDead.add(deadNodeId);
+    const node = nodeById.get(deadNodeId);
+    if (!node) continue;
+    const idMatches = affected.has(node.id.toLowerCase());
+    const nameMatches = namesById.get(node.id) ? affected.has(namesById.get(node.id)!) : false;
+    if (!idMatches && !nameMatches) {
+      issues.push(`dead node '${deadNodeId}' is not represented in affectedNodes`);
+    }
+  }
+  return issues;
 }

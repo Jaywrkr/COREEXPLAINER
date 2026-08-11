@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.224.0";
+export const currentVersion = "0.225.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.225.0",
+    date: "11 ago 2026",
+    title: "Coherencia de nodos en escenarios de fallo",
+    changes: [
+      "Los escenarios comprueban que cada nodo declarado como caído esté representado por ID o nombre entre los nodos afectados.",
+      "Se detectan IDs de nodo duplicados antes de publicar el contenido.",
+      "La validación encontró y corrigió una omisión real en el escenario de capacidad insuficiente de Kubernetes.",
+    ],
+  },
   {
     version: "0.224.0",
     date: "11 ago 2026",

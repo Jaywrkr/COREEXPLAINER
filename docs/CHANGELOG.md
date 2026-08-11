@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.225.0] - 2026-08-11
+
+- Los escenarios comprueban que cada nodo caído esté representado por ID o nombre entre los nodos afectados.
+- Se detectan IDs de nodo duplicados antes de publicar contenido.
+- El gate encontró y corrigió una omisión real en el escenario de capacidad insuficiente de Kubernetes.
+
 ## [0.224.0] - 2026-08-11
 
 - La acción `source-refresh` distingue revisión manual, ventana vencida y fechas inválidas.

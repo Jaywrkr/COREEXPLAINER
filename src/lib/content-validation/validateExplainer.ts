@@ -10,7 +10,7 @@ import type {
 } from "@/content/types";
 import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
-import { validateFailureScenarioNarrative, validateFailureScenarioSourceFreshness, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
+import { validateFailureScenarioNarrative, validateFailureScenarioNodeConsistency, validateFailureScenarioSourceFreshness, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 import { reviewedStepSourceIssues } from "@/lib/content-validation/reviewSourceGate";
 import { findAbsoluteClaimLanguage } from "@/lib/content-validation/claimLanguageGate";
 
@@ -461,6 +461,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         if (!sceneNodeIds.has(nodeId)) add(`${label}.deadNodeIds references unknown node '${nodeId}'`);
       }
     }
+    for (const issue of validateFailureScenarioNodeConsistency(scenario, spec.scenes[scenario.sceneId]!.nodes)) add(`${label}: ${issue}`);
     if (scenario.simulation) {
       const simulationLabel = `${label}.simulation`;
       const allowedModes = new Set(["hard-down", "degraded", "latency", "capacity", "dependency", "observability"]);
