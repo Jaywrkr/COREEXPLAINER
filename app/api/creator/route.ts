@@ -20,8 +20,8 @@ function json(message: string, status: number, fallback = true, retryAfter?: num
 }
 
 export async function POST(request: Request) {
-  const access = checkAiAccess(request);
-  if (!access.allowed) return json(access.message, access.status);
+  const access = await checkAiAccess(request);
+  if (!access.allowed) return json(access.message, access.status, true, access.retryAfter);
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
   if (declaredLength > 4_000) return json("La solicitud es demasiado grande.", 413);
   let body: CreatorRequest;
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
   const configuredOutput = Number(process.env.AI_MAX_OUTPUT_TOKENS);
   const maxOutputTokens = Number.isFinite(configuredOutput) && configuredOutput > 0 ? Math.min(Math.floor(configuredOutput), 1_400) : 1_400;
   const estimatedInputTokens = Math.ceil(JSON.stringify({ topic, audience, brands, goal }).length / 4);
-  const budget = reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
+  const budget = await reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
   if (!budget.allowed) return json(budget.message, budget.status, true, budget.retryAfter);
 
   const upstream = await fetch("https://api.openai.com/v1/chat/completions", {

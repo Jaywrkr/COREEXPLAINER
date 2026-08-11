@@ -9,9 +9,29 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.110.0";
+export const currentVersion = "0.112.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.112.0",
+    date: "10 ago 2026",
+    title: "Cuotas compartidas entre instancias",
+    changes: [
+      "El guard puede usar Upstash Redis para compartir la ventana de solicitudes y tokens entre funciones de Vercel.",
+      "Sin las variables de Redis, el sistema conserva automáticamente el guard en memoria existente.",
+      "Los contadores tienen expiración de diez minutos y siguen usando la identidad HMAC cuando está disponible.",
+    ],
+  },
+  {
+    version: "0.111.0",
+    date: "10 ago 2026",
+    title: "Cuotas preparadas para identidad autenticada",
+    changes: [
+      "El guard de IA acepta una identidad firmada por un gateway confiable y aplica el límite por usuario, no por IP.",
+      "Las solicitudes sin firma válida siguen usando el límite por IP; nunca se confía en un identificador enviado libremente desde el navegador.",
+      "La clave usada en memoria es un hash corto y no conserva el identificador personal original.",
+    ],
+  },
   {
     version: "0.110.0",
     date: "10 ago 2026",

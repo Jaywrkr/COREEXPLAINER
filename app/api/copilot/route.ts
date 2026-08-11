@@ -20,8 +20,8 @@ function response(message: string, status = 200, actions: CopilotAction[] = [], 
 }
 
 export async function POST(request: Request) {
-  const access = checkAiAccess(request);
-  if (!access.allowed) return response(access.message, access.status);
+  const access = await checkAiAccess(request);
+  if (!access.allowed) return response(access.message, access.status, [], undefined, access.retryAfter);
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
   if (declaredLength > 18_000) return response("La solicitud es demasiado grande.", 413);
   let body: CopilotRequest;
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
   const configuredOutput = Number(process.env.AI_MAX_OUTPUT_TOKENS);
   const maxOutputTokens = Number.isFinite(configuredOutput) && configuredOutput > 0 ? Math.min(Math.floor(configuredOutput), 1_200) : 700;
   const estimatedInputTokens = Math.ceil((question.length + context.length) / 4);
-  const budget = reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
+  const budget = await reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
   if (!budget.allowed) return response(budget.message, budget.status, [], undefined, budget.retryAfter);
 
   const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
