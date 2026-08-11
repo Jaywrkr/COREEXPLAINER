@@ -41,4 +41,5 @@ export interface CopilotPolicy {
   maxOutputTokens: number;
   estimatedCostUsd?: number;
   costSource?: "environment";
+  maxEstimatedCostUsd?: number;
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, readJsonBody, reserveAiTokens } from "@/lib/ai/endpointGuard";
-import { estimateAiCost } from "@/lib/ai/costEstimate";
+import { estimateAiCost, exceedsAiCostCap } from "@/lib/ai/costEstimate";
 import { sanitizeCopilotActions, type CopilotAction, type CopilotPolicy } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
 import { sanitizeCopilotInput } from "@/lib/ai/inputSanitization";
@@ -43,6 +43,7 @@ export async function POST(request: Request) {
   const estimatedInputTokens = Math.ceil((question.length + context.length) / 4);
   const estimatedCost = estimateAiCost(estimatedInputTokens, maxOutputTokens);
   const policy = buildCopilotPolicy(estimatedInputTokens, maxOutputTokens, estimatedCost?.costUsd, estimatedCost?.source);
+  if (exceedsAiCostCap(estimatedCost)) return response("La solicitud supera el tope de coste configurado para IA; reduce el contexto o usa una revisión manual.", 429, [], undefined, 60, policy);
   const budget = await reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
   if (!budget.allowed) return response(budget.message, budget.status, [], undefined, budget.retryAfter, policy);
 

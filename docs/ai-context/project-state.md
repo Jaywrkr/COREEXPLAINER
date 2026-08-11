@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.185.0 (11-08-2026):** `AI_MAX_ESTIMATED_COST_USD` permite rechazar solicitudes cuyo coste estimado exceda un tope explícito, antes del proveedor. `CopilotPolicy` expone el cap; sin tarifas de entrada/salida no se inventa precio y siguen aplicando tokens/cuota.
+
 **Actualizacion v0.184.0 (11-08-2026):** `/api/copilot` usa `readJsonBody` con límite de 18 KB y sanitiza pregunta/contexto mediante `sanitizeCopilotInput` antes de llamar al proveedor. Redacta Bearer tokens, claves, secretos, passwords y tokens comunes; no guarda prompts ni credenciales. Es defensa en profundidad, no DLP.
 
 **Actualizacion v0.183.0 (11-08-2026):** `reviewCampaign.ts` genera snapshots Markdown/JSON de la campaña local. `ReviewCampaignSummary` permite descargarlos con versión y fecha; el contenido declara límites, faltantes y posible información interna, sin convertir el export en aprobación o sincronización remota.

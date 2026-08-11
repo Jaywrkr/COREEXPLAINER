@@ -52,6 +52,7 @@ npm run test:review-assignment
 npm run test:review-campaign
 npm run test:review-campaign-export
 npm run test:ai-input-sanitization
+npm run test:ai-cost-cap
 ```
 
 El workflow `.github/workflows/quality.yml` repite estos controles en GitHub Actions. Una advertencia de revisión técnica pendiente no se debe ocultar: `reviewStatus: "pending"` solo cambia después de una revisión especialista real.

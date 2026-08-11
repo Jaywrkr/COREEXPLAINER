@@ -95,6 +95,8 @@ jobs:
         run: npm run test:ai-guards
       - name: Run AI input sanitization regressions
         run: npm run test:ai-input-sanitization
+      - name: Run AI cost cap regressions
+        run: npm run test:ai-cost-cap
       - name: Run UI preference regressions
         run: npm run test:ui-preferences
       - name: Run review assignment regressions

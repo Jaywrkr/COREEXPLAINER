@@ -80,7 +80,7 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
         </p>
         <p className="border-l-2 border-core-accent/50 pl-2 text-[0.58rem] leading-relaxed text-core-text-muted">
           Política: solo lectura. Acciones permitidas: abrir fuentes y activar escenarios locales; no ejecuta cambios en infraestructura.
-          {policy ? ` Presupuesto estimado: ${policy.estimatedInputTokens} tokens de entrada · máximo ${policy.maxOutputTokens} de salida${policy.estimatedCostUsd !== undefined ? ` · hasta US$ ${policy.estimatedCostUsd.toFixed(4)}` : " · coste no configurado"}.` : ""}
+          {policy ? ` Presupuesto estimado: ${policy.estimatedInputTokens} tokens de entrada · máximo ${policy.maxOutputTokens} de salida${policy.estimatedCostUsd !== undefined ? ` · hasta US$ ${policy.estimatedCostUsd.toFixed(4)}` : " · coste no configurado"}${policy.maxEstimatedCostUsd !== undefined ? ` · tope US$ ${policy.maxEstimatedCostUsd.toFixed(4)}` : ""}.` : ""}
         </p>
         <textarea
           value={question}

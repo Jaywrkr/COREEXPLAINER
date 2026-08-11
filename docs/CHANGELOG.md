@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.185.0] - 2026-08-11
+
+- Se añade `AI_MAX_ESTIMATED_COST_USD` como tope opcional por solicitud.
+- El rechazo ocurre antes de llamar al proveedor y la UI muestra el umbral configurado.
+- Se incorpora regresión específica para el cap de coste.
+
 ## [0.184.0] - 2026-08-11
 
 - El endpoint de IA aplica un límite efectivo al cuerpo recibido.

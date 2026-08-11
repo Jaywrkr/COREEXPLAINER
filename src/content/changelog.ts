@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.184.0";
+export const currentVersion = "0.185.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.185.0",
+    date: "11 ago 2026",
+    title: "Tope de coste por solicitud IA",
+    changes: [
+      "El servidor puede configurar AI_MAX_ESTIMATED_COST_USD y rechazar una solicitud antes de llamar al proveedor.",
+      "La política del copiloto muestra el coste estimado y el tope aplicado cuando existen tarifas explícitas.",
+      "Tokens, cuotas persistentes y tope monetario trabajan como controles independientes; ninguno inventa precios sin tarifas configuradas.",
+    ],
+  },
   {
     version: "0.184.0",
     date: "11 ago 2026",

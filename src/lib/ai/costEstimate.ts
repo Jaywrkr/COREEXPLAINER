@@ -5,6 +5,15 @@ export interface AiCostEstimate {
   source: "environment";
 }
 
+export function configuredAiCostCap(): number | undefined {
+  const value = Number(process.env.AI_MAX_ESTIMATED_COST_USD);
+  return Number.isFinite(value) && value >= 0 && value <= 100_000 ? value : undefined;
+}
+
+export function exceedsAiCostCap(estimate: AiCostEstimate | undefined, cap = configuredAiCostCap()): boolean {
+  return Boolean(estimate && cap !== undefined && estimate.costUsd > cap);
+}
+
 function configuredRate(name: string): number | null {
   const value = Number(process.env[name]);
   return Number.isFinite(value) && value >= 0 && value <= 100_000 ? value : null;
