@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.233.0";
+export const currentVersion = "0.234.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.234.0",
+    date: "11 ago 2026",
+    title: "Frescura de patrones reutilizables",
+    changes: [
+      "Un patrón no aparece listo si su propia fecha de revisión supera la ventana editorial de 180 días.",
+      "La biblioteca explica si el patrón está fuera de ventana o tiene una fecha inválida.",
+      "La regla reutiliza el mismo cálculo que fuentes, informes y paquetes de revisión.",
+    ],
+  },
   {
     version: "0.233.0",
     date: "11 ago 2026",

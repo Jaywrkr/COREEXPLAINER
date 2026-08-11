@@ -1,4 +1,5 @@
 import type { SolutionPattern } from "@/content/patterns";
+import { summarizeSourceFreshness } from "@/content/technical-source-catalog";
 
 export type PatternReadinessStatus = "ready" | "review-needed" | "blocked";
 
@@ -27,6 +28,7 @@ export function assessPatternReadiness(pattern: SolutionPattern, linked: Pattern
   const warnings = linked.reduce((sum, item) => sum + (item.warningCount ?? 0), 0);
   const withoutScenarioCoverage = linked.filter((item) => item.exists && item.scenarioCoverage !== "ready");
   const withoutReviewedIntegrity = linked.filter((item) => item.exists && item.technicalIntegrity !== "reviewed");
+  const patternFreshness = summarizeSourceFreshness({ accessedAt: pattern.lastReviewedAt, validity: "current" });
   if (missing.length) reasons.push(`explainer(s) no encontrado(s): ${missing.map((item) => item.slug).join(", ")}`);
   if (pending.length) reasons.push(`${pending.length} explainer(s) con revisión pendiente`);
   if (stale.length) reasons.push(`${stale.length} explainer(s) con fuentes por revisar`);
@@ -34,8 +36,9 @@ export function assessPatternReadiness(pattern: SolutionPattern, linked: Pattern
   if (!pattern.evidence.length) reasons.push("el patrón no declara evidencia mínima");
   if (withoutScenarioCoverage.length) reasons.push(`${withoutScenarioCoverage.length} explainer(s) sin escenario de soporte completamente maduro`);
   if (withoutReviewedIntegrity.length) reasons.push(`${withoutReviewedIntegrity.length} explainer(s) con integridad tecnica no revisada`);
+  if (patternFreshness.status === "review-needed") reasons.push(`el patrón requiere revisión (${patternFreshness.reason}; antes de ${patternFreshness.dueAt ?? "fecha no disponible"})`);
   if (missing.length || !pattern.evidence.length) return { status: "blocked", reasons };
-  if (pending.length || stale.length || warnings || withoutScenarioCoverage.length || withoutReviewedIntegrity.length) return { status: "review-needed", reasons };
+  if (pending.length || stale.length || warnings || withoutScenarioCoverage.length || withoutReviewedIntegrity.length || patternFreshness.status === "review-needed") return { status: "review-needed", reasons };
   return { status: "ready", reasons: [] };
 }
 

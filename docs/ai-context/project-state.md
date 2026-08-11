@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.234.0 (11-08-2026):** `assessPatternReadiness` evalúa `pattern.lastReviewedAt` con `summarizeSourceFreshness`; un patrón fuera de la ventana de 180 días queda `review-needed` y explica `dueAt`/motivo. La biblioteca ya no muestra como listo un patrón viejo aunque sus explainers estén revisados.
+
 **Actualizacion v0.233.0 (11-08-2026):** `AssessmentBriefControl` recibe `slug` explícito y `ExplainerDraftCreator` registra el token fijo `creator`; se eliminó el uso de títulos o temas libres como IDs de telemetría. Esto recupera utilidad de métricas sin almacenar contenido del usuario.
 
 **Actualizacion v0.232.0 (11-08-2026):** `productTelemetry.clean` conserva solo identificadores con caracteres acotados y rechaza URLs o texto libre. Esto evita que preguntas, títulos, notas o enlaces terminen en el ledger local de métricas; se mantiene el límite de 500 eventos y el alcance browser-only.

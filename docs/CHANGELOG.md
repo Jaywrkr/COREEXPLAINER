@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.234.0] - 2026-08-11
+
+- Un patrón no aparece listo si su fecha de revisión supera la ventana editorial de 180 días.
+- La biblioteca explica si el patrón está fuera de ventana o tiene una fecha inválida.
+- La regla reutiliza el mismo cálculo que fuentes, informes y paquetes de revisión.
+
 ## [0.233.0] - 2026-08-11
 
 - Los briefs registran el slug del explainer y no su título libre.
