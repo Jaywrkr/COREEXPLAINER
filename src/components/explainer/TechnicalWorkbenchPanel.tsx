@@ -36,15 +36,21 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
       evidence: step.businessImpact,
       sourceIds: step.sourceIds,
     }));
-    const support = (meta.failureScenarios ?? []).map((scenario) => ({
-      id: `scenario:${scenario.id}`,
-      title: scenario.label,
-      detail: scenario.detail,
-      evidence: scenario.guidedSteps?.length
-        ? scenario.guidedSteps.map((step) => `${step.kind}: ${step.evidence}`).join(" ")
-        : scenario.limitation,
-      sourceIds: scenario.guidedSteps?.flatMap((step) => step.sourceIds ?? []) ?? [],
-    }));
+    const support = (meta.failureScenarios ?? []).flatMap((scenario) => scenario.guidedSteps?.length
+      ? scenario.guidedSteps.map((step) => ({
+        id: `scenario:${scenario.id}:step:${step.id}`,
+        title: `${scenario.label} · ${step.title}`,
+        detail: `${step.kind}: ${step.instruction}`,
+        evidence: `Esperado: ${step.expected} Evidencia: ${step.evidence}`,
+        sourceIds: step.sourceIds ?? [],
+      }))
+      : [{
+        id: `scenario:${scenario.id}`,
+        title: scenario.label,
+        detail: scenario.detail,
+        evidence: scenario.limitation,
+        sourceIds: [],
+      }]);
     const maintain = sources.map((source) => ({
       id: `source:${source.id}`,
       title: source.title,
@@ -81,6 +87,7 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
       `# Technical Workbench · ${meta.title}`,
       "",
       `CORESOLUTIONS · ${slug} · modo: ${modeLabels[mode]}`,
+      `Marcas en alcance: ${meta.brandContext.map((brand) => `${brand.name} (${brand.role})`).join("; ")}`,
       "",
       "> Documento conceptual generado desde contenido autorado. No ejecuta cambios, no certifica un entorno real y debe adaptarse al runbook aprobado.",
       "",
@@ -108,7 +115,8 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
         Technical Workbench · {completed}/{currentItems.length} revisados
       </summary>
       <div className="border-t border-core-border/[0.1] p-3">
-        <p className="mb-2 text-[0.68rem] leading-relaxed text-core-text-muted">Convierte la explicación en una lista técnica de implementación, soporte o mantenimiento. No sustituye el runbook aprobado ni ejecuta acciones.</p>
+        <p className="mb-1 text-[0.68rem] leading-relaxed text-core-text-muted">Convierte la explicación en una lista técnica de implementación, soporte o mantenimiento. No sustituye el runbook aprobado ni ejecuta acciones.</p>
+        <p className="mb-2 text-[0.62rem] leading-relaxed text-core-text-muted"><span className="font-semibold text-core-text">Marcas en alcance:</span> {meta.brandContext.map((brand) => `${brand.name} · ${brand.role}`).join(" · ")}</p>
         <div className="mb-3 flex flex-wrap gap-1">
           {(Object.keys(modeLabels) as WorkbenchMode[]).map((candidate) => <button key={candidate} type="button" onClick={() => setMode(candidate)} className={`border px-2 py-1 text-[0.6rem] font-semibold ${mode === candidate ? "border-core-accent/60 text-core-accent" : "border-core-border/[0.15] text-core-text-muted"}`}>{modeLabels[candidate]}</button>)}
           <button type="button" onClick={download} className="ml-auto border border-core-border/[0.15] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:text-core-text">Descargar Markdown</button>

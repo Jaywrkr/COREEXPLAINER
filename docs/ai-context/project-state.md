@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.121.0 (10-08-2026):** el Workbench muestra `brandContext` con nombre y rol, y aplana los `guidedSteps` de cada escenario en tareas de soporte con tipo, instrucción, esperado, evidencia y fuentes. La exportación Markdown mantiene ese alcance de portafolio.
+
 **Actualizacion v0.120.0 (10-08-2026):** `TechnicalWorkbenchPanel` reutiliza `targetArchitecture.roadmap`, pasos, escenarios y fuentes para ofrecer vistas conceptuales de Implementar, Soportar y Mantener. El progreso se guarda localmente por explainer y el usuario puede descargar Markdown con evidencia y límites; no ejecuta cambios ni certifica producción.
 
 **Actualizacion v0.119.0 (10-08-2026):** `CONTRIBUTING.md` centraliza el flujo de ramas `codex/`, PR, documentación/versionado, quality gate, revisión técnica, secretos de IA y política de Vercel. Reitera que `reviewStatus: pending` no se cambia mediante automatización.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.121.0] - 2026-08-10
+
+- El Technical Workbench muestra marcas y roles del portafolio en alcance.
+- Soporte desglosa pasos de observar, diagnosticar, recuperar y validar cuando el contenido los declara.
+- La exportación Markdown incluye el contexto de marcas.
+
 ## [0.120.0] - 2026-08-10
 
 - Nuevo `TechnicalWorkbenchPanel` con vistas Implementar, Soportar y Mantener para cada explainer.
