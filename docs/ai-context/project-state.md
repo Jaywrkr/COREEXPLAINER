@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.183.0 (11-08-2026):** `reviewCampaign.ts` genera snapshots Markdown/JSON de la campaña local. `ReviewCampaignSummary` permite descargarlos con versión y fecha; el contenido declara límites, faltantes y posible información interna, sin convertir el export en aprobación o sincronización remota.
+
 **Actualizacion v0.182.0 (11-08-2026):** `ReviewCampaignSummary` agrega los seguimientos locales de la cola especialista y muestra sin asignar, en revisión, bloqueados, vencidos y listos para PR. Usa `assessTechnicalReviewAssignment`, no muta `reviewStatus` y no interpreta el estado local como aprobación.
 
 **Actualizacion v0.181.0 (11-08-2026):** `reviewAssignment.ts` define el contrato puro del seguimiento especialista. “Listo para PR” requiere responsable, fecha, nota, evidencia de cierre y checklist de narrativa, diagrama, fuentes, escenarios y ledger; estados incompletos se degradan a `in-review`. `TechnicalReviewAssignment` conserva el alcance local y no sustituye aprobación formal.

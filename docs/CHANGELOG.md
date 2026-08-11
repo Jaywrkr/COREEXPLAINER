@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.183.0] - 2026-08-11
+
+- La campaña de revisión se puede descargar como Markdown o JSON.
+- Los artefactos incluyen estados, faltantes, vencimientos y evidencia local de cierre.
+- Se advierte que el snapshot puede contener notas internas y no representa aprobación.
+
 ## [0.182.0] - 2026-08-11
 
 - El dashboard incorpora un resumen de campaña de revisión especialista.

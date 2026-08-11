@@ -99,6 +99,8 @@ jobs:
         run: npm run test:review-assignment
       - name: Run review campaign regressions
         run: npm run test:review-campaign
+      - name: Run review campaign export regressions
+        run: npm run test:review-campaign-export
       - name: Run AI usage telemetry regressions
         run: npm run test:ai-usage-telemetry
       - name: Run Workbench export regressions
