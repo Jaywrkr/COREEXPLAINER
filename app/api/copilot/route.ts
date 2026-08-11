@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { checkAiAccess, providerSignal, readJsonBody } from "@/lib/ai/endpointGuard";
+import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import type { CopilotAction } from "@/lib/ai/copilotContract";
 
 const MAX_QUESTION_LENGTH = 600;
@@ -12,8 +12,10 @@ interface CopilotRequest {
 
 interface AiUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string }
 
-function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage) {
-  return NextResponse.json({ message, actions, usage }, { status, headers: { "Cache-Control": "no-store" } });
+function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage, retryAfter?: number) {
+  const headers: Record<string, string> = { "Cache-Control": "no-store" };
+  if (retryAfter) headers["Retry-After"] = String(retryAfter);
+  return NextResponse.json({ message, actions, usage }, { status, headers });
 }
 
 export async function POST(request: Request) {
@@ -42,6 +44,12 @@ export async function POST(request: Request) {
     return response("El copiloto está preparado, pero CORESOLUTIONS todavía no ha configurado OPENAI_API_KEY en este entorno.", 503);
   }
 
+  const configuredOutput = Number(process.env.AI_MAX_OUTPUT_TOKENS);
+  const maxOutputTokens = Number.isFinite(configuredOutput) && configuredOutput > 0 ? Math.min(Math.floor(configuredOutput), 1_200) : 700;
+  const estimatedInputTokens = Math.ceil((question.length + context.length) / 4);
+  const budget = reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
+  if (!budget.allowed) return response(budget.message, budget.status, [], undefined, budget.retryAfter);
+
   const model = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
   const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -52,7 +60,7 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       model,
       temperature: 0.1,
-      max_tokens: 700,
+      max_tokens: maxOutputTokens,
       messages: [
         {
           role: "system",

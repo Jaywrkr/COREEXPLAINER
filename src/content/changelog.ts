@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.98.0";
+export const currentVersion = "0.99.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.99.0",
+    date: "09 ago 2026",
+    title: "Guard de coste para IA",
+    changes: [
+      "El servidor reserva tokens estimados por IP y ventana antes de invocar al proveedor.",
+      "Las variables AI_TOKEN_BUDGET_PER_WINDOW y AI_MAX_OUTPUT_TOKENS permiten ajustar el control por entorno.",
+      "El exceso devuelve 429 con Retry-After y no ejecuta una llamada adicional.",
+    ],
+  },
   {
     version: "0.98.0",
     date: "09 ago 2026",

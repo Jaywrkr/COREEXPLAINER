@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.99.0 (09-08-2026):** `endpointGuard` reserva el coste estimado de cada consulta del copiloto por IP y ventana antes de llamar al proveedor. `AI_TOKEN_BUDGET_PER_WINDOW` (por defecto 12.000) y `AI_MAX_OUTPUT_TOKENS` (por defecto 700, máximo 1.200) son límites de seguridad de instancia; el exceso devuelve `429` con `Retry-After`. Para cuotas multiusuario se requiere identidad y almacenamiento persistente.
+
 **Actualizacion v0.98.0 (09-08-2026):** `productTelemetry` registra localmente eventos de navegación, escenarios, workflow, briefs y borradores. `UsageMetricsPanel` muestra un resumen en el dashboard y permite borrar los datos; no hay envío externo.
 
 **Actualizacion v0.97.0 (09-08-2026):** `solutionPatterns` y `PatternLibrary` incorporan patrones reutilizables de CORESOLUTIONS con problema, resultado, marcas, señales, evidencia, riesgos, explainers y fecha de revisión.

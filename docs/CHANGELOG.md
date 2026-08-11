@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.99.0] - 2026-08-09
+
+- El endpoint de IA reserva un presupuesto de tokens por IP y ventana antes de llamar al proveedor.
+- `AI_TOKEN_BUDGET_PER_WINDOW` y `AI_MAX_OUTPUT_TOKENS` permiten ajustar el freno de coste por entorno.
+- Cuando se supera el presupuesto, responde `429` con `Retry-After`; el control es de instancia y no sustituye cuotas persistentes por usuario.
+
 ## [0.98.0] - 2026-08-09
 
 - El dashboard muestra métricas locales de utilidad.
