@@ -8,6 +8,7 @@ import type {
   TargetArchitecture,
   GuidedScenarioStepKind,
 } from "@/content/types";
+import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -543,6 +544,13 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   }
 
   validateSemanticCoherence(meta, steps, spec, technicalSourceIds, add, (message) => warnings.push(message));
+
+  // Evidence is a publication contract, not only an export concern. Keep the
+  // structured ledger behind the same gate so generated or newly authored
+  // explainers cannot publish empty claims or unknown source references.
+  for (const issue of validateEvidenceLedger(buildEvidenceLedger({ meta, steps }), technicalSourceIds)) {
+    add(`evidence ledger: ${issue}`);
+  }
 
   const result = { slug, errors, warnings };
   if (errors.length > 0) throw new ExplainerContentError(slug, errors);

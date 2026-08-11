@@ -12,6 +12,8 @@ const steps: ExplainerStep[] = [{ id: "step-1", tag: "01", title: "Escena", para
 const ledger = buildEvidenceLedger({ meta, steps });
 assert.deepEqual(ledger.map((record) => record.kind), ["documentary", "observed", "acceptance", "hypothesis", "hypothesis"]);
 assert.equal(validateEvidenceLedger(ledger, new Set(["src-1"])).length, 0);
+assert.ok(validateEvidenceLedger([{ ...ledger[0]!, id: "", sourceIds: ["missing"] }], new Set(["src-1"])).some((error) => error.includes("id must be non-empty")));
+assert.ok(validateEvidenceLedger([{ ...ledger[0]!, id: "invalid", sourceIds: ["missing"] }], new Set(["src-1"])).some((error) => error.includes("unknown source")));
 assert.ok(ledger.every((record) => record.requestedEvidence.length > 0));
 assert.equal(buildSupportTriageBrief({ slug: "ledger", meta, steps }).items.length, 1);
 console.log("Evidence ledger regression checks passed.");

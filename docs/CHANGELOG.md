@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.151.0] - 2026-08-11
+
+- El content gate valida ahora el ledger tipado antes de registrar un explainer en el catálogo.
+- Evidencia con ID duplicado, texto vacío o fuente desconocida bloquea la publicación/build.
+- Se mantienen como warnings independientes las revisiones humanas pendientes.
+- CI cubre casos válidos e inválidos del contrato.
+
 ## [0.150.0] - 2026-08-11
 
 - La evidencia autorada se normaliza en un ledger tipado: documental, observada, hipótesis o aceptación.
