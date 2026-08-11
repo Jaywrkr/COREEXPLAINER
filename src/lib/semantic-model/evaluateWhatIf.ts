@@ -1,4 +1,5 @@
 import type { Scene } from "@/lib/animation-spec/types";
+import type { FailureSimulationProfile } from "@/content/types";
 import { buildSemanticModel } from "./buildSemanticModel";
 
 export interface WhatIfImpact {
@@ -7,10 +8,15 @@ export interface WhatIfImpact {
   affectedNodeIds: string[];
   brokenRelationshipCount: number;
   status: "contained" | "degraded" | "blocked";
+  mode: FailureSimulationProfile["mode"];
+  impact: string | null;
+  remainingCapacityPercent?: number;
+  addedLatencyMs?: number;
+  externalDependency?: string;
 }
 
 /** Evaluates reachability after removing nodes from the conceptual graph. */
-export function evaluateWhatIfImpact(scene: Scene, unavailableNodeIds: readonly string[]): WhatIfImpact {
+export function evaluateWhatIfImpact(scene: Scene, unavailableNodeIds: readonly string[], simulation?: FailureSimulationProfile): WhatIfImpact {
   const model = buildSemanticModel(scene);
   const unavailable = new Set(unavailableNodeIds);
   const available = new Set(model.nodes.map((node) => node.id).filter((id) => !unavailable.has(id)));
@@ -39,5 +45,10 @@ export function evaluateWhatIfImpact(scene: Scene, unavailableNodeIds: readonly 
     affectedNodeIds,
     brokenRelationshipCount,
     status: affectedNodeIds.length === 0 ? "contained" : roots.length === 0 ? "blocked" : "degraded",
+    mode: simulation?.mode ?? "hard-down",
+    impact: simulation?.impact ?? null,
+    remainingCapacityPercent: simulation?.remainingCapacityPercent,
+    addedLatencyMs: simulation?.addedLatencyMs,
+    externalDependency: simulation?.externalDependency,
   };
 }

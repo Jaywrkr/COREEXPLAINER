@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.93.0 (09-08-2026):** `FailureScenario.simulation` permite perfiles `hard-down`, `degraded`, `latency`, `capacity`, `dependency` y `observability`. `evaluateWhatIfImpact` conserva reachability y añade impacto, capacidad, latencia y dependencia; los escenarios antiguos usan `hard-down` por defecto.
+
 **Actualizacion v0.92.0 (09-08-2026):** `EvidenceTrackerPanel` materializa evidencia de pasos guiados y fases de roadmap como registros con tipo, detalle, fuentes y estado pendiente/validada/bloqueada. Se persiste localmente por explainer y escenario.
 
 **Actualizacion v0.91.0 (09-08-2026):** `validateExplainerContent` añade checks semánticos: cobertura de fuentes, nodos aislados, alineación de pasos con nombres del diagrama y coherencia entre escenarios y nodos interactivos. `npm run validate:content` imprime las advertencias por explainer para resolverlas por lotes.

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.92.0";
+export const currentVersion = "0.93.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.93.0",
+    date: "09 ago 2026",
+    title: "Perfiles de fallo avanzados",
+    changes: [
+      "Los escenarios pueden declarar degradación, capacidad remanente, latencia conceptual, observabilidad o dependencia externa.",
+      "VCF incorpora perfiles de capacidad y dependencia para distinguir pérdida de host de pérdida del plano de gestión.",
+      "El motor mantiene compatibilidad con escenarios anteriores usando hard-down como fallback.",
+    ],
+  },
   {
     version: "0.92.0",
     date: "09 ago 2026",

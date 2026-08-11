@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.93.0] - 2026-08-09
+
+- Los escenarios soportan perfiles de capacidad, latencia, dependencia y observabilidad.
+- La lectura what-if explica el impacto adicional sin confundirlo con una prueba real.
+- Los escenarios existentes conservan el comportamiento anterior por compatibilidad.
+
 ## [0.92.0] - 2026-08-09
 
 - La evidencia de pasos y roadmap tiene registro propio por escenario.
