@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.118.0";
+export const currentVersion = "0.119.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.119.0",
+    date: "10 ago 2026",
+    title: "Runbook de contribución y contexto para IA",
+    changes: [
+      "CONTRIBUTING.md documenta ramas, PR, documentación, quality gate y ciclo de eliminación de ramas.",
+      "El runbook protege el estado pendiente de revisión técnica y recuerda los límites de las explicaciones conceptuales.",
+      "Incluye reglas explícitas para secretos, acciones de IA y la política de deployments manuales de Vercel.",
+    ],
+  },
   {
     version: "0.118.0",
     date: "10 ago 2026",

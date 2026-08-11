@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.119.0 (10-08-2026):** `CONTRIBUTING.md` centraliza el flujo de ramas `codex/`, PR, documentación/versionado, quality gate, revisión técnica, secretos de IA y política de Vercel. Reitera que `reviewStatus: pending` no se cambia mediante automatización.
+
 **Actualizacion v0.118.0 (10-08-2026):** `.github/pull_request_template.md` convierte el checklist técnico en parte del flujo de merge: exige fuentes y fecha, coherencia de nodos/aristas/animación/texto, escenarios con límites y evidencia, controles de IA, validaciones locales y responsable humano.
 
 **Actualizacion v0.117.0 (10-08-2026):** Dependabot queda configurado semanalmente para npm y GitHub Actions con grupos separados de producción/desarrollo. `SECURITY.md` dirige los reportes por GitHub Security Advisories y prohíbe compartir claves, tokens, prompts o datos de clientes en issues públicos.

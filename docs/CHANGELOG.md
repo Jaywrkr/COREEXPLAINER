@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.119.0] - 2026-08-10
+
+- `CONTRIBUTING.md` documenta el flujo de ramas, PR, validaciones, contenido técnico, IA, secretos y Vercel.
+- El runbook deja explícito que una validación automática no equivale a aprobación especialista.
+
 ## [0.118.0] - 2026-08-10
 
 - Nueva plantilla `.github/pull_request_template.md` para exigir rigor técnico, seguridad y validaciones en cada PR.
