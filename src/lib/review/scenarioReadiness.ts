@@ -1,5 +1,6 @@
 import type { ExplainerMeta } from "@/content/types";
 import type { GuidedScenarioStepKind } from "@/content/types";
+import { validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 
 export interface ScenarioReadinessInput {
   slug: string;
@@ -24,13 +25,13 @@ function hasCausalGuidedFlow(steps: NonNullable<ExplainerMeta["failureScenarios"
 
 function readinessForScenario(meta: ExplainerMeta, scenario: NonNullable<ExplainerMeta["failureScenarios"]>[number]): ScenarioReadinessItem {
   const guidedSteps = scenario.guidedSteps ?? [];
-  const hasSimulation = Boolean(scenario.simulation);
+  const hasSimulation = Boolean(scenario.simulation && validateFailureSimulationProfile(scenario.simulation).length === 0);
   const hasGuidedFlow = hasCausalGuidedFlow(guidedSteps);
   const hasEvidence = guidedSteps.length > 0 && guidedSteps.every((step) => Boolean(step.evidence?.trim()));
   const hasCurrentSources = guidedSteps.length > 0 && guidedSteps.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current"));
   const checks = [hasSimulation, hasGuidedFlow, hasEvidence, hasCurrentSources];
   const missing = [
-    !hasSimulation ? "simulación tipada" : null,
+    !hasSimulation ? "simulación tipada coherente" : null,
     !hasGuidedFlow ? "flujo causal observe/diagnose/recover/validate" : null,
     !hasEvidence ? "evidencia por fase" : null,
     !hasCurrentSources ? "fuentes vigentes" : null,
@@ -40,7 +41,7 @@ function readinessForScenario(meta: ExplainerMeta, scenario: NonNullable<Explain
 
 export function isScenarioReadyForSupport(meta: ExplainerMeta, scenario: NonNullable<ExplainerMeta["failureScenarios"]>[number]): boolean {
   const guidedSteps = scenario.guidedSteps ?? [];
-  return Boolean(scenario.simulation)
+  return Boolean(scenario.simulation && validateFailureSimulationProfile(scenario.simulation).length === 0)
     && hasCausalGuidedFlow(guidedSteps)
     && guidedSteps.every((step) => Boolean(step.evidence?.trim()))
     && guidedSteps.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current"));

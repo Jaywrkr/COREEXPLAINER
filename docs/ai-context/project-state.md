@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.242.0 (11-08-2026):** `scenarioReadiness` y `isScenarioReadyForSupport` reutilizan `validateFailureSimulationProfile`; perfiles incompletos o incompatibles ya no cuentan como simulaciones listas para soporte.
+
 **Actualizacion v0.241.0 (11-08-2026):** `scenarioReadiness` y `isScenarioReadyForSupport` usan el mismo flujo causal ordenado `observe` → `diagnose` → `recover` → `validate` que el content gate; un escenario con cuatro fases desordenadas queda pendiente.
 
 **Actualizacion v0.240.0 (11-08-2026):** `validateFailureScenarioNarrative` exige orden causal `observe` → `diagnose` → `recover` → `validate` en escenarios con simulación enriquecida. El flujo sigue siendo conceptual y no un runbook de producción.

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.241.0";
+export const currentVersion = "0.242.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.242.0",
+    date: "2026-08-11",
+    title: "Readiness valida perfiles de simulación",
+    changes: [
+      "La cola de madurez reutiliza las reglas de compatibilidad del perfil de simulación.",
+      "Un objeto degraded, capacity, latency o dependency incompleto deja de contar como simulación lista.",
+      "La regresión distingue presencia del objeto y coherencia técnica.",
+    ],
+  },
   {
     version: "0.241.0",
     date: "2026-08-11",

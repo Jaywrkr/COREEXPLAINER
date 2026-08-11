@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.242.0] - 2026-08-11
+
+### Readiness valida perfiles de simulación
+
+- La cola de madurez reutiliza las reglas de compatibilidad del perfil de simulación.
+- Un perfil incompleto deja de contar como simulación lista aunque el objeto exista.
+- Se distingue presencia del objeto y coherencia técnica.
+
 ## [0.241.0] - 2026-08-11
 
 ### Readiness alineado con causalidad
