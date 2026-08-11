@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.166.0 (11-08-2026):** `currentVersion`, `changelogEntries[0]`, `package.json`, lockfile e informes se validan como una sola versión; la regresión `test:version-consistency` evita volver a mostrar una release antigua.
+
 **Actualizacion v0.165.0 (11-08-2026):** `buildSupportCaseJson` genera un handoff local versionado (`schemaVersion: 1.0`) con draft, readiness, triage y ledger de evidencia; la UI ofrece descarga JSON además de Markdown.
 
 **Actualizacion v0.164.0 (11-08-2026):** `assessSupportCaseReadiness` calcula un porcentaje y faltantes para el handoff local; la UI los muestra y el Markdown los declara. No bloquea la descarga ni implica resolución del caso.

@@ -9,9 +9,20 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.137.0";
+export const currentVersion = "0.166.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.166.0",
+    date: "11 ago 2026",
+    title: "Handoff técnico estructurado y controles de rigor",
+    changes: [
+      "El handoff de soporte puede descargarse como Markdown o JSON versionado con readiness, triage y ledger de evidencia.",
+      "La cuota persistente de IA admite modo fail-closed para proteger presupuestos compartidos cuando Redis no está disponible.",
+      "La biblioteca de patrones, las simulaciones de fallo y la frescura de fuentes pasan por contratos técnicos verificables.",
+      "La aplicación declara esta versión junto con el changelog y el paquete para mantener trazabilidad entre sesiones y despliegues.",
+    ],
+  },
   {
     version: "0.137.0",
     date: "10 ago 2026",

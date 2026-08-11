@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.166.0] - 2026-08-11
+
+- La versión visible de la aplicación, `package.json`, el changelog y los informes quedan alineados.
+- Se añade una regresión que falla si `currentVersion` o la primera entrada del changelog divergen del paquete.
+- La pantalla de versión vuelve a reflejar el release real que se está revisando.
+
 ## [0.165.0] - 2026-08-11
 
 - El handoff de soporte se puede descargar también como JSON versionado (`schemaVersion: 1.0`).

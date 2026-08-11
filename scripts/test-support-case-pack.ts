@@ -36,7 +36,7 @@ assert.match(markdown, /Ledger de evidencia/);
 assert.match(markdown, /Logs sanitizados/);
 assert.match(markdown, /escalamiento: escalate/);
 assert.match(markdown, /PreparaciÃ³n del handoff: 50%/);
-const json = buildSupportCaseJson({ slug: "tema", title: meta.title, appVersion: "0.164.0", generatedAt: "2026-08-11T00:00:00.000Z", brands: ["IBM"], draft: { ...captured, selectedTriageId: "scenario:s1" }, triage, evidence });
+const json = buildSupportCaseJson({ slug: "tema", title: meta.title, appVersion: "0.166.0", generatedAt: "2026-08-11T00:00:00.000Z", brands: ["IBM"], draft: { ...captured, selectedTriageId: "scenario:s1" }, triage, evidence });
 assert.equal(json.schemaVersion, "1.0");
 assert.equal(json.readiness.score, 50);
 assert.equal(json.selectedTriage?.id, "scenario:s1");
