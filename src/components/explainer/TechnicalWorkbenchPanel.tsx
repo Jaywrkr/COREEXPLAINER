@@ -73,13 +73,59 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
   }, [storageKey]);
 
   const currentItems = items[mode];
-  const completed = currentItems.filter((item) => checked[item.id]).length;
+  const allModes = Object.keys(modeLabels) as WorkbenchMode[];
+  const progress = allModes.map((candidate) => ({
+    mode: candidate,
+    total: items[candidate].length,
+    completed: items[candidate].filter((item) => checked[item.id]).length,
+  }));
+  const totalItems = progress.reduce((sum, entry) => sum + entry.total, 0);
+  const totalCompleted = progress.reduce((sum, entry) => sum + entry.completed, 0);
+  const sourcesToConfirm = allModes.flatMap((candidate) => items[candidate]).filter((item) => {
+    if (!item.sourceIds.length) return true;
+    return item.sourceIds.some((id) => sources.find((source) => source.id === id)?.validity === "review-needed");
+  });
   const toggle = (id: string) => {
     setChecked((current) => {
       const next = { ...current, [id]: !current[id] };
       try { window.localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* current session remains usable */ }
       return next;
     });
+  };
+
+  const downloadPackage = () => {
+    const lines = [
+      `# Technical Workbench · ${meta.title}`,
+      "",
+      `CORESOLUTIONS · ${slug} · paquete completo`,
+      `Marcas en alcance: ${meta.brandContext.map((brand) => `${brand.name} (${brand.role})`).join("; ")}`,
+      `Progreso local: ${totalCompleted}/${totalItems} revisados`,
+      `Fuentes a confirmar: ${sourcesToConfirm.length}`,
+      "",
+      "> Documento conceptual generado desde contenido autorado. No ejecuta cambios, no certifica un entorno real y debe adaptarse al runbook aprobado.",
+      "",
+      ...allModes.flatMap((candidate) => [
+        `## ${modeLabels[candidate]}`,
+        ...items[candidate].flatMap((item, index) => [
+          `### ${index + 1}. ${safeText(item.title)}`,
+          `- Estado local: ${checked[item.id] ? "revisado" : "pendiente"}`,
+          `- Detalle: ${safeText(item.detail)}`,
+          `- Evidencia: ${safeText(item.evidence)}`,
+          item.sourceIds.length ? `- Fuentes: ${item.sourceIds.join(", ")}` : "- Fuentes: confirmar antes de ejecutar",
+          item.sourceLabel ? `- Referencia: ${item.sourceLabel}` : "",
+          "",
+        ]),
+      ]),
+      "## Fuentes a confirmar",
+      ...(sourcesToConfirm.length ? sourcesToConfirm.map((item) => `- ${safeText(item.title)} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`) : ["- Ninguna identificada por las reglas actuales."]),
+      "",
+      "## Límites",
+      "- Validar versiones, compatibilidad, sizing, permisos, ventana y rollback en el entorno real.",
+      "- Un estado local revisado no equivale a aprobación técnica ni a ejecución.",
+    ];
+    const blob = new Blob([lines.join("\n")], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a"); anchor.href = url; anchor.download = `coresolutions-${slug}-workbench-package.md`; anchor.click(); URL.revokeObjectURL(url);
   };
 
   const download = () => {
@@ -112,14 +158,14 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
   return (
     <details className="mb-3 border border-core-accent/20 bg-core-panel/30">
       <summary className="cursor-pointer list-none px-3 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent [&::-webkit-details-marker]:hidden">
-        Technical Workbench · {completed}/{currentItems.length} revisados
+        Technical Workbench · {totalCompleted}/{totalItems} revisados · {sourcesToConfirm.length} fuentes por confirmar
       </summary>
       <div className="border-t border-core-border/[0.1] p-3">
         <p className="mb-1 text-[0.68rem] leading-relaxed text-core-text-muted">Convierte la explicación en una lista técnica de implementación, soporte o mantenimiento. No sustituye el runbook aprobado ni ejecuta acciones.</p>
         <p className="mb-2 text-[0.62rem] leading-relaxed text-core-text-muted"><span className="font-semibold text-core-text">Marcas en alcance:</span> {meta.brandContext.map((brand) => `${brand.name} · ${brand.role}`).join(" · ")}</p>
         <div className="mb-3 flex flex-wrap gap-1">
           {(Object.keys(modeLabels) as WorkbenchMode[]).map((candidate) => <button key={candidate} type="button" onClick={() => setMode(candidate)} className={`border px-2 py-1 text-[0.6rem] font-semibold ${mode === candidate ? "border-core-accent/60 text-core-accent" : "border-core-border/[0.15] text-core-text-muted"}`}>{modeLabels[candidate]}</button>)}
-          <button type="button" onClick={download} className="ml-auto border border-core-border/[0.15] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:text-core-text">Descargar Markdown</button>
+          <button type="button" onClick={downloadPackage} className="ml-auto border border-core-border/[0.15] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:text-core-text">Descargar paquete completo</button>
         </div>
         {currentItems.length ? <div className="space-y-2">{currentItems.map((item) => <label key={item.id} className="flex gap-2 border border-core-border/[0.1] p-2"><input type="checkbox" checked={Boolean(checked[item.id])} onChange={() => toggle(item.id)} className="mt-0.5 accent-core-accent" /><span className="min-w-0 text-[0.67rem] leading-relaxed"><span className="font-semibold text-core-text">{item.title}</span><span className="mt-0.5 block text-core-text-secondary">{item.detail}</span><span className="mt-0.5 block text-core-text-muted"><span className="font-semibold">Evidencia:</span> {item.evidence}</span>{item.sourceLabel ? <a href={item.sourceLabel} target="_blank" rel="noreferrer" className="mt-0.5 block truncate text-core-accent hover:underline">Fuente: {item.sourceLabel}</a> : null}</span></label>)}</div> : <p className="text-[0.68rem] text-core-text-muted">Este tema aún no declara elementos para esta vista. Añádelos al contenido autorado antes de prometer una guía específica.</p>}
       </div>

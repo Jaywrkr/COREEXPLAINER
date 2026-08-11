@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.122.0] - 2026-08-10
+
+- El Technical Workbench resume el progreso local de Implementar, Soportar y Mantener.
+- La descarga genera un paquete completo con tareas revisadas/pendientes y fuentes por confirmar.
+- Las tareas sin fuente o con `review-needed` quedan explícitas para revisión humana.
+
 ## [0.121.0] - 2026-08-10
 
 - El Technical Workbench muestra marcas y roles del portafolio en alcance.
