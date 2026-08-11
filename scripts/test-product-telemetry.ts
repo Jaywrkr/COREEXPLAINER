@@ -25,5 +25,7 @@ assert.equal(events.every((event) => event.at.endsWith("Z")), true);
 const unsafe = normalizeProductEvents([{ name: "draft-generate", slug: "Pregunta del cliente: necesito ayuda", id: "https://example.test/secreto", at: "2026-08-11T00:00:00Z" }]);
 assert.equal(unsafe[0]?.slug, undefined);
 assert.equal(unsafe[0]?.id, undefined);
+const stable = normalizeProductEvents([{ name: "draft-generate", id: "creator", at: "2026-08-11T00:00:00Z" }]);
+assert.equal(stable[0]?.id, "creator");
 assert.deepEqual(emptyProductMetrics().explainers, {});
 console.log("Product telemetry regression checks passed.");

@@ -40,7 +40,7 @@ export function ExplainerDraftCreator() {
   const generate = async () => {
     if (!topic.trim() || !goal.trim() || busy) return;
     setBusy(true); setStatus(null); setPolicy(null); setDraftOrigin(null);
-    recordProductEvent({ name: "draft-generate", id: topic.trim().slice(0, 80) });
+    recordProductEvent({ name: "draft-generate", id: "creator" });
     try {
       const response = await fetch("/api/creator", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ topic, audience, brands, goal }) });
       const payload = (await response.json()) as CreatorResponse;

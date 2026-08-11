@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.233.0] - 2026-08-11
+
+- Los briefs registran el slug del explainer y no su título libre.
+- El creador de borradores registra la superficie `creator` en lugar del tema escrito por la persona.
+- Las métricas conservan contexto útil sin reintroducir preguntas ni contenido de usuario.
+
 ## [0.232.0] - 2026-08-11
 
 - La telemetría de producto solo conserva tokens de identificación acotados y rechaza texto libre.

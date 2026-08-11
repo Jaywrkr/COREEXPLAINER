@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.232.0";
+export const currentVersion = "0.233.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.233.0",
+    date: "11 ago 2026",
+    title: "Emisores de telemetría con slugs canónicos",
+    changes: [
+      "Los briefs registran el slug del explainer y no su título libre.",
+      "El creador de borradores registra la superficie `creator` en lugar del tema escrito por la persona.",
+      "Las métricas mantienen contexto útil sin reintroducir preguntas ni contenido de usuario.",
+    ],
+  },
   {
     version: "0.232.0",
     date: "11 ago 2026",

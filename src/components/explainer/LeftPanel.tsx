@@ -101,7 +101,7 @@ export function LeftPanel({
       <ToolDrawer defaultOpen={isTechnical}>
         <CopilotPanel slug={slug} meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
         <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
-        <AssessmentBriefControl meta={meta} steps={steps} />
+        <AssessmentBriefControl slug={slug} meta={meta} steps={steps} />
         <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
         <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
         <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
