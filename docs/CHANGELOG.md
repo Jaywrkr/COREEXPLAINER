@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.150.0] - 2026-08-11
+
+- La evidencia autorada se normaliza en un ledger tipado: documental, observada, hipótesis o aceptación.
+- El handoff de soporte incluye el ledger junto con la ruta de triage, fuentes y límites.
+- El contrato detecta IDs duplicados, afirmaciones vacías y fuentes desconocidas antes de exportar.
+- CI protege el ledger con regresiones offline.
+
 ## [0.149.0] - 2026-08-11
 
 - Se añade un handoff local de soporte para registrar ID, síntoma, impacto, inicio, responsable y notas sin enviar datos fuera del navegador.

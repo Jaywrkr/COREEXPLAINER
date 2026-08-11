@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.150.0 (11-08-2026):** `buildEvidenceLedger` normaliza pasos, escenarios, roadmap y decisiones en registros tipados (`documentary`, `observed`, `hypothesis`, `acceptance`) con fuentes y procedencia. `validateEvidenceLedger` detecta vacios, duplicados y fuentes desconocidas; el handoff de soporte incluye el ledger y CI ejecuta `test:evidence-ledger`.
+
 **Actualizacion v0.149.0 (11-08-2026):** `SupportCasePackPanel` permite construir localmente un handoff de soporte con contexto del caso y una ruta del brief de triage. `buildSupportCaseMarkdown` normaliza campos, incluye fuentes y limites, y no ejecuta acciones ni envia datos a un backend. CI ejecuta `test:support-case-pack`.
 
 **Actualizacion v0.148.0 (11-08-2026):** el panel `SupportTriagePanel` convierte escenarios y escenas en un brief de soporte no operacional: síntoma, capa probable, evidencia a solicitar, comprobación segura y criterio de escalamiento. `buildSupportTriageBrief` es determinista, marca rutas `authored` o `derived` y permite descargar Markdown con límites explícitos. CI ejecuta `test:support-triage`.

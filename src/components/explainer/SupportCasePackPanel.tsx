@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { currentVersion } from "@/content/changelog";
 import { buildSupportTriageBrief } from "@/lib/support/triage";
+import { buildEvidenceLedger } from "@/lib/evidence/ledger";
 import { buildSupportCaseMarkdown, emptySupportCaseDraft, normalizeSupportCaseDraft, type SupportCaseDraft } from "@/lib/support/casePack";
 
 interface SupportCasePackPanelProps {
@@ -15,6 +16,7 @@ interface SupportCasePackPanelProps {
 export function SupportCasePackPanel({ slug, meta, steps }: SupportCasePackPanelProps) {
   const storageKey = `core-explainer:support-case:${slug}`;
   const triage = useMemo(() => buildSupportTriageBrief({ slug, meta, steps }), [slug, meta, steps]);
+  const evidence = useMemo(() => buildEvidenceLedger({ meta, steps }), [meta, steps]);
   const [draft, setDraft] = useState<SupportCaseDraft>(() => emptySupportCaseDraft());
 
   useEffect(() => {
@@ -45,6 +47,7 @@ export function SupportCasePackPanel({ slug, meta, steps }: SupportCasePackPanel
       brands: meta.brandContext.map((brand) => `${brand.name} (${brand.role})`),
       draft,
       triage,
+      evidence,
     });
     const url = URL.createObjectURL(new Blob([markdown], { type: "text/markdown;charset=utf-8" }));
     const anchor = document.createElement("a");

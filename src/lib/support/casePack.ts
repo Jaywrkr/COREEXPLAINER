@@ -1,4 +1,5 @@
 import type { SupportTriageBrief } from "./triage";
+import type { EvidenceRecord } from "@/lib/evidence/ledger";
 
 export interface SupportCaseDraft {
   caseId: string;
@@ -18,6 +19,7 @@ export interface SupportCasePackInput {
   brands: string[];
   draft: SupportCaseDraft;
   triage: SupportTriageBrief;
+  evidence: EvidenceRecord[];
 }
 
 function safe(value: string, max = 1200): string {
@@ -77,6 +79,10 @@ export function buildSupportCaseMarkdown(input: SupportCasePackInput): string {
     "",
     "## Rutas disponibles",
     ...input.triage.items.map((item) => `- ${item.id}: ${safe(item.symptom, 240)} (${item.confidence})`),
+    "",
+    "## Ledger de evidencia",
+    ...input.evidence.map((record) => `- ${record.id} · ${record.kind} · ${safe(record.claim, 240)} · solicitar: ${safe(record.requestedEvidence, 400)} · fuentes: ${record.sourceIds.join(", ") || "confirmar"}`),
+    ...(input.evidence.length ? [] : ["- No hay registros de evidencia declarados."]),
     "",
     "## Límites y revisión",
     ...input.triage.limitations.map((limitation) => `- ${safe(limitation)}`),

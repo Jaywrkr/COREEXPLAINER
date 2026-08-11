@@ -50,6 +50,8 @@ jobs:
         run: npm run test:support-triage
       - name: Run Support case pack regressions
         run: npm run test:support-case-pack
+      - name: Run evidence ledger regressions
+        run: npm run test:evidence-ledger
       - name: Run technical review report regressions
         run: npm run test:technical-review-report
       - name: Run technical review package regressions
