@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.199.0";
+export const currentVersion = "0.200.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.200.0",
+    date: "11 ago 2026",
+    title: "Contexto visual de la escena",
+    changes: [
+      "El canvas identifica en una sola tarjeta el tema, paso, audiencia y propósito de la escena.",
+      "El impacto para cliente y audiencia conceptual queda disponible bajo demanda, sin duplicar el panel lateral.",
+      "La tarjeta mantiene el contexto durante el modo Focus, cuando el panel de explicación está oculto.",
+    ],
+  },
   {
     version: "0.199.0",
     date: "11 ago 2026",

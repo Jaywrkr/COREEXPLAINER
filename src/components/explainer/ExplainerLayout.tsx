@@ -11,6 +11,7 @@ import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 import { DEFAULT_LEFT_PANEL_WIDTH, MAX_LEFT_PANEL_WIDTH, MIN_LEFT_PANEL_WIDTH, normalizeExplainerUiPreferences } from "@/lib/ui/preferences";
 import { SceneTimeline } from "./SceneTimeline";
 import { PresentationHud } from "./PresentationHud";
+import { CanvasContextCard } from "./CanvasContextCard";
 
 const AUTOPLAY_STEP_MS = 6500;
 const UI_PREFERENCES_KEY = "coresolutions:explainer-ui";
@@ -366,7 +367,8 @@ export function ExplainerLayout({
         onPointerMove={revealPresentationChrome}
       >
         <div className={`pointer-events-none absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-3 transition-opacity duration-300 sm:inset-x-6 ${presentationActive && !presentationChromeVisible ? "opacity-0" : "opacity-100"}`}>
-          <div className="pointer-events-auto max-w-[min(28rem,70vw)] border border-core-border/[0.14] bg-core-panel/85 px-3 py-2 shadow-lg backdrop-blur-md">
+          <CanvasContextCard meta={meta} step={step} current={current} total={steps.length} audienceMode={audienceMode} />
+          <div className="hidden">
             <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-core-accent">{meta.title}</p>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.62rem] text-core-text-secondary"><span>{step.tag}</span><span className="text-core-text-muted">·</span><span>Paso {String(current + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span><span className="text-core-text-muted">·</span><span>{audienceMode === "client" ? "Cliente" : audienceMode === "conceptual" ? "Conceptual" : "Técnico"}</span></div>
           </div>

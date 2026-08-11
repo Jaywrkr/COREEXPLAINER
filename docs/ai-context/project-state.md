@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.200.0 (11-08-2026):** el canvas incorpora `CanvasContextCard`, una tarjeta compacta que mantiene tema, paso, audiencia y propósito visibles durante la exploración y el modo Focus. El impacto de negocio se consulta bajo demanda para evitar duplicar la explicación lateral.
+
 **Actualizacion v0.199.0 (11-08-2026):** UI de primera lectura refinada: guía de interacción del canvas descartable y persistida localmente, herramientas opcionales explícitamente bajo demanda y escenarios de fallo separados del diagnóstico técnico para evitar solapamientos.
 
 **Actualizacion v0.198.0 (11-08-2026):** `reviewedStepSourceIssues` exige fuentes `current` en cada `ExplainerStep` cuando `meta.reviewStatus` es `reviewed`. El estado `pending` conserva la advertencia y permite continuar la campaña de revisión sin falsear aprobación.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.200.0] - 2026-08-11
+
+- El canvas incorpora una tarjeta compacta de contexto de escena.
+- La audiencia puede consultar el impacto de negocio bajo demanda sin abandonar el diagrama.
+- El contexto permanece visible en modo Focus.
+
 ## [0.199.0] - 2026-08-11
 
 - La primera visita al lienzo muestra una guía de interacción descartable y persistida localmente.
