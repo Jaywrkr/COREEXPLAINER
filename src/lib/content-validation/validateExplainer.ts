@@ -9,6 +9,7 @@ import type {
   GuidedScenarioStepKind,
 } from "@/content/types";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
+import { validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -464,9 +465,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
       if (scenario.simulation.addedLatencyMs !== undefined && (!Number.isFinite(scenario.simulation.addedLatencyMs) || scenario.simulation.addedLatencyMs < 0)) {
         add(`${simulationLabel}.addedLatencyMs cannot be negative`);
       }
-      if (scenario.simulation.mode === "dependency" && !isNonEmptyText(scenario.simulation.externalDependency)) {
-        add(`${simulationLabel}.externalDependency is required for dependency mode`);
-      }
+      for (const issue of validateFailureSimulationProfile(scenario.simulation)) add(`${simulationLabel}: ${issue}`);
     }
 
     if (scenario.guidedSteps) {

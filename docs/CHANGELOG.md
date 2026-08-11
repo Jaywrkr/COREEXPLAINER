@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.159.0] - 2026-08-11
+
+- Los perfiles de escenarios de fallo validan ahora la semántica de cada modo (`capacity`, `latency`, `dependency`, `degraded`, `observability` y `hard-down`).
+- Cada modo exige sus parámetros necesarios y rechaza combinaciones ambiguas, como latencia sin milisegundos o caída total con capacidad residual.
+- El content gate bloquea el build ante un perfil contradictorio, manteniendo la simulación como modelo conceptual y no como health check.
+- CI protege las reglas con fixtures offline.
+
 ## [0.158.0] - 2026-08-11
 
 - La biblioteca de patrones CORESOLUTIONS pasa por un content gate propio antes de entrar al registro.

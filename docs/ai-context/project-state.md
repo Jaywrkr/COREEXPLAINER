@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.159.0 (11-08-2026):** `validateFailureSimulationProfile` exige parámetros coherentes por modo de escenario y bloquea combinaciones ambiguas antes del registro. La simulación sigue siendo conceptual: no mide ni ejecuta cambios en producción.
+
 **Actualizacion v0.158.0 (11-08-2026):** `validateSolutionPatterns` valida la biblioteca de patrones antes de construir el registro: IDs, campos, listas de evidencia/riesgos, fechas y slugs de explainers. Un patrón inválido bloquea el build; el catálogo continúa siendo conceptual y requiere evaluación del cliente.
 
 **Actualizacion v0.157.0 (11-08-2026):** el endpoint del copiloto recibe `allowedActionIds` del explainer y usa `sanitizeCopilotActions` para aceptar únicamente IDs autorados de fuentes/escenarios, con etiquetas normalizadas y máximo tres acciones. La allowlist es defensiva; no confía en URLs del modelo ni ejecuta operaciones.
