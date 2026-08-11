@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.116.0] - 2026-08-10
+
+- Nuevo workflow `.github/workflows/quality.yml` para PR y push a `main`.
+- Ejecuta `npm ci`, auditoría de producción, content gate, regresiones de IA, typecheck, lint y build.
+- Usa permisos mínimos, Node.js 20 y cancela ejecuciones obsoletas por rama.
+
 ## [0.115.0] - 2026-08-10
 
 - Nuevo comando `npm run test:ai-guards` para probar el cálculo de costes, el fallback de cuotas y `/api/health`.
