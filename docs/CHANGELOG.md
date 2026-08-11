@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.188.0] - 2026-08-11
+
+- El modo cliente muestra una narrativa compacta con idea, cambio y pregunta de decision.
+- Se elimina la repeticion de la explicacion principal en la primera lectura.
+- El detalle tecnico permanece bajo demanda y los otros modos no pierden profundidad.
+
 ## [0.187.0] - 2026-08-11
 
 - La biblioteca de patrones permite filtrar por texto y marca.

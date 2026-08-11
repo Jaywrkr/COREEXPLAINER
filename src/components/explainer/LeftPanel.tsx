@@ -23,6 +23,7 @@ import { SupportCasePackPanel } from "./SupportCasePackPanel";
 import { ImplementationWorkPackagePanel } from "./ImplementationWorkPackagePanel";
 import { ToolDrawer } from "./ToolDrawer";
 import { EvidenceMapPanel } from "./EvidenceMapPanel";
+import { ClientStoryCard } from "./ClientStoryCard";
 
 interface LeftPanelProps {
   slug: string;
@@ -89,6 +90,14 @@ export function LeftPanel({
       <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
+      {!isTechnical && !isConceptual ? (
+        <ClientStoryCard
+          stepTitle={step.title}
+          lead={leadParagraph}
+          businessImpact={step.businessImpact}
+          additionalDetail={step.paragraphs[1]}
+        />
+      ) : null}
       <ToolDrawer defaultOpen={isTechnical}>
         <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
         <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
@@ -115,7 +124,7 @@ export function LeftPanel({
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
       ) : null}
 
-      <div className="border-t border-core-border/[0.1] pt-4">
+      {isTechnical || isConceptual ? <div className="border-t border-core-border/[0.1] pt-4">
         <div className="mb-1.5 flex items-center justify-between gap-3 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
           <span>Escena {String(current + 1).padStart(2, "0")}</span>
           <span className="text-core-text-muted">{steps.length} pasos</span>
@@ -177,7 +186,7 @@ export function LeftPanel({
             ) : null}
           </div>
         )}
-      </div>
+      </div> : null}
 
       <StepNav
         canGoPrev={current > 0}
