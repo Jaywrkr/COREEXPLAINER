@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.152.0 (11-08-2026):** `calculateTechnicalCoverage` mide madurez de escenarios mediante perfiles de simulación, flujo guiado, evidencia y fuentes vigentes. Dashboard e informe muestran escenarios listos para soporte; el cálculo sigue siendo determinista y no representa salud de producción.
+
 **Actualizacion v0.151.0 (11-08-2026):** `validateExplainerContent` ejecuta `buildEvidenceLedger` y `validateEvidenceLedger` como regla de publicación. IDs duplicados, evidencia vacía o `sourceIds` desconocidos ahora son errores estructurales; la revisión humana pendiente permanece como warning. `validate:content` mantiene 22 explainers válidos.
 
 **Actualizacion v0.150.0 (11-08-2026):** `buildEvidenceLedger` normaliza pasos, escenarios, roadmap y decisiones en registros tipados (`documentary`, `observed`, `hypothesis`, `acceptance`) con fuentes y procedencia. `validateEvidenceLedger` detecta vacios, duplicados y fuentes desconocidas; el handoff de soporte incluye el ledger y CI ejecuta `test:evidence-ledger`.

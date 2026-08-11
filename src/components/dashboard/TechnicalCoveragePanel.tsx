@@ -13,6 +13,12 @@ export function TechnicalCoveragePanel() {
       roadmapCount: entry.meta.targetArchitecture?.roadmap?.length ?? 0,
       warningCount: warnings.length,
       actionCount: buildReviewActions(entry.meta, warnings).length,
+      scenarioProfiles: (entry.meta.failureScenarios ?? []).map((scenario) => ({
+        hasSimulation: Boolean(scenario.simulation),
+        hasGuidedFlow: (scenario.guidedSteps?.length ?? 0) >= 4,
+        hasEvidence: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => Boolean(step.evidence?.trim())),
+        hasCurrentSources: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => entry.meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current")),
+      })),
     };
   }));
 
@@ -28,6 +34,7 @@ export function TechnicalCoveragePanel() {
       </div>
       <div className="mt-3 grid gap-2 text-[0.62rem] text-core-text-muted sm:grid-cols-3">
         <p>Escenarios: <span className="font-mono text-core-text">{coverage.failureScenarios}</span></p>
+        <p>Madurez de fallos: <span className="font-mono text-core-text">{coverage.scenariosReadyForSupport}/{coverage.failureScenarios}</span> listos para soporte · {coverage.scenariosWithSimulation} con simulación</p>
         <p>Roadmap: <span className="font-mono text-core-text">{coverage.explainersWithRoadmap}/{coverage.explainers}</span> explainers · {coverage.roadmapPhases} fases</p>
         <p>Integridad: <span className="font-mono text-core-text">{coverage.integrityReviewed}</span> reviewed · <span className="font-mono text-core-text">{coverage.integritySourceBacked}</span> source-backed · <span className="font-mono text-core-text">{coverage.integrityBaseline}</span> baseline</p>
       </div>

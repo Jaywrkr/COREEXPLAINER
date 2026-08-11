@@ -29,6 +29,13 @@ const rows = explainerRegistry.map((entry) => {
     staleSources,
     warnings,
     failureScenarios: entry.meta.failureScenarios?.length ?? 0,
+    scenarioProfiles: (entry.meta.failureScenarios ?? []).map((scenario) => ({
+      id: scenario.id,
+      hasSimulation: Boolean(scenario.simulation),
+      hasGuidedFlow: (scenario.guidedSteps?.length ?? 0) >= 4,
+      hasEvidence: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => Boolean(step.evidence?.trim())),
+      hasCurrentSources: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => sources.find((source) => source.id === sourceId)?.validity === "current")),
+    })),
     integrityAssurance: integrity?.assurance,
     integrity: integrity ? `${integrity.domain}/${integrity.assurance} (${Object.keys(integrity.scenes).length} escenas)` : "no declarado",
     roadmap: entry.meta.targetArchitecture?.roadmap?.length ?? 0,
@@ -40,7 +47,7 @@ const pending = rows.filter((row) => row.reviewStatus === "pending").length;
 const stale = rows.reduce((sum, row) => sum + row.staleSources, 0);
 const warningCount = rows.reduce((sum, row) => sum + row.warnings.length, 0);
 const actionCount = rows.reduce((sum, row) => sum + row.actions.length, 0);
-const coverage = calculateTechnicalCoverage(rows.map((row) => ({ reviewStatus: row.reviewStatus, sourceValidities: row.sources.map((source) => source.validity), failureScenarioCount: row.failureScenarios, integrityAssurance: row.integrityAssurance, roadmapCount: row.roadmap, warningCount: row.warnings.length, actionCount: row.actions.length })));
+const coverage = calculateTechnicalCoverage(rows.map((row) => ({ reviewStatus: row.reviewStatus, sourceValidities: row.sources.map((source) => source.validity), failureScenarioCount: row.failureScenarios, scenarioProfiles: row.scenarioProfiles, integrityAssurance: row.integrityAssurance, roadmapCount: row.roadmap, warningCount: row.warnings.length, actionCount: row.actions.length })));
 
 if (process.argv.includes("--json")) {
   console.log(JSON.stringify({ schemaVersion: REPORT_SCHEMA_VERSION, appVersion: packageJson.version, generatedAt: new Date().toISOString(), summary: { explainers: rows.length, pending, staleSources: stale, warnings: warningCount, actions: actionCount, coverage }, rows, priorityRule: { pending: 100, staleSource: 10, warning: 5 } }, null, 2));
@@ -54,7 +61,7 @@ console.log("");
 console.log("> Informe de priorizacion. No aprueba contenido ni sustituye una revision especialista.");
 console.log("");
 console.log(`Resumen: ${rows.length} explainers - ${pending} pendientes - ${stale} fuentes review-needed - ${warningCount} advertencias del gate - ${actionCount} acciones sugeridas`);
-console.log(`Cobertura: ${coverage.reviewed}/${coverage.explainers} revisados - ${coverage.currentSources}/${coverage.sources} fuentes vigentes - ${coverage.explainersWithScenarios}/${coverage.explainers} con escenarios - ${coverage.roadmapPhases} fases de roadmap`);
+console.log(`Cobertura: ${coverage.reviewed}/${coverage.explainers} revisados - ${coverage.currentSources}/${coverage.sources} fuentes vigentes - ${coverage.explainersWithScenarios}/${coverage.explainers} con escenarios - ${coverage.scenariosReadyForSupport}/${coverage.failureScenarios} escenarios listos para soporte - ${coverage.roadmapPhases} fases de roadmap`);
 console.log("");
 console.log("| Prioridad | Explainer | Estado | Ultima revision | Fuentes | Review-needed | Fallos | Integridad | Roadmap |");
 console.log("|---:|---|---|---|---:|---:|---:|---|---:|");

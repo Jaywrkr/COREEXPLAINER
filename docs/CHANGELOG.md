@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.152.0] - 2026-08-11
+
+- La cobertura técnica mide la madurez de cada escenario de fallo, no solo su existencia.
+- Se distinguen simulación tipada, flujo guiado completo, evidencia declarada, fuentes vigentes y escenarios listos para soporte.
+- Dashboard e informe técnico comparten el mismo cálculo determinista.
+- CI protege las nuevas métricas con fixtures offline.
+
 ## [0.151.0] - 2026-08-11
 
 - El content gate valida ahora el ledger tipado antes de registrar un explainer en el catálogo.
