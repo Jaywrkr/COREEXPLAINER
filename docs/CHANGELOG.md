@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.124.0] - 2026-08-10
+
+- El Workbench permite descargar la vista activa como Markdown independiente.
+- El paquete completo sigue disponible para el contexto integral.
+- Ambas salidas mantienen estados, fuentes y límites conceptuales.
+
 ## [0.123.0] - 2026-08-10
 
 - El Technical Workbench añade la vista `Validar`.

@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.124.0 (10-08-2026):** el Workbench ofrece dos salidas: la vista actual para compartir un hallazgo focalizado y el paquete completo con las cuatro vistas. Ambas conservan estados, fuentes y límites; ninguna ejecuta acciones.
+
 **Actualizacion v0.123.0 (10-08-2026):** el Technical Workbench añade la vista `Validar`. Resume el estado de revisión humana, vigencia de fuentes y contratos de integridad declarados para las escenas como checklist exportable; no ejecuta validaciones ni convierte el estado local en aprobación.
 
 **Actualizacion v0.122.0 (10-08-2026):** el Workbench resume el progreso local entre Implementar, Soportar y Mantener. Su descarga genera un paquete completo con estado por tarea y una sección de fuentes por confirmar, incluyendo tareas sin fuente o fuentes `review-needed`; sigue siendo conceptual y no ejecuta cambios.
