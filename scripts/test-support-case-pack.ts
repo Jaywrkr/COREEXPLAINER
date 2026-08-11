@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { assessSupportCaseReadiness, buildSupportCaseMarkdown, normalizeSupportCaseDraft } from "../src/lib/support/casePack";
+import { assessSupportCaseReadiness, buildSupportCaseJson, buildSupportCaseMarkdown, normalizeSupportCaseDraft } from "../src/lib/support/casePack";
 import { buildSupportTriageBrief } from "../src/lib/support/triage";
 import { buildEvidenceLedger } from "../src/lib/evidence/ledger";
 import type { ExplainerMeta, ExplainerStep } from "../src/content/types";
@@ -36,4 +36,9 @@ assert.match(markdown, /Ledger de evidencia/);
 assert.match(markdown, /Logs sanitizados/);
 assert.match(markdown, /escalamiento: escalate/);
 assert.match(markdown, /PreparaciÃ³n del handoff: 50%/);
+const json = buildSupportCaseJson({ slug: "tema", title: meta.title, appVersion: "0.164.0", generatedAt: "2026-08-11T00:00:00.000Z", brands: ["IBM"], draft: { ...captured, selectedTriageId: "scenario:s1" }, triage, evidence });
+assert.equal(json.schemaVersion, "1.0");
+assert.equal(json.readiness.score, 50);
+assert.equal(json.selectedTriage?.id, "scenario:s1");
+assert.equal(json.draft.evidenceReceived, "Logs sanitizados");
 console.log("Support case pack regression checks passed.");

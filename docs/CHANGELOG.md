@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.165.0] - 2026-08-11
+
+- El handoff de soporte se puede descargar también como JSON versionado (`schemaVersion: 1.0`).
+- La salida estructurada conserva draft normalizado, readiness, triage seleccionado, rutas disponibles y ledger de evidencia.
+- El JSON es un artefacto local para futuras integraciones; no se envía a ITSM ni ejecuta acciones.
+- CI protege el contrato JSON junto con el exportador Markdown.
+
 ## [0.164.0] - 2026-08-11
 
 - El handoff muestra una preparación determinista con porcentaje y campos faltantes.

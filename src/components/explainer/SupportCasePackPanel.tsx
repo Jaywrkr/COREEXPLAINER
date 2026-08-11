@@ -5,7 +5,7 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { currentVersion } from "@/content/changelog";
 import { buildSupportTriageBrief } from "@/lib/support/triage";
 import { buildEvidenceLedger } from "@/lib/evidence/ledger";
-import { assessSupportCaseReadiness, buildSupportCaseMarkdown, emptySupportCaseDraft, normalizeSupportCaseDraft, type SupportCaseDraft } from "@/lib/support/casePack";
+import { assessSupportCaseReadiness, buildSupportCaseJson, buildSupportCaseMarkdown, emptySupportCaseDraft, normalizeSupportCaseDraft, type SupportCaseDraft } from "@/lib/support/casePack";
 
 interface SupportCasePackPanelProps {
   slug: string;
@@ -58,6 +58,25 @@ export function SupportCasePackPanel({ slug, meta, steps }: SupportCasePackPanel
     URL.revokeObjectURL(url);
   };
 
+  const downloadJson = () => {
+    const payload = buildSupportCaseJson({
+      slug,
+      title: meta.title,
+      appVersion: currentVersion,
+      generatedAt: new Date().toISOString(),
+      brands: meta.brandContext.map((brand) => `${brand.name} (${brand.role})`),
+      draft,
+      triage,
+      evidence,
+    });
+    const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" }));
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `coresolutions-${slug}-support-case.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <details className="mb-3 border border-core-border/[0.16] bg-core-panel/20">
       <summary className="cursor-pointer list-none px-3 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted hover:text-core-text [&::-webkit-details-marker]:hidden">
@@ -80,7 +99,7 @@ export function SupportCasePackPanel({ slug, meta, steps }: SupportCasePackPanel
           <label className="text-[0.6rem] text-core-text-muted sm:col-span-2">Resultado de comprobación<textarea value={draft.checkResult} onChange={(event) => update("checkResult", event.target.value)} rows={2} placeholder="Qué se contrastó y qué quedó sin confirmar" className="mt-1 w-full resize-y border border-core-border/[0.16] bg-core-panel px-2 py-1 text-[0.66rem] leading-relaxed text-core-text outline-none focus:border-core-accent/60" /></label>
           <label className="text-[0.6rem] text-core-text-muted">Decisión de escalamiento<select value={draft.escalationDecision} onChange={(event) => update("escalationDecision", event.target.value)} className="mt-1 w-full border border-core-border/[0.16] bg-core-panel px-2 py-1 text-[0.66rem] text-core-text outline-none focus:border-core-accent/60"><option value="pending">Pendiente</option><option value="continue">Continuar triage</option><option value="escalate">Escalar a especialista</option></select></label>
         </div>
-        <button type="button" onClick={download} className="mt-2 border border-core-accent/40 px-2 py-1 text-[0.6rem] font-semibold text-core-accent hover:border-core-accent/70">Descargar handoff Markdown</button>
+        <div className="mt-2 flex flex-wrap gap-1.5"><button type="button" onClick={download} className="border border-core-accent/40 px-2 py-1 text-[0.6rem] font-semibold text-core-accent hover:border-core-accent/70">Descargar handoff Markdown</button><button type="button" onClick={downloadJson} className="border border-core-border/[0.16] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:border-core-accent/50 hover:text-core-accent">Descargar handoff JSON</button></div>
       </div>
     </details>
   );

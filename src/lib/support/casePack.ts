@@ -33,6 +33,20 @@ export interface SupportCaseReadiness {
   missing: string[];
 }
 
+export interface SupportCaseJsonExport {
+  schemaVersion: "1.0";
+  appVersion: string;
+  generatedAt: string;
+  slug: string;
+  title: string;
+  brands: string[];
+  draft: SupportCaseDraft;
+  readiness: SupportCaseReadiness;
+  selectedTriage: SupportTriageBrief["items"][number] | null;
+  triage: SupportTriageBrief;
+  evidence: EvidenceRecord[];
+}
+
 function safe(value: string, max = 1200): string {
   return value.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 }
@@ -125,4 +139,22 @@ export function buildSupportCaseMarkdown(input: SupportCasePackInput): string {
     "- El especialista debe confirmar causa, versión, permisos, ventana, rollback y datos sensibles antes de usar este documento.",
   ];
   return lines.join("\n");
+}
+
+/** Versioned structured handoff for future ticketing/documentation adapters. */
+export function buildSupportCaseJson(input: SupportCasePackInput): SupportCaseJsonExport {
+  const draft = normalizeSupportCaseDraft(input.draft);
+  return {
+    schemaVersion: "1.0",
+    appVersion: input.appVersion,
+    generatedAt: input.generatedAt,
+    slug: input.slug,
+    title: input.title,
+    brands: input.brands.map((brand) => safe(brand, 160)),
+    draft,
+    readiness: assessSupportCaseReadiness(draft, input.triage),
+    selectedTriage: input.triage.items.find((item) => item.id === draft.selectedTriageId) ?? null,
+    triage: input.triage,
+    evidence: input.evidence,
+  };
 }
