@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.243.0";
+export const currentVersion = "0.244.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.244.0",
+    date: "2026-08-11",
+    title: "Tokens de acción del copiloto acotados",
+    changes: [
+      "Los IDs de acciones se limitan a tokens authored estructurados, nunca URLs, comandos o texto libre.",
+      "El endpoint acota las allowlists recibidas del navegador antes de invocar al proveedor.",
+      "La confirmación de escenarios y el modo read-only se mantienen sin ampliar capacidades.",
+    ],
+  },
   {
     version: "0.243.0",
     date: "2026-08-11",

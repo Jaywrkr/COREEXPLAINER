@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.244.0 (11-08-2026):** `isSafeCopilotActionId` limita IDs de acciones a tokens authored (`[A-Za-z0-9:_./-]`), el endpoint descarta URLs/comandos y limita cada allowlist a 100 IDs; el copiloto sigue read-only y no ejecuta infraestructura.
+
 **Actualizacion v0.243.0 (11-08-2026):** el informe `technical-review-report` reutiliza `hasValidSimulationProfile` y `hasCausalGuidedFlow`; sus métricas de cobertura ya no cuentan como listos escenarios con perfiles incompatibles o fases desordenadas.
 
 **Actualizacion v0.242.0 (11-08-2026):** `scenarioReadiness` y `isScenarioReadyForSupport` reutilizan `validateFailureSimulationProfile`; perfiles incompletos o incompatibles ya no cuentan como simulaciones listas para soporte.

@@ -28,6 +28,13 @@ export interface CopilotMessageReview {
 const EVIDENCE_FOOTER = /\bevidencia\s+a\s+revisar\b/i;
 const ABSOLUTE_CLAIM = /\b(?:garantiza|siempre|nunca|sin\s+downtime|autom(?:ático|ática|atic[oa]s?)|cero\s+(?:impacto|interrupciones?|downtime))\b/i;
 const SOURCE_CITATION = /\[fuente:([^\]\s]{1,160})\]/gi;
+const SAFE_ACTION_ID = /^[A-Za-z0-9][A-Za-z0-9:_./-]{0,159}$/;
+
+/** Action IDs are opaque authored tokens, never URLs, commands or prose. */
+export function isSafeCopilotActionId(value: unknown): value is string {
+  const normalized = typeof value === "string" ? value.trim() : "";
+  return Boolean(normalized) && !/^[a-z][a-z0-9+.-]*:\/\//i.test(normalized) && SAFE_ACTION_ID.test(normalized);
+}
 
 /**
  * Adds a visible evidence boundary to model prose and reports whether the
@@ -70,7 +77,7 @@ export function sanitizeCopilotActions(value: unknown, allowlist: CopilotActionA
     if ((action.type !== "open-source" && action.type !== "activate-scenario") || typeof action.id !== "string" || typeof action.label !== "string") return [];
     const id = action.id.trim();
     const label = action.label.replace(/[\r\n]+/g, " ").trim().slice(0, 120);
-    if (!id || !label) return [];
+    if (!isSafeCopilotActionId(id) || !label) return [];
     if (action.type === "open-source" && !allowlist.sourceIds.has(id)) return [];
     if (action.type === "activate-scenario" && !allowlist.scenarioIds.has(id)) return [];
     const key = `${action.type}:${id}`;

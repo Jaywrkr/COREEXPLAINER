@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.244.0] - 2026-08-11
+
+### Tokens de acción del copiloto acotados
+
+- Los IDs de acciones solo aceptan tokens authored estructurados, nunca URLs, comandos o texto libre.
+- El endpoint limita las allowlists recibidas del navegador antes de invocar al proveedor.
+- Se mantienen el modo read-only y la confirmación explícita de escenarios.
+
 ## [0.243.0] - 2026-08-11
 
 ### Métricas de revisión alineadas con el gate

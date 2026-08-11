@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, readJsonBody, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import { estimateAiCost, exceedsAiCostCap } from "@/lib/ai/costEstimate";
-import { reviewCopilotMessage, sanitizeCopilotActions, type CopilotAction, type CopilotPolicy, type CopilotMessageReview } from "@/lib/ai/copilotContract";
+import { isSafeCopilotActionId, reviewCopilotMessage, sanitizeCopilotActions, type CopilotAction, type CopilotPolicy, type CopilotMessageReview } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
 import { sanitizeCopilotInput } from "@/lib/ai/inputSanitization";
 
@@ -33,8 +33,8 @@ export async function POST(request: Request) {
   const question = sanitized.question.value;
   const context = sanitized.context.value;
   const allowedActionIds = body.allowedActionIds ?? {};
-  const sourceIds = new Set(Array.isArray(allowedActionIds.sourceIds) ? allowedActionIds.sourceIds.filter((id): id is string => typeof id === "string" && id.length <= 160).map((id) => id.trim()).filter(Boolean) : []);
-  const scenarioIds = new Set(Array.isArray(allowedActionIds.scenarioIds) ? allowedActionIds.scenarioIds.filter((id): id is string => typeof id === "string" && id.length <= 160).map((id) => id.trim()).filter(Boolean) : []);
+  const sourceIds = new Set(Array.isArray(allowedActionIds.sourceIds) ? allowedActionIds.sourceIds.filter(isSafeCopilotActionId).map((id) => id.trim()).slice(0, 100) : []);
+  const scenarioIds = new Set(Array.isArray(allowedActionIds.scenarioIds) ? allowedActionIds.scenarioIds.filter(isSafeCopilotActionId).map((id) => id.trim()).slice(0, 100) : []);
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return response("El copiloto esta preparado, pero CORESOLUTIONS todavia no ha configurado OPENAI_API_KEY en este entorno.", 503);
