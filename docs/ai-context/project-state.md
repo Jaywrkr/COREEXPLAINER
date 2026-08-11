@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.211.0 (11-08-2026):** `sanitizeCopilotMessage` limpia caracteres de control y limita la respuesta del modelo a 5.000 caracteres antes de enviarla a la UI. La protección de acciones sigue separada mediante `sanitizeCopilotActions`.
+
 **Actualizacion v0.210.0 (11-08-2026):** `ExplainerDraftCreator` muestra la proveniencia `origen: IA · revisar` o `origen: plantilla local`. `/api/creator` declara `generatedBy: local-template` en fallbacks para evitar confundir estructura válida con aprobación técnica.
 
 **Actualizacion v0.209.0 (11-08-2026):** `validateCreatorDraft` normaliza y valida la respuesta de IA del creador antes de enviarla al navegador. El contrato exige tres escenas, dos párrafos por escena y listas no vacías; si falla, la UI conserva su fallback local.

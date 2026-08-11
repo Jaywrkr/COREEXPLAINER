@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.211.0] - 2026-08-11
+
+- La respuesta textual del copiloto se normaliza antes de renderizarse.
+- Se eliminan caracteres de control y se limita a 5.000 caracteres.
+- Las acciones siguen protegidas por su allowlist independiente.
+
 ## [0.210.0] - 2026-08-11
 
 - El creador muestra si el borrador proviene de IA o de una plantilla local.

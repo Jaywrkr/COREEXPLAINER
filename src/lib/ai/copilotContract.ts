@@ -11,6 +11,13 @@ export interface CopilotActionAllowlist {
   scenarioIds: ReadonlySet<string>;
 }
 
+/** Normalizes untrusted model prose before it is rendered in the explainer. */
+export function sanitizeCopilotMessage(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const cleaned = value.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "").trim().slice(0, 5_000);
+  return cleaned || null;
+}
+
 /**
  * Converts untrusted model output into actions that point only at resources
  * already authored by the active explainer. It never accepts URLs or commands.

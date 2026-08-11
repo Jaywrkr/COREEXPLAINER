@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, readJsonBody, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import { estimateAiCost, exceedsAiCostCap } from "@/lib/ai/costEstimate";
-import { sanitizeCopilotActions, type CopilotAction, type CopilotPolicy } from "@/lib/ai/copilotContract";
+import { sanitizeCopilotActions, sanitizeCopilotMessage, type CopilotAction, type CopilotPolicy } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
 import { sanitizeCopilotInput } from "@/lib/ai/inputSanitization";
 
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
     try {
       const parsed = JSON.parse(message) as { message?: unknown; actions?: unknown };
       const actions = sanitizeCopilotActions(parsed.actions, { sourceIds, scenarioIds });
-      return response(typeof parsed.message === "string" ? parsed.message : "El copiloto no devolvio una explicacion utilizable.", 200, actions, usage, undefined, policy);
+      return response(sanitizeCopilotMessage(parsed.message) ?? "El copiloto no devolvio una explicacion utilizable.", 200, actions, usage, undefined, policy);
     } catch { return response(message, 200, [], usage, undefined, policy); }
   }
   return response("El copiloto no devolvio una respuesta utilizable.", 502, [], undefined, undefined, policy);
