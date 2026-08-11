@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import { buildWorkbenchMarkdown, type WorkbenchExportItem } from "@/lib/workbench/exportMarkdown";
 
 type WorkbenchMode = "implement" | "support" | "maintain" | "validate";
 interface WorkItem { id: string; title: string; detail: string; evidence: string; sourceIds: string[]; sourceLabel?: string }
@@ -116,6 +117,36 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
     if (!item.sourceIds.length) return true;
     return item.sourceIds.some((id) => sources.find((source) => source.id === id)?.validity === "review-needed");
   });
+  const toExportItem = (item: WorkItem): WorkbenchExportItem => ({ ...item, checked: Boolean(checked[item.id]) });
+  const saveMarkdown = (markdown: string, filename: string) => {
+    const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+  const downloadCurrentWithContract = () => saveMarkdown(buildWorkbenchMarkdown({
+    title: meta.title,
+    slug,
+    brands: meta.brandContext.map((brand) => `${brand.name} (${brand.role})`),
+    complete: false,
+    totalCompleted: currentItems.filter((item) => checked[item.id]).length,
+    totalItems: currentItems.length,
+    sections: [{ label: modeLabels[mode], items: currentItems.map(toExportItem) }],
+    sourcesToConfirm: sourcesToConfirm.filter((item) => currentItems.some((current) => current.id === item.id)).map((item) => `${item.title} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`),
+  }), `coresolutions-${slug}-${mode}-workbench.md`);
+  const downloadCompleteWithContract = () => saveMarkdown(buildWorkbenchMarkdown({
+    title: meta.title,
+    slug,
+    brands: meta.brandContext.map((brand) => `${brand.name} (${brand.role})`),
+    complete: true,
+    totalCompleted,
+    totalItems,
+    sections: allModes.map((candidate) => ({ label: modeLabels[candidate], items: items[candidate].map(toExportItem) })),
+    sourcesToConfirm: sourcesToConfirm.map((item) => `${item.title} · revisar IDs: ${item.sourceIds.join(", ") || "sin fuente declarada"}`),
+  }), `coresolutions-${slug}-workbench-package.md`);
   const toggle = (id: string) => {
     setChecked((current) => {
       const next = { ...current, [id]: !current[id] };
@@ -196,8 +227,8 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
         <p className="mb-2 text-[0.62rem] leading-relaxed text-core-text-muted"><span className="font-semibold text-core-text">Marcas en alcance:</span> {meta.brandContext.map((brand) => `${brand.name} · ${brand.role}`).join(" · ")}</p>
         <div className="mb-3 flex flex-wrap gap-1">
           {(Object.keys(modeLabels) as WorkbenchMode[]).map((candidate) => <button key={candidate} type="button" onClick={() => setMode(candidate)} className={`border px-2 py-1 text-[0.6rem] font-semibold ${mode === candidate ? "border-core-accent/60 text-core-accent" : "border-core-border/[0.15] text-core-text-muted"}`}>{modeLabels[candidate]}</button>)}
-          <button type="button" onClick={download} className="ml-auto border border-core-border/[0.15] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:text-core-text">Descargar vista actual</button>
-          <button type="button" onClick={downloadPackage} className="border border-core-accent/40 px-2 py-1 text-[0.6rem] font-semibold text-core-accent hover:border-core-accent/70">Descargar paquete completo</button>
+          <button type="button" onClick={downloadCurrentWithContract} className="ml-auto border border-core-border/[0.15] px-2 py-1 text-[0.6rem] font-semibold text-core-text-muted hover:text-core-text">Descargar vista actual</button>
+          <button type="button" onClick={downloadCompleteWithContract} className="border border-core-accent/40 px-2 py-1 text-[0.6rem] font-semibold text-core-accent hover:border-core-accent/70">Descargar paquete completo</button>
         </div>
         {currentItems.length ? <div className="space-y-2">{currentItems.map((item) => <label key={item.id} className="flex gap-2 border border-core-border/[0.1] p-2"><input type="checkbox" checked={Boolean(checked[item.id])} onChange={() => toggle(item.id)} className="mt-0.5 accent-core-accent" /><span className="min-w-0 text-[0.67rem] leading-relaxed"><span className="font-semibold text-core-text">{item.title}</span><span className="mt-0.5 block text-core-text-secondary">{item.detail}</span><span className="mt-0.5 block text-core-text-muted"><span className="font-semibold">Evidencia:</span> {item.evidence}</span>{item.sourceLabel ? <a href={item.sourceLabel} target="_blank" rel="noreferrer" className="mt-0.5 block truncate text-core-accent hover:underline">Fuente: {item.sourceLabel}</a> : null}</span></label>)}</div> : <p className="text-[0.68rem] text-core-text-muted">Este tema aún no declara elementos para esta vista. Añádelos al contenido autorado antes de prometer una guía específica.</p>}
       </div>

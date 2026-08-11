@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.124.0";
+export const currentVersion = "0.125.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.125.0",
+    date: "10 ago 2026",
+    title: "Contrato testeable para exportaciones del Workbench",
+    changes: [
+      "La generación Markdown se centraliza en una función sin dependencias de navegador.",
+      "Las exportaciones focalizada y completa usan el mismo contrato de estados, fuentes y límites.",
+      "Se añade una regresión offline para evitar saltos de línea no controlados y pérdida de pendientes.",
+    ],
+  },
   {
     version: "0.124.0",
     date: "10 ago 2026",
