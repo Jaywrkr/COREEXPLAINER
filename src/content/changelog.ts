@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.192.0";
+export const currentVersion = "0.193.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.193.0",
+    date: "11 ago 2026",
+    title: "Gate de narrativa para simulaciones",
+    changes: [
+      "Una simulación enriquecida requiere fases observe, diagnose, recover y validate.",
+      "La animación ya no puede declarar parámetros avanzados sin un flujo de evidencia y recuperación explicable.",
+      "Los escenarios simples sin perfil de simulación conservan su comportamiento conceptual.",
+    ],
+  },
   {
     version: "0.192.0",
     date: "11 ago 2026",

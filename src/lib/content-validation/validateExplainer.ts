@@ -10,7 +10,7 @@ import type {
 } from "@/content/types";
 import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
-import { validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
+import { validateFailureScenarioNarrative, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -469,6 +469,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
       }
       for (const issue of validateFailureSimulationProfile(scenario.simulation)) add(`${simulationLabel}: ${issue}`);
     }
+    for (const issue of validateFailureScenarioNarrative(scenario)) add(`${label}: ${issue}`);
 
     if (scenario.guidedSteps) {
       if (scenario.guidedSteps.length < 3) {

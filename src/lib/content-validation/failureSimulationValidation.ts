@@ -1,4 +1,4 @@
-import type { FailureSimulationProfile } from "@/content/types";
+import type { FailureScenario, FailureSimulationProfile, GuidedScenarioStepKind } from "@/content/types";
 
 /**
  * Checks that a typed failure mode carries only the parameters that give it
@@ -37,4 +37,13 @@ export function validateFailureSimulationProfile(profile: FailureSimulationProfi
       issues.push("mode is not supported");
   }
   return issues;
+}
+
+/** A richer simulation must remain explainable as an observe-to-validate flow. */
+export function validateFailureScenarioNarrative(scenario: FailureScenario): string[] {
+  if (!scenario.simulation) return [];
+  if (!scenario.guidedSteps?.length) return ["simulation requires guidedSteps with observe, diagnose, recover and validate phases"];
+  const required = new Set<GuidedScenarioStepKind>(["observe", "diagnose", "recover", "validate"]);
+  const present = new Set(scenario.guidedSteps.map((step) => step.kind));
+  return [...required].filter((kind) => !present.has(kind)).map((kind) => `simulation narrative is missing '${kind}' phase`);
 }

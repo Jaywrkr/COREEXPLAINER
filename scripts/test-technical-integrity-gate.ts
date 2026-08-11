@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import type { TechnicalIntegrityProfile } from "../src/content/types";
 import { technicalIntegrityAssuranceIssues } from "../src/lib/content-validation/technicalIntegrityGate";
+import { validateFailureScenarioNarrative } from "../src/lib/content-validation/failureSimulationValidation";
 
 const base: TechnicalIntegrityProfile = {
   domain: "generic",
@@ -22,3 +23,7 @@ const reviewed: TechnicalIntegrityProfile = {
 assert.deepEqual(technicalIntegrityAssuranceIssues(reviewed), []);
 assert.match(technicalIntegrityAssuranceIssues({ ...reviewed, scenes: { ...reviewed.scenes, second: { requiredEdges: [{ id: "missing-source", from: "a", to: "b", kind: "data", label: "camino", rationale: "contrato" }] } } }).join(" "), /every evidence-bearing scene/);
 console.log("Technical integrity assurance gate checks passed.");
+
+assert.deepEqual(validateFailureScenarioNarrative({ id: "plain", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"] }), []);
+assert.match(validateFailureScenarioNarrative({ id: "simulated", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"], simulation: { mode: "hard-down", impact: "impacto" } })[0]!, /requires guidedSteps/);
+console.log("Failure narrative gate checks passed.");

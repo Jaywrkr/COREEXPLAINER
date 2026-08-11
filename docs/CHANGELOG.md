@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.193.0] - 2026-08-11
+
+- Las simulaciones enriquecidas requieren fases `observe`, `diagnose`, `recover` y `validate`.
+- Se evita declarar fallos avanzados sin una cadena explicable de evidencia y recuperación.
+- Los escenarios conceptuales simples no se ven afectados.
+
 ## [0.192.0] - 2026-08-11
 
 - `source-backed` y `reviewed` exigen referencias de fuentes en reglas con evidencia.

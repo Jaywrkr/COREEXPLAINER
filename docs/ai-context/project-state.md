@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.193.0 (11-08-2026):** `validateFailureScenarioNarrative` exige que cualquier `FailureScenario` con `simulation` tenga fases `observe`, `diagnose`, `recover` y `validate`. Esto conecta parámetros de fallo con evidencia y recuperación guiada; escenarios sin simulación siguen siendo conceptuales.
+
 **Actualizacion v0.192.0 (11-08-2026):** `technicalIntegrityAssuranceIssues` conecta el content gate con `assurance`: perfiles `source-backed`/`reviewed` requieren fuentes en reglas de evidencia; escenas con solo nodos declarativos siguen siendo válidas. La regresión `test:technical-integrity-gate` protege que la UI no muestre confianza superior al contrato.
 
 **Actualizacion v0.191.0 (11-08-2026):** `SceneAssuranceBadge` muestra bajo demanda la cobertura declarada de la escena. Cliente ve una lectura conceptual; técnico puede consultar assurance, comprobaciones, hallazgos y fuentes declaradas. El texto evita confundir integridad del modelo con monitoreo o validación del entorno real.
