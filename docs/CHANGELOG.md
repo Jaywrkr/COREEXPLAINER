@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.161.0] - 2026-08-11
+
+- La vigencia de fuentes se deriva contra una ventana de 180 días, incluso cuando una fuente antigua quedó etiquetada manualmente como `current`.
+- Las fuentes fuera de ventana pasan a `review-needed` y aparecen en el backlog de revisión técnica.
+- La normalización no descarga URLs ni certifica que el documento externo siga vigente.
+- CI protege la política con una regresión de fechas inyectables.
+
 ## [0.160.0] - 2026-08-11
 
 - La cobertura técnica agrega porcentaje promedio de madurez de escenarios.

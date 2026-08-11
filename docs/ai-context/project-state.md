@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.161.0 (11-08-2026):** `deriveSourceValidity` recalcula la vigencia contra una ventana de 180 días; una fuente `current` antigua pasa a `review-needed` durante `enrichTechnicalReview` y alimenta el backlog. No se descargan URLs.
+
 **Actualizacion v0.160.0 (11-08-2026):** `calculateTechnicalCoverage` expone `scenarioCoveragePercent`, `scenariosWithPartialCoverage` y `scenariosWithNoCoverage`; el panel muestra madurez agregada para priorizar soporte. El indicador es editorial y no mide producción.
 
 **Actualizacion v0.159.0 (11-08-2026):** `validateFailureSimulationProfile` exige parámetros coherentes por modo de escenario y bloquea combinaciones ambiguas antes del registro. La simulación sigue siendo conceptual: no mide ni ejecuta cambios en producción.

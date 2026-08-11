@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.160.0",
+  "version": "0.161.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -24,6 +24,7 @@
     "test:copilot-actions": "tsx scripts/test-copilot-actions.ts",
     "test:pattern-validation": "tsx scripts/test-pattern-validation.ts",
     "test:failure-simulation-validation": "tsx scripts/test-failure-simulation-validation.ts",
+    "test:source-freshness": "tsx scripts/test-source-freshness.ts",
     "test:creator-policy": "tsx scripts/test-creator-policy.ts",
     "test:support-triage": "tsx scripts/test-support-triage.ts",
     "test:support-case-pack": "tsx scripts/test-support-case-pack.ts",

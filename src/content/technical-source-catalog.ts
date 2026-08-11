@@ -16,6 +16,9 @@ const publisherRules: Array<[RegExp, string]> = [
   [/github\.com/i, "CORESOLUTIONS"],
 ];
 
+/** Sources older than this window require an explicit fresh review. */
+export const SOURCE_FRESHNESS_DAYS = 180;
+
 function inferPublisher(source: TechnicalSource): string {
   return publisherRules.find(([pattern]) => pattern.test(source.url))?.[1] ?? "Fuente técnica";
 }
@@ -55,6 +58,12 @@ function dayDifference(left: string, right: string): number {
   return Math.abs(leftTime - rightTime) / 86_400_000;
 }
 
+export function deriveSourceValidity(source: TechnicalSource, today = new Date()): NonNullable<TechnicalSource["validity"]> {
+  if (source.validity === "review-needed") return "review-needed";
+  const todayIso = today.toISOString().slice(0, 10);
+  return dayDifference(todayIso, source.accessedAt) <= SOURCE_FRESHNESS_DAYS ? "current" : "review-needed";
+}
+
 /**
  * Completes the compact source declarations used by topic files with a
  * consistent catalog view. The fallback is deliberately explicit: when a
@@ -71,7 +80,7 @@ export function enrichTechnicalReview(review: TechnicalReview): TechnicalReview 
         product: source.product ?? inferProduct(source, publisher),
         version: source.version ?? inferVersion(source),
         reference: source.reference ?? source.id,
-        validity: source.validity ?? (dayDifference(review.lastReviewedAt, source.accessedAt) <= 180 ? "current" : "review-needed"),
+        validity: deriveSourceValidity(source),
       };
     }),
   };
