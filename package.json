@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.181.0",
+  "version": "0.182.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -13,6 +13,7 @@
     "test:ai-guards": "tsx scripts/test-ai-guards.ts",
     "test:ui-preferences": "tsx scripts/test-ui-preferences.ts",
     "test:review-assignment": "tsx scripts/test-review-assignment.ts",
+    "test:review-campaign": "tsx scripts/test-review-campaign.ts",
     "test:ai-usage-telemetry": "tsx scripts/test-ai-usage-telemetry.ts",
     "test:workbench-export": "tsx scripts/test-workbench-export.ts",
     "report:technical-review": "tsx scripts/technical-review-report.ts",

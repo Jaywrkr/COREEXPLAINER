@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.182.0 (11-08-2026):** `ReviewCampaignSummary` agrega los seguimientos locales de la cola especialista y muestra sin asignar, en revisión, bloqueados, vencidos y listos para PR. Usa `assessTechnicalReviewAssignment`, no muta `reviewStatus` y no interpreta el estado local como aprobación.
+
 **Actualizacion v0.181.0 (11-08-2026):** `reviewAssignment.ts` define el contrato puro del seguimiento especialista. “Listo para PR” requiere responsable, fecha, nota, evidencia de cierre y checklist de narrativa, diagrama, fuentes, escenarios y ledger; estados incompletos se degradan a `in-review`. `TechnicalReviewAssignment` conserva el alcance local y no sustituye aprobación formal.
 
 **Actualizacion v0.180.0 (11-08-2026):** `EvidenceMapPanel` expone bajo demanda el ledger tipado de la escena: afirmación, evidencia solicitada, tipo, procedencia y enlaces fuente. Filtra la escena actual y el escenario seleccionado; deja claro que es un contrato autorado, no evidencia observada del cliente.

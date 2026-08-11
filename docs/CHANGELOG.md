@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.182.0] - 2026-08-11
+
+- El dashboard incorpora un resumen de campaña de revisión especialista.
+- Muestra asignaciones, bloqueos, vencimientos y readiness real para PR.
+- El resumen es local y no equivale a aprobación editorial.
+
 ## [0.181.0] - 2026-08-11
 
 - El seguimiento de revisión especialista exige un cierre verificable antes de marcar “listo para PR”.
