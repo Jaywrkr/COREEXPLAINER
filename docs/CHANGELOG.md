@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.174.0] - 2026-08-11
+
+- Se genera un informe de preparación de implementación para los 22 explainers.
+- El artefacto incluye readiness, workstreams, impactos, alto riesgo, escenarios enlazados y faltantes.
+- CI lo conserva como artefacto JSON/Markdown; no certifica ni opera infraestructura.
+
 ## [0.173.0] - 2026-08-11
 
 - La regresión del paquete técnico recorre los 22 explainers del catálogo.
