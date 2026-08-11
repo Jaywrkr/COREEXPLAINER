@@ -8,6 +8,7 @@ import { PatternLibrary } from "@/components/dashboard/PatternLibrary";
 import { UsageMetricsPanel } from "@/components/dashboard/UsageMetricsPanel";
 import { TechnicalReviewQueue } from "@/components/dashboard/TechnicalReviewQueue";
 import { TechnicalCoveragePanel } from "@/components/dashboard/TechnicalCoveragePanel";
+import { PublicationReadinessPanel } from "@/components/dashboard/PublicationReadinessPanel";
 import { ScenarioReadinessQueue } from "@/components/dashboard/ScenarioReadinessQueue";
 import { AiUsageGovernancePanel } from "@/components/dashboard/AiUsageGovernancePanel";
 import { ReviewCampaignSummary } from "@/components/dashboard/ReviewCampaignSummary";
@@ -36,6 +37,7 @@ export default function ExplainerDashboardPage() {
       <UsageMetricsPanel />
       <AiUsageGovernancePanel />
       <TechnicalCoveragePanel />
+      <PublicationReadinessPanel />
       <ScenarioReadinessQueue />
       <ReviewCampaignSummary entries={reviewCampaignEntries} />
       <TechnicalReviewQueue />

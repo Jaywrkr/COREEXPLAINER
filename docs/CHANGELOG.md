@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.205.0] - 2026-08-11
+
+- El dashboard incorpora una puerta de publicación para las rutas cliente y soporte.
+- Cada explainer muestra listo, requiere revisión o bloqueado con razones explícitas.
+- La puerta es informativa y no modifica ni publica contenido.
+
 ## [0.204.0] - 2026-08-11
 
 - Cada registro de evidencia conserva el estado de sus fuentes.

@@ -31,6 +31,15 @@ function readinessForScenario(meta: ExplainerMeta, scenario: NonNullable<Explain
   return { slug: "", title: "", scenarioId: scenario.id, label: scenario.label, score: Math.round((checks.filter(Boolean).length / checks.length) * 100), missing };
 }
 
+export function isScenarioReadyForSupport(meta: ExplainerMeta, scenario: NonNullable<ExplainerMeta["failureScenarios"]>[number]): boolean {
+  const guidedSteps = scenario.guidedSteps ?? [];
+  return Boolean(scenario.simulation)
+    && guidedSteps.length >= 4
+    && new Set(guidedSteps.map((step) => step.kind)).size === 4
+    && guidedSteps.every((step) => Boolean(step.evidence?.trim()))
+    && guidedSteps.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current"));
+}
+
 export function buildScenarioReadinessQueue(entries: ScenarioReadinessInput[]): ScenarioReadinessItem[] {
   return entries.flatMap((entry) => (entry.meta.failureScenarios ?? []).map((scenario) => ({ ...readinessForScenario(entry.meta, scenario), slug: entry.slug, title: entry.title })))
     .filter((item) => item.missing.length > 0)
