@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.191.0 (11-08-2026):** `SceneAssuranceBadge` muestra bajo demanda la cobertura declarada de la escena. Cliente ve una lectura conceptual; técnico puede consultar assurance, comprobaciones, hallazgos y fuentes declaradas. El texto evita confundir integridad del modelo con monitoreo o validación del entorno real.
+
 **Actualizacion v0.190.0 (11-08-2026):** `NodeDetailCard` recibe la escena y deriva las conexiones del nodo seleccionado. En cliente resume hasta tres relaciones en lenguaje sencillo; en técnico muestra todas y su tipo (`data`, `control`, `storage`, `dependency`, `failure`). La lectura sigue siendo del diagrama autorado, no telemetría observada.
 
 **Actualizacion v0.189.0 (11-08-2026):** `CanvasViewControls` reduce el ruido inicial del canvas en modo cliente con un control `details` para zoom/reset. El modo técnico conserva la barra completa. No cambia el motor de interacción: arrastre, selección, rueda, teclas `+/-/0` y reset siguen funcionando.

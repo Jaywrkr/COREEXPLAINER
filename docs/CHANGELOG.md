@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.191.0] - 2026-08-11
+
+- El canvas incorpora una señal compacta de cobertura y confianza del modelo.
+- Técnico puede consultar comprobaciones, hallazgos y fuentes declaradas.
+- Se diferencia explícitamente el modelo autorado de la observación de la red real.
+
 ## [0.190.0] - 2026-08-11
 
 - La tarjeta de nodo muestra las conexiones existentes en la escena actual.
