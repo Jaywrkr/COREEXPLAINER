@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.143.0] - 2026-08-11
+
+- Cada acción del backlog puede marcarse localmente como pendiente, en análisis o resuelta.
+- El estado se guarda por explainer y acción en el navegador; no modifica el contenido ni se sincroniza con servidor.
+- CI valida la normalización segura de estados desconocidos.
+
 ## [0.142.0] - 2026-08-11
 
 - El dashboard de revisión muestra el backlog técnico colapsado por explainer.

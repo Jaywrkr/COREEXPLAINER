@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.143.0 (11-08-2026):** cada accion del backlog visible en el dashboard tiene seguimiento local por accion (`pending`, `in-progress`, `resolved`). La clave incluye explainer y actionId; los valores desconocidos vuelven a `pending`. Es solo este navegador y no altera el estado editorial.
+
 **Actualizacion v0.142.0 (11-08-2026):** el dashboard muestra el backlog tecnico sugerido en un bloque colapsado por explainer. La UI, el informe JSON y el Markdown reutilizan `buildReviewActions`; CI valida que las acciones tengan evidencia y sourceIds existentes.
 
 **Actualizacion v0.141.0 (11-08-2026):** el informe JSON y el paquete de auditoria exponen `actions[]` por explainer. El backlog deriva acciones no operativas de revision pendiente, fuentes `review-needed`, advertencias semanticas y perfiles de integridad cuya assurance aun no es `reviewed`; cada accion conserva motivo, evidencia y sourceIds.

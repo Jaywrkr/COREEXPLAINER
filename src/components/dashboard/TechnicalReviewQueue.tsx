@@ -4,6 +4,7 @@ import { TechnicalReviewPacketDownload } from "./TechnicalReviewPacketDownload";
 import { TechnicalReviewAssignment } from "./TechnicalReviewAssignment";
 import { getReviewPriority } from "@/lib/review/reviewPriority";
 import { buildReviewActions } from "@/lib/review/reviewActions";
+import { ReviewActionTracker } from "./ReviewActionTracker";
 
 /** Read-only queue for specialists; it never turns pending content into approval. */
 export function TechnicalReviewQueue() {
@@ -72,6 +73,7 @@ export function TechnicalReviewQueue() {
                         <span className={action.priority === "high" ? "font-semibold text-core-warning" : "font-semibold text-core-accent"}>{action.priority}</span>{" "}
                         <span className="font-semibold text-core-text">{action.title}</span>
                         <span className="block text-core-text-muted">{action.reason} Evidencia: {action.evidence}</span>
+                        <ReviewActionTracker slug={entry.slug} actionId={action.id} />
                         {action.sourceIds.length ? <span className="block text-core-text-muted">Fuentes: {action.sourceIds.map((sourceId, index) => { const source = entry.meta.technicalReview.sources.find((candidate) => candidate.id === sourceId); return <span key={`${action.id}-${sourceId}-${index}`}>{index ? ", " : ""}{source ? <a href={source.url} target="_blank" rel="noreferrer" className="text-core-accent hover:underline">{sourceId}</a> : sourceId}</span>; })}</span> : null}
                       </li>
                     ))}

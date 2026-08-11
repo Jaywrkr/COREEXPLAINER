@@ -36,6 +36,8 @@ jobs:
         run: npm run test:review-priority
       - name: Run review action regressions
         run: npm run test:review-actions
+      - name: Run review action tracking regressions
+        run: npm run test:review-action-tracking
       - name: Run technical review report regressions
         run: npm run test:technical-review-report
       - name: Run technical review package regressions
