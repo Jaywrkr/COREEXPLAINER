@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.90.0 (09-08-2026):** `/api/copilot` y `/api/creator` usan `endpointGuard`: límite de tamaño declarado, rate limit temporal por IP, activación opcional con `AI_ENDPOINT_ENABLED` y timeout de 25 s hacia el proveedor. Los errores se presentan de forma segura.
+
 **Actualizacion v0.89.0 (09-08-2026):** los escenarios what-if muestran una lectura asistida calculada desde el grafo: significado para el cliente, evidencia a revisar y decisiones/roadmap relacionados. `whatIfImpactAssistant` no ejecuta pruebas ni consulta plataformas.
 
 **Actualizacion v0.88.0 (09-08-2026):** el dashboard incluye `ExplainerDraftCreator`. Recibe tema, audiencia, marcas y objetivo; genera tres escenas, riesgos, preguntas, gaps y fuentes a confirmar mediante `/api/creator` o plantilla local. Descarga JSON editable y no publica contenido automáticamente.

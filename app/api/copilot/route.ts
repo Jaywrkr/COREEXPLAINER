@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { checkAiAccess, providerSignal, readJsonBody } from "@/lib/ai/endpointGuard";
 
 const MAX_QUESTION_LENGTH = 600;
 const MAX_CONTEXT_LENGTH = 14000;
@@ -13,6 +14,10 @@ function response(message: string, status = 200) {
 }
 
 export async function POST(request: Request) {
+  const access = checkAiAccess(request);
+  if (!access.allowed) return response(access.message, access.status);
+  const declaredLength = Number(request.headers.get("content-length") ?? 0);
+  if (declaredLength > 18_000) return response("La solicitud es demasiado grande.", 413);
   let body: CopilotRequest;
   try {
     body = (await request.json()) as CopilotRequest;
@@ -65,6 +70,7 @@ export async function POST(request: Request) {
       ],
     }),
     cache: "no-store",
+    signal: providerSignal(),
   });
 
   if (!upstream.ok) {

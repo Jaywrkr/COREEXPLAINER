@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.89.0";
+export const currentVersion = "0.90.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.90.0",
+    date: "09 ago 2026",
+    title: "Endurecimiento de endpoints IA",
+    changes: [
+      "Los endpoints de copiloto y creador tienen límites de tamaño, rate limiting temporal y timeout del proveedor.",
+      "La IA puede desactivarse con AI_ENDPOINT_ENABLED=false sin retirar la experiencia local.",
+      "Los errores del proveedor se convierten en mensajes seguros y no exponen detalles internos.",
+    ],
+  },
   {
     version: "0.89.0",
     date: "09 ago 2026",

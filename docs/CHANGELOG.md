@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.90.0] - 2026-08-09
+
+- Los endpoints IA incorporan límites de cuerpo, rate limiting temporal y timeout.
+- `AI_ENDPOINT_ENABLED=false` permite desactivarlos por entorno.
+- La app mantiene fallback local y no expone errores internos del proveedor.
+
 ## [0.89.0] - 2026-08-09
 
 - La simulación what-if incluye una lectura asistida del impacto.
