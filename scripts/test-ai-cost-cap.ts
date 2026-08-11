@@ -10,6 +10,8 @@ try {
   const estimate = estimateAiCost(1_000, 500);
   assert.equal(configuredAiCostCap(), 0.003);
   assert.equal(exceedsAiCostCap(estimate), true);
+  // Both AI surfaces must use the same pre-provider cap decision.
+  assert.equal(exceedsAiCostCap(estimate, configuredAiCostCap()), true);
   assert.equal(exceedsAiCostCap(estimate, 0.01), false);
   delete process.env.AI_MAX_ESTIMATED_COST_USD;
   assert.equal(exceedsAiCostCap(estimate), false);

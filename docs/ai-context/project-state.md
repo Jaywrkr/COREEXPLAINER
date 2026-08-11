@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.228.0 (11-08-2026):** `app/api/creator` aplica `exceedsAiCostCap` después de estimar tokens y antes de `reserveAiTokens` o de llamar a OpenAI. Si el tope se supera, devuelve fallback local `429` con política y no realiza la llamada externa. Copilot y Creator comparten ahora el mismo guard de coste.
+
 **Actualizacion v0.227.0 (11-08-2026):** `CopilotPanel` exige confirmación visible antes de ejecutar una acción `activate-scenario`; cancelar no registra activación. Las acciones siguen limitadas a fuentes y escenarios allowlisted, sin comandos, URLs arbitrarias ni mutaciones de infraestructura.
 
 **Actualizacion v0.226.0 (11-08-2026):** `validateFailureScenarioKillability` convierte en error cualquier `deadNodeId` que exista en la escena pero no tenga `killable: true`. El gate evita que la UI prometa una simulación interactiva que el contrato visual no autoriza; los 22 explainers actuales pasan.

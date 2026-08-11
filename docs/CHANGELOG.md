@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.228.0] - 2026-08-11
+
+- El creador de borradores aplica el mismo tope de coste estimado que el copiloto antes de llamar al proveedor.
+- Si se supera, devuelve una plantilla local segura y no reserva tokens ni ejecuta la llamada externa.
+- La política conserva el presupuesto estimado para explicar la decisión en la interfaz.
+
 ## [0.227.0] - 2026-08-11
 
 - Activar un escenario desde una sugerencia de IA requiere confirmación visible antes de cambiar la escena local.

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.227.0";
+export const currentVersion = "0.228.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.228.0",
+    date: "11 ago 2026",
+    title: "Tope de coste también en el creador IA",
+    changes: [
+      "El endpoint de creación de borradores aplica el mismo tope de coste estimado que el copiloto antes de llamar al proveedor.",
+      "Cuando se supera el tope, devuelve una plantilla local segura y no reserva tokens ni ejecuta la llamada externa.",
+      "La política devuelta conserva el presupuesto estimado para que la interfaz explique la decisión.",
+    ],
+  },
   {
     version: "0.227.0",
     date: "11 ago 2026",

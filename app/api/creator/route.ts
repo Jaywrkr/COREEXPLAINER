@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
-import { estimateAiCost } from "@/lib/ai/costEstimate";
+import { estimateAiCost, exceedsAiCostCap } from "@/lib/ai/costEstimate";
 import type { CreatorPolicy } from "@/lib/ai/creatorPolicy";
 import { buildCreatorPolicy } from "@/lib/ai/creatorPolicy";
 import { validateCreatorDraft } from "@/lib/ai/creatorContract";
@@ -36,6 +36,7 @@ export async function POST(request: Request) {
   const estimatedInputTokens = Math.ceil(JSON.stringify({ topic, audience, brands, goal }).length / 4);
   const estimatedCost = estimateAiCost(estimatedInputTokens, maxOutputTokens);
   const policy = buildCreatorPolicy(estimatedInputTokens, maxOutputTokens, estimatedCost?.costUsd, estimatedCost?.source);
+  if (exceedsAiCostCap(estimatedCost)) return json("La solicitud supera el tope de coste configurado para IA; reduce el contexto o usa una plantilla local.", 429, true, 60, policy);
   const budget = await reserveAiTokens(request, estimatedInputTokens + maxOutputTokens);
   if (!budget.allowed) return json(budget.message, budget.status, true, budget.retryAfter, policy);
 
