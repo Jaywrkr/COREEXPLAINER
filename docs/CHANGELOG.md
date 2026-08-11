@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.208.0] - 2026-08-11
+
+- Cada patrón puede exportarse como borrador Markdown editable.
+- El borrador incluye evidencia, riesgos, enlaces y checklist de revisión.
+- La exportación no modifica el catálogo ni publica contenido.
+
 ## [0.207.0] - 2026-08-11
 
 - La revisión humana pendiente se muestra como requiere revisión, no como bloqueo técnico.

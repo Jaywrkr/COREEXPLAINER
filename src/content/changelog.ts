@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.207.0";
+export const currentVersion = "0.208.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.208.0",
+    date: "11 ago 2026",
+    title: "Borradores de patrones reutilizables",
+    changes: [
+      "Cada patrón puede exportarse como Markdown editable con problemas, evidencia, riesgos y checklist.",
+      "El borrador incluye enlaces a explainers y contexto de versión, pero no modifica el catálogo.",
+      "La exportación refuerza la revisión especialista antes de convertir una idea en contenido publicado.",
+    ],
+  },
   {
     version: "0.207.0",
     date: "11 ago 2026",

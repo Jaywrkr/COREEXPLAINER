@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import { solutionPatterns, type SolutionPattern } from "@/content/patterns";
 import { filterSolutionPatterns, selectComparablePatterns } from "@/lib/patterns/patternComparison";
 import { assessPatternReadiness, patternReadinessLabels, type PatternExplainerReadiness, type PatternReadinessStatus } from "@/lib/patterns/patternReadiness";
+import { currentVersion } from "@/content/changelog";
+import { buildPatternDraftMarkdown } from "@/lib/patterns/patternDraftExport";
 
 const comparisonRows: Array<{ label: string; get: (pattern: SolutionPattern) => string }> = [
   { label: "Problema", get: (pattern) => pattern.problem },
@@ -30,6 +32,15 @@ export function PatternLibrary({ explainerReadiness }: { explainerReadiness: Rec
   const selected = selectComparablePatterns(solutionPatterns, selectedIds);
   const readinessFor = (pattern: SolutionPattern) => assessPatternReadiness(pattern, pattern.explainerSlugs.map((slug) => explainerReadiness[slug] ?? { slug, exists: false }));
   const toggle = (id: string) => setSelectedIds((current) => current.includes(id) ? current.filter((value) => value !== id) : current.length < 2 ? [...current, id] : current);
+  const downloadDraft = (pattern: SolutionPattern) => {
+    const blob = new Blob([buildPatternDraftMarkdown(pattern, currentVersion, new Date().toISOString())], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `coresolutions-pattern-${pattern.id}-draft.md`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <section className="mb-14">
@@ -59,7 +70,7 @@ export function PatternLibrary({ explainerReadiness }: { explainerReadiness: Rec
             <p className="mt-2 border-l-2 border-core-accent/60 pl-2 text-xs leading-relaxed text-core-text"><span className="font-semibold text-core-accent">Resultado:</span> {pattern.outcome}</p>
             <div className="mt-3 grid gap-2 text-[0.62rem] sm:grid-cols-2"><div><p className="font-semibold text-core-text">Señales</p><p className="text-core-text-muted">{pattern.signals.join(" · ")}</p></div><div><p className="font-semibold text-core-text">Evidencia</p><p className="text-core-text-muted">{pattern.evidence.join(" · ")}</p></div></div>
             <p className="mt-2 text-[0.6rem] text-core-text-muted"><span className="font-semibold text-core-text">Marcas:</span> {pattern.brands.join(" · ")}</p>
-            <div className="mt-3 flex flex-wrap gap-1"><button type="button" onClick={() => toggle(pattern.id)} aria-pressed={isSelected} className={`border px-1.5 py-0.5 text-[0.58rem] ${isSelected ? "border-core-accent/60 text-core-accent" : "border-core-border/[0.16] text-core-text-muted hover:border-core-accent/50 hover:text-core-text"}`}>{isSelected ? "Seleccionado" : "Comparar"}</button>{pattern.explainerSlugs.map((slug) => <Link key={slug} href={`/explainer/${slug}`} className="border border-core-accent/35 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">Abrir {slug}</Link>)}</div>
+            <div className="mt-3 flex flex-wrap gap-1"><button type="button" onClick={() => toggle(pattern.id)} aria-pressed={isSelected} className={`border px-1.5 py-0.5 text-[0.58rem] ${isSelected ? "border-core-accent/60 text-core-accent" : "border-core-border/[0.16] text-core-text-muted hover:border-core-accent/50 hover:text-core-text"}`}>{isSelected ? "Seleccionado" : "Comparar"}</button><button type="button" onClick={() => downloadDraft(pattern)} className="border border-core-border/[0.16] px-1.5 py-0.5 text-[0.58rem] text-core-text-muted hover:border-core-accent/50 hover:text-core-text">Crear borrador</button>{pattern.explainerSlugs.map((slug) => <Link key={slug} href={`/explainer/${slug}`} className="border border-core-accent/35 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">Abrir {slug}</Link>)}</div>
           </article>
         );})}
       </div>
