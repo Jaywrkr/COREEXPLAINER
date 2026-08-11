@@ -1,7 +1,7 @@
 # Fase 94 · Brief de triage para soporte técnico
 
-Fecha: 2026-08-11  
-Versión: 0.148.0  
+Fecha: 2026-08-11
+Versión: 0.148.0
 Estado: implementado en rama `codex/support-triage`
 
 ## Objetivo
