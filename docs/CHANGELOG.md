@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.181.0] - 2026-08-11
+
+- El seguimiento de revisión especialista exige un cierre verificable antes de marcar “listo para PR”.
+- Se añaden checklist de narrativa, diagrama, fuentes, escenarios y ledger de evidencia.
+- Se incorpora estado bloqueado y una regresión ejecutada en CI.
+
 ## [0.180.0] - 2026-08-11
 
 - Se añade un mapa contextual de evidencia dentro de las herramientas opcionales.

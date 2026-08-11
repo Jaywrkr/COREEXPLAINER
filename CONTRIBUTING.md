@@ -48,6 +48,7 @@ npm run test:workbench-export
 npm run typecheck
 npm run lint
 npm run build
+npm run test:review-assignment
 ```
 
 El workflow `.github/workflows/quality.yml` repite estos controles en GitHub Actions. Una advertencia de revisión técnica pendiente no se debe ocultar: `reviewStatus: "pending"` solo cambia después de una revisión especialista real.

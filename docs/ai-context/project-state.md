@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.181.0 (11-08-2026):** `reviewAssignment.ts` define el contrato puro del seguimiento especialista. “Listo para PR” requiere responsable, fecha, nota, evidencia de cierre y checklist de narrativa, diagrama, fuentes, escenarios y ledger; estados incompletos se degradan a `in-review`. `TechnicalReviewAssignment` conserva el alcance local y no sustituye aprobación formal.
+
 **Actualizacion v0.180.0 (11-08-2026):** `EvidenceMapPanel` expone bajo demanda el ledger tipado de la escena: afirmación, evidencia solicitada, tipo, procedencia y enlaces fuente. Filtra la escena actual y el escenario seleccionado; deja claro que es un contrato autorado, no evidencia observada del cliente.
 
 **Actualizacion v0.179.0 (11-08-2026):** `PresentationHud` lleva los controles de presentación al canvas, entra en Focus preservando el estado anterior y auto-oculta el chrome después de 3.2 s de inactividad. Movimiento del puntero lo revela; Escape y teclado siguen funcionando.

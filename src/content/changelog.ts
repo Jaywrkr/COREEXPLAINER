@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.180.0";
+export const currentVersion = "0.181.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.181.0",
+    date: "11 ago 2026",
+    title: "Gate de cierre para revisión especialista",
+    changes: [
+      "‘Listo para PR’ exige responsable, fecha objetivo, notas, evidencia de cierre y cinco comprobaciones explícitas.",
+      "Los estados locales incluyen bloqueado y degradan automáticamente un estado incompleto a en revisión.",
+      "La regla vive en un módulo puro con regresión automatizada y se ejecuta también en CI.",
+    ],
+  },
   {
     version: "0.180.0",
     date: "11 ago 2026",
