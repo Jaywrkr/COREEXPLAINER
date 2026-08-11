@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.97.0] - 2026-08-09
+
+- El dashboard incorpora una biblioteca de patrones reutilizables de CORESOLUTIONS.
+- Cada patrón conecta problema, marcas, señales, evidencia, riesgos y explainers.
+- Los patrones muestran fecha de revisión y no sustituyen un assessment del proyecto.
+
 ## [0.96.0] - 2026-08-09
 
 - El copiloto muestra telemetría local de consultas, fallos y tokens.
