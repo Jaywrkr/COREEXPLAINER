@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.117.0] - 2026-08-10
+
+- `.github/dependabot.yml` programa revisiones semanales de npm y GitHub Actions.
+- `SECURITY.md` documenta el reporte privado de vulnerabilidades y el manejo de información sensible.
+
 ## [0.116.0] - 2026-08-10
 
 - Nuevo workflow `.github/workflows/quality.yml` para PR y push a `main`.
