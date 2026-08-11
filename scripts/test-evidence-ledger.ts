@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildEvidenceLedger, validateEvidenceLedger } from "../src/lib/evidence/ledger";
+import { buildEvidenceLedger, isValidClaimPath, validateEvidenceLedger } from "../src/lib/evidence/ledger";
 import { buildSupportTriageBrief } from "../src/lib/support/triage";
 import type { ExplainerMeta, ExplainerStep } from "../src/content/types";
 
@@ -16,6 +16,10 @@ assert.deepEqual(ledger[0]?.claimPaths, ["steps[0].title", "steps[0].paragraphs[
 assert.ok(ledger.every((record) => record.claimPaths.length > 0));
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, id: "", sourceIds: ["missing"] }], new Set(["src-1"])).some((error) => error.includes("id must be non-empty")));
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, id: "invalid", sourceIds: ["missing"] }], new Set(["src-1"])).some((error) => error.includes("unknown source")));
+assert.equal(isValidClaimPath("steps[0].paragraphs[1]"), true);
+assert.equal(isValidClaimPath("failureScenarios.failure.guidedSteps.observe.evidence"), true);
+assert.equal(isValidClaimPath("javascript:alert(1)"), false);
+assert.ok(validateEvidenceLedger([{ ...ledger[0]!, claimPaths: ["client.secret"] }], new Set(["src-1"])).some((error) => error.includes("invalid authoring path")));
 assert.ok(ledger.every((record) => record.requestedEvidence.length > 0));
 assert.equal(buildSupportTriageBrief({ slug: "ledger", meta, steps }).items.length, 1);
 console.log("Evidence ledger regression checks passed.");

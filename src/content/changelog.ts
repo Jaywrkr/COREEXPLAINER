@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.234.0";
+export const currentVersion = "0.235.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.235.0",
+    date: "11 ago 2026",
+    title: "Claim paths validados en el ledger",
+    changes: [
+      "La evidencia solo puede apuntar a rutas conocidas de steps, escenarios guiados y arquitectura objetivo.",
+      "Se rechazan rutas arbitrarias o con texto no estructurado antes de generar el ledger.",
+      "La regresión cubre paths válidos de narrativa, escenario y un intento de path no autorizado.",
+    ],
+  },
   {
     version: "0.234.0",
     date: "11 ago 2026",

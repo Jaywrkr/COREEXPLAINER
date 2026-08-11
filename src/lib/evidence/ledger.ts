@@ -29,6 +29,11 @@ function unique(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))];
 }
 
+/** Claim paths must point into the authored explainer contract, never to arbitrary text. */
+export function isValidClaimPath(value: string): boolean {
+  return /^(?:steps\[\d+\]|failureScenarios\.[A-Za-z0-9:_-]+\.guidedSteps\.[A-Za-z0-9:_-]+|targetArchitecture\.(?:roadmap|decisionOptions)\.[A-Za-z0-9:_-]+)\.[A-Za-z][A-Za-z0-9_]*(?:\[\d+\])?$/.test(value);
+}
+
 function sourceStatus(meta: ExplainerMeta, sourceIds: string[]): Record<string, EvidenceSourceStatus> {
   const sources = new Map(meta.technicalReview.sources.map((source) => [source.id, source]));
   return Object.fromEntries(sourceIds.map((sourceId) => [sourceId, sources.get(sourceId)?.validity === "current" ? "current" : sources.has(sourceId) ? "review-needed" : "missing"]));
@@ -124,6 +129,9 @@ export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds
     if (!record.claim.trim()) errors.push(`${label}.claim must be non-empty`);
     if (!record.claimPaths.length) errors.push(`${label}.claimPaths must contain at least one authoring path`);
     if (new Set(record.claimPaths).size !== record.claimPaths.length) errors.push(`${label}.claimPaths must not contain duplicates`);
+    for (const claimPath of record.claimPaths) {
+      if (!isValidClaimPath(claimPath)) errors.push(`${label}.claimPaths contains an invalid authoring path '${claimPath}'`);
+    }
     if (!record.requestedEvidence.trim()) errors.push(`${label}.requestedEvidence must be non-empty`);
     if (!record.sourceIds.length) errors.push(`${label}.sourceIds must contain at least one source`);
     for (const sourceId of record.sourceIds) {

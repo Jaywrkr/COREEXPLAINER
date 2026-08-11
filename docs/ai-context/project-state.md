@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.235.0 (11-08-2026):** `isValidClaimPath` limita `EvidenceRecord.claimPaths` a rutas estructuradas de steps, escenarios guiados o `targetArchitecture`; `validateEvidenceLedger` rechaza paths arbitrarios. La evidencia sigue siendo autorada/descriptiva y no prueba el entorno real.
+
 **Actualizacion v0.234.0 (11-08-2026):** `assessPatternReadiness` evalúa `pattern.lastReviewedAt` con `summarizeSourceFreshness`; un patrón fuera de la ventana de 180 días queda `review-needed` y explica `dueAt`/motivo. La biblioteca ya no muestra como listo un patrón viejo aunque sus explainers estén revisados.
 
 **Actualizacion v0.233.0 (11-08-2026):** `AssessmentBriefControl` recibe `slug` explícito y `ExplainerDraftCreator` registra el token fijo `creator`; se eliminó el uso de títulos o temas libres como IDs de telemetría. Esto recupera utilidad de métricas sin almacenar contenido del usuario.

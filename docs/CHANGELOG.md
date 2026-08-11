@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.235.0] - 2026-08-11
+
+- La evidencia solo puede apuntar a rutas conocidas de steps, escenarios guiados y arquitectura objetivo.
+- Se rechazan rutas arbitrarias o con texto no estructurado antes de generar el ledger.
+- La regresión cubre paths válidos y un intento de path no autorizado.
+
 ## [0.234.0] - 2026-08-11
 
 - Un patrón no aparece listo si su fecha de revisión supera la ventana editorial de 180 días.
