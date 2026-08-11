@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.200.0";
+export const currentVersion = "0.201.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.201.0",
+    date: "11 ago 2026",
+    title: "Foco cinematográfico de escenas",
+    changes: [
+      "Los pasos guiados centran suavemente los nodos declarados como relevantes para la explicación.",
+      "El encuadre usa una transición respetuosa con prefers-reduced-motion y se interrumpe al interactuar manualmente.",
+      "El usuario conserva el control completo del zoom, desplazamiento y restablecimiento del lienzo.",
+    ],
+  },
   {
     version: "0.200.0",
     date: "11 ago 2026",

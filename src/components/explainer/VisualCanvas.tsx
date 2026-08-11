@@ -101,6 +101,7 @@ export function VisualCanvas({
   const engineRef = useRef<SceneEngine>(new SceneEngine());
   const viewportRef = useRef<Viewport>(DEFAULT_VIEWPORT);
   const pointerRef = useRef<PointerDrag | null>(null);
+  const viewportAnimationRef = useRef<number | null>(null);
   const preserveManualFailureRef = useRef(false);
   const [viewport, setViewport] = useState<Viewport>(DEFAULT_VIEWPORT);
   const [activeNodeKinds, setActiveNodeKinds] = useState<Set<NodeKind>>(() => new Set(ALL_NODE_KINDS));
@@ -173,9 +174,41 @@ export function VisualCanvas({
     setViewport(next);
   }, []);
 
-  const resetViewport = useCallback(() => updateViewport(DEFAULT_VIEWPORT), [updateViewport]);
+  const animateViewportTo = useCallback((next: Viewport) => {
+    if (viewportAnimationRef.current !== null) window.cancelAnimationFrame(viewportAnimationRef.current);
+    if (reducedMotionRef.current) {
+      updateViewport(next);
+      return;
+    }
+    const origin = viewportRef.current;
+    const started = performance.now();
+    const duration = 520;
+    const tick = (now: number) => {
+      const progress = clamp((now - started) / duration, 0, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      updateViewport({
+        scale: origin.scale + (next.scale - origin.scale) * eased,
+        x: origin.x + (next.x - origin.x) * eased,
+        y: origin.y + (next.y - origin.y) * eased,
+      });
+      viewportAnimationRef.current = progress < 1 ? window.requestAnimationFrame(tick) : null;
+    };
+    viewportAnimationRef.current = window.requestAnimationFrame(tick);
+  }, [updateViewport]);
+
+  const resetViewport = useCallback(() => {
+    if (viewportAnimationRef.current !== null) {
+      window.cancelAnimationFrame(viewportAnimationRef.current);
+      viewportAnimationRef.current = null;
+    }
+    updateViewport(DEFAULT_VIEWPORT);
+  }, [updateViewport]);
 
   const zoomAt = useCallback((focalX: number, focalY: number, requestedScale: number) => {
+    if (viewportAnimationRef.current !== null) {
+      window.cancelAnimationFrame(viewportAnimationRef.current);
+      viewportAnimationRef.current = null;
+    }
     const current = viewportRef.current;
     const scale = clamp(requestedScale, MIN_ZOOM, MAX_ZOOM);
     const ratio = scale / current.scale;
@@ -192,6 +225,29 @@ export function VisualCanvas({
     if (!rect) return;
     zoomAt(rect.width / 2, rect.height / 2, viewportRef.current.scale * factor);
   }, [zoomAt]);
+
+  const focusOnNodes = useCallback((nodeIds: readonly string[]) => {
+    const canvas = canvasRef.current;
+    if (!canvas || nodeIds.length === 0) return;
+    const targets = scene.nodes.filter((node) => nodeIds.includes(node.id));
+    if (targets.length === 0) return;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width < 80 || rect.height < 80) return;
+    const minX = Math.min(...targets.map((node) => node.x));
+    const maxX = Math.max(...targets.map((node) => node.x));
+    const minY = Math.min(...targets.map((node) => node.y));
+    const maxY = Math.max(...targets.map((node) => node.y));
+    const centerX = ((minX + maxX) / 2) * rect.width;
+    const centerY = ((minY + maxY) / 2) * rect.height;
+    const groupWidth = Math.max((maxX - minX) * rect.width, 180);
+    const groupHeight = Math.max((maxY - minY) * rect.height, 120);
+    const scale = clamp(Math.min(rect.width / (groupWidth + 220), rect.height / (groupHeight + 180)), 0.9, 1.55);
+    animateViewportTo({
+      scale,
+      x: rect.width / 2 - centerX * scale,
+      y: rect.height / 2 - centerY * scale,
+    });
+  }, [animateViewportTo, scene.nodes]);
 
   const toggleNodeKind = useCallback((kind: NodeKind) => {
     setActiveNodeKinds((current) => {
@@ -255,8 +311,18 @@ export function VisualCanvas({
   }, [combinedFocusIds]);
 
   useEffect(() => {
+    if (guidedFocusIds.length === 0 || isTechnicalMode) return;
+    const frame = window.requestAnimationFrame(() => focusOnNodes(guidedFocusIds));
+    return () => window.cancelAnimationFrame(frame);
+  }, [focusOnNodes, guidedFocusIds, isTechnicalMode]);
+
+  useEffect(() => {
     engineRef.current.setTheme(theme);
   }, [theme]);
+
+  useEffect(() => () => {
+    if (viewportAnimationRef.current !== null) window.cancelAnimationFrame(viewportAnimationRef.current);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -288,6 +354,10 @@ export function VisualCanvas({
 
     const handlePointerDown = (event: PointerEvent) => {
       if (event.button !== 0) return;
+      if (viewportAnimationRef.current !== null) {
+        window.cancelAnimationFrame(viewportAnimationRef.current);
+        viewportAnimationRef.current = null;
+      }
       canvas.setPointerCapture(event.pointerId);
       canvas.style.cursor = "grabbing";
       pointerRef.current = {

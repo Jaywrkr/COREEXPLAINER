@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.201.0] - 2026-08-11
+
+- Los pasos guiados centran suavemente los nodos relevantes del diagrama.
+- La transición respeta `prefers-reduced-motion` y se cancela al interactuar.
+- El zoom, desplazamiento y reset manual mantienen prioridad del usuario.
+
 ## [0.200.0] - 2026-08-11
 
 - El canvas incorpora una tarjeta compacta de contexto de escena.
