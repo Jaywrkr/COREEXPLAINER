@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.107.0] - 2026-08-10
+
+- La cola permite registrar localmente responsable, fecha objetivo, estado y notas por explainer.
+- El seguimiento se mantiene en el navegador y no equivale a una aprobación o publicación.
+
 ## [0.106.0] - 2026-08-10
 
 - La cola de revisión abre el explainer real y ya no genera enlaces web inexistentes bajo `docs/`.

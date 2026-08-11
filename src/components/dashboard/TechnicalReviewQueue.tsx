@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { explainerValidationWarnings, getAllExplainers } from "@/content/registry";
 import { TechnicalReviewPacketDownload } from "./TechnicalReviewPacketDownload";
+import { TechnicalReviewAssignment } from "./TechnicalReviewAssignment";
 
 /** Read-only queue for specialists; it never turns pending content into approval. */
 export function TechnicalReviewQueue() {
@@ -48,6 +49,7 @@ export function TechnicalReviewQueue() {
               <p className="mt-2 text-[0.68rem] leading-relaxed text-core-text-secondary">{entry.meta.technicalReview.scope}</p>
               <p className="mt-1 font-mono text-[0.58rem] text-core-text-muted">Ficha en repositorio: {entry.meta.technicalValidationDoc}</p>
               {warnings.length ? <p className="mt-1 text-[0.6rem] text-core-warning">Gate: {warnings.length} advertencia(s) de revisión humana.</p> : null}
+              <TechnicalReviewAssignment slug={entry.slug} />
             </article>
           );
         })}
