@@ -7,6 +7,9 @@ export interface CoverageInput {
   warningCount: number;
   actionCount: number;
   scenarioProfiles?: ScenarioCoverageProfile[];
+  impactCount?: number;
+  highRiskImpactCount?: number;
+  impactsWithScenarios?: number;
 }
 
 export interface ScenarioCoverageProfile {
@@ -39,6 +42,9 @@ export interface TechnicalCoverage {
   scenariosWithPartialCoverage: number;
   scenariosWithNoCoverage: number;
   scenarioCoveragePercent: number;
+  impactCount: number;
+  highRiskImpactCount: number;
+  impactsWithScenarios: number;
 }
 
 export function calculateTechnicalCoverage(entries: CoverageInput[]): TechnicalCoverage {
@@ -69,8 +75,11 @@ export function calculateTechnicalCoverage(entries: CoverageInput[]): TechnicalC
     coverage.roadmapPhases += entry.roadmapCount;
     coverage.warnings += entry.warningCount;
     coverage.actions += entry.actionCount;
+    coverage.impactCount += entry.impactCount ?? 0;
+    coverage.highRiskImpactCount += entry.highRiskImpactCount ?? 0;
+    coverage.impactsWithScenarios += entry.impactsWithScenarios ?? 0;
     return coverage;
-  }, { explainers: 0, reviewed: 0, pending: 0, sources: 0, currentSources: 0, reviewNeededSources: 0, explainersWithScenarios: 0, failureScenarios: 0, integrityReviewed: 0, integritySourceBacked: 0, integrityBaseline: 0, explainersWithRoadmap: 0, roadmapPhases: 0, warnings: 0, actions: 0, scenariosWithSimulation: 0, scenariosWithGuidedFlow: 0, scenariosWithEvidence: 0, scenariosReadyForSupport: 0, scenariosWithPartialCoverage: 0, scenariosWithNoCoverage: 0, scenarioCoveragePercent: 0, scenarioCoverageTotal: 0 });
+  }, { explainers: 0, reviewed: 0, pending: 0, sources: 0, currentSources: 0, reviewNeededSources: 0, explainersWithScenarios: 0, failureScenarios: 0, integrityReviewed: 0, integritySourceBacked: 0, integrityBaseline: 0, explainersWithRoadmap: 0, roadmapPhases: 0, warnings: 0, actions: 0, scenariosWithSimulation: 0, scenariosWithGuidedFlow: 0, scenariosWithEvidence: 0, scenariosReadyForSupport: 0, scenariosWithPartialCoverage: 0, scenariosWithNoCoverage: 0, scenarioCoveragePercent: 0, impactCount: 0, highRiskImpactCount: 0, impactsWithScenarios: 0, scenarioCoverageTotal: 0 });
   result.scenarioCoveragePercent = result.failureScenarios === 0 ? 0 : Math.round((result.scenarioCoverageTotal / (result.failureScenarios * 4)) * 100);
   delete (result as Partial<typeof result>).scenarioCoverageTotal;
   return result;

@@ -2,9 +2,10 @@ import { explainerRegistry, explainerValidationWarnings } from "../src/content/r
 import { getReviewPriority } from "../src/lib/review/reviewPriority";
 import { buildReviewActions } from "../src/lib/review/reviewActions";
 import { calculateTechnicalCoverage } from "../src/lib/review/coverageMetrics";
+import { buildImplementationWorkPackage } from "../src/lib/implementation/workPackage";
 import packageJson from "../package.json";
 
-const REPORT_SCHEMA_VERSION = "1.2";
+const REPORT_SCHEMA_VERSION = "1.3";
 
 function safe(value: string): string {
   return value.replace(/[\r\n|]+/g, " ").trim();
@@ -18,6 +19,7 @@ const rows = explainerRegistry.map((entry) => {
   const integrity = entry.meta.technicalIntegrity;
   const priority = getReviewPriority({ reviewStatus: entry.meta.reviewStatus, staleSources, warningCount: warnings.length });
   const actions = buildReviewActions(entry.meta, warnings);
+  const workPackage = buildImplementationWorkPackage({ slug: entry.slug, meta: entry.meta, steps: entry.steps, appVersion: packageJson.version, generatedAt: "report" });
   return {
     slug: entry.slug,
     title: entry.meta.title,
@@ -39,6 +41,9 @@ const rows = explainerRegistry.map((entry) => {
     integrityAssurance: integrity?.assurance,
     integrity: integrity ? `${integrity.domain}/${integrity.assurance} (${Object.keys(integrity.scenes).length} escenas)` : "no declarado",
     roadmap: entry.meta.targetArchitecture?.roadmap?.length ?? 0,
+    impactCount: workPackage.changeImpacts.length,
+    highRiskImpactCount: workPackage.changeImpacts.filter((impact) => impact.risk === "high").length,
+    impactsWithScenarios: workPackage.changeImpacts.filter((impact) => impact.scenarioIds.length > 0).length,
     priority,
   };
 }).sort((a, b) => b.priority - a.priority || a.slug.localeCompare(b.slug));
@@ -47,7 +52,7 @@ const pending = rows.filter((row) => row.reviewStatus === "pending").length;
 const stale = rows.reduce((sum, row) => sum + row.staleSources, 0);
 const warningCount = rows.reduce((sum, row) => sum + row.warnings.length, 0);
 const actionCount = rows.reduce((sum, row) => sum + row.actions.length, 0);
-const coverage = calculateTechnicalCoverage(rows.map((row) => ({ reviewStatus: row.reviewStatus, sourceValidities: row.sources.map((source) => source.validity), failureScenarioCount: row.failureScenarios, scenarioProfiles: row.scenarioProfiles, integrityAssurance: row.integrityAssurance, roadmapCount: row.roadmap, warningCount: row.warnings.length, actionCount: row.actions.length })));
+const coverage = calculateTechnicalCoverage(rows.map((row) => ({ reviewStatus: row.reviewStatus, sourceValidities: row.sources.map((source) => source.validity), failureScenarioCount: row.failureScenarios, scenarioProfiles: row.scenarioProfiles, integrityAssurance: row.integrityAssurance, roadmapCount: row.roadmap, warningCount: row.warnings.length, actionCount: row.actions.length, impactCount: row.impactCount, highRiskImpactCount: row.highRiskImpactCount, impactsWithScenarios: row.impactsWithScenarios })));
 
 if (process.argv.includes("--json")) {
   console.log(JSON.stringify({ schemaVersion: REPORT_SCHEMA_VERSION, appVersion: packageJson.version, generatedAt: new Date().toISOString(), summary: { explainers: rows.length, pending, staleSources: stale, warnings: warningCount, actions: actionCount, coverage }, rows, priorityRule: { pending: 100, staleSource: 10, warning: 5 } }, null, 2));
@@ -62,6 +67,7 @@ console.log("> Informe de priorizacion. No aprueba contenido ni sustituye una re
 console.log("");
 console.log(`Resumen: ${rows.length} explainers - ${pending} pendientes - ${stale} fuentes review-needed - ${warningCount} advertencias del gate - ${actionCount} acciones sugeridas`);
 console.log(`Cobertura: ${coverage.reviewed}/${coverage.explainers} revisados - ${coverage.currentSources}/${coverage.sources} fuentes vigentes - ${coverage.explainersWithScenarios}/${coverage.explainers} con escenarios - ${coverage.scenariosReadyForSupport}/${coverage.failureScenarios} escenarios listos para soporte - ${coverage.roadmapPhases} fases de roadmap`);
+console.log(`Impactos de cambio: ${coverage.impactCount} totales - ${coverage.highRiskImpactCount} alto riesgo - ${coverage.impactsWithScenarios} con escenarios enlazados`);
 console.log("");
 console.log("| Prioridad | Explainer | Estado | Ultima revision | Fuentes | Review-needed | Fallos | Integridad | Roadmap |");
 console.log("|---:|---|---|---|---:|---:|---:|---|---:|");

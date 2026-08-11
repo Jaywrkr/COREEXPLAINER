@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.171.0] - 2026-08-11
+
+- El dashboard y el informe técnico muestran cobertura de impactos de cambio.
+- Se cuentan impactos totales, de alto riesgo y con escenarios enlazados.
+- El informe JSON usa `schemaVersion: 1.3`; las cifras son editoriales y no miden producción.
+
 ## [0.170.0] - 2026-08-11
 
 - La matriz de impacto permite registrar revisión local por workstream: pendiente, revisado, bloqueado o aceptado.

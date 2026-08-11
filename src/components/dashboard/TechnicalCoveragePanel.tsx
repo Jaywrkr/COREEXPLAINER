@@ -1,10 +1,13 @@
 import { explainerValidationWarnings, getAllExplainers } from "@/content/registry";
 import { buildReviewActions } from "@/lib/review/reviewActions";
 import { calculateTechnicalCoverage } from "@/lib/review/coverageMetrics";
+import { buildImplementationWorkPackage } from "@/lib/implementation/workPackage";
+import { currentVersion } from "@/content/changelog";
 
 export function TechnicalCoveragePanel() {
   const coverage = calculateTechnicalCoverage(getAllExplainers().map((entry) => {
     const warnings = explainerValidationWarnings[entry.slug] ?? [];
+    const workPackage = buildImplementationWorkPackage({ slug: entry.slug, meta: entry.meta, steps: entry.steps, appVersion: currentVersion, generatedAt: "dashboard" });
     return {
       reviewStatus: entry.meta.reviewStatus,
       sourceValidities: entry.meta.technicalReview.sources.map((source) => source.validity),
@@ -19,6 +22,9 @@ export function TechnicalCoveragePanel() {
         hasEvidence: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => Boolean(step.evidence?.trim())),
         hasCurrentSources: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => entry.meta.technicalReview.sources.find((source) => source.id === sourceId)?.validity === "current")),
       })),
+      impactCount: workPackage.changeImpacts.length,
+      highRiskImpactCount: workPackage.changeImpacts.filter((impact) => impact.risk === "high").length,
+      impactsWithScenarios: workPackage.changeImpacts.filter((impact) => impact.scenarioIds.length > 0).length,
     };
   }));
 
@@ -38,6 +44,7 @@ export function TechnicalCoveragePanel() {
         <p>Madurez de fallos: <span className="font-mono text-core-text">{coverage.scenariosReadyForSupport}/{coverage.failureScenarios}</span> listos para soporte · {coverage.scenariosWithSimulation} con simulación</p>
         <p>Roadmap: <span className="font-mono text-core-text">{coverage.explainersWithRoadmap}/{coverage.explainers}</span> explainers · {coverage.roadmapPhases} fases</p>
         <p>Integridad: <span className="font-mono text-core-text">{coverage.integrityReviewed}</span> reviewed · <span className="font-mono text-core-text">{coverage.integritySourceBacked}</span> source-backed · <span className="font-mono text-core-text">{coverage.integrityBaseline}</span> baseline</p>
+        <p>Impactos de cambio: <span className="font-mono text-core-text">{coverage.impactCount}</span> · {coverage.highRiskImpactCount} alto riesgo · {coverage.impactsWithScenarios} con escenarios</p>
       </div>
     </details>
   );

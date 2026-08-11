@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.170.0";
+export const currentVersion = "0.171.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.171.0",
+    date: "11 ago 2026",
+    title: "Métricas de cobertura de impactos",
+    changes: [
+      "El dashboard y el informe técnico cuentan impactos de cambio, impactos de alto riesgo y enlaces a escenarios.",
+      "El informe JSON pasa a schemaVersion 1.3 y deriva las cifras del mismo paquete que usa cada explainer.",
+      "Los indicadores siguen siendo editoriales: no representan riesgo, salud o capacidad de producción.",
+    ],
+  },
   {
     version: "0.170.0",
     date: "11 ago 2026",
