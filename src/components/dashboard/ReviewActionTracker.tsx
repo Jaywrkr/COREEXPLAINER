@@ -2,24 +2,20 @@
 
 import { useEffect, useState } from "react";
 import type { ReviewActionStatus } from "@/lib/review/reviewActionTracking";
-import { normalizeReviewActionStatus, reviewActionStatusLabels } from "@/lib/review/reviewActionTracking";
-
-function storageKey(slug: string, actionId: string) {
-  return `core-explainer:review-action:${slug}:${actionId}`;
-}
+import { normalizeReviewActionStatus, readReviewActionStatus, reviewActionStatusLabels, reviewActionStorageKey } from "@/lib/review/reviewActionTracking";
 
 export function ReviewActionTracker({ slug, actionId }: { slug: string; actionId: string }) {
   const [status, setStatus] = useState<ReviewActionStatus>("pending");
 
   useEffect(() => {
     try {
-      setStatus(normalizeReviewActionStatus(window.localStorage.getItem(storageKey(slug, actionId))));
+      setStatus(readReviewActionStatus(slug, actionId));
     } catch { /* local-only best effort */ }
   }, [slug, actionId]);
 
   const update = (next: ReviewActionStatus) => {
     setStatus(next);
-    try { window.localStorage.setItem(storageKey(slug, actionId), next); } catch { /* local-only best effort */ }
+    try { window.localStorage.setItem(reviewActionStorageKey(slug, actionId), next); } catch { /* local-only best effort */ }
   };
 
   return (

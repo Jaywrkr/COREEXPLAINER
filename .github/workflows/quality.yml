@@ -38,6 +38,8 @@ jobs:
         run: npm run test:review-actions
       - name: Run review action tracking regressions
         run: npm run test:review-action-tracking
+      - name: Run review action export regressions
+        run: npm run test:review-action-export
       - name: Run technical review report regressions
         run: npm run test:technical-review-report
       - name: Run technical review package regressions

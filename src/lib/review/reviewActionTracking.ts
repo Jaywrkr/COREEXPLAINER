@@ -9,3 +9,11 @@ export const reviewActionStatusLabels: Record<ReviewActionStatus, string> = {
 export function normalizeReviewActionStatus(value: unknown): ReviewActionStatus {
   return value === "in-progress" || value === "resolved" ? value : "pending";
 }
+
+export function reviewActionStorageKey(slug: string, actionId: string) {
+  return `core-explainer:review-action:${slug}:${actionId}`;
+}
+
+export function readReviewActionStatus(slug: string, actionId: string): ReviewActionStatus {
+  try { return normalizeReviewActionStatus(window.localStorage.getItem(reviewActionStorageKey(slug, actionId))); } catch { return "pending"; }
+}

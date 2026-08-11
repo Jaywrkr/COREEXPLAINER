@@ -5,6 +5,7 @@ import { TechnicalReviewAssignment } from "./TechnicalReviewAssignment";
 import { getReviewPriority } from "@/lib/review/reviewPriority";
 import { buildReviewActions } from "@/lib/review/reviewActions";
 import { ReviewActionTracker } from "./ReviewActionTracker";
+import { ReviewActionExport } from "./ReviewActionExport";
 
 /** Read-only queue for specialists; it never turns pending content into approval. */
 export function TechnicalReviewQueue() {
@@ -67,6 +68,9 @@ export function TechnicalReviewQueue() {
                   <summary className="cursor-pointer list-none font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-accent [&::-webkit-details-marker]:hidden">
                     Backlog sugerido · {actions.length} acción(es) · {actions.filter((action) => action.priority === "high").length} alta(s)
                   </summary>
+                  <div className="mt-2 flex justify-end">
+                    <ReviewActionExport slug={entry.slug} title={entry.meta.title} actions={actions} sources={entry.meta.technicalReview.sources.map((source) => ({ id: source.id, title: source.title, url: source.url }))} />
+                  </div>
                   <ul className="mt-2 space-y-1.5">
                     {actions.map((action) => (
                       <li key={action.id} className="border-l border-core-accent/30 pl-2 text-[0.62rem] leading-relaxed text-core-text-secondary">

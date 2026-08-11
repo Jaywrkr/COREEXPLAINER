@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.144.0 (11-08-2026):** la cola de revision exporta un Markdown por explainer con acciones, prioridad, evidencia, fuentes y el estado local de cada accion. El contrato puro `buildReviewActionMarkdown` filtra URLs inseguras y deja esos IDs como texto.
+
 **Actualizacion v0.143.0 (11-08-2026):** cada accion del backlog visible en el dashboard tiene seguimiento local por accion (`pending`, `in-progress`, `resolved`). La clave incluye explainer y actionId; los valores desconocidos vuelven a `pending`. Es solo este navegador y no altera el estado editorial.
 
 **Actualizacion v0.142.0 (11-08-2026):** el dashboard muestra el backlog tecnico sugerido en un bloque colapsado por explainer. La UI, el informe JSON y el Markdown reutilizan `buildReviewActions`; CI valida que las acciones tengan evidencia y sourceIds existentes.

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.144.0] - 2026-08-11
+
+- La cola permite exportar el backlog técnico con estados locales para adjuntarlo a un ticket o PR.
+- El exportador incluye prioridad, motivo, evidencia, fuentes y límites explícitos.
+- Las URLs se filtran a `http`/`https`; referencias inseguras permanecen como ID sin convertirse en enlaces.
+- CI valida el contrato Markdown sin usar APIs del navegador.
+
 ## [0.143.0] - 2026-08-11
 
 - Cada acción del backlog puede marcarse localmente como pendiente, en análisis o resuelta.
