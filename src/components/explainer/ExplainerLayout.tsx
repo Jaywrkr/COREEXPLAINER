@@ -9,6 +9,7 @@ import type { AudienceMode } from "./AudienceModeToggle";
 import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
 import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 import { DEFAULT_LEFT_PANEL_WIDTH, MAX_LEFT_PANEL_WIDTH, MIN_LEFT_PANEL_WIDTH, normalizeExplainerUiPreferences } from "@/lib/ui/preferences";
+import { SceneTimeline } from "./SceneTimeline";
 
 const AUTOPLAY_STEP_MS = 6500;
 const UI_PREFERENCES_KEY = "coresolutions:explainer-ui";
@@ -340,6 +341,9 @@ export function ExplainerLayout({
         />
         <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center font-mono text-[0.74rem] tracking-[0.02em] text-core-text-muted">
           {step.caption}
+        </div>
+        <div className="pointer-events-none absolute bottom-14 left-4 right-4 z-20 sm:bottom-16 sm:left-6 sm:right-6">
+          <SceneTimeline steps={steps} current={current} onSelect={selectStep} />
         </div>
       </div>
     </div>

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.176.0";
+export const currentVersion = "0.177.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.177.0",
+    date: "11 ago 2026",
+    title: "Timeline narrativa dentro del canvas",
+    changes: [
+      "El canvas ofrece navegación directa por escenas con progreso, estado completado y etiquetas compactas.",
+      "La timeline funciona en Focus y móvil sin repetir los párrafos del panel lateral.",
+      "La escena actual queda visible como contexto de la animación y se mantiene el recorrido accesible por teclado/lector.",
+    ],
+  },
   {
     version: "0.176.0",
     date: "11 ago 2026",

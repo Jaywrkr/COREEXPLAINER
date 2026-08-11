@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.177.0] - 2026-08-11
+
+- El canvas incorpora una timeline narrativa para saltar directamente entre escenas.
+- Muestra progreso, paso actual y escenas completadas sin duplicar la explicación.
+- Funciona con Focus canvas y en móvil.
+
 ## [0.176.0] - 2026-08-11
 
 - Se añade Focus canvas para presentar el diagrama sin la carga del panel lateral.

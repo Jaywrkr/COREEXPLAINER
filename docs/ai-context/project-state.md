@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.177.0 (11-08-2026):** `SceneTimeline` ofrece navegación contextual por escenas dentro del canvas, con `aria-current`, progreso y estado completado. Se mantiene compacta, desplazable horizontalmente y disponible en Focus/móvil.
+
 **Actualizacion v0.176.0 (11-08-2026):** `ExplainerLayout` ofrece Focus canvas, HUD contextual y persistencia local de ancho/modo. La preferencia se normaliza en `src/lib/ui/preferences.ts`; `F` alterna el foco y el botón devuelve el panel sin perder la escena.
 
 **Actualizacion v0.175.0 (11-08-2026):** `buildImplementationWorkPackage` incluye la revisión especialista como condición de readiness. Con `reviewStatus: pending`, el paquete declara el faltante y el informe no lo presenta como técnicamente listo; la estructura editorial se mantiene separada de la aprobación real.
