@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.230.0",
+  "version": "0.231.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -40,6 +40,7 @@
     "test:pattern-comparison": "tsx scripts/test-pattern-comparison.ts",
     "test:failure-simulation-validation": "tsx scripts/test-failure-simulation-validation.ts",
     "test:source-freshness": "tsx scripts/test-source-freshness.ts",
+    "test:source-url": "tsx scripts/test-source-url.ts",
     "test:version-consistency": "tsx scripts/test-version-consistency.ts",
     "test:implementation-work-package": "tsx scripts/test-implementation-work-package.ts",
     "report:implementation-readiness": "tsx scripts/implementation-readiness-report.ts",

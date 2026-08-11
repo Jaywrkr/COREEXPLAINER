@@ -11,6 +11,7 @@ import type {
 import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
 import { validateFailureScenarioKillability, validateFailureScenarioNarrative, validateFailureScenarioNodeConsistency, validateFailureScenarioSourceFreshness, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
+import { isSafeTechnicalSourceUrl } from "@/lib/content-validation/sourceValidation";
 import { reviewedStepSourceIssues } from "@/lib/content-validation/reviewSourceGate";
 import { findAbsoluteClaimLanguage } from "@/lib/content-validation/claimLanguageGate";
 
@@ -326,8 +327,8 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
         if (technicalSourceIds.has(source.id)) add(`${sourceLabel}.id '${source.id}' is duplicated`);
         technicalSourceIds.add(source.id);
         if (!isNonEmptyText(source.title)) add(`${sourceLabel}.title must be a non-empty string`);
-        if (!isNonEmptyText(source.url) || !source.url.startsWith("https://")) {
-          add(`${sourceLabel}.url must be an https URL`);
+        if (!isNonEmptyText(source.url) || !isSafeTechnicalSourceUrl(source.url)) {
+          add(`${sourceLabel}.url must be a safe https URL without credentials`);
         }
         if (sourceUrls.has(source.url)) add(`${sourceLabel}.url '${source.url}' is duplicated`);
         sourceUrls.add(source.url);

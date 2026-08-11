@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.231.0 (11-08-2026):** `isSafeTechnicalSourceUrl` valida HTTPS, hostname y ausencia de credenciales en `meta.technicalReview.sources`; `validateExplainerContent` rechaza URLs inseguras antes de construir el registry y ledger. La regresión `test:source-url` cubre enlaces válidos, HTTP, esquemas peligrosos, URLs incompletas y credenciales.
+
 **Actualizacion v0.230.0 (11-08-2026):** `readJsonBody` consume `Request.body` en chunks, cancela al superar el máximo y solo entonces parsea JSON. Esto protege copilot y creator cuando no existe `content-length`; la prueba de guards cubre payload válido y sobredimensionado.
 
 **Actualizacion v0.229.0 (11-08-2026):** `app/api/copilot` y `app/api/creator` aplican `exceedsAiCostCap` antes del proveedor y otra vez después de calcular el coste con los tokens observados. Si la respuesta real excede el tope, devuelven `429` con fallback y uso visible; no se presenta como salida aprobada.

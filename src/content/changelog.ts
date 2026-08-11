@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.230.0";
+export const currentVersion = "0.231.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.231.0",
+    date: "11 ago 2026",
+    title: "Gate de URLs de fuentes técnicas",
+    changes: [
+      "Las fuentes requieren URLs HTTPS parseables, con hostname y sin usuario o contraseña incrustados.",
+      "Se rechazan esquemas inseguros, URLs incompletas y redirecciones con credenciales antes de entrar al ledger.",
+      "La regla tiene regresión aislada y mantiene el contrato de enlaces oficiales del catálogo.",
+    ],
+  },
   {
     version: "0.230.0",
     date: "11 ago 2026",

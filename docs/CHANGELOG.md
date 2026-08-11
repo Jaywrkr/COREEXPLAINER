@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.231.0] - 2026-08-11
+
+- Las fuentes requieren URLs HTTPS parseables, con hostname y sin usuario o contraseña incrustados.
+- Se rechazan esquemas inseguros, URLs incompletas y credenciales embebidas antes del ledger.
+- La regla tiene regresión aislada y mantiene el contrato de enlaces oficiales.
+
 ## [0.230.0] - 2026-08-11
 
 - Los endpoints de IA leen el cuerpo HTTP por stream y cancelan al superar el límite configurado.
