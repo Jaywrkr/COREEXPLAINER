@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.217.0] - 2026-08-11
+
+- Las cuotas locales de IA usan claves hash acotadas en lugar de headers crudos.
+- Se prioriza `x-real-ip` del proxy y se limita la longitud de cualquier fallback.
+- Se añadieron regresiones contra spoofing, valores enormes y claves inestables.
+
 ## [0.216.0] - 2026-08-11
 
 - El copiloto pide y reconoce citas `[fuente:id]` contra el contexto autorado.

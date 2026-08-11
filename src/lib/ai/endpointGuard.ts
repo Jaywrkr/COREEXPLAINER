@@ -18,11 +18,19 @@ function signedIdentityKey(request: Request): string | undefined {
   return `user:${createHash("sha256").update(subject, "utf8").digest("hex").slice(0, 32)}`;
 }
 
-function clientKey(request: Request) {
+/**
+ * Derives a bounded, non-reversible key for process-local quotas. Never use a
+ * raw forwarding header as a map key: clients can spoof it or send an
+ * unbounded value. `x-real-ip` is preferred when the hosting proxy provides
+ * it; the first forwarded address remains a compatibility fallback.
+ */
+export function deriveAiClientKey(request: Request): string {
   const identity = signedIdentityKey(request);
   if (identity) return identity;
+  const direct = request.headers.get("x-real-ip")?.trim();
   const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || request.headers.get("x-real-ip") || "anonymous";
+  const networkIdentity = (direct || forwarded || "anonymous").slice(0, 128);
+  return `ip:${createHash("sha256").update(networkIdentity, "utf8").digest("hex").slice(0, 32)}`;
 }
 
 function tokenBudget() {
@@ -38,7 +46,7 @@ export async function readJsonBody<T>(request: Request, maxBytes: number): Promi
 
 export async function checkAiAccess(request: Request): Promise<{ allowed: true } | { allowed: false; status: number; message: string; retryAfter?: number }> {
   if (process.env.AI_ENDPOINT_ENABLED === "false") return { allowed: false, status: 503, message: "Las capacidades de IA están desactivadas en este entorno." };
-  const key = clientKey(request);
+  const key = deriveAiClientKey(request);
   const persistent = await reservePersistentQuota(key, 0, Number.MAX_SAFE_INTEGER);
   if (persistent === undefined && persistentQuotaConfigured() && persistentQuotaRequired()) return { allowed: false, status: 503, message: "La cuota compartida de IA no está disponible; no se enviará la solicitud." };
   if (persistent && !persistent.allowed) return { allowed: false, status: 429, retryAfter: persistent.retryAfter, message: "Límite temporal de solicitudes de IA alcanzado. Inténtalo más tarde." };
@@ -55,7 +63,7 @@ export async function checkAiAccess(request: Request): Promise<{ allowed: true }
 
 /** Reserves expected output before provider call; instance-local safety brake. */
 export async function reserveAiTokens(request: Request, estimatedTokens: number): Promise<{ allowed: true } | { allowed: false; status: number; message: string; retryAfter: number }> {
-  const key = clientKey(request);
+  const key = deriveAiClientKey(request);
   const persistent = await reservePersistentQuota(key, estimatedTokens, tokenBudget(), Date.now(), false);
   if (persistent === undefined && persistentQuotaConfigured() && persistentQuotaRequired()) return { allowed: false, status: 503, retryAfter: 1, message: "La cuota compartida de IA no está disponible; no se reservarán tokens." };
   if (persistent && !persistent.allowed) return { allowed: false, status: 429, retryAfter: persistent.retryAfter, message: "Presupuesto temporal de tokens de IA alcanzado. Inténtalo más tarde." };

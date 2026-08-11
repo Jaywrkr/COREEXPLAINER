@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.216.0";
+export const currentVersion = "0.217.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.217.0",
+    date: "11 ago 2026",
+    title: "Claves de cuota de IA endurecidas",
+    changes: [
+      "Las cuotas locales ya no usan directamente headers de red como claves de memoria.",
+      "La identidad de red se limita, prioriza el IP entregado por el proxy y se almacena como hash acotado.",
+      "Las identidades firmadas continúan separadas y las regresiones cubren spoofing, longitud y estabilidad de la clave.",
+    ],
+  },
   {
     version: "0.216.0",
     date: "11 ago 2026",

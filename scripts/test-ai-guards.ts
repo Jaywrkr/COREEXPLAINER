@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { GET as health } from "../app/api/health/route";
 import { estimateAiCost } from "@/lib/ai/costEstimate";
 import { persistentQuotaRequired, reservePersistentQuota } from "@/lib/ai/persistentQuota";
+import { deriveAiClientKey } from "@/lib/ai/endpointGuard";
 
 const names = [
   "AI_INPUT_COST_PER_MILLION_USD",
@@ -36,6 +37,14 @@ try {
   assert.equal(persistentQuotaRequired(), true);
   delete process.env.AI_PERSISTENT_QUOTA_REQUIRED;
   assert.equal(await reservePersistentQuota("test", 100, 12_000), undefined, "sin Redis debe usar el fallback local");
+
+  const directRequest = new Request("https://example.test", { headers: { "x-real-ip": "203.0.113.7", "x-forwarded-for": "spoofed" } });
+  const sameDirectRequest = new Request("https://example.test", { headers: { "x-real-ip": "203.0.113.7" } });
+  const forwardedRequest = new Request("https://example.test", { headers: { "x-forwarded-for": "198.51.100.9, proxy" } });
+  assert.match(deriveAiClientKey(directRequest), /^ip:[a-f0-9]{32}$/);
+  assert.equal(deriveAiClientKey(directRequest), deriveAiClientKey(sameDirectRequest), "la clave debe preferir el IP directo del proxy");
+  assert.notEqual(deriveAiClientKey(directRequest), deriveAiClientKey(forwardedRequest));
+  assert.ok(deriveAiClientKey(new Request("https://example.test", { headers: { "x-real-ip": "x".repeat(10_000) } })).length <= 35, "la clave debe estar acotada");
 
   const response = await health();
   assert.equal(response.status, 200);
