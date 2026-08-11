@@ -28,6 +28,8 @@ assert.ok(validateEvidenceLedger([{ ...ledger[0]!, sourceStatus: {} }], new Set(
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, sourceStatus: { "src-1": "unknown" as never } }], new Set(["src-1"])).some((error) => error.includes("invalid status")));
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, sourceStatus: { "src-1": "current", extra: "missing" } }], new Set(["src-1"])).some((error) => error.includes("unexpected source")));
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, sourceIds: ["src-1", "src-1"] }], new Set(["src-1"])).some((error) => error.includes("sourceIds must not contain duplicates")));
+assert.ok(validateEvidenceLedger([{ ...ledger[0]!, kind: "claim" as never }], new Set(["src-1"])).some((error) => error.includes("kind has an invalid value")));
+assert.ok(validateEvidenceLedger([{ ...ledger[0]!, provenance: "external" as never }], new Set(["src-1"])).some((error) => error.includes("provenance has an invalid value")));
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, claimPaths: ["client.secret"] }], new Set(["src-1"])).some((error) => error.includes("invalid authoring path")));
 assert.ok(ledger.every((record) => record.requestedEvidence.length > 0));
 assert.equal(buildSupportTriageBrief({ slug: "ledger", meta, steps }).items.length, 1);

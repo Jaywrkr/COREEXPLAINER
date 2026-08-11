@@ -3,6 +3,8 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 export type EvidenceKind = "documentary" | "observed" | "hypothesis" | "acceptance";
 export type EvidenceProvenance = "authored" | "derived";
 export type EvidenceSourceStatus = "current" | "review-needed" | "missing";
+const EVIDENCE_KINDS: ReadonlySet<string> = new Set(["documentary", "observed", "hypothesis", "acceptance"]);
+const EVIDENCE_PROVENANCES: ReadonlySet<string> = new Set(["authored", "derived"]);
 const EVIDENCE_SOURCE_STATUSES: ReadonlySet<string> = new Set(["current", "review-needed", "missing"]);
 
 export interface EvidenceRecord {
@@ -165,6 +167,8 @@ export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds
     if (ids.has(record.id)) errors.push(`${label}.id '${record.id}' is duplicated`);
     ids.add(record.id);
     if (!record.claim.trim()) errors.push(`${label}.claim must be non-empty`);
+    if (!EVIDENCE_KINDS.has(record.kind)) errors.push(`${label}.kind has an invalid value '${String(record.kind)}'`);
+    if (!EVIDENCE_PROVENANCES.has(record.provenance)) errors.push(`${label}.provenance has an invalid value '${String(record.provenance)}'`);
     if (!record.claimPaths.length) errors.push(`${label}.claimPaths must contain at least one authoring path`);
     if (new Set(record.claimPaths).size !== record.claimPaths.length) errors.push(`${label}.claimPaths must not contain duplicates`);
     for (const claimPath of record.claimPaths) {

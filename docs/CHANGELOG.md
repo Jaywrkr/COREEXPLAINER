@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.239.0] - 2026-08-11
+
+### Tipos de evidencia protegidos
+
+- El ledger solo acepta `documentary`, `observed`, `hypothesis` y `acceptance`.
+- La procedencia queda limitada a `authored` o `derived`.
+- Se evita exportar o revisar evidencia con clasificaciones desconocidas.
+
 ## [0.238.0] - 2026-08-11
 
 ### Estado de fuentes coherente en el ledger

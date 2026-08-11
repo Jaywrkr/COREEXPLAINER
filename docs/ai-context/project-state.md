@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.239.0 (11-08-2026):** `validateEvidenceLedger` limita `kind` a `documentary`/`observed`/`hypothesis`/`acceptance` y `provenance` a `authored`/`derived`; los valores desconocidos bloquean el ledger antes de revisión o exportación.
+
 **Actualizacion v0.238.0 (11-08-2026):** `validateEvidenceLedger` exige una correspondencia exacta entre `sourceIds` y `sourceStatus`, limita los estados a `current`/`review-needed`/`missing` y rechaza duplicados o claves inesperadas. Esto protege los paquetes de revisión sin afirmar que una fuente certifique el entorno.
 
 **Actualizacion v0.237.0 (11-08-2026):** `resolvesClaimPath` resuelve cada referencia del ledger contra `steps`, escenarios guiados y `targetArchitecture`; `validateEvidenceLedger` rechaza campos authored inexistentes además de paths con formato inválido. La evidencia sigue siendo descriptiva y no certifica un entorno real.

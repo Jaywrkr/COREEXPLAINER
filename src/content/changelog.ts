@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.238.0";
+export const currentVersion = "0.239.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.239.0",
+    date: "2026-08-11",
+    title: "Tipos de evidencia protegidos",
+    changes: [
+      "El ledger solo acepta kinds documentales, observados, hipótesis o aceptación.",
+      "La procedencia queda limitada a authored o derived.",
+      "La regresión evita que una evidencia con clasificación desconocida entre en revisión o exportación.",
+    ],
+  },
   {
     version: "0.238.0",
     date: "2026-08-11",
