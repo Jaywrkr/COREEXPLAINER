@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.168.0 (11-08-2026):** `buildImplementationWorkPackage` convierte cada explainer en una ficha conceptual de implementación/mantenimiento con prerrequisitos, workstreams, evidencia de aceptación, controles y readiness. La UI ofrece Markdown/JSON bajo demanda; el artefacto no ejecuta acciones, no cambia infraestructura y requiere adaptación al runbook aprobado.
+
 **Actualizacion v0.167.0 (11-08-2026):** el workflow de calidad ejecuta las regresiones de contratos del copiloto, catálogo de patrones, simulación de fallos, frescura de fuentes y consistencia de versión. `CONTRIBUTING.md` y la plantilla de PR reflejan el mismo gate para que cada rama preserve las garantías técnicas; no se despliega ni se ejecutan acciones operativas.
 
 **Actualizacion v0.166.0 (11-08-2026):** `currentVersion`, `changelogEntries[0]`, `package.json`, lockfile e informes se validan como una sola versión; la regresión `test:version-consistency` evita volver a mostrar una release antigua.

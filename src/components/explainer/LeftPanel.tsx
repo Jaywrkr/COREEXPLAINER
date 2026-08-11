@@ -20,6 +20,7 @@ import { ContentWorkflowPanel } from "./ContentWorkflowPanel";
 import { TechnicalWorkbenchPanel } from "./TechnicalWorkbenchPanel";
 import { SupportTriagePanel } from "./SupportTriagePanel";
 import { SupportCasePackPanel } from "./SupportCasePackPanel";
+import { ImplementationWorkPackagePanel } from "./ImplementationWorkPackagePanel";
 
 interface LeftPanelProps {
   slug: string;
@@ -91,6 +92,7 @@ export function LeftPanel({
       <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
       <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
       <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
+      <ImplementationWorkPackagePanel slug={slug} meta={meta} steps={steps} />
       <ContentWorkflowPanel slug={slug} meta={meta} />
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
       <div className="mb-5 flex flex-wrap items-center gap-1.5">

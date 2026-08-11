@@ -60,6 +60,8 @@ jobs:
         run: npm run test:source-freshness
       - name: Run version consistency regressions
         run: npm run test:version-consistency
+      - name: Run implementation work package regressions
+        run: npm run test:implementation-work-package
       - name: Run evidence ledger regressions
         run: npm run test:evidence-ledger
       - name: Run scenario readiness regressions

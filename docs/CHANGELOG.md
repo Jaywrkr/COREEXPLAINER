@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.168.0] - 2026-08-11
+
+- Cada explainer puede generar un paquete técnico de implementación y mantenimiento.
+- El paquete reúne prerrequisitos, workstreams, evidencia de aceptación y controles de mantenimiento.
+- Se descarga como Markdown o JSON, declara faltantes y no ejecuta cambios ni certifica el entorno.
+
 ## [0.167.0] - 2026-08-11
 
 - CI ejecuta los contratos de acciones del copiloto, patrones, simulaciones de fallo, frescura de fuentes y consistencia de versión.
