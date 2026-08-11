@@ -51,7 +51,7 @@ export function buildImplementationCatalogReport(entries: ExplainerDefinition[],
     rows,
     limitations: [
       "Informe editorial derivado del contenido autorado; no mide un entorno real.",
-      "Readiness y riesgo requieren revisión especialista, fuentes vigentes y adaptación al cliente.",
+      "Readiness técnica exige revisión especialista, fuentes vigentes y adaptación al cliente.",
       "No ejecuta cambios, no abre tickets y no sustituye un runbook o una aprobación operacional.",
     ],
   };

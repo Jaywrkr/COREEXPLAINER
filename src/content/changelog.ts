@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.174.0";
+export const currentVersion = "0.175.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.175.0",
+    date: "11 ago 2026",
+    title: "Readiness técnico condicionado a revisión especialista",
+    changes: [
+      "Un paquete no se marca listo si el explainer mantiene reviewStatus pending.",
+      "El informe distingue estructura editorial de preparación técnica real y muestra la revisión especialista como faltante.",
+      "Se evita presentar un 100% de readiness como aprobación o validación de producción.",
+    ],
+  },
   {
     version: "0.174.0",
     date: "11 ago 2026",

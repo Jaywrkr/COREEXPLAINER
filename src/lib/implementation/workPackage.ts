@@ -87,6 +87,7 @@ function readinessFor(meta: ExplainerMeta, prerequisites: ImplementationPrerequi
   const checks: Array<[string, boolean]> = [
     ["fuentes técnicas", meta.technicalReview.sources.length > 0],
     ["fuentes vigentes", meta.technicalReview.sources.some((source) => source.validity !== "review-needed")],
+    ["revisión especialista", meta.reviewStatus === "reviewed"],
     ["prerrequisitos", prerequisites.length > 0],
     ["workstreams", workstreams.length > 0],
     ["evidencia de aceptación", workstreams.every((stream) => Boolean(stream.acceptanceEvidence && stream.exitCriteria))],

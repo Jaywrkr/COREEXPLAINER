@@ -15,7 +15,7 @@ try {
     summary: { explainers: number };
   };
   assert.equal(manifest.packageSchemaVersion, "1.0");
-  assert.equal(manifest.appVersion, "0.174.0");
+  assert.equal(manifest.appVersion, "0.175.0");
   assert.match(manifest.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
   assert.deepEqual(manifest.files.map((file) => file.path), ["technical-review-report.md", "technical-review-report.json"]);
   assert.ok(manifest.files.every((file) => /^[a-f0-9]{64}$/.test(file.sha256)));

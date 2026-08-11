@@ -15,6 +15,7 @@ assert.equal(pkg.changeImpacts.length, pkg.workstreams.length);
 assert.ok(pkg.changeImpacts.every((impact) => ["low", "medium", "high"].includes(impact.risk) && impact.beforeEvidence && impact.afterEvidence && impact.rollbackConcept));
 assert.ok(pkg.workstreams.every((stream) => stream.tasks.length > 0 && stream.acceptanceEvidence && stream.exitCriteria));
 assert.ok(pkg.readiness.score >= 0 && pkg.readiness.score <= 100);
+assert.ok(pkg.readiness.missing.includes("revisión especialista"));
 assert.ok(pkg.limitations.some((limitation) => limitation.includes("no ejecuta")));
 
 const markdown = buildImplementationWorkPackageMarkdown(pkg);

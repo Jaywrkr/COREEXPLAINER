@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.175.0] - 2026-08-11
+
+- El readiness técnico requiere `reviewStatus: reviewed` además de estructura, fuentes y escenarios.
+- Los temas pendientes ya no aparecen como listos para uso técnico.
+- El informe explicita la diferencia entre estructura editorial y validación especialista.
+
 ## [0.174.0] - 2026-08-11
 
 - Se genera un informe de preparación de implementación para los 22 explainers.
