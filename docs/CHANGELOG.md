@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.209.0] - 2026-08-11
+
+- La salida del generador de IA se valida antes de mostrarse como borrador.
+- Se exigen tres escenas, dos párrafos y listas de control completas.
+- Las respuestas incompletas caen a la plantilla local y no llegan al catálogo.
+
 ## [0.208.0] - 2026-08-11
 
 - Cada patrón puede exportarse como borrador Markdown editable.

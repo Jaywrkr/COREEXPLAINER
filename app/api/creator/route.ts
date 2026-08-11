@@ -3,6 +3,7 @@ import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpoin
 import { estimateAiCost } from "@/lib/ai/costEstimate";
 import type { CreatorPolicy } from "@/lib/ai/creatorPolicy";
 import { buildCreatorPolicy } from "@/lib/ai/creatorPolicy";
+import { validateCreatorDraft } from "@/lib/ai/creatorContract";
 
 interface CreatorRequest { topic?: string; audience?: string; brands?: string; goal?: string }
 interface CreatorUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string; estimatedCostUsd?: number; costSource?: "environment" }
@@ -69,6 +70,10 @@ export async function POST(request: Request) {
   const usage: CreatorUsage = { inputTokens: payload.usage?.prompt_tokens, outputTokens: payload.usage?.completion_tokens, totalTokens: payload.usage?.total_tokens, model: process.env.OPENAI_MODEL ?? "gpt-4o-mini" };
   const cost = estimateAiCost(usage.inputTokens, usage.outputTokens);
   if (cost) { usage.estimatedCostUsd = cost.costUsd; usage.costSource = cost.source; }
-  try { return NextResponse.json({ draft: JSON.parse(content), generatedBy: "ai", usage, policy }, { headers: { "Cache-Control": "no-store" } }); }
+  try {
+    const validation = validateCreatorDraft(JSON.parse(content));
+    if (!validation.draft) return json("La IA devolvió un borrador con estructura incompleta; se usará una plantilla local editable.", 502, true, undefined, policy);
+    return NextResponse.json({ draft: validation.draft, generatedBy: "ai", usage, policy }, { headers: { "Cache-Control": "no-store" } });
+  }
   catch { return json("La respuesta de IA no era JSON valido.", 502, true, undefined, policy); }
 }
