@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.218.0";
+export const currentVersion = "0.219.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.219.0",
+    date: "11 ago 2026",
+    title: "Readiness técnica de patrones",
+    changes: [
+      "Un patrón solo aparece listo cuando sus explainers vinculados tienen escenarios de soporte maduros e integridad técnica revisada.",
+      "La biblioteca distingue esas carencias como revisión necesaria, sin convertir un borrador en recomendación aprobada.",
+      "El readiness queda cubierto por un script npm ejecutable en CI.",
+    ],
+  },
   {
     version: "0.218.0",
     date: "11 ago 2026",

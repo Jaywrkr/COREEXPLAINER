@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.219.0] - 2026-08-11
+
+- La biblioteca de patrones considera cobertura de escenarios e integridad técnica revisada.
+- Las carencias mantienen el estado “Revisar antes de reutilizar”; no bloquean el borrador conceptual.
+- Se incorpora `test:pattern-readiness` al contrato npm de regresiones.
+
 ## [0.218.0] - 2026-08-11
 
 - Las métricas registran pasos de escenarios revisados, además de escenarios abiertos.

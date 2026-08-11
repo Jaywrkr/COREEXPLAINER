@@ -15,6 +15,7 @@ import { ReviewCampaignSummary } from "@/components/dashboard/ReviewCampaignSumm
 import { getAllExplainers } from "@/content/registry";
 import { explainerValidationWarnings } from "@/content/registry";
 import type { PatternExplainerReadiness } from "@/lib/patterns/patternReadiness";
+import { isScenarioReadyForSupport } from "@/lib/review/scenarioReadiness";
 
 export const metadata: Metadata = {
   title: "Explicadores técnicos · CORESOLUTIONS",
@@ -29,6 +30,8 @@ export default function ExplainerDashboardPage() {
     reviewStatus: entry.meta.reviewStatus,
     allSourcesCurrent: entry.meta.technicalReview.sources.every((source) => source.validity === "current"),
     warningCount: (explainerValidationWarnings[entry.slug] ?? []).length,
+    scenarioCoverage: entry.meta.failureScenarios?.length ? entry.meta.failureScenarios.every((scenario) => isScenarioReadyForSupport(entry.meta, scenario)) ? "ready" : "partial" : "none",
+    technicalIntegrity: entry.meta.technicalIntegrity?.assurance,
   }]));
 
   return (

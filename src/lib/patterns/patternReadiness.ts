@@ -8,6 +8,10 @@ export interface PatternExplainerReadiness {
   reviewStatus?: "pending" | "reviewed";
   allSourcesCurrent?: boolean;
   warningCount?: number;
+  /** Whether linked explainers have a support-ready failure scenario. */
+  scenarioCoverage?: "ready" | "partial" | "none";
+  /** Assurance of linked topology rules, not a product certification. */
+  technicalIntegrity?: "baseline" | "source-backed" | "reviewed";
 }
 
 export interface PatternReadiness {
@@ -21,13 +25,17 @@ export function assessPatternReadiness(pattern: SolutionPattern, linked: Pattern
   const pending = linked.filter((item) => item.exists && item.reviewStatus !== "reviewed");
   const stale = linked.filter((item) => item.exists && item.allSourcesCurrent === false);
   const warnings = linked.reduce((sum, item) => sum + (item.warningCount ?? 0), 0);
+  const withoutScenarioCoverage = linked.filter((item) => item.exists && item.scenarioCoverage !== "ready");
+  const withoutReviewedIntegrity = linked.filter((item) => item.exists && item.technicalIntegrity !== "reviewed");
   if (missing.length) reasons.push(`explainer(s) no encontrado(s): ${missing.map((item) => item.slug).join(", ")}`);
   if (pending.length) reasons.push(`${pending.length} explainer(s) con revisión pendiente`);
   if (stale.length) reasons.push(`${stale.length} explainer(s) con fuentes por revisar`);
   if (warnings) reasons.push(`${warnings} advertencia(s) de validación en explainers vinculados`);
   if (!pattern.evidence.length) reasons.push("el patrón no declara evidencia mínima");
+  if (withoutScenarioCoverage.length) reasons.push(`${withoutScenarioCoverage.length} explainer(s) sin escenario de soporte completamente maduro`);
+  if (withoutReviewedIntegrity.length) reasons.push(`${withoutReviewedIntegrity.length} explainer(s) con integridad tecnica no revisada`);
   if (missing.length || !pattern.evidence.length) return { status: "blocked", reasons };
-  if (pending.length || stale.length || warnings) return { status: "review-needed", reasons };
+  if (pending.length || stale.length || warnings || withoutScenarioCoverage.length || withoutReviewedIntegrity.length) return { status: "review-needed", reasons };
   return { status: "ready", reasons: [] };
 }
 
