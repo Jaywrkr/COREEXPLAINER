@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.87.0 (09-08-2026):** `AssessmentBriefControl` genera localmente un brief Markdown por explainer con preguntas, escenas, evidencia, fases, riesgos, decisiones, fuentes y límites. Es una salida editable para workshops/propuestas y no sube datos del cliente.
+
 **Actualizacion v0.86.0 (09-08-2026):** cada explicación tiene un copiloto grounded bajo demanda. `CopilotPanel` envía pregunta y contexto autorado a `/api/copilot`; el servidor exige `OPENAI_API_KEY`, limita tamaños y ordena responder con fuentes, límites y evidencia. Sin clave, la app sigue funcionando y muestra un mensaje de configuración.
 
 **Actualizacion v0.85.0 (09-08-2026):** cada explainer tiene una revisión técnica asistida bajo demanda. El motor local inspecciona integridad, arquitectura objetivo, roadmap, decisiones, escenarios y vigencia de fuentes; devuelve hallazgos con severidad, evidencia y acción. Es una base determinista y grounded para futuras capacidades de IA.
