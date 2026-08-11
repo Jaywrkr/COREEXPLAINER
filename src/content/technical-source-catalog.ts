@@ -19,6 +19,13 @@ const publisherRules: Array<[RegExp, string]> = [
 /** Sources older than this window require an explicit fresh review. */
 export const SOURCE_FRESHNESS_DAYS = 180;
 
+export interface SourceFreshnessSummary {
+  ageDays: number | null;
+  dueAt: string | null;
+  status: "current" | "review-needed";
+  reason: "within-window" | "manual-review" | "outside-window" | "invalid-date";
+}
+
 function inferPublisher(source: TechnicalSource): string {
   return publisherRules.find(([pattern]) => pattern.test(source.url))?.[1] ?? "Fuente técnica";
 }
@@ -62,6 +69,20 @@ export function deriveSourceValidity(source: TechnicalSource, today = new Date()
   if (source.validity === "review-needed") return "review-needed";
   const todayIso = today.toISOString().slice(0, 10);
   return dayDifference(todayIso, source.accessedAt) <= SOURCE_FRESHNESS_DAYS ? "current" : "review-needed";
+}
+
+/** Explains freshness without changing the source metadata authored in content. */
+export function summarizeSourceFreshness(source: TechnicalSource, today = new Date()): SourceFreshnessSummary {
+  const accessedTime = Date.parse(`${source.accessedAt}T00:00:00Z`);
+  const todayTime = Date.parse(`${today.toISOString().slice(0, 10)}T00:00:00Z`);
+  if (!Number.isFinite(accessedTime) || !Number.isFinite(todayTime)) {
+    return { ageDays: null, dueAt: null, status: "review-needed", reason: "invalid-date" };
+  }
+  const ageDays = Math.max(0, Math.floor((todayTime - accessedTime) / 86_400_000));
+  const dueAt = new Date(accessedTime + SOURCE_FRESHNESS_DAYS * 86_400_000).toISOString().slice(0, 10);
+  if (source.validity === "review-needed") return { ageDays, dueAt, status: "review-needed", reason: "manual-review" };
+  if (ageDays > SOURCE_FRESHNESS_DAYS) return { ageDays, dueAt, status: "review-needed", reason: "outside-window" };
+  return { ageDays, dueAt, status: "current", reason: "within-window" };
 }
 
 /**

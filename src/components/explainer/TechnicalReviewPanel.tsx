@@ -1,5 +1,5 @@
 import type { TechnicalReview, TechnicalSource } from "@/content/types";
-import { sourceValidityLabel } from "@/content/technical-source-catalog";
+import { sourceValidityLabel, summarizeSourceFreshness } from "@/content/technical-source-catalog";
 
 interface TechnicalReviewPanelProps {
   review: TechnicalReview;
@@ -11,6 +11,8 @@ function formatDate(isoDate: string): string {
 }
 
 function SourceMetadata({ source }: { source: TechnicalSource }) {
+  const freshness = summarizeSourceFreshness(source);
+  const freshnessLabel = freshness.ageDays === null ? "fecha inválida" : `${freshness.ageDays} días`;
   return (
     <span className="mt-0.5 flex min-w-0 flex-wrap gap-x-1.5 gap-y-0.5 break-words text-[0.58rem] text-core-text-muted">
       <span>{source.publisher}</span>
@@ -19,6 +21,8 @@ function SourceMetadata({ source }: { source: TechnicalSource }) {
       <span className={source.validity === "review-needed" ? "text-core-warning" : "text-core-success"}>
         · {sourceValidityLabel(source.validity)}
       </span>
+      <span>· {freshnessLabel}</span>
+      {freshness.dueAt ? <span>· revisar antes de {freshness.dueAt}</span> : null}
     </span>
   );
 }

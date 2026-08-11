@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.221.0] - 2026-08-11
+
+- Las fuentes muestran cuántos días han pasado desde su acceso y una fecha sugerida de revisión.
+- El estado explica si la revisión es manual, si la ventana de 180 días venció o si la fecha no es válida.
+- La información es derivada en la UI y no muta el contenido autorado ni certifica el entorno del cliente.
+
 ## [0.220.0] - 2026-08-11
 
 - Los patrones cruzan sus marcas con el `brandContext` de los explainers enlazados.
