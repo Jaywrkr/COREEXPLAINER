@@ -50,6 +50,8 @@ import { technicalIntegrityProfiles } from "./technical-integrity";
 import { enrichTechnicalReview } from "./technical-source-catalog";
 import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
 import { assertTargetArchitectureRegression } from "@/lib/content-validation/targetRegressionFixtures";
+import { validateSolutionPatterns } from "@/lib/content-validation/patternValidation";
+import { solutionPatterns } from "./patterns";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -266,6 +268,11 @@ const definitions: ExplainerDefinition[] = [
   turbonomicDefinition,
   webMethodsDefinition,
 ];
+
+const patternIssues = validateSolutionPatterns(solutionPatterns, new Set(definitions.map((definition) => definition.slug)));
+if (patternIssues.length > 0) {
+  throw new Error(`Solution pattern catalog failed validation:\n- ${patternIssues.join("\n- ")}`);
+}
 
 assertTechnicalIntegrityRegression();
 assertTargetArchitectureRegression();

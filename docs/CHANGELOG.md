@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.158.0] - 2026-08-11
+
+- La biblioteca de patrones CORESOLUTIONS pasa por un content gate propio antes de entrar al registro.
+- Se validan IDs únicos, campos y listas de evidencia/riesgos, fechas de revisión no futuras y enlaces a explainers existentes.
+- Un patrón inválido bloquea el build para evitar propuestas o workshops con referencias huérfanas.
+- CI protege el catálogo con fixtures offline; los patrones siguen siendo conceptuales y no prometen compatibilidad automática.
+
 ## [0.157.0] - 2026-08-11
 
 - El copiloto recibe una allowlist explícita de IDs de fuentes y escenarios del explainer activo.
