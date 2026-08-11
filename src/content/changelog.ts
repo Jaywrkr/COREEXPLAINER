@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.215.0";
+export const currentVersion = "0.216.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.216.0",
+    date: "11 ago 2026",
+    title: "Gate de trazabilidad del copiloto",
+    changes: [
+      "El copiloto solicita citas explícitas con el formato [fuente:id] usando fuentes del contexto autorado.",
+      "Las respuestas sin cita, con citas desconocidas o con lenguaje absoluto quedan marcadas como revisión humana requerida.",
+      "Siempre se muestra un límite de ‘Evidencia a revisar’; las acciones siguen restringidas a fuentes y escenarios locales permitidos.",
+    ],
+  },
   {
     version: "0.215.0",
     date: "11 ago 2026",

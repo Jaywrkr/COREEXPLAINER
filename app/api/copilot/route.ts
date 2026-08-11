@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, readJsonBody, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import { estimateAiCost, exceedsAiCostCap } from "@/lib/ai/costEstimate";
-import { sanitizeCopilotActions, sanitizeCopilotMessage, type CopilotAction, type CopilotPolicy } from "@/lib/ai/copilotContract";
+import { reviewCopilotMessage, sanitizeCopilotActions, type CopilotAction, type CopilotPolicy, type CopilotMessageReview } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
 import { sanitizeCopilotInput } from "@/lib/ai/inputSanitization";
 
@@ -11,10 +11,10 @@ const MAX_CONTEXT_LENGTH = 14000;
 interface CopilotRequest { question?: string; context?: string; allowedActionIds?: { sourceIds?: unknown; scenarioIds?: unknown } }
 interface AiUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string; estimatedCostUsd?: number; costSource?: "environment" }
 
-function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage, retryAfter?: number, policy?: CopilotPolicy) {
+function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage, retryAfter?: number, policy?: CopilotPolicy, review?: CopilotMessageReview) {
   const headers: Record<string, string> = { "Cache-Control": "no-store" };
   if (retryAfter) headers["Retry-After"] = String(retryAfter);
-  return NextResponse.json({ message, actions, usage, policy }, { status, headers });
+  return NextResponse.json({ message, actions, usage, policy, review }, { status, headers });
 }
 
 export async function POST(request: Request) {
@@ -64,6 +64,7 @@ export async function POST(request: Request) {
           "No inventes configuraciones, metricas, versiones ni capacidades de productos.",
           "Diferencia hechos, inferencias y preguntas pendientes.",
           "Responde en espanol claro. Para clientes, evita jerga o explica cada sigla.",
+          "Cuando uses una fuente autorada, citala exactamente con el formato [fuente:id] usando un ID del contexto.",
           "Termina con una linea breve de 'Evidencia a revisar' y no afirmes que un entorno real esta validado.",
         ].join("\n") },
         { role: "user", content: `CONTEXTO AUTORADO:\n${context}\n\nPREGUNTA:\n${question}` },
@@ -84,8 +85,12 @@ export async function POST(request: Request) {
     try {
       const parsed = JSON.parse(message) as { message?: unknown; actions?: unknown };
       const actions = sanitizeCopilotActions(parsed.actions, { sourceIds, scenarioIds });
-      return response(sanitizeCopilotMessage(parsed.message) ?? "El copiloto no devolvio una explicacion utilizable.", 200, actions, usage, undefined, policy);
-    } catch { return response(message, 200, [], usage, undefined, policy); }
+      const reviewed = reviewCopilotMessage(parsed.message, sourceIds);
+      return response(reviewed.message, 200, actions, usage, undefined, policy, reviewed);
+    } catch {
+      const reviewed = reviewCopilotMessage(message, sourceIds);
+      return response(reviewed.message, 200, [], usage, undefined, policy, reviewed);
+    }
   }
   return response("El copiloto no devolvio una respuesta utilizable.", 502, [], undefined, undefined, policy);
 }

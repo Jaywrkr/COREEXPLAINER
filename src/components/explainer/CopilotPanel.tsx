@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import type { FailureScenario, TechnicalSource } from "@/content/types";
-import type { CopilotAction, CopilotPolicy } from "@/lib/ai/copilotContract";
+import type { CopilotAction, CopilotMessageReview, CopilotPolicy } from "@/lib/ai/copilotContract";
 import { emptyAiUsage, readAiUsage, recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
 import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 
@@ -23,6 +23,7 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
   const [busy, setBusy] = useState(false);
   const [actions, setActions] = useState<CopilotAction[]>([]);
   const [policy, setPolicy] = useState<CopilotPolicy | null>(null);
+  const [review, setReview] = useState<CopilotMessageReview | null>(null);
   const [usage, setUsage] = useState<AiUsageTelemetry>(() => emptyAiUsage());
 
   useEffect(() => { setUsage(readAiUsage()); }, []);
@@ -45,6 +46,7 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
     setAnswer(null);
     setActions([]);
     setPolicy(null);
+    setReview(null);
     try {
       const response = await fetch("/api/copilot", {
         method: "POST",
@@ -58,9 +60,10 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
           },
         }),
       });
-      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number }; policy?: CopilotPolicy };
+      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number }; policy?: CopilotPolicy; review?: CopilotMessageReview };
       setActions(Array.isArray(payload.actions) ? payload.actions : []);
       setPolicy(payload.policy ?? null);
+      setReview(payload.review ?? null);
       setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0, "copilot"));
       setAnswer(payload.message ?? "No se recibió respuesta.");
     } catch {
@@ -100,7 +103,7 @@ export function CopilotPanel({ slug, meta, step, audienceMode, scenarios, techni
             {busy ? "Consultando…" : "Preguntar"}
           </button>
         </div>
-        {answer ? <div className="border-l-2 border-core-accent/60 pl-2 text-[0.66rem] leading-relaxed text-core-text-secondary whitespace-pre-wrap">{answer}</div> : null}
+        {answer ? <div className="border-l-2 border-core-accent/60 pl-2 text-[0.66rem] leading-relaxed text-core-text-secondary whitespace-pre-wrap">{answer}{review ? <span className={`mt-2 block text-[0.56rem] ${review.status === "context-backed" ? "text-core-accent" : "text-core-warning"}`}>{review.status === "context-backed" ? `Contexto citado · ${review.citedSourceIds.join(", ")}` : `Requiere revisión humana · ${review.reasons.join(" · ")}`}</span> : null}</div> : null}
         {usage.requests ? <p className="text-[0.54rem] text-core-text-muted">Uso local: {usage.requests} consulta(s) · {usage.totalTokens || "—"} tokens{usage.estimatedCostUsd ? ` · coste estimado US$ ${usage.estimatedCostUsd.toFixed(4)}` : ""}{usage.failures ? ` · ${usage.failures} fallo(s)` : ""}</p> : null}
         {actions.length ? (
           <div className="flex flex-wrap gap-1.5">

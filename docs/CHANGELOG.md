@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.216.0] - 2026-08-11
+
+- El copiloto pide y reconoce citas `[fuente:id]` contra el contexto autorado.
+- Las respuestas sin cita, con fuentes desconocidas o promesas absolutas se marcan para revisión humana.
+- La UI muestra el estado de trazabilidad y conserva el límite “Evidencia a revisar”.
+
 ## [0.215.0] - 2026-08-11
 
 - Los escenarios guiados requieren una decisión explícita sobre el paso actual antes de avanzar.

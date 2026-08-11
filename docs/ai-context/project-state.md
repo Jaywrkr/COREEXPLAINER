@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.216.0 (11-08-2026):** `reviewCopilotMessage` normaliza la respuesta del copiloto, exige una frontera visible de evidencia, extrae citas `[fuente:id]` contra el allowlist del explainer y marca `review-needed` las respuestas sin cita, con IDs desconocidos o afirmaciones absolutas. La UI muestra el estado sin convertirlo en aprobación técnica.
+
 **Actualizacion v0.215.0 (11-08-2026):** `guidedProgress.ts` calcula progreso válido y exige marcar el paso actual antes de usar “Siguiente” en un escenario. La navegación directa sigue permitida, pero el avance secuencial no salta observación, diagnóstico, recuperación o validación sin una decisión local.
 
 **Actualizacion v0.214.0 (11-08-2026):** `EvidenceRecord.claimPaths` enlaza cada registro del ledger con los campos autorados que representa. El mapa visual y el handoff Markdown incluyen la ruta; `validateEvidenceLedger` exige paths no vacíos y no duplicados. Esto mejora auditoría sin convertir la evidencia autorada en prueba del entorno.
