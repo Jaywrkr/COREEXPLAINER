@@ -2,17 +2,23 @@
 
 import { useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import type { FailureScenario, TechnicalSource } from "@/content/types";
+import type { CopilotAction } from "@/lib/ai/copilotContract";
 
 interface CopilotPanelProps {
   meta: ExplainerMeta;
   step: ExplainerStep;
   audienceMode: "client" | "conceptual" | "technical";
+  scenarios: FailureScenario[];
+  technicalSources: TechnicalSource[];
+  onSelectScenario: (scenarioId: string | null) => void;
 }
 
-export function CopilotPanel({ meta, step, audienceMode }: CopilotPanelProps) {
+export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSources, onSelectScenario }: CopilotPanelProps) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [actions, setActions] = useState<CopilotAction[]>([]);
 
   const context = useMemo(() => JSON.stringify({
     marca: "CORESOLUTIONS",
@@ -21,21 +27,24 @@ export function CopilotPanel({ meta, step, audienceMode }: CopilotPanelProps) {
     modo: audienceMode,
     escena: { etiqueta: step.tag, titulo: step.title, explicacion: step.paragraphs, impacto: step.businessImpact },
     arquitecturaObjetivo: meta.targetArchitecture,
-    fuentes: meta.technicalReview.sources,
-  }), [audienceMode, meta, step]);
+    fuentes: technicalSources.map((source) => ({ id: source.id, title: source.title, url: source.url })),
+    escenarios: scenarios.map((scenario) => ({ id: scenario.id, label: scenario.label, summary: scenario.summary })),
+  }), [audienceMode, meta, scenarios, step, technicalSources]);
 
   const ask = async () => {
     const trimmed = question.trim();
     if (!trimmed || busy) return;
     setBusy(true);
     setAnswer(null);
+    setActions([]);
     try {
       const response = await fetch("/api/copilot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed, context }),
       });
-      const payload = (await response.json()) as { message?: string };
+      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[] };
+      setActions(Array.isArray(payload.actions) ? payload.actions : []);
       setAnswer(payload.message ?? "No se recibió respuesta.");
     } catch {
       setAnswer("No se pudo conectar con el copiloto. La explicación sigue disponible sin IA.");
@@ -70,6 +79,20 @@ export function CopilotPanel({ meta, step, audienceMode }: CopilotPanelProps) {
           </button>
         </div>
         {answer ? <div className="border-l-2 border-core-accent/60 pl-2 text-[0.66rem] leading-relaxed text-core-text-secondary whitespace-pre-wrap">{answer}</div> : null}
+        {actions.length ? (
+          <div className="flex flex-wrap gap-1.5">
+            {actions.map((action) => {
+              const source = action.type === "open-source" ? technicalSources.find((candidate) => candidate.id === action.id) : null;
+              const scenario = action.type === "activate-scenario" ? scenarios.find((candidate) => candidate.id === action.id) : null;
+              if (!source && !scenario) return null;
+              return source ? (
+                <a key={`${action.type}:${action.id}`} href={source.url} target="_blank" rel="noreferrer" className="border border-core-accent/40 px-1.5 py-0.5 text-[0.58rem] text-core-accent hover:bg-core-accent/10">{action.label}</a>
+              ) : (
+                <button key={`${action.type}:${action.id}`} type="button" onClick={() => onSelectScenario(scenario!.id)} className="border border-core-warning/40 px-1.5 py-0.5 text-[0.58rem] text-core-warning hover:bg-core-warning/10">{action.label}</button>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     </details>
   );

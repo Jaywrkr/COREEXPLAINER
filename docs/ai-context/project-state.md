@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.95.0 (09-08-2026):** el copiloto devuelve `CopilotAction` filtradas (`open-source` o `activate-scenario`). `CopilotPanel` solo muestra botones si el ID existe en las fuentes o escenarios actuales; la acción requiere click explícito y no ejecuta cambios remotos.
+
 **Actualizacion v0.94.0 (09-08-2026):** `ContentWorkflowPanel` muestra y persiste localmente el estado de cada explainer: borrador, revisión técnica, fuentes, comercial, aprobado, publicado o revisión vencida. El avance queda bloqueado cuando la revisión editorial está pendiente o hay fuentes `review-needed`.
 
 **Actualizacion v0.93.0 (09-08-2026):** `FailureScenario.simulation` permite perfiles `hard-down`, `degraded`, `latency`, `capacity`, `dependency` y `observability`. `evaluateWhatIfImpact` conserva reachability y añade impacto, capacidad, latencia y dependencia; los escenarios antiguos usan `hard-down` por defecto.

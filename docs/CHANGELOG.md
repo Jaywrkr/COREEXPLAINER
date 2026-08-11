@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.95.0] - 2026-08-09
+
+- El copiloto puede proponer abrir fuentes o activar escenarios.
+- Las acciones pasan por una allowlist y requieren interacción explícita.
+- No se ejecutan comandos ni cambios sobre plataformas externas.
+
 ## [0.94.0] - 2026-08-09
 
 - Se incorpora un workflow local de revisión de contenido.
