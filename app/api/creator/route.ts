@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
+import { estimateAiCost } from "@/lib/ai/costEstimate";
 
 interface CreatorRequest {
   topic?: string;
@@ -7,6 +8,8 @@ interface CreatorRequest {
   brands?: string;
   goal?: string;
 }
+
+interface CreatorUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string; estimatedCostUsd?: number; costSource?: "environment" }
 
 const limit = (value: string | undefined, max: number) => (value?.trim() ?? "").slice(0, max);
 
@@ -79,11 +82,14 @@ export async function POST(request: Request) {
   });
 
   if (!upstream.ok) return NextResponse.json({ message: "El proveedor de IA no respondió.", fallback: true }, { status: 502 });
-  const payload = (await upstream.json()) as { choices?: Array<{ message?: { content?: string } }> };
+  const payload = (await upstream.json()) as { choices?: Array<{ message?: { content?: string } }>; usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number } };
   const content = payload.choices?.[0]?.message?.content;
   if (!content) return NextResponse.json({ message: "La IA no devolvió un borrador utilizable.", fallback: true }, { status: 502 });
+  const usage: CreatorUsage = { inputTokens: payload.usage?.prompt_tokens, outputTokens: payload.usage?.completion_tokens, totalTokens: payload.usage?.total_tokens, model: process.env.OPENAI_MODEL ?? "gpt-4o-mini" };
+  const cost = estimateAiCost(usage.inputTokens, usage.outputTokens);
+  if (cost) { usage.estimatedCostUsd = cost.costUsd; usage.costSource = cost.source; }
   try {
-    return NextResponse.json({ draft: JSON.parse(content), generatedBy: "ai" });
+    return NextResponse.json({ draft: JSON.parse(content), generatedBy: "ai", usage }, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return NextResponse.json({ message: "La respuesta de IA no era JSON válido.", fallback: true }, { status: 502 });
   }

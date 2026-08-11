@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.110.0] - 2026-08-10
+
+- El generador asistido registra tokens, fallos y coste estimado en la misma telemetría local de Copilot.
+- `/api/creator` devuelve el uso del proveedor sin exponer credenciales.
+- Los fallback locales siguen identificándose como plantillas editables, no como generación de IA.
+
 ## [0.109.0] - 2026-08-10
 
 - Copilot estima el coste cuando el despliegue define `AI_INPUT_COST_PER_MILLION_USD` y `AI_OUTPUT_COST_PER_MILLION_USD`.

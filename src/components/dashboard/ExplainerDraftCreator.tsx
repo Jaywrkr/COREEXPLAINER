@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
+import { recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
 
 interface DraftScene { id: string; title: string; paragraphs: string[]; businessImpact: string }
 interface ExplainerDraft { title: string; tagline: string; scenes: DraftScene[]; risks: string[]; evidenceQuestions: string[]; validationGaps: string[]; sourcesToConfirm: string[] }
+interface CreatorResponse { draft?: ExplainerDraft; fallback?: boolean; message?: string; usage?: { totalTokens?: number; estimatedCostUsd?: number } }
 
 function localDraft(topic: string, audience: string, brands: string, goal: string): ExplainerDraft {
   return {
@@ -30,6 +32,7 @@ export function ExplainerDraftCreator() {
   const [draft, setDraft] = useState<ExplainerDraft | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [usage, setUsage] = useState<AiUsageTelemetry>({ requests: 0, failures: 0, totalTokens: 0, estimatedCostUsd: 0 });
 
   const generate = async () => {
     if (!topic.trim() || !goal.trim() || busy) return;
@@ -37,10 +40,11 @@ export function ExplainerDraftCreator() {
     recordProductEvent({ name: "draft-generate", id: topic.trim().slice(0, 80) });
     try {
       const response = await fetch("/api/creator", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ topic, audience, brands, goal }) });
-      const payload = (await response.json()) as { draft?: ExplainerDraft; fallback?: boolean; message?: string };
+      const payload = (await response.json()) as CreatorResponse;
+      setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0));
       if (payload.draft) { setDraft(payload.draft); setStatus("Borrador generado por IA. Validar antes de publicarlo."); }
       else { setDraft(localDraft(topic, audience, brands, goal)); setStatus(`${payload.message ?? "IA no disponible"} Se generó una plantilla local editable.`); }
-    } catch { setDraft(localDraft(topic, audience, brands, goal)); setStatus("No se pudo conectar con IA. Se generó una plantilla local editable."); }
+    } catch { setUsage(recordAiUsage(false)); setDraft(localDraft(topic, audience, brands, goal)); setStatus("No se pudo conectar con IA. Se generó una plantilla local editable."); }
     finally { setBusy(false); }
   };
 
@@ -63,6 +67,7 @@ export function ExplainerDraftCreator() {
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-3"><button type="button" onClick={() => void generate()} disabled={!topic.trim() || !goal.trim() || busy} className="border border-core-accent/50 px-3 py-2 text-xs font-semibold text-core-accent hover:bg-core-accent/10 disabled:cursor-not-allowed disabled:opacity-50">{busy ? "Generando…" : "Generar borrador"}</button>{draft ? <button type="button" onClick={download} className="border border-core-border/[0.2] px-3 py-2 text-xs font-semibold text-core-text-secondary hover:text-core-text">Descargar JSON</button> : null}</div>
       {status ? <p className="mt-3 text-xs text-core-text-muted">{status}</p> : null}
+      {usage.requests ? <p className="mt-2 text-[0.65rem] text-core-text-muted">Uso local de IA: {usage.requests} intento(s) · {usage.totalTokens || "—"} tokens{usage.estimatedCostUsd ? ` · coste estimado US$ ${usage.estimatedCostUsd.toFixed(4)}` : ""}{usage.failures ? ` · ${usage.failures} fallo(s)` : ""}</p> : null}
       {draft ? <div className="mt-4 border-t border-core-border/[0.12] pt-4"><h3 className="font-semibold text-core-text">{draft.title}</h3><p className="mt-1 text-sm text-core-text-secondary">{draft.tagline}</p><div className="mt-3 grid gap-2 sm:grid-cols-3">{draft.scenes.map((scene) => <article key={scene.id} className="border border-core-border/[0.12] p-3"><p className="text-xs font-semibold text-core-text">{scene.title}</p><p className="mt-1 text-xs leading-relaxed text-core-text-secondary">{scene.businessImpact}</p></article>)}</div><p className="mt-3 text-xs text-core-text-muted">Pendientes de validar: {draft.validationGaps.join(" · ")}</p></div> : null}
     </section>
   );
