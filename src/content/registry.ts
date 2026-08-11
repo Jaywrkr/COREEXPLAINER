@@ -269,7 +269,11 @@ const definitions: ExplainerDefinition[] = [
   webMethodsDefinition,
 ];
 
-const patternIssues = validateSolutionPatterns(solutionPatterns, new Set(definitions.map((definition) => definition.slug)));
+const patternIssues = validateSolutionPatterns(
+  solutionPatterns,
+  new Set(definitions.map((definition) => definition.slug)),
+  new Map(definitions.map((definition) => [definition.slug, definition.meta.brandContext.map((brand) => brand.name)])),
+);
 if (patternIssues.length > 0) {
   throw new Error(`Solution pattern catalog failed validation:\n- ${patternIssues.join("\n- ")}`);
 }

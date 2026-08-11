@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.219.0";
+export const currentVersion = "0.220.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.220.0",
+    date: "11 ago 2026",
+    title: "Coherencia de marcas en patrones",
+    changes: [
+      "El catálogo valida que cada marca declarada por un patrón aparezca en el brandContext de un explainer enlazado.",
+      "Se corrigen dos claims de portfolio detectados por el gate: Aruba HPE queda cubierto por active-active-dc y Turbonomic usa el nombre IBM Turbonomic.",
+      "La validación se ejecuta en el registry antes de publicar el catálogo.",
+    ],
+  },
   {
     version: "0.219.0",
     date: "11 ago 2026",

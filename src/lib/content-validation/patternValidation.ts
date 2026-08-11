@@ -11,7 +11,11 @@ function validDate(value: string): boolean {
 }
 
 /** Validates the reusable pattern catalog without making compatibility claims. */
-export function validateSolutionPatterns(patterns: readonly SolutionPattern[], explainerSlugs: ReadonlySet<string>): string[] {
+export function validateSolutionPatterns(
+  patterns: readonly SolutionPattern[],
+  explainerSlugs: ReadonlySet<string>,
+  brandNamesByExplainer?: ReadonlyMap<string, readonly string[]>,
+): string[] {
   const issues: string[] = [];
   const ids = new Set<string>();
   for (const [index, pattern] of patterns.entries()) {
@@ -30,6 +34,12 @@ export function validateSolutionPatterns(patterns: readonly SolutionPattern[], e
     }
     for (const slug of pattern.explainerSlugs ?? []) {
       if (!explainerSlugs.has(slug)) issues.push(`${label}.explainerSlugs references unknown explainer '${slug}'`);
+    }
+    if (brandNamesByExplainer) {
+      const linkedBrands = new Set(pattern.explainerSlugs.flatMap((slug) => brandNamesByExplainer.get(slug) ?? []));
+      for (const brand of pattern.brands) {
+        if (!linkedBrands.has(brand)) issues.push(`${label}.brands '${brand}' is not declared by any linked explainer`);
+      }
     }
   }
   return issues;

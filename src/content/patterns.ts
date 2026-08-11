@@ -22,7 +22,7 @@ export const solutionPatterns: SolutionPattern[] = [
     signals: ["hosts saturados", "dependencias de storage no documentadas", "failover nunca probado"],
     evidence: ["HCL y versiones", "capacidad tras fallo", "paths y políticas", "prueba funcional"],
     risks: ["sizing insuficiente", "plano de gestión confundido con camino de datos", "rollback no definido"],
-    explainerSlugs: ["vcf", "vsphere-ha", "vsan"],
+    explainerSlugs: ["vcf", "vsphere-ha", "vsan", "active-active-dc"],
     lastReviewedAt: "2026-08-09",
   },
   {
@@ -30,7 +30,7 @@ export const solutionPatterns: SolutionPattern[] = [
     title: "Observabilidad orientada a operación",
     problem: "Hay métricas aisladas, pero el equipo no puede conectar síntoma, dependencia, cambio y respuesta.",
     outcome: "Cobertura, correlación, evidencia de incidente y remediación gobernada.",
-    brands: ["IBM Instana", "Turbonomic"],
+    brands: ["IBM Instana", "IBM Turbonomic"],
     signals: ["MTTR elevado", "mapas desactualizados", "recomendaciones sin contexto"],
     evidence: ["cobertura de servicios", "trazas y logs", "runbook", "criterio de éxito"],
     risks: ["telemetría incompleta", "automatización sin aprobación", "hipótesis sin evidencia"],

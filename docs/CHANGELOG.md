@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.220.0] - 2026-08-11
+
+- Los patrones cruzan sus marcas con el `brandContext` de los explainers enlazados.
+- El gate detectó y corrigió `Aruba HPE` sin cobertura y el nombre incompleto `Turbonomic`.
+- La validación ocurre en el registry y falla el build si aparece una marca sin respaldo de portfolio.
+
 ## [0.219.0] - 2026-08-11
 
 - La biblioteca de patrones considera cobertura de escenarios e integridad técnica revisada.
