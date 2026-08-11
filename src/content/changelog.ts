@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.242.0";
+export const currentVersion = "0.243.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.243.0",
+    date: "2026-08-11",
+    title: "Métricas de revisión alineadas con el gate",
+    changes: [
+      "El informe técnico usa perfiles de simulación coherentes y flujo causal ordenado.",
+      "Las métricas ya no inflan escenarios listos por contar pasos o por presencia de un objeto inválido.",
+      "Los predicados de readiness son reutilizables y tienen regresión explícita.",
+    ],
+  },
   {
     version: "0.242.0",
     date: "2026-08-11",

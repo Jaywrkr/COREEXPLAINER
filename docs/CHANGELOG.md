@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.243.0] - 2026-08-11
+
+### Métricas de revisión alineadas con el gate
+
+- El informe técnico usa perfiles de simulación coherentes y flujo causal ordenado.
+- Las métricas ya no inflan escenarios listos por contar pasos o por presencia de un objeto inválido.
+- Los predicados de readiness son reutilizables y tienen regresión explícita.
+
 ## [0.242.0] - 2026-08-11
 
 ### Readiness valida perfiles de simulación

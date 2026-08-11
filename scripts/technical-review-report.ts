@@ -4,6 +4,7 @@ import { buildReviewActions } from "../src/lib/review/reviewActions";
 import { calculateTechnicalCoverage } from "../src/lib/review/coverageMetrics";
 import { buildImplementationWorkPackage } from "../src/lib/implementation/workPackage";
 import { summarizeSourceFreshness } from "../src/content/technical-source-catalog";
+import { hasCausalGuidedFlow, hasValidSimulationProfile } from "../src/lib/review/scenarioReadiness";
 import packageJson from "../package.json";
 
 const REPORT_SCHEMA_VERSION = "1.4";
@@ -35,8 +36,8 @@ const rows = explainerRegistry.map((entry) => {
     failureScenarios: entry.meta.failureScenarios?.length ?? 0,
     scenarioProfiles: (entry.meta.failureScenarios ?? []).map((scenario) => ({
       id: scenario.id,
-      hasSimulation: Boolean(scenario.simulation),
-      hasGuidedFlow: (scenario.guidedSteps?.length ?? 0) >= 4,
+      hasSimulation: hasValidSimulationProfile(scenario),
+      hasGuidedFlow: hasCausalGuidedFlow(scenario.guidedSteps),
       hasEvidence: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => Boolean(step.evidence?.trim())),
       hasCurrentSources: Boolean(scenario.guidedSteps?.length) && scenario.guidedSteps!.every((step) => (step.sourceIds ?? []).length > 0 && (step.sourceIds ?? []).every((sourceId) => sources.find((source) => source.id === sourceId)?.validity === "current")),
     })),

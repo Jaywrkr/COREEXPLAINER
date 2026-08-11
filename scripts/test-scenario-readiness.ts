@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildScenarioReadinessMarkdown, buildScenarioReadinessQueue } from "../src/lib/review/scenarioReadiness";
+import { buildScenarioReadinessMarkdown, buildScenarioReadinessQueue, hasCausalGuidedFlow, hasValidSimulationProfile } from "../src/lib/review/scenarioReadiness";
 import type { ExplainerMeta } from "../src/content/types";
 
 const source = { id: "src", title: "Fuente", url: "https://example.com", accessedAt: "2026-08-11", publisher: "Test", product: "Test", version: "1", reference: "ref", validity: "current" as const };
@@ -28,4 +28,8 @@ assert.ok(reordered[0]?.missing.includes("flujo causal observe/diagnose/recover/
 const invalidProfile = { ...meta, failureScenarios: [{ ...meta.failureScenarios![1]!, simulation: { mode: "degraded" as const, impact: "Impacto" } }] };
 const invalidQueue = buildScenarioReadinessQueue([{ slug: "tema", title: "Tema", meta: invalidProfile }]);
 assert.ok(invalidQueue[0]?.missing.includes("simulación tipada coherente"));
+assert.equal(hasCausalGuidedFlow(meta.failureScenarios![1]!.guidedSteps), true);
+assert.equal(hasCausalGuidedFlow([...meta.failureScenarios![1]!.guidedSteps!].reverse()), false);
+assert.equal(hasValidSimulationProfile(meta.failureScenarios![1]!), true);
+assert.equal(hasValidSimulationProfile(invalidProfile.failureScenarios![0]!), false);
 console.log("Scenario readiness regression checks passed.");
