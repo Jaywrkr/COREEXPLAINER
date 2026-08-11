@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.187.0 (11-08-2026):** `PatternLibrary` permite buscar y filtrar patrones por texto y marca, y comparar como maximo dos lado a lado. `patternComparison.ts` mantiene la seleccion pura y sus regresiones. La comparacion organiza evidencia y riesgos; no afirma compatibilidad ni sustituye una validacion de arquitectura.
+
 **Actualizacion v0.186.0 (11-08-2026):** `productTelemetry.ts` normaliza eventos locales, limita retención a 500 y agrega métricas de temas únicos, escenas, escenarios, presentaciones, Focus, workflows y exportaciones. `UsageMetricsPanel` permite exportar/borrar JSON local; no existe envío remoto.
 
 **Actualizacion v0.185.0 (11-08-2026):** `AI_MAX_ESTIMATED_COST_USD` permite rechazar solicitudes cuyo coste estimado exceda un tope explícito, antes del proveedor. `CopilotPolicy` expone el cap; sin tarifas de entrada/salida no se inventa precio y siguen aplicando tokens/cuota.

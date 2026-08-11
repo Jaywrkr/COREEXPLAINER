@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.186.0";
+export const currentVersion = "0.187.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.187.0",
+    date: "11 ago 2026",
+    title: "Comparacion de patrones CORESOLUTIONS",
+    changes: [
+      "La biblioteca filtra patrones por texto y marca para reducir ruido en workshops.",
+      "Se pueden comparar hasta dos patrones lado a lado con problema, resultado, evidencia, riesgos y marcas.",
+      "La comparacion es editorial: no declara compatibilidad ni selecciona automaticamente una arquitectura.",
+    ],
+  },
   {
     version: "0.186.0",
     date: "11 ago 2026",

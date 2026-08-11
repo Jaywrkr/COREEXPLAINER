@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.187.0] - 2026-08-11
+
+- La biblioteca de patrones permite filtrar por texto y marca.
+- Se pueden comparar hasta dos patrones lado a lado con evidencia y riesgos.
+- La comparacion no certifica compatibilidad ni elige una arquitectura automaticamente.
+
 ## [0.186.0] - 2026-08-11
 
 - Las métricas locales muestran un funnel de utilidad más completo.
