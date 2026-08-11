@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.113.0";
+export const currentVersion = "0.114.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.114.0",
+    date: "10 ago 2026",
+    title: "Health check operativo",
+    changes: [
+      "Se añade `/api/health` para comprobar versión, disponibilidad de IA, modo de cuota e identidad firmada sin exponer secretos.",
+      "La respuesta desactiva caché para reflejar el entorno real del despliegue.",
+      "El endpoint distingue cuota compartida por Redis de fallback local por proceso.",
+    ],
+  },
   {
     version: "0.113.0",
     date: "10 ago 2026",
