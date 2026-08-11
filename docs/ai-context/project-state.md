@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.214.0 (11-08-2026):** `EvidenceRecord.claimPaths` enlaza cada registro del ledger con los campos autorados que representa. El mapa visual y el handoff Markdown incluyen la ruta; `validateEvidenceLedger` exige paths no vacíos y no duplicados. Esto mejora auditoría sin convertir la evidencia autorada en prueba del entorno.
+
 **Actualizacion v0.213.0 (11-08-2026):** `workflowState.ts` centraliza estados, etiquetas, responsables y transiciones del workflow editorial. `review-due` ahora es visible y solo retorna a revisión técnica; no se confunde con borrador ni puede alcanzarse por progresión normal. La regresión vive en `scripts/test-workflow-state.ts`.
 
 **Actualizacion v0.212.0 (11-08-2026):** `claimLanguageGate` revisa títulos, captions, párrafos e impacto de cada paso para detectar promesas absolutas. Si no hay `sourceIds` ni una limitación explícita, genera una advertencia accionable; no bloquea el renderizado. La regresión vive en `scripts/test-claim-language-gate.ts`.

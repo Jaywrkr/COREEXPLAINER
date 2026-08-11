@@ -131,7 +131,7 @@ export function buildSupportCaseMarkdown(input: SupportCasePackInput): string {
     ...input.triage.items.map((item) => `- ${item.id}: ${safe(item.symptom, 240)} (${item.confidence})`),
     "",
     "## Ledger de evidencia",
-    ...input.evidence.map((record) => `- ${record.id} · ${record.kind} · ${safe(record.claim, 240)} · solicitar: ${safe(record.requestedEvidence, 400)} · fuentes: ${record.sourceIds.join(", ") || "confirmar"}`),
+    ...input.evidence.map((record) => `- ${record.id} · ${record.kind} · ${safe(record.claim, 240)} · campos: ${record.claimPaths.join(", ")} · solicitar: ${safe(record.requestedEvidence, 400)} · fuentes: ${record.sourceIds.join(", ") || "confirmar"}`),
     ...(input.evidence.length ? [] : ["- No hay registros de evidencia declarados."]),
     "",
     "## Límites y revisión",

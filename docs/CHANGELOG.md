@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.214.0] - 2026-08-11
+
+- El ledger de evidencia identifica los campos autorados representados por cada claim.
+- El mapa de evidencia y el handoff de soporte exponen esa trazabilidad junto con fuentes y estado de vigencia.
+- El gate rechaza registros sin paths o con paths duplicados.
+
 ## [0.213.0] - 2026-08-11
 
 - El workflow de contenido usa una máquina de estados pura y testeable.

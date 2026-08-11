@@ -41,6 +41,7 @@ export function EvidenceMapPanel({ meta, steps, current, activeScenarioId }: Evi
                   <span className="font-mono text-[0.52rem] text-core-text-muted">{record.provenance === "authored" ? "autorado" : "derivado"}</span>
                 </div>
                 <p className="mt-1 font-semibold text-core-text">{record.claim}</p>
+                <p className="mt-1 text-[0.56rem] text-core-text-muted"><span className="font-semibold text-core-text">Campos trazables:</span> {record.claimPaths.join(" · ")}</p>
                 <p className="mt-1 text-core-text-secondary"><span className="font-semibold text-core-text">Solicitar:</span> {record.requestedEvidence}</p>
                 {record.sourceIds.length ? (
                   <div className="mt-1 flex flex-wrap gap-x-2 gap-y-1">

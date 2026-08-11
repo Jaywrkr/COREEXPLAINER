@@ -8,6 +8,8 @@ export interface EvidenceRecord {
   id: string;
   kind: EvidenceKind;
   claim: string;
+  /** Authoring paths whose assertions are represented by this record. */
+  claimPaths: string[];
   requestedEvidence: string;
   sourceIds: string[];
   sourceStatus: Record<string, EvidenceSourceStatus>;
@@ -41,10 +43,16 @@ function record(meta: ExplainerMeta, base: Omit<EvidenceRecord, "sourceStatus">)
  * descriptive: it does not assert that evidence exists in a real environment.
  */
 export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): EvidenceRecord[] {
-  const records: EvidenceRecord[] = steps.map((step) => record(meta, {
+  const records: EvidenceRecord[] = steps.map((step, stepIndex) => record(meta, {
     id: `step:${step.id}`,
     kind: "documentary",
     claim: clean(step.title),
+    claimPaths: [
+      `steps[${stepIndex}].title`,
+      ...step.paragraphs.map((_, paragraphIndex) => `steps[${stepIndex}].paragraphs[${paragraphIndex}]`),
+      `steps[${stepIndex}].businessImpact`,
+      `steps[${stepIndex}].caption`,
+    ],
     requestedEvidence: clean(step.businessImpact),
     sourceIds: unique(step.sourceIds),
     provenance: "authored",
@@ -56,6 +64,12 @@ export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): Evide
         id: `scenario:${scenario.id}:step:${guidedStep.id}`,
         kind: guidedStep.kind === "validate" ? "acceptance" : "observed",
         claim: `${clean(scenario.label)} · ${clean(guidedStep.title)}`,
+        claimPaths: [
+          `failureScenarios.${scenario.id}.guidedSteps.${guidedStep.id}.title`,
+          `failureScenarios.${scenario.id}.guidedSteps.${guidedStep.id}.instruction`,
+          `failureScenarios.${scenario.id}.guidedSteps.${guidedStep.id}.evidence`,
+          `failureScenarios.${scenario.id}.guidedSteps.${guidedStep.id}.expected`,
+        ],
         requestedEvidence: clean(guidedStep.evidence),
         sourceIds: unique(guidedStep.sourceIds ?? []),
         provenance: "authored",
@@ -68,6 +82,11 @@ export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): Evide
       id: `roadmap:${phase.id}`,
       kind: "acceptance",
       claim: clean(phase.title),
+      claimPaths: [
+        `targetArchitecture.roadmap.${phase.id}.objective`,
+        `targetArchitecture.roadmap.${phase.id}.evidence`,
+        `targetArchitecture.roadmap.${phase.id}.exitCriteria`,
+      ],
       requestedEvidence: clean(`${phase.evidence} Salida: ${phase.exitCriteria}`),
       sourceIds: unique(phase.sourceIds ?? []),
       provenance: "authored",
@@ -79,6 +98,12 @@ export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): Evide
       id: `decision:${option.id}`,
       kind: "hypothesis",
       claim: clean(option.title),
+      claimPaths: [
+        `targetArchitecture.decisionOptions.${option.id}.summary`,
+        `targetArchitecture.decisionOptions.${option.id}.benefits`,
+        `targetArchitecture.decisionOptions.${option.id}.tradeoffs`,
+        `targetArchitecture.decisionOptions.${option.id}.evidence`,
+      ],
       requestedEvidence: clean(option.evidence),
       sourceIds: unique(option.sourceIds ?? []),
       provenance: "authored",
@@ -97,6 +122,8 @@ export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds
     if (ids.has(record.id)) errors.push(`${label}.id '${record.id}' is duplicated`);
     ids.add(record.id);
     if (!record.claim.trim()) errors.push(`${label}.claim must be non-empty`);
+    if (!record.claimPaths.length) errors.push(`${label}.claimPaths must contain at least one authoring path`);
+    if (new Set(record.claimPaths).size !== record.claimPaths.length) errors.push(`${label}.claimPaths must not contain duplicates`);
     if (!record.requestedEvidence.trim()) errors.push(`${label}.requestedEvidence must be non-empty`);
     if (!record.sourceIds.length) errors.push(`${label}.sourceIds must contain at least one source`);
     for (const sourceId of record.sourceIds) {
