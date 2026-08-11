@@ -24,6 +24,7 @@ assert.deepEqual(technicalIntegrityAssuranceIssues(reviewed), []);
 assert.match(technicalIntegrityAssuranceIssues({ ...reviewed, scenes: { ...reviewed.scenes, second: { requiredEdges: [{ id: "missing-source", from: "a", to: "b", kind: "data", label: "camino", rationale: "contrato" }] } } }).join(" "), /every evidence-bearing scene/);
 console.log("Technical integrity assurance gate checks passed.");
 
+assert.match(technicalIntegrityAssuranceIssues(reviewed, new Map([["source", "review-needed"]])).join(" "), /requires current sources/);
 assert.deepEqual(validateFailureScenarioNarrative({ id: "plain", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"] }), []);
 assert.match(validateFailureScenarioNarrative({ id: "simulated", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"], simulation: { mode: "hard-down", impact: "impacto" } })[0]!, /requires guidedSteps/);
 console.log("Failure narrative gate checks passed.");

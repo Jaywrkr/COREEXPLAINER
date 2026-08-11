@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.194.0 (11-08-2026):** `technicalIntegrityAssuranceIssues` ahora recibe la frescura de fuentes y rechaza perfiles `reviewed` cuyas reglas enlacen fuentes `review-needed` o IDs ausentes. Esto evita representar como revisado un modelo respaldado por referencias que requieren actualización.
+
 **Actualizacion v0.193.0 (11-08-2026):** `validateFailureScenarioNarrative` exige que cualquier `FailureScenario` con `simulation` tenga fases `observe`, `diagnose`, `recover` y `validate`. Esto conecta parámetros de fallo con evidencia y recuperación guiada; escenarios sin simulación siguen siendo conceptuales.
 
 **Actualizacion v0.192.0 (11-08-2026):** `technicalIntegrityAssuranceIssues` conecta el content gate con `assurance`: perfiles `source-backed`/`reviewed` requieren fuentes en reglas de evidencia; escenas con solo nodos declarativos siguen siendo válidas. La regresión `test:technical-integrity-gate` protege que la UI no muestre confianza superior al contrato.

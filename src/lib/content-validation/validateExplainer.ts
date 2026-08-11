@@ -69,9 +69,10 @@ function validateTechnicalIntegrityProfile(
   scenes: Readonly<Record<string, Scene>>,
   sceneIds: ReadonlySet<string>,
   technicalSourceIds: ReadonlySet<string>,
+  sourceValidityById: ReadonlyMap<string, "current" | "review-needed">,
   add: (message: string) => void,
 ) {
-  for (const issue of technicalIntegrityAssuranceIssues(profile)) add(issue);
+  for (const issue of technicalIntegrityAssuranceIssues(profile, sourceValidityById)) add(issue);
   if (!TECHNICAL_INTEGRITY_DOMAINS.has(profile.domain)) add("meta.technicalIntegrity.domain is not supported");
   if (!TECHNICAL_INTEGRITY_ASSURANCE.has(profile.assurance)) add("meta.technicalIntegrity.assurance must be 'baseline', 'source-backed' or 'reviewed'");
   const ruleIds = new Set<string>();
@@ -378,7 +379,8 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   const referencedSceneIds = new Set<string>();
 
   if (meta.technicalIntegrity) {
-    validateTechnicalIntegrityProfile(meta.technicalIntegrity, spec.scenes, sceneIds, technicalSourceIds, add);
+    const sourceValidityById = new Map(meta.technicalReview.sources.map((source) => [source.id, source.validity ?? "review-needed"] as const));
+    validateTechnicalIntegrityProfile(meta.technicalIntegrity, spec.scenes, sceneIds, technicalSourceIds, sourceValidityById, add);
   }
 
   for (const [index, step] of steps.entries()) {

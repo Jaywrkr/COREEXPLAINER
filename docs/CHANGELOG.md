@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.194.0] - 2026-08-11
+
+- Un perfil `reviewed` requiere fuentes actuales en sus reglas enlazadas.
+- Fuentes `review-needed` o ausentes degradan el gate antes de presentar confianza.
+- Se añade regresión específica de frescura de fuentes.
+
 ## [0.193.0] - 2026-08-11
 
 - Las simulaciones enriquecidas requieren fases `observe`, `diagnose`, `recover` y `validate`.
