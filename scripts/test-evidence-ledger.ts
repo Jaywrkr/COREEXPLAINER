@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildEvidenceLedger, isValidClaimPath, validateEvidenceLedger } from "../src/lib/evidence/ledger";
+import { buildEvidenceLedger, isValidClaimPath, resolvesClaimPath, validateEvidenceLedger } from "../src/lib/evidence/ledger";
 import { buildSupportTriageBrief } from "../src/lib/support/triage";
 import type { ExplainerMeta, ExplainerStep } from "../src/content/types";
 
@@ -19,6 +19,11 @@ assert.ok(validateEvidenceLedger([{ ...ledger[0]!, id: "invalid", sourceIds: ["m
 assert.equal(isValidClaimPath("steps[0].paragraphs[1]"), true);
 assert.equal(isValidClaimPath("failureScenarios.failure.guidedSteps.observe.evidence"), true);
 assert.equal(isValidClaimPath("javascript:alert(1)"), false);
+assert.equal(resolvesClaimPath("steps[0].paragraphs[1]", { meta, steps }), true);
+assert.equal(resolvesClaimPath("steps[4].title", { meta, steps }), false);
+assert.equal(resolvesClaimPath("failureScenarios.s1.guidedSteps.observe.evidence", { meta, steps }), true);
+assert.equal(resolvesClaimPath("failureScenarios.missing.guidedSteps.observe.evidence", { meta, steps }), false);
+assert.ok(validateEvidenceLedger([{ ...ledger[0]!, claimPaths: ["steps[4].title"] }], new Set(["src-1"]), { meta, steps }).some((error) => error.includes("missing authored field")));
 assert.ok(validateEvidenceLedger([{ ...ledger[0]!, claimPaths: ["client.secret"] }], new Set(["src-1"])).some((error) => error.includes("invalid authoring path")));
 assert.ok(ledger.every((record) => record.requestedEvidence.length > 0));
 assert.equal(buildSupportTriageBrief({ slug: "ledger", meta, steps }).items.length, 1);

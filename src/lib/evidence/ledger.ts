@@ -34,6 +34,43 @@ export function isValidClaimPath(value: string): boolean {
   return /^(?:steps\[\d+\]|failureScenarios\.[A-Za-z0-9:_-]+\.guidedSteps\.[A-Za-z0-9:_-]+|targetArchitecture\.(?:roadmap|decisionOptions)\.[A-Za-z0-9:_-]+)\.[A-Za-z][A-Za-z0-9_]*(?:\[\d+\])?$/.test(value);
 }
 
+/**
+ * Checks that a syntactically valid path resolves to an authored field. This
+ * prevents a manually assembled ledger from pointing at a missing step,
+ * scenario, roadmap phase or decision option.
+ */
+export function resolvesClaimPath(value: string, input: EvidenceLedgerInput): boolean {
+  if (!isValidClaimPath(value)) return false;
+
+  const stepMatch = value.match(/^steps\[(\d+)\]\.([A-Za-z][A-Za-z0-9_]*)(?:\[(\d+)\])?$/);
+  if (stepMatch) {
+    const step = input.steps[Number(stepMatch[1])];
+    if (!step) return false;
+    const field = stepMatch[2] ?? "";
+    if (field === "paragraphs") return stepMatch[3] !== undefined && Boolean(step.paragraphs[Number(stepMatch[3])]);
+    return ["title", "businessImpact", "caption"].includes(field);
+  }
+
+  const scenarioMatch = value.match(/^failureScenarios\.([A-Za-z0-9:_-]+)\.guidedSteps\.([A-Za-z0-9:_-]+)\.([A-Za-z][A-Za-z0-9_]*)$/);
+  if (scenarioMatch) {
+    const scenario = input.meta.failureScenarios?.find((candidate) => candidate.id === scenarioMatch[1]);
+    const guidedStep = scenario?.guidedSteps?.find((candidate) => candidate.id === scenarioMatch[2]);
+    return Boolean(guidedStep && ["title", "instruction", "evidence", "expected"].includes(scenarioMatch[3] ?? ""));
+  }
+
+  const targetMatch = value.match(/^targetArchitecture\.(roadmap|decisionOptions)\.([A-Za-z0-9:_-]+)\.([A-Za-z][A-Za-z0-9_]*)$/);
+  if (targetMatch) {
+    const collection = targetMatch[1] === "roadmap" ? input.meta.targetArchitecture?.roadmap : input.meta.targetArchitecture?.decisionOptions;
+    const item = collection?.find((candidate) => candidate.id === targetMatch[2]);
+    const fields = targetMatch[1] === "roadmap"
+      ? ["objective", "evidence", "exitCriteria"]
+      : ["summary", "benefits", "tradeoffs", "evidence"];
+    return Boolean(item && fields.includes(targetMatch[3] ?? ""));
+  }
+
+  return false;
+}
+
 function sourceStatus(meta: ExplainerMeta, sourceIds: string[]): Record<string, EvidenceSourceStatus> {
   const sources = new Map(meta.technicalReview.sources.map((source) => [source.id, source]));
   return Object.fromEntries(sourceIds.map((sourceId) => [sourceId, sources.get(sourceId)?.validity === "current" ? "current" : sources.has(sourceId) ? "review-needed" : "missing"]));
@@ -118,7 +155,7 @@ export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): Evide
   return records;
 }
 
-export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds: ReadonlySet<string>): string[] {
+export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds: ReadonlySet<string>, authored?: EvidenceLedgerInput): string[] {
   const errors: string[] = [];
   const ids = new Set<string>();
   for (const [index, record] of records.entries()) {
@@ -131,6 +168,7 @@ export function validateEvidenceLedger(records: EvidenceRecord[], knownSourceIds
     if (new Set(record.claimPaths).size !== record.claimPaths.length) errors.push(`${label}.claimPaths must not contain duplicates`);
     for (const claimPath of record.claimPaths) {
       if (!isValidClaimPath(claimPath)) errors.push(`${label}.claimPaths contains an invalid authoring path '${claimPath}'`);
+      else if (authored && !resolvesClaimPath(claimPath, authored)) errors.push(`${label}.claimPaths references a missing authored field '${claimPath}'`);
     }
     if (!record.requestedEvidence.trim()) errors.push(`${label}.requestedEvidence must be non-empty`);
     if (!record.sourceIds.length) errors.push(`${label}.sourceIds must contain at least one source`);

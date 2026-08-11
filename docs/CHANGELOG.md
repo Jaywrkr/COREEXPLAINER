@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.237.0] - 2026-08-11
+
+### Claim paths resueltos contra el contrato authored
+
+- El ledger rechaza paths con índices, escenarios, fases o decisiones inexistentes aunque tengan formato válido.
+- La validación resuelve cada referencia contra el contenido authored antes de publicar.
+- Se agregan regresiones para referencias válidas y campos ausentes.
+
 ## [0.236.0] - 2026-08-11
 
 ### UI con divulgación progresiva

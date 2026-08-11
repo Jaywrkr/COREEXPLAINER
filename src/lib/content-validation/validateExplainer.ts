@@ -574,7 +574,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   // Evidence is a publication contract, not only an export concern. Keep the
   // structured ledger behind the same gate so generated or newly authored
   // explainers cannot publish empty claims or unknown source references.
-  for (const issue of validateEvidenceLedger(buildEvidenceLedger({ meta, steps }), technicalSourceIds)) {
+  for (const issue of validateEvidenceLedger(buildEvidenceLedger({ meta, steps }), technicalSourceIds, { meta, steps })) {
     add(`evidence ledger: ${issue}`);
   }
 

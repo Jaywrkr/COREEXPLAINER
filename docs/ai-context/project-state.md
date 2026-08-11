@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.237.0 (11-08-2026):** `resolvesClaimPath` resuelve cada referencia del ledger contra `steps`, escenarios guiados y `targetArchitecture`; `validateEvidenceLedger` rechaza campos authored inexistentes además de paths con formato inválido. La evidencia sigue siendo descriptiva y no certifica un entorno real.
+
 **Actualizacion v0.236.0 (11-08-2026):** la UI aplica divulgacion progresiva: `ToolDrawer` permanece cerrado por defecto y el modo cliente ofrece un detalle opcional de representacion. Se conserva el acceso deliberado a herramientas tecnicas y la interaccion del canvas.
 
 **Actualizacion v0.235.0 (11-08-2026):** `isValidClaimPath` limita `EvidenceRecord.claimPaths` a rutas estructuradas de steps, escenarios guiados o `targetArchitecture`; `validateEvidenceLedger` rechaza paths arbitrarios. La evidencia sigue siendo autorada/descriptiva y no prueba el entorno real.
