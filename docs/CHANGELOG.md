@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.155.0] - 2026-08-11
+
+- El backlog de revisión técnica incorpora acciones `scenario-readiness` derivadas de los faltantes de madurez.
+- Cada acción conserva prioridad, motivo, evidencia y fuentes, y se exporta junto con las demás acciones del explainer.
+- La cola de revisión y la cola de madurez quedan conectadas sin aprobar ni ejecutar cambios.
+- CI protege la derivación con regresiones del review workflow.
+
 ## [0.154.0] - 2026-08-11
 
 - La cola de madurez puede descargarse como backlog Markdown para adjuntarlo a un PR o ticket.

@@ -12,6 +12,9 @@ for (const entry of explainerRegistry) {
   assert.ok(actions.every((action) => action.sourceIds.every((sourceId) => sourceIds.has(sourceId))));
   if (entry.meta.reviewStatus === "pending") assert.ok(actions.some((action) => action.kind === "human-review"));
   if (warnings.length) assert.ok(actions.some((action) => action.kind === "content-gate"));
+  if ((entry.meta.failureScenarios ?? []).some((scenario) => !scenario.simulation || !scenario.guidedSteps?.length)) {
+    assert.ok(actions.some((action) => action.kind === "scenario-readiness"));
+  }
 }
 
 assert.ok(actionCount > 0);

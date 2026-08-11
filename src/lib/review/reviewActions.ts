@@ -1,6 +1,7 @@
 import type { ExplainerMeta } from "@/content/types";
+import { buildScenarioReadinessQueue } from "./scenarioReadiness";
 
-export type ReviewActionKind = "human-review" | "source-refresh" | "content-gate" | "integrity-check";
+export type ReviewActionKind = "human-review" | "source-refresh" | "content-gate" | "integrity-check" | "scenario-readiness";
 export type ReviewActionPriority = "high" | "medium";
 
 export interface ReviewAction {
@@ -68,6 +69,19 @@ export function buildReviewActions(meta: ExplainerMeta, warnings: string[]): Rev
         ...(scene.requiredEdges ?? []).flatMap((rule) => rule.sourceIds ?? []),
         ...(scene.requiredPaths ?? []).flatMap((rule) => rule.sourceIds ?? []),
       ]),
+    });
+  }
+  const scenarioQueue = buildScenarioReadinessQueue([{ slug: "", title: meta.title, meta }]);
+  for (const scenario of scenarioQueue) {
+    const sourceIds = (meta.failureScenarios ?? []).find((candidate) => candidate.id === scenario.scenarioId)?.guidedSteps?.flatMap((step) => step.sourceIds ?? []) ?? [];
+    actions.push({
+      id: `scenario-readiness:${scenario.scenarioId}`,
+      kind: "scenario-readiness",
+      priority: scenario.score === 0 ? "high" : "medium",
+      title: `Madurar escenario: ${scenario.label}`,
+      reason: `El escenario tiene ${scenario.score}% de cobertura editorial y aún le faltan ${scenario.missing.join(", ")}.`,
+      evidence: "Completar los elementos faltantes y contrastar cada fase con fuentes vigentes antes de usarlo en soporte.",
+      sourceIds: [...new Set(sourceIds)],
     });
   }
   return actions;
