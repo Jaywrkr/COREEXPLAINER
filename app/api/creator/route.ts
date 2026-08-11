@@ -12,7 +12,7 @@ const limit = (value: string | undefined, max: number) => (value?.trim() ?? "").
 function json(message: string, status: number, fallback = true, retryAfter?: number, policy?: CreatorPolicy) {
   const headers: Record<string, string> = { "Cache-Control": "no-store" };
   if (retryAfter) headers["Retry-After"] = String(retryAfter);
-  return NextResponse.json({ message, fallback, policy }, { status, headers });
+  return NextResponse.json({ message, fallback, generatedBy: "local-template", policy }, { status, headers });
 }
 
 export async function POST(request: Request) {

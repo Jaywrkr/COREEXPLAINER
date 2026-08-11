@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.210.0 (11-08-2026):** `ExplainerDraftCreator` muestra la proveniencia `origen: IA · revisar` o `origen: plantilla local`. `/api/creator` declara `generatedBy: local-template` en fallbacks para evitar confundir estructura válida con aprobación técnica.
+
 **Actualizacion v0.209.0 (11-08-2026):** `validateCreatorDraft` normaliza y valida la respuesta de IA del creador antes de enviarla al navegador. El contrato exige tres escenas, dos párrafos por escena y listas no vacías; si falla, la UI conserva su fallback local.
 
 **Actualizacion v0.208.0 (11-08-2026):** `PatternLibrary` permite descargar un borrador Markdown generado por `buildPatternDraftMarkdown`. El artefacto incluye límites y checklist de revisión, pero no escribe en el catálogo ni se presenta como recomendación aprobada.

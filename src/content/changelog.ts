@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.209.0";
+export const currentVersion = "0.210.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.210.0",
+    date: "11 ago 2026",
+    title: "Proveniencia visible de borradores",
+    changes: [
+      "El creador distingue un borrador recibido de IA de una plantilla local de fallback.",
+      "La tarjeta muestra siempre una señal de revisión antes de reutilizar el contenido.",
+      "La API declara el origen local cuando no puede entregar un borrador de IA válido.",
+    ],
+  },
   {
     version: "0.209.0",
     date: "11 ago 2026",

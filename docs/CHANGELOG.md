@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.210.0] - 2026-08-11
+
+- El creador muestra si el borrador proviene de IA o de una plantilla local.
+- La tarjeta mantiene una señal visible de revisión antes de reutilizar contenido.
+- La API declara el origen local cuando usa fallback.
+
 ## [0.209.0] - 2026-08-11
 
 - La salida del generador de IA se valida antes de mostrarse como borrador.
