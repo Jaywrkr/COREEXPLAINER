@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.162.0] - 2026-08-11
+
+- Se añade `AI_PERSISTENT_QUOTA_REQUIRED=true` para entornos donde la cuota compartida debe fallar cerrado si Redis no está disponible.
+- El modo por defecto conserva el fallback local para disponibilidad y prototipos; el health endpoint distingue `shared-redis-required`.
+- La creación de cliente Redis maneja configuración inválida sin lanzar una excepción no controlada.
+- CI protege la política de cuota sin contactar servicios externos.
+
 ## [0.161.0] - 2026-08-11
 
 - La vigencia de fuentes se deriva contra una ventana de 180 días, incluso cuando una fuente antigua quedó etiquetada manualmente como `current`.

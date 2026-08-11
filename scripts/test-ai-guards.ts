@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { GET as health } from "../app/api/health/route";
 import { estimateAiCost } from "@/lib/ai/costEstimate";
-import { reservePersistentQuota } from "@/lib/ai/persistentQuota";
+import { persistentQuotaRequired, reservePersistentQuota } from "@/lib/ai/persistentQuota";
 
 const names = [
   "AI_INPUT_COST_PER_MILLION_USD",
@@ -11,6 +11,7 @@ const names = [
   "AI_ENDPOINT_ENABLED",
   "OPENAI_API_KEY",
   "AI_IDENTITY_SIGNING_SECRET",
+  "AI_PERSISTENT_QUOTA_REQUIRED",
 ] as const;
 const original = Object.fromEntries(names.map((name) => [name, process.env[name]]));
 
@@ -30,6 +31,10 @@ try {
 
   delete process.env.AI_INPUT_COST_PER_MILLION_USD;
   delete process.env.AI_OUTPUT_COST_PER_MILLION_USD;
+  assert.equal(persistentQuotaRequired(), false);
+  process.env.AI_PERSISTENT_QUOTA_REQUIRED = "true";
+  assert.equal(persistentQuotaRequired(), true);
+  delete process.env.AI_PERSISTENT_QUOTA_REQUIRED;
   assert.equal(await reservePersistentQuota("test", 100, 12_000), undefined, "sin Redis debe usar el fallback local");
 
   const response = await health();

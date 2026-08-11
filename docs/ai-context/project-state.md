@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.162.0 (11-08-2026):** `AI_PERSISTENT_QUOTA_REQUIRED=true` hace que `/api/copilot` y `/api/creator` respondan `503` si la cuota Redis configurada no está disponible; por defecto continúa el fallback process-local. `/api/health` expone `shared-redis-required`.
+
 **Actualizacion v0.161.0 (11-08-2026):** `deriveSourceValidity` recalcula la vigencia contra una ventana de 180 días; una fuente `current` antigua pasa a `review-needed` durante `enrichTechnicalReview` y alimenta el backlog. No se descargan URLs.
 
 **Actualizacion v0.160.0 (11-08-2026):** `calculateTechnicalCoverage` expone `scenarioCoveragePercent`, `scenariosWithPartialCoverage` y `scenariosWithNoCoverage`; el panel muestra madurez agregada para priorizar soporte. El indicador es editorial y no mide producción.
