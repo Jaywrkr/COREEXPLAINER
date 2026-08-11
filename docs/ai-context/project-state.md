@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.115.0 (10-08-2026):** `npm run test:ai-guards` ejecuta regresiones offline para asegurar que no se invente un coste sin tarifas, que el fallback de Redis funcione sin variables y que `/api/health` no-cachee ni exponga secretos. Las variables de entorno se restauran al terminar.
+
 **Actualizacion v0.114.0 (10-08-2026):** `/api/health` devuelve una señal operativa sin secretos: versión, IA habilitada/configurada, modo de cuota (`shared-redis` o `process-local`) e identidad HMAC configurada. Es dinámico y usa `no-store`, por lo que sirve para comprobar un despliegue de Vercel sin mostrar tokens ni prompts.
 
 **Actualizacion v0.113.0 (10-08-2026):** `package.json` limita los overrides de `postcss@8.5.26` y `sharp@0.35.3` al árbol transitivo de `next@15.5.22`. `npm audit --omit=dev --audit-level=high` no reporta vulnerabilidades de producción y el build se mantiene verde. Next.js 16 no se introduce automáticamente; requiere una migración separada.
