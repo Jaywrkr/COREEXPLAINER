@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.90.0";
+export const currentVersion = "0.91.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.91.0",
+    date: "09 ago 2026",
+    title: "Content gate semántico",
+    changes: [
+      "La publicación comprueba conexiones entre fuentes, pasos, escenarios, decisiones y roadmap.",
+      "El gate detecta nodos aislados, escenarios que no corresponden a la escena y pasos sin nombres visibles del diagrama.",
+      "validate:content imprime las advertencias para convertir deuda editorial en una lista de trabajo verificable.",
+    ],
+  },
   {
     version: "0.90.0",
     date: "09 ago 2026",

@@ -274,6 +274,7 @@ assertTargetArchitectureRegression();
 // fails during build instead of reaching the client as a partial explainer.
 // Profiles are attached here so every topic receives the same technical gate
 // without duplicating metadata in 22 individual content files.
+export const explainerValidationWarnings: Record<string, string[]> = {};
 export const explainerRegistry: ExplainerDefinition[] = definitions.map((definition) => {
   const profile = definition.meta.technicalIntegrity ?? technicalIntegrityProfiles[definition.slug];
   if (!profile) {
@@ -287,7 +288,8 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
       technicalIntegrity: profile,
     },
   };
-  validateExplainerContent(enriched);
+  const validation = validateExplainerContent(enriched);
+  explainerValidationWarnings[definition.slug] = validation.warnings;
   return enriched;
 });
 

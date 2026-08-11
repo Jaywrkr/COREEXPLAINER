@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.91.0 (09-08-2026):** `validateExplainerContent` añade checks semánticos: cobertura de fuentes, nodos aislados, alineación de pasos con nombres del diagrama y coherencia entre escenarios y nodos interactivos. `npm run validate:content` imprime las advertencias por explainer para resolverlas por lotes.
+
 **Actualizacion v0.90.0 (09-08-2026):** `/api/copilot` y `/api/creator` usan `endpointGuard`: límite de tamaño declarado, rate limit temporal por IP, activación opcional con `AI_ENDPOINT_ENABLED` y timeout de 25 s hacia el proveedor. Los errores se presentan de forma segura.
 
 **Actualizacion v0.89.0 (09-08-2026):** los escenarios what-if muestran una lectura asistida calculada desde el grafo: significado para el cliente, evidencia a revisar y decisiones/roadmap relacionados. `whatIfImpactAssistant` no ejecuta pruebas ni consulta plataformas.
