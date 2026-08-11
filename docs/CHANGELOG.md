@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.118.0] - 2026-08-10
+
+- Nueva plantilla `.github/pull_request_template.md` para exigir rigor técnico, seguridad y validaciones en cada PR.
+- Incluye campos explícitos para responsable, explainers, resultado y evidencia de revisión humana.
+
 ## [0.117.0] - 2026-08-10
 
 - `.github/dependabot.yml` programa revisiones semanales de npm y GitHub Actions.
