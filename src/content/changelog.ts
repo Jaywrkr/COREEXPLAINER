@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.93.0";
+export const currentVersion = "0.94.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.94.0",
+    date: "09 ago 2026",
+    title: "Workflow de revisión de contenido",
+    changes: [
+      "Cada explainer tiene un workflow local de borrador, revisión técnica, fuentes, comercial, aprobación y publicación.",
+      "El avance se bloquea si la revisión técnica editorial está pendiente o existen fuentes marcadas para revisión.",
+      "El estado publicado puede marcarse como revisión vencida para forzar una nueva comprobación.",
+    ],
+  },
   {
     version: "0.93.0",
     date: "09 ago 2026",

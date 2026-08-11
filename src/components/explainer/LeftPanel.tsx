@@ -16,6 +16,7 @@ import { AudienceOutcomePanel } from "./AudienceOutcomePanel";
 import { GlossaryText } from "./GlossaryText";
 import { CopilotPanel } from "./CopilotPanel";
 import { AssessmentBriefControl } from "./AssessmentBriefControl";
+import { ContentWorkflowPanel } from "./ContentWorkflowPanel";
 
 interface LeftPanelProps {
   slug: string;
@@ -82,6 +83,7 @@ export function LeftPanel({
       <BeginnerGuide mode={audienceMode} />
       <CopilotPanel meta={meta} step={step} audienceMode={audienceMode} />
       <AssessmentBriefControl meta={meta} steps={steps} />
+      <ContentWorkflowPanel slug={slug} meta={meta} />
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
       <div className="mb-5 flex flex-wrap items-center gap-1.5">
         <ExplainerFeedback slug={slug} />
