@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.183.0";
+export const currentVersion = "0.184.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.184.0",
+    date: "11 ago 2026",
+    title: "Sanitización de entradas para IA",
+    changes: [
+      "El endpoint limita el cuerpo realmente leído y no depende solo de content-length.",
+      "Preguntas y contexto pasan por una redacción local de Bearer tokens, API keys, secretos, passwords y tokens antes del proveedor.",
+      "La política sigue siendo de solo lectura; no se almacenan prompts ni credenciales y la regresión cubre la frontera de sanitización.",
+    ],
+  },
   {
     version: "0.183.0",
     date: "11 ago 2026",

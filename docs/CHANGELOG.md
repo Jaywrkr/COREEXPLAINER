@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.184.0] - 2026-08-11
+
+- El endpoint de IA aplica un límite efectivo al cuerpo recibido.
+- Se redactan credenciales comunes antes de enviar preguntas o contexto al proveedor.
+- Se añade una regresión específica de sanitización y se mantiene la política de solo lectura.
+
 ## [0.183.0] - 2026-08-11
 
 - La campaña de revisión se puede descargar como Markdown o JSON.

@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.184.0 (11-08-2026):** `/api/copilot` usa `readJsonBody` con límite de 18 KB y sanitiza pregunta/contexto mediante `sanitizeCopilotInput` antes de llamar al proveedor. Redacta Bearer tokens, claves, secretos, passwords y tokens comunes; no guarda prompts ni credenciales. Es defensa en profundidad, no DLP.
+
 **Actualizacion v0.183.0 (11-08-2026):** `reviewCampaign.ts` genera snapshots Markdown/JSON de la campaña local. `ReviewCampaignSummary` permite descargarlos con versión y fecha; el contenido declara límites, faltantes y posible información interna, sin convertir el export en aprobación o sincronización remota.
 
 **Actualizacion v0.182.0 (11-08-2026):** `ReviewCampaignSummary` agrega los seguimientos locales de la cola especialista y muestra sin asignar, en revisión, bloqueados, vencidos y listos para PR. Usa `assessTechnicalReviewAssignment`, no muta `reviewStatus` y no interpreta el estado local como aprobación.

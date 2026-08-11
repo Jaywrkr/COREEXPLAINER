@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
+import { checkAiAccess, providerSignal, readJsonBody, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import { estimateAiCost } from "@/lib/ai/costEstimate";
 import { sanitizeCopilotActions, type CopilotAction, type CopilotPolicy } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
+import { sanitizeCopilotInput } from "@/lib/ai/inputSanitization";
 
 const MAX_QUESTION_LENGTH = 600;
 const MAX_CONTEXT_LENGTH = 14000;
@@ -21,13 +22,16 @@ export async function POST(request: Request) {
   if (!access.allowed) return response(access.message, access.status, [], undefined, access.retryAfter);
   const declaredLength = Number(request.headers.get("content-length") ?? 0);
   if (declaredLength > 18_000) return response("La solicitud es demasiado grande.", 413);
-  let body: CopilotRequest;
-  try { body = (await request.json()) as CopilotRequest; } catch { return response("La pregunta no tiene un formato valido.", 400); }
+  const body = await readJsonBody<CopilotRequest>(request, 18_000);
+  if (!body) return response("La solicitud no tiene un formato valido o es demasiado grande.", 400);
 
-  const question = body.question?.trim();
-  const context = body.context?.trim();
-  if (!question || question.length > MAX_QUESTION_LENGTH) return response("Escribe una pregunta de hasta 600 caracteres.", 400);
-  if (!context || context.length > MAX_CONTEXT_LENGTH) return response("El contexto de la explicacion no esta disponible o es demasiado grande.", 400);
+  const rawQuestion = body.question?.trim();
+  const rawContext = body.context?.trim();
+  if (!rawQuestion || rawQuestion.length > MAX_QUESTION_LENGTH) return response("Escribe una pregunta de hasta 600 caracteres.", 400);
+  if (!rawContext || rawContext.length > MAX_CONTEXT_LENGTH) return response("El contexto de la explicacion no esta disponible o es demasiado grande.", 400);
+  const sanitized = sanitizeCopilotInput(rawQuestion, rawContext);
+  const question = sanitized.question.value;
+  const context = sanitized.context.value;
   const allowedActionIds = body.allowedActionIds ?? {};
   const sourceIds = new Set(Array.isArray(allowedActionIds.sourceIds) ? allowedActionIds.sourceIds.filter((id): id is string => typeof id === "string" && id.length <= 160).map((id) => id.trim()).filter(Boolean) : []);
   const scenarioIds = new Set(Array.isArray(allowedActionIds.scenarioIds) ? allowedActionIds.scenarioIds.filter((id): id is string => typeof id === "string" && id.length <= 160).map((id) => id.trim()).filter(Boolean) : []);
