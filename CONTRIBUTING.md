@@ -24,6 +24,7 @@ npm run test:review-priority
 npm run test:review-actions
 npm run test:review-action-tracking
 npm run test:review-action-export
+npm run test:coverage-metrics
 npm run test:technical-review-report
 npm run test:technical-review-package
 npm run test:ai-guards

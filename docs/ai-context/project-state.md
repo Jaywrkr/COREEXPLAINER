@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.145.0 (11-08-2026):** el dashboard muestra cobertura tecnica del catalogo (revision humana, fuentes vigentes, escenarios de fallo, roadmap, assurance de integridad, warnings y acciones). `calculateTechnicalCoverage` es un calculo puro reutilizado por el informe JSON.
+
 **Actualizacion v0.144.0 (11-08-2026):** la cola de revision exporta un Markdown por explainer con acciones, prioridad, evidencia, fuentes y el estado local de cada accion. El contrato puro `buildReviewActionMarkdown` filtra URLs inseguras y deja esos IDs como texto.
 
 **Actualizacion v0.143.0 (11-08-2026):** cada accion del backlog visible en el dashboard tiene seguimiento local por accion (`pending`, `in-progress`, `resolved`). La clave incluye explainer y actionId; los valores desconocidos vuelven a `pending`. Es solo este navegador y no altera el estado editorial.

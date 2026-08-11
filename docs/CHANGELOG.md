@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.145.0] - 2026-08-11
+
+- El dashboard incorpora cobertura técnica del catálogo: revisión, fuentes, escenarios, roadmap, integridad y acciones.
+- El cálculo es determinista y compartido con el informe técnico.
+- CI protege el contrato de métricas con fixtures offline.
+
 ## [0.144.0] - 2026-08-11
 
 - La cola permite exportar el backlog técnico con estados locales para adjuntarlo a un ticket o PR.

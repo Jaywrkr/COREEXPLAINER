@@ -7,6 +7,7 @@ import { ExplainerDraftCreator } from "@/components/dashboard/ExplainerDraftCrea
 import { PatternLibrary } from "@/components/dashboard/PatternLibrary";
 import { UsageMetricsPanel } from "@/components/dashboard/UsageMetricsPanel";
 import { TechnicalReviewQueue } from "@/components/dashboard/TechnicalReviewQueue";
+import { TechnicalCoveragePanel } from "@/components/dashboard/TechnicalCoveragePanel";
 
 export const metadata: Metadata = {
   title: "Explicadores técnicos · CORESOLUTIONS",
@@ -28,6 +29,7 @@ export default function ExplainerDashboardPage() {
       <ExplainerDraftCreator />
       <PatternLibrary />
       <UsageMetricsPanel />
+      <TechnicalCoveragePanel />
       <TechnicalReviewQueue />
 
       {categories.length === 0 && (

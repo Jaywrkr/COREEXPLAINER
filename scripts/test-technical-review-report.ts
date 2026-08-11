@@ -6,18 +6,21 @@ const report = JSON.parse(output) as {
   schemaVersion: string;
   appVersion: string;
   generatedAt: string;
-  summary: { explainers: number; pending: number; staleSources: number; warnings: number; actions: number };
+  summary: { explainers: number; pending: number; staleSources: number; warnings: number; actions: number; coverage: { explainers: number; reviewed: number; pending: number; sources: number; actions: number } };
   rows: Array<{ priority: number; slug: string; title: string; sourceCount: number; sources: Array<{ id: string; title: string; url: string; accessedAt: string; validity: string }>; actions: Array<{ id: string; kind: string; priority: string; sourceIds: string[] }> }>;
   priorityRule: { pending: number; staleSource: number; warning: number };
 };
 
 assert.match(report.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.equal(report.schemaVersion, "1.1");
-assert.equal(report.appVersion, "0.144.0");
+assert.equal(report.appVersion, "0.145.0");
 assert.equal(report.summary.explainers, 22);
 assert.equal(report.summary.pending, 22);
 assert.equal(report.rows.length, report.summary.explainers);
 assert.ok(report.summary.actions > 0);
+assert.equal(report.summary.coverage.explainers, report.summary.explainers);
+assert.equal(report.summary.coverage.pending, report.summary.pending);
+assert.equal(report.summary.coverage.actions, report.summary.actions);
 assert.deepEqual(report.priorityRule, { pending: 100, staleSource: 10, warning: 5 });
 assert.ok(report.rows.every((row) => row.slug && row.title));
 assert.ok(report.rows.every((row) => row.sourceCount === row.sources.length && row.sources.length > 0));
