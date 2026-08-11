@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.154.0] - 2026-08-11
+
+- La cola de madurez puede descargarse como backlog Markdown para adjuntarlo a un PR o ticket.
+- Cada tarea conserva explainer, escenario, porcentaje, faltantes y enlace directo.
+- El exportador declara límites y no sincroniza estados con sistemas externos.
+- CI protege el contrato de exportación con la regresión de scenario readiness.
+
 ## [0.153.0] - 2026-08-11
 
 - El dashboard incorpora una cola de madurez por escenario con porcentaje y faltantes concretos.

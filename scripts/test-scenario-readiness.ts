@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildScenarioReadinessQueue } from "../src/lib/review/scenarioReadiness";
+import { buildScenarioReadinessMarkdown, buildScenarioReadinessQueue } from "../src/lib/review/scenarioReadiness";
 import type { ExplainerMeta } from "../src/content/types";
 
 const source = { id: "src", title: "Fuente", url: "https://example.com", accessedAt: "2026-08-11", publisher: "Test", product: "Test", version: "1", reference: "ref", validity: "current" as const };
@@ -20,4 +20,6 @@ assert.equal(queue.length, 1);
 assert.equal(queue[0]?.scenarioId, "basic");
 assert.equal(queue[0]?.score, 0);
 assert.ok(queue[0]?.missing.includes("simulación tipada"));
+assert.match(buildScenarioReadinessMarkdown(queue, "0.154.0", "2026-08-11T00:00:00.000Z"), /Backlog de madurez/);
+assert.match(buildScenarioReadinessMarkdown(queue, "0.154.0", "2026-08-11T00:00:00.000Z"), /no ejecuta acciones/i);
 console.log("Scenario readiness regression checks passed.");

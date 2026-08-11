@@ -36,3 +36,27 @@ export function buildScenarioReadinessQueue(entries: ScenarioReadinessInput[]): 
     .filter((item) => item.missing.length > 0)
     .sort((a, b) => a.score - b.score || a.title.localeCompare(b.title) || a.label.localeCompare(b.label));
 }
+
+export function buildScenarioReadinessMarkdown(items: ScenarioReadinessItem[], appVersion: string, generatedAt: string): string {
+  const safe = (value: string) => value.replace(/[\r\n]+/g, " ").trim();
+  return [
+    `Versión de la aplicación: ${safe(appVersion)}`,
+    `Generado: ${safe(generatedAt)}`,
+    "# CORESOLUTIONS · Backlog de madurez de escenarios",
+    "",
+    "> Backlog editorial generado desde contenido autorado. No aprueba contenido, no ejecuta acciones y no mide salud de producción.",
+    "",
+    ...items.flatMap((item, index) => [
+      `## ${index + 1}. ${safe(item.title)} · ${safe(item.label)}`,
+      `- Explainer: ${safe(item.slug)}`,
+      `- Escenario: ${safe(item.scenarioId)}`,
+      `- Madurez: ${item.score}%`,
+      `- Faltantes: ${item.missing.map(safe).join(" · ") || "ninguno"}`,
+      `- Enlace: /explainer/${encodeURIComponent(item.slug)}`,
+      "",
+    ]),
+    "## Límites",
+    "- Completar un faltante requiere revisión especialista, fuentes vigentes y validación del contenido.",
+    "- El estado de este archivo no se sincroniza con GitHub, tickets ni plataformas de cliente.",
+  ].join("\n");
+}

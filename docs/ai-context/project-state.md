@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.154.0 (11-08-2026):** `ScenarioReadinessQueue` permite descargar el backlog editorial como Markdown mediante `buildScenarioReadinessMarkdown`, conservando porcentaje, faltantes y enlaces. La salida no aprueba contenido ni sincroniza estados externos.
+
 **Actualizacion v0.153.0 (11-08-2026):** `ScenarioReadinessQueue` muestra por escenario el porcentaje de madurez y los faltantes concretos, con enlace al explainer. `buildScenarioReadinessQueue` reutiliza las mismas cuatro condiciones que la cobertura y solo orienta trabajo editorial; CI ejecuta `test:scenario-readiness`.
 
 **Actualizacion v0.152.0 (11-08-2026):** `calculateTechnicalCoverage` mide madurez de escenarios mediante perfiles de simulación, flujo guiado, evidencia y fuentes vigentes. Dashboard e informe muestran escenarios listos para soporte; el cálculo sigue siendo determinista y no representa salud de producción.
