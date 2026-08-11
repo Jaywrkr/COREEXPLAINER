@@ -80,6 +80,7 @@ export async function POST(request: Request) {
   const usage: AiUsage = { inputTokens: payload.usage?.prompt_tokens, outputTokens: payload.usage?.completion_tokens, totalTokens: payload.usage?.total_tokens, model };
   const cost = estimateAiCost(usage.inputTokens, usage.outputTokens);
   if (cost) { usage.estimatedCostUsd = cost.costUsd; usage.costSource = cost.source; }
+  if (exceedsAiCostCap(cost)) return response("El consumo real estimado de esta respuesta supera el tope de coste configurado; se conserva el límite y no se entrega como respuesta aprobada.", 429, [], usage, 60, policy);
   const message = payload.choices?.[0]?.message?.content?.trim();
   if (message) {
     try {

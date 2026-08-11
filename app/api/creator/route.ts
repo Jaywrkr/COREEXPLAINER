@@ -9,10 +9,10 @@ interface CreatorRequest { topic?: string; audience?: string; brands?: string; g
 interface CreatorUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string; estimatedCostUsd?: number; costSource?: "environment" }
 const limit = (value: string | undefined, max: number) => (value?.trim() ?? "").slice(0, max);
 
-function json(message: string, status: number, fallback = true, retryAfter?: number, policy?: CreatorPolicy) {
+function json(message: string, status: number, fallback = true, retryAfter?: number, policy?: CreatorPolicy, usage?: CreatorUsage) {
   const headers: Record<string, string> = { "Cache-Control": "no-store" };
   if (retryAfter) headers["Retry-After"] = String(retryAfter);
-  return NextResponse.json({ message, fallback, generatedBy: "local-template", policy }, { status, headers });
+  return NextResponse.json({ message, fallback, generatedBy: "local-template", policy, usage }, { status, headers });
 }
 
 export async function POST(request: Request) {
@@ -71,6 +71,7 @@ export async function POST(request: Request) {
   const usage: CreatorUsage = { inputTokens: payload.usage?.prompt_tokens, outputTokens: payload.usage?.completion_tokens, totalTokens: payload.usage?.total_tokens, model: process.env.OPENAI_MODEL ?? "gpt-4o-mini" };
   const cost = estimateAiCost(usage.inputTokens, usage.outputTokens);
   if (cost) { usage.estimatedCostUsd = cost.costUsd; usage.costSource = cost.source; }
+  if (exceedsAiCostCap(cost)) return json("El consumo real estimado de esta respuesta supera el tope de coste configurado; se usará una plantilla local.", 429, true, 60, policy, usage);
   try {
     const validation = validateCreatorDraft(JSON.parse(content));
     if (!validation.draft) return json("La IA devolvió un borrador con estructura incompleta; se usará una plantilla local editable.", 502, true, undefined, policy);

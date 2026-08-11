@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.229.0] - 2026-08-11
+
+- Copiloto y creador comparan el coste también después de recibir los tokens reales del proveedor.
+- Si la respuesta supera el tope, se devuelve fallback local y el uso observado permanece visible.
+- La barrera previa sigue evitando llamadas que ya superan la estimación configurada.
+
 ## [0.228.0] - 2026-08-11
 
 - El creador de borradores aplica el mismo tope de coste estimado que el copiloto antes de llamar al proveedor.
