@@ -28,8 +28,12 @@ export function assessPublicationReadiness(input: PublicationReadinessInput): Pu
   if (supportScenarioGap) reasons.push("uno o más escenarios no cumplen el perfil de soporte");
   if (input.technicalIntegrity !== "reviewed") reasons.push("la integridad técnica no está marcada como revisada");
 
-  const client: PublicationStatus = hasWarnings ? "blocked" : input.reviewStatus === "reviewed" && !hasStaleSources ? "ready" : "review-needed";
-  const support: PublicationStatus = hasWarnings || supportScenarioGap ? "blocked" : input.reviewStatus === "reviewed" && !hasStaleSources && input.technicalIntegrity === "reviewed" ? "ready" : "review-needed";
+  // Validation warnings are editorial signals (for example, a pending human
+  // review), not infrastructure faults. They keep a route in review-needed.
+  // A support route is blocked only when its declared scenario coverage is
+  // structurally incomplete; this avoids presenting pending review as failure.
+  const client: PublicationStatus = input.reviewStatus === "reviewed" && !hasStaleSources && !hasWarnings ? "ready" : "review-needed";
+  const support: PublicationStatus = supportScenarioGap ? "blocked" : input.reviewStatus === "reviewed" && !hasStaleSources && !hasWarnings && input.technicalIntegrity === "reviewed" ? "ready" : "review-needed";
   return { client, support, reasons };
 }
 

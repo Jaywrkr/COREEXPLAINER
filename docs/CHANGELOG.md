@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.207.0] - 2026-08-11
+
+- La revisión humana pendiente se muestra como requiere revisión, no como bloqueo técnico.
+- Soporte solo queda bloqueado por falta de cobertura estructural de escenarios.
+- Las razones editoriales siguen visibles sin exagerar el estado.
+
 ## [0.206.0] - 2026-08-11
 
 - La biblioteca de patrones muestra su estado de madurez antes de reutilizarla.

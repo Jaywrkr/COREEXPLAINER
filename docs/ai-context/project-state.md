@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.207.0 (11-08-2026):** la puerta de publicación distingue advertencias editoriales de bloqueos estructurales. `technical review pending` deja la ruta en `review-needed`; soporte solo queda `blocked` cuando faltan escenarios estructuralmente completos.
+
 **Actualizacion v0.206.0 (11-08-2026):** `PatternLibrary` muestra `ready`, `review-needed` o `blocked` mediante `assessPatternReadiness`, usando el estado de revisión, vigencia de fuentes, advertencias y existencia de explainers enlazados. La biblioteca sigue siendo conceptual y no certifica compatibilidad.
 
 **Actualizacion v0.205.0 (11-08-2026):** `PublicationReadinessPanel` calcula por explainer dos rutas separadas: cliente y soporte. Combina reviewStatus, vigencia de fuentes, advertencias, integridad técnica y madurez de escenarios; solo informa, no publica ni muta contenido.

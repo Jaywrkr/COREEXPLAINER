@@ -8,6 +8,6 @@ assert.equal(pending.client, "review-needed");
 assert.equal(pending.support, "review-needed");
 assert.ok(pending.reasons.some((reason) => reason.includes("revisión humana")));
 const blocked = assessPublicationReadiness({ reviewStatus: "reviewed", sourceValidities: ["review-needed"], validationWarningCount: 1, technicalIntegrity: "reviewed", scenariosTotal: 1, scenariosReadyForSupport: 0 });
-assert.equal(blocked.client, "blocked");
+assert.equal(blocked.client, "review-needed");
 assert.equal(blocked.support, "blocked");
 console.log("Publication readiness regression checks passed.");
