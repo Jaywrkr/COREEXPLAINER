@@ -1,9 +1,12 @@
 "use client";
 
+import { summarizeSourceFreshness } from "@/content/technical-source-catalog";
+
 interface ReviewSource {
   title: string;
   url: string;
   accessedAt: string;
+  validity?: "current" | "review-needed";
 }
 
 interface TechnicalReviewPacketDownloadProps {
@@ -65,7 +68,12 @@ function markdownForReview({ slug, title, scope, lastReviewedAt, validationDoc, 
     "",
     "## Fuentes consultadas",
     "",
-    ...sources.map((source) => `- [${source.title}](${source.url}) — consultada ${source.accessedAt}`),
+    ...sources.map((source) => {
+      const freshness = summarizeSourceFreshness(source);
+      return `- [${source.title}](${source.url}) — consultada ${source.accessedAt} — ${freshness.status} (${freshness.reason}), ${freshness.ageDays === null ? "edad no disponible" : `${freshness.ageDays} días`}, revisar antes de ${freshness.dueAt ?? "fecha no disponible"}`;
+    }),
+    "",
+    "La frescura es una señal editorial derivada de la fecha de acceso; no valida compatibilidad, licenciamiento ni el entorno del cliente.",
     "",
     "## Resultado de la revisión",
     "",

@@ -55,7 +55,7 @@ export function TechnicalReviewQueue() {
                     scope={entry.meta.technicalReview.scope}
                     lastReviewedAt={entry.meta.technicalReview.lastReviewedAt}
                     validationDoc={entry.meta.technicalValidationDoc}
-                    sources={entry.meta.technicalReview.sources.map((source) => ({ title: source.title, url: source.url, accessedAt: source.accessedAt }))}
+                    sources={entry.meta.technicalReview.sources.map((source) => ({ title: source.title, url: source.url, accessedAt: source.accessedAt, validity: source.validity }))}
                     warnings={warnings}
                   />
                 </div>

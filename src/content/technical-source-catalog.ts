@@ -72,7 +72,7 @@ export function deriveSourceValidity(source: TechnicalSource, today = new Date()
 }
 
 /** Explains freshness without changing the source metadata authored in content. */
-export function summarizeSourceFreshness(source: TechnicalSource, today = new Date()): SourceFreshnessSummary {
+export function summarizeSourceFreshness(source: Pick<TechnicalSource, "accessedAt" | "validity">, today = new Date()): SourceFreshnessSummary {
   const accessedTime = Date.parse(`${source.accessedAt}T00:00:00Z`);
   const todayTime = Date.parse(`${today.toISOString().slice(0, 10)}T00:00:00Z`);
   if (!Number.isFinite(accessedTime) || !Number.isFinite(todayTime)) {

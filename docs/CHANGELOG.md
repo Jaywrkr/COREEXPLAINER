@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.223.0] - 2026-08-11
+
+- El paquete de revisión descargado desde el dashboard incluye estado, motivo, antigüedad y fecha sugerida por fuente.
+- El exportador reutiliza el mismo cálculo que la pantalla y el informe CLI.
+- El documento mantiene visible que la frescura editorial no certifica el entorno del cliente.
+
 ## [0.222.0] - 2026-08-11
 
 - El informe técnico JSON y Markdown incluyen motivo, antigüedad y fecha sugerida de revisión por fuente.

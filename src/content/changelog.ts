@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.222.0";
+export const currentVersion = "0.223.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.223.0",
+    date: "11 ago 2026",
+    title: "Paquete descargable con frescura de fuentes",
+    changes: [
+      "El paquete de revisión descargado desde el dashboard incluye estado, motivo, antigüedad y fecha sugerida por fuente.",
+      "El exportador reutiliza el mismo cálculo que la pantalla y el informe CLI.",
+      "El paquete mantiene visible que la frescura editorial no certifica el entorno del cliente.",
+    ],
+  },
   {
     version: "0.222.0",
     date: "11 ago 2026",
