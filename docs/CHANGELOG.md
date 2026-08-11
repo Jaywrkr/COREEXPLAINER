@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.240.0] - 2026-08-11
+
+### Secuencia causal en escenarios guiados
+
+- Las simulaciones enriquecidas deben recorrer `observe → diagnose → recover → validate`.
+- El gate bloquea fases desordenadas para no enseñar una recuperación antes de observar o diagnosticar.
+- Se agregan regresiones para flujo correcto e invertido.
+
 ## [0.239.0] - 2026-08-11
 
 ### Tipos de evidencia protegidos

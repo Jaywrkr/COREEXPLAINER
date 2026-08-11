@@ -51,7 +51,18 @@ export function validateFailureScenarioNarrative(scenario: FailureScenario): str
   if (!scenario.guidedSteps?.length) return ["simulation requires guidedSteps with observe, diagnose, recover and validate phases"];
   const required = new Set<GuidedScenarioStepKind>(["observe", "diagnose", "recover", "validate"]);
   const present = new Set(scenario.guidedSteps.map((step) => step.kind));
-  return [...required].filter((kind) => !present.has(kind)).map((kind) => `simulation narrative is missing '${kind}' phase`);
+  const issues = [...required].filter((kind) => !present.has(kind)).map((kind) => `simulation narrative is missing '${kind}' phase`);
+  const expectedOrder: GuidedScenarioStepKind[] = ["observe", "diagnose", "recover", "validate"];
+  const actualOrder = scenario.guidedSteps.map((step) => step.kind);
+  const firstIndexByKind = new Map<GuidedScenarioStepKind, number>();
+  actualOrder.forEach((kind, index) => { if (!firstIndexByKind.has(kind)) firstIndexByKind.set(kind, index); });
+  const orderCorrect = expectedOrder.every((kind, index) => {
+    const current = firstIndexByKind.get(kind);
+    const previous = index === 0 ? -1 : firstIndexByKind.get(expectedOrder[index - 1]!) ?? -1;
+    return current !== undefined && current > previous;
+  });
+  if (issues.length === 0 && !orderCorrect) issues.push("simulation narrative phases must follow observe, diagnose, recover, validate order");
+  return issues;
 }
 
 /** Simulated guided steps may not rely on references that are known to need refresh. */

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.239.0";
+export const currentVersion = "0.240.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.240.0",
+    date: "2026-08-11",
+    title: "Secuencia causal en escenarios guiados",
+    changes: [
+      "Las simulaciones enriquecidas deben recorrer observe, diagnose, recover y validate en ese orden.",
+      "El gate conserva el escenario conceptual y bloquea narrativas con fases desordenadas.",
+      "La regresión cubre flujo correcto y flujo invertido.",
+    ],
+  },
   {
     version: "0.239.0",
     date: "2026-08-11",
