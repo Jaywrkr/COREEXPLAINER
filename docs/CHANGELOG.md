@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.199.0] - 2026-08-11
+
+- La primera visita al lienzo muestra una guía de interacción descartable y persistida localmente.
+- Las herramientas opcionales se identifican como contenido bajo demanda.
+- El panel de escenarios de fallo comienza debajo del diagnóstico técnico para reducir solapamientos.
+
 ## [0.198.0] - 2026-08-11
 
 - Contenido `reviewed` requiere fuentes `current` en cada paso narrativo.

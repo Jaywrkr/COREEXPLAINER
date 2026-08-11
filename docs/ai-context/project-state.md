@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.199.0 (11-08-2026):** UI de primera lectura refinada: guía de interacción del canvas descartable y persistida localmente, herramientas opcionales explícitamente bajo demanda y escenarios de fallo separados del diagnóstico técnico para evitar solapamientos.
+
 **Actualizacion v0.198.0 (11-08-2026):** `reviewedStepSourceIssues` exige fuentes `current` en cada `ExplainerStep` cuando `meta.reviewStatus` es `reviewed`. El estado `pending` conserva la advertencia y permite continuar la campaña de revisión sin falsear aprobación.
 
 **Actualizacion v0.197.0 (11-08-2026):** `FailureScenarioPanel` marca cada fuente del paso activo como `Vigente` o `Revisar` y muestra una advertencia contextual si alguna está `review-needed`. La UI refleja el gate sin convertir evidencia editorial en telemetría.

@@ -231,7 +231,7 @@ export function FailureScenarioPanel({
       ref={panelRef}
       aria-label="Escenarios interactivos de fallo"
       style={panelStyle}
-      className={`absolute right-4 top-4 z-10 max-h-[calc(100%-2rem)] w-[min(22rem,calc(100%-2rem))] overflow-y-auto border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
+      className={`absolute right-4 top-[4.2rem] z-10 max-h-[calc(100%-6.2rem)] w-[min(22rem,calc(100%-2rem))] overflow-y-auto border border-core-border/[0.14] bg-core-panel/95 shadow-sm backdrop-blur-sm ${
         minimized ? "p-2.5" : "p-4"
       } ${isDragging ? "select-none" : ""}`}
     >

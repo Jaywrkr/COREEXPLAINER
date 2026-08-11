@@ -109,6 +109,7 @@ export function VisualCanvas({
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
   const [clientToolsOpen, setClientToolsOpen] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [showInteractionHint, setShowInteractionHint] = useState(false);
   const reducedMotionRef = useRef(false);
   const { theme } = useTheme();
   const isTechnicalMode = audienceMode === "technical";
@@ -148,6 +149,19 @@ export function VisualCanvas({
     syncPreference();
     mediaQuery.addEventListener("change", syncPreference);
     return () => mediaQuery.removeEventListener("change", syncPreference);
+  }, []);
+
+  useEffect(() => {
+    try {
+      setShowInteractionHint(window.localStorage.getItem("coresolutions:canvas-hint-dismissed") !== "1");
+    } catch {
+      setShowInteractionHint(true);
+    }
+  }, []);
+
+  const dismissInteractionHint = useCallback(() => {
+    setShowInteractionHint(false);
+    try { window.localStorage.setItem("coresolutions:canvas-hint-dismissed", "1"); } catch { /* optional preference */ }
   }, []);
   const combinedFocusIds = useMemo(
     () => Array.from(new Set([...guidedFocusIds, ...(selectedIntegrityDiagnostic?.nodeIds ?? [])])),
@@ -473,6 +487,18 @@ export function VisualCanvas({
             </span>
           ) : null}
         </button>
+      ) : null}
+      {showInteractionHint ? (
+        <aside className="absolute bottom-4 left-4 z-20 w-[min(20rem,calc(100%-2rem))] border border-core-accent/30 bg-core-panel/95 p-3 shadow-lg backdrop-blur-sm" aria-label="Cómo explorar el diagrama">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-core-accent">Explora el diagrama</p>
+              <p className="mt-1 text-[0.7rem] leading-relaxed text-core-text-secondary">Arrastra para moverte, usa la rueda para acercar y pulsa un nodo para ver su función.</p>
+            </div>
+            <button type="button" onClick={dismissInteractionHint} className="shrink-0 border border-core-border/[0.14] px-1.5 py-1 font-mono text-[0.58rem] text-core-text-muted transition-colors hover:border-core-accent/60 hover:text-core-text" aria-label="Cerrar ayuda del diagrama">×</button>
+          </div>
+          <p className="mt-2 border-t border-core-border/[0.1] pt-2 font-mono text-[0.56rem] text-core-text-muted">También puedes usar +, − y 0 en el teclado.</p>
+        </aside>
       ) : null}
       <CanvasViewControls
         scale={viewport.scale}
