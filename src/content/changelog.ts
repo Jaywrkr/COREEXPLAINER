@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.112.0";
+export const currentVersion = "0.113.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.113.0",
+    date: "10 ago 2026",
+    title: "Overrides de dependencias de build",
+    changes: [
+      "PostCSS y Sharp transitivos de Next.js quedan fijados a versiones corregidas mediante overrides acotados al paquete Next.",
+      "La auditoría de producción queda sin vulnerabilidades reportadas sin forzar una actualización mayor de Next.js.",
+      "El build y la validación de contenidos se ejecutaron después del cambio.",
+    ],
+  },
   {
     version: "0.112.0",
     date: "10 ago 2026",

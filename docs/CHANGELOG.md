@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.113.0] - 2026-08-10
+
+- Overrides de seguridad fijan PostCSS `8.5.26` y Sharp `0.35.3` para las dependencias transitivas de Next.js.
+- `npm audit --omit=dev --audit-level=high` queda sin vulnerabilidades reportadas.
+- No se ejecutó una actualización mayor de Next.js; queda como migración independiente.
+
 ## [0.112.0] - 2026-08-10
 
 - El guard de IA puede compartir solicitudes y tokens entre instancias mediante Upstash Redis.

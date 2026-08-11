@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.113.0 (10-08-2026):** `package.json` limita los overrides de `postcss@8.5.26` y `sharp@0.35.3` al árbol transitivo de `next@15.5.22`. `npm audit --omit=dev --audit-level=high` no reporta vulnerabilidades de producción y el build se mantiene verde. Next.js 16 no se introduce automáticamente; requiere una migración separada.
+
 **Actualizacion v0.112.0 (10-08-2026):** `persistentQuota` usa `@upstash/redis` cuando existen `UPSTASH_REDIS_REST_URL` y `UPSTASH_REDIS_REST_TOKEN`. Las ventanas de diez minutos comparten solicitudes y tokens entre instancias serverless; sin esas variables se mantiene el fallback en memoria. La clave combina la identidad HMAC validada o la IP y no almacena prompts.
 
 **Actualizacion v0.111.0 (10-08-2026):** `endpointGuard` puede derivar una clave de cuota por usuario a partir de `x-coresolutions-user` y `x-coresolutions-user-signature`, verificadas con HMAC-SHA256 usando `AI_IDENTITY_SIGNING_SECRET`. Sin firma válida usa el fallback por IP. El gateway debe eliminar cualquier header recibido del navegador e inyectar los suyos; la app no confía en un identificador libre.
