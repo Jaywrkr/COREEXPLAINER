@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.141.0] - 2026-08-11
+
+- El informe técnico añade un backlog estructurado de acciones sugeridas por explainer.
+- Las acciones se derivan solo de señales existentes: revisión pendiente, fuentes `review-needed`, warnings del gate y assurance de integridad no `reviewed`.
+- Cada acción conserva motivo, evidencia y IDs de fuentes; no ejecuta cambios operativos.
+
 ## [0.140.0] - 2026-08-10
 
 - El informe técnico incorpora la matriz completa de fuentes por explainer.

@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.141.0 (11-08-2026):** el informe JSON y el paquete de auditoria exponen `actions[]` por explainer. El backlog deriva acciones no operativas de revision pendiente, fuentes `review-needed`, advertencias semanticas y perfiles de integridad cuya assurance aun no es `reviewed`; cada accion conserva motivo, evidencia y sourceIds.
+
 **Actualizacion v0.140.0 (10-08-2026):** el informe de revision tecnica expone la matriz completa de fuentes por explainer (ID, titulo, URL segura, fecha, publisher, producto, version, referencia y vigencia). El Markdown del paquete incluye la misma evidencia para que soporte pueda localizar exactamente que referencia debe actualizarse.
 
 **Actualizacion v0.139.0 (10-08-2026):** `report:technical-review:package` genera un paquete para soporte/auditoria con Markdown, JSON y `manifest.json`. El manifiesto conserva version, resumen y hashes SHA-256; CI publica el directorio completo y ejecuta su regresion offline.
