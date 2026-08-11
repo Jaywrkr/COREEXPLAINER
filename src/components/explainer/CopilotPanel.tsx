@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import type { FailureScenario, TechnicalSource } from "@/content/types";
-import type { CopilotAction } from "@/lib/ai/copilotContract";
+import type { CopilotAction, CopilotPolicy } from "@/lib/ai/copilotContract";
 import { readAiUsage, recordAiUsage, type AiUsageTelemetry } from "@/lib/ai/usageTelemetry";
 
 interface CopilotPanelProps {
@@ -20,6 +20,7 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
   const [answer, setAnswer] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [actions, setActions] = useState<CopilotAction[]>([]);
+  const [policy, setPolicy] = useState<CopilotPolicy | null>(null);
   const [usage, setUsage] = useState<AiUsageTelemetry>({ requests: 0, failures: 0, totalTokens: 0, estimatedCostUsd: 0 });
 
   useEffect(() => { setUsage(readAiUsage()); }, []);
@@ -41,14 +42,16 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
     setBusy(true);
     setAnswer(null);
     setActions([]);
+    setPolicy(null);
     try {
       const response = await fetch("/api/copilot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed, context }),
       });
-      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number } };
+      const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number }; policy?: CopilotPolicy };
       setActions(Array.isArray(payload.actions) ? payload.actions : []);
+      setPolicy(payload.policy ?? null);
       setUsage(recordAiUsage(response.ok, payload.usage?.totalTokens ?? 0, payload.usage?.estimatedCostUsd ?? 0));
       setAnswer(payload.message ?? "No se recibió respuesta.");
     } catch {
@@ -67,6 +70,10 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
       <div className="mt-2 space-y-2">
         <p className="text-[0.62rem] leading-relaxed text-core-text-secondary">
           Pregunta sobre esta escena. Responde solo con el contenido y fuentes de la explicación; no consulta tu entorno.
+        </p>
+        <p className="border-l-2 border-core-accent/50 pl-2 text-[0.58rem] leading-relaxed text-core-text-muted">
+          Política: solo lectura. Acciones permitidas: abrir fuentes y activar escenarios locales; no ejecuta cambios en infraestructura.
+          {policy ? ` Presupuesto estimado: ${policy.estimatedInputTokens} tokens de entrada · máximo ${policy.maxOutputTokens} de salida${policy.estimatedCostUsd !== undefined ? ` · hasta US$ ${policy.estimatedCostUsd.toFixed(4)}` : " · coste no configurado"}.` : ""}
         </p>
         <textarea
           value={question}

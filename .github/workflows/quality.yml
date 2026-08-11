@@ -42,6 +42,8 @@ jobs:
         run: npm run test:review-action-export
       - name: Run coverage metrics regressions
         run: npm run test:coverage-metrics
+      - name: Run Copilot policy regressions
+        run: npm run test:copilot-policy
       - name: Run technical review report regressions
         run: npm run test:technical-review-report
       - name: Run technical review package regressions

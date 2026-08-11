@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.146.0] - 2026-08-11
+
+- El Copiloto devuelve y muestra una política explícita de solo lectura.
+- La política declara las únicas acciones permitidas (`open-source`, `activate-scenario`), límites de tokens y coste estimado cuando hay tarifas configuradas.
+- CI protege el contrato de política sin llamar al proveedor de IA.
+
 ## [0.145.0] - 2026-08-11
 
 - El dashboard incorpora cobertura técnica del catálogo: revisión, fuentes, escenarios, roadmap, integridad y acciones.
