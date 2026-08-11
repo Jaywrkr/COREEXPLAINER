@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.163.0] - 2026-08-11
+
+- El handoff local de soporte separa evidencia recibida, resultado de comprobación y decisión de escalamiento.
+- La decisión queda limitada a `pending`, `continue` o `escalate` y se normaliza antes de exportar Markdown.
+- La información sigue solo en el navegador; no ejecuta comprobaciones, cambia infraestructura ni envía datos a un ticket.
+- CI protege la compatibilidad del borrador y el contenido exportado.
+
 ## [0.162.0] - 2026-08-11
 
 - Se añade `AI_PERSISTENT_QUOTA_REQUIRED=true` para entornos donde la cuota compartida debe fallar cerrado si Redis no está disponible.

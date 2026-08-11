@@ -9,7 +9,12 @@ export interface SupportCaseDraft {
   owner: string;
   selectedTriageId: string;
   notes: string;
+  evidenceReceived: string;
+  checkResult: string;
+  escalationDecision: SupportCaseEscalationDecision;
 }
+
+export type SupportCaseEscalationDecision = "pending" | "continue" | "escalate";
 
 export interface SupportCasePackInput {
   slug: string;
@@ -31,7 +36,7 @@ function safeCaseId(value: string): string {
 }
 
 export function emptySupportCaseDraft(): SupportCaseDraft {
-  return { caseId: "", summary: "", impact: "", startedAt: "", owner: "", selectedTriageId: "", notes: "" };
+  return { caseId: "", summary: "", impact: "", startedAt: "", owner: "", selectedTriageId: "", notes: "", evidenceReceived: "", checkResult: "", escalationDecision: "pending" };
 }
 
 export function normalizeSupportCaseDraft(value: Partial<SupportCaseDraft> | null | undefined): SupportCaseDraft {
@@ -43,6 +48,9 @@ export function normalizeSupportCaseDraft(value: Partial<SupportCaseDraft> | nul
     owner: safe(value?.owner ?? "", 120),
     selectedTriageId: safe(value?.selectedTriageId ?? "", 120),
     notes: safe(value?.notes ?? "", 2000),
+    evidenceReceived: safe(value?.evidenceReceived ?? "", 2000),
+    checkResult: safe(value?.checkResult ?? "", 2000),
+    escalationDecision: value?.escalationDecision === "continue" || value?.escalationDecision === "escalate" ? value.escalationDecision : "pending",
   };
 }
 
@@ -65,6 +73,9 @@ export function buildSupportCaseMarkdown(input: SupportCasePackInput): string {
     `- Inicio declarado: ${draft.startedAt || "pendiente de registrar"}`,
     `- Responsable: ${draft.owner || "pendiente de asignar"}`,
     `- Notas: ${draft.notes || "sin notas"}`,
+    `- Evidencia recibida: ${draft.evidenceReceived || "pendiente de registrar"}`,
+    `- Resultado de comprobación: ${draft.checkResult || "pendiente de registrar"}`,
+    `- Decisión de escalamiento: ${draft.escalationDecision}`,
     "",
     "## Ruta de triage seleccionada",
     ...(selected ? [
