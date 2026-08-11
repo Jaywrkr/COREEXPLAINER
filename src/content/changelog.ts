@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.172.0";
+export const currentVersion = "0.173.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.173.0",
+    date: "11 ago 2026",
+    title: "Gate de paquete técnico para todo el catálogo",
+    changes: [
+      "La regresión del paquete recorre los 22 explainers, no solo VCF.",
+      "Cada tema debe conservar marcas, workstreams, impactos con cardinalidad consistente y fuentes enlazadas.",
+      "El gate evita que una capacidad de implementación/mantenimiento se rompa en temas de Instana, Turbonomic, webMethods u otras marcas.",
+    ],
+  },
   {
     version: "0.172.0",
     date: "11 ago 2026",

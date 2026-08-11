@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.173.0] - 2026-08-11
+
+- La regresión del paquete técnico recorre los 22 explainers del catálogo.
+- Se validan marcas, workstreams, impactos, fuentes y evidencia/rollback por cada tema.
+- El gate protege también los explainers de Instana, Turbonomic y webMethods.
+
 ## [0.172.0] - 2026-08-11
 
 - La telemetría local de IA separa Copilot, Creator y eventos desconocidos.

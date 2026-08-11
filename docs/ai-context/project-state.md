@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.173.0 (11-08-2026):** `test:implementation-work-package` recorre los 22 explainers y exige marcas, workstreams, impactos con cardinalidad consistente, fuentes y evidencia/rollback. El paquete de implementación/mantenimiento queda protegido a nivel de catálogo, no solo en VCF.
+
 **Actualizacion v0.172.0 (11-08-2026):** `usageTelemetry` separa uso de IA por superficie (`copilot|creator|unknown`), normaliza datos y descarta deltas negativos. El dashboard ofrece resumen JSON y borrado local; no hay envío de telemetría ni sustitución de la cuota/facturación del proveedor.
 
 **Actualizacion v0.171.0 (11-08-2026):** `calculateTechnicalCoverage` y el informe técnico cuentan `impactCount`, `highRiskImpactCount` e `impactsWithScenarios`, derivados de `buildImplementationWorkPackage`. El dashboard los muestra como indicadores editoriales; el informe JSON usa `schemaVersion: 1.3`.
