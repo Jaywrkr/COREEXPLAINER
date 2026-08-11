@@ -8,6 +8,7 @@ import type {
   TargetArchitecture,
   GuidedScenarioStepKind,
 } from "@/content/types";
+import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
 import { validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 
@@ -70,6 +71,7 @@ function validateTechnicalIntegrityProfile(
   technicalSourceIds: ReadonlySet<string>,
   add: (message: string) => void,
 ) {
+  for (const issue of technicalIntegrityAssuranceIssues(profile)) add(issue);
   if (!TECHNICAL_INTEGRITY_DOMAINS.has(profile.domain)) add("meta.technicalIntegrity.domain is not supported");
   if (!TECHNICAL_INTEGRITY_ASSURANCE.has(profile.assurance)) add("meta.technicalIntegrity.assurance must be 'baseline', 'source-backed' or 'reviewed'");
   const ruleIds = new Set<string>();

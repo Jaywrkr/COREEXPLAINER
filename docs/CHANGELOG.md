@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.192.0] - 2026-08-11
+
+- `source-backed` y `reviewed` exigen referencias de fuentes en reglas con evidencia.
+- Escenas conceptuales sin reglas de evidencia no se marcan artificialmente como incompletas.
+- Se añade una regresión para impedir assurance técnico sin respaldo declarado.
+
 ## [0.191.0] - 2026-08-11
 
 - El canvas incorpora una señal compacta de cobertura y confianza del modelo.
