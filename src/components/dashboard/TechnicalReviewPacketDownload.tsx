@@ -1,0 +1,79 @@
+"use client";
+
+interface ReviewSource {
+  title: string;
+  url: string;
+  accessedAt: string;
+}
+
+interface TechnicalReviewPacketDownloadProps {
+  slug: string;
+  title: string;
+  scope: string;
+  lastReviewedAt: string;
+  validationDoc: string;
+  sources: ReviewSource[];
+  warnings: string[];
+}
+
+function markdownForReview({ slug, title, scope, lastReviewedAt, validationDoc, sources, warnings }: TechnicalReviewPacketDownloadProps) {
+  const checklist = [
+    "[ ] Confirmar producto, versión/release, HCL y licenciamiento aplicables.",
+    "[ ] Contrastar que el diagrama representa las relaciones y dependencias reales.",
+    "[ ] Revisar escenarios de fallo, capacidad remanente, observabilidad y rollback.",
+    "[ ] Registrar evidencia del cliente, supuestos y limitaciones que deben mantenerse visibles.",
+    "[ ] Documentar responsable, fecha y decisión de revisión en el PR de contenido.",
+  ];
+  return [
+    `# Paquete de revisión técnica — ${title}`,
+    "",
+    `- Explainer: \`${slug}\``,
+    `- Última revisión declarada: ${lastReviewedAt}`,
+    `- Ficha técnica: [${validationDoc}](${validationDoc})`,
+    "",
+    "## Alcance declarado",
+    "",
+    scope,
+    "",
+    "## Checklist del especialista",
+    "",
+    ...checklist,
+    "",
+    "## Advertencias del content gate",
+    "",
+    ...(warnings.length ? warnings.map((warning) => `- ${warning}`) : ["- Sin advertencias semánticas estructurales."]),
+    "",
+    "## Fuentes consultadas",
+    "",
+    ...sources.map((source) => `- [${source.title}](${source.url}) — consultada ${source.accessedAt}`),
+    "",
+    "## Resultado de la revisión",
+    "",
+    "- Estado propuesto: `pending` hasta que un especialista confirme el contenido.",
+    "- Responsable:",
+    "- Fecha:",
+    "- Cambios requeridos:",
+    "- Evidencia adjunta:",
+    "",
+    "Este paquete no certifica un entorno ni cambia el estado publicado. La aprobación debe ocurrir mediante un cambio revisable en Git/PR.",
+    "",
+  ].join("\n");
+}
+
+export function TechnicalReviewPacketDownload(props: TechnicalReviewPacketDownloadProps) {
+  const download = () => {
+    const blob = new Blob([markdownForReview(props)], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `technical-review-${props.slug}.md`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <button type="button" onClick={download} className="border border-core-border/[0.2] px-2 py-1 text-[0.58rem] font-semibold text-core-text-muted hover:border-core-accent/50 hover:text-core-accent">
+      Descargar paquete
+    </button>
+  );
+}
