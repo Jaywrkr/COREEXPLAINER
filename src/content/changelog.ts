@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.122.0";
+export const currentVersion = "0.123.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.123.0",
+    date: "10 ago 2026",
+    title: "Validación técnica dentro del Workbench",
+    changes: [
+      "Nueva vista Validar para registrar la revisión humana y confirmar coherencia del explainer.",
+      "Los contratos de integridad de escenas aparecen como tareas verificables con sus fuentes.",
+      "La exportación completa incluye esta vista sin ejecutar pruebas ni afirmar aprobación automática.",
+    ],
+  },
   {
     version: "0.122.0",
     date: "10 ago 2026",

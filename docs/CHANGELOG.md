@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.123.0] - 2026-08-10
+
+- El Technical Workbench añade la vista `Validar`.
+- La vista convierte revisión humana, vigencia de fuentes y contratos de integridad de escenas en tareas verificables.
+- El paquete completo exportado incluye esta vista sin ejecutar pruebas ni afirmar aprobación automática.
+
 ## [0.122.0] - 2026-08-10
 
 - El Technical Workbench resume el progreso local de Implementar, Soportar y Mantener.

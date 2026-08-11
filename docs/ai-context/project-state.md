@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.123.0 (10-08-2026):** el Technical Workbench añade la vista `Validar`. Resume el estado de revisión humana, vigencia de fuentes y contratos de integridad declarados para las escenas como checklist exportable; no ejecuta validaciones ni convierte el estado local en aprobación.
+
 **Actualizacion v0.122.0 (10-08-2026):** el Workbench resume el progreso local entre Implementar, Soportar y Mantener. Su descarga genera un paquete completo con estado por tarea y una sección de fuentes por confirmar, incluyendo tareas sin fuente o fuentes `review-needed`; sigue siendo conceptual y no ejecuta cambios.
 
 **Actualizacion v0.121.0 (10-08-2026):** el Workbench muestra `brandContext` con nombre y rol, y aplana los `guidedSteps` de cada escenario en tareas de soporte con tipo, instrucción, esperado, evidencia y fuentes. La exportación Markdown mantiene ese alcance de portafolio.

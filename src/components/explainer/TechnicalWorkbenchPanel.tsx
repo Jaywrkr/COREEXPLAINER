@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 
-type WorkbenchMode = "implement" | "support" | "maintain";
+type WorkbenchMode = "implement" | "support" | "maintain" | "validate";
 interface WorkItem { id: string; title: string; detail: string; evidence: string; sourceIds: string[]; sourceLabel?: string }
 
 interface TechnicalWorkbenchPanelProps {
@@ -12,7 +12,7 @@ interface TechnicalWorkbenchPanelProps {
   steps: ExplainerStep[];
 }
 
-const modeLabels: Record<WorkbenchMode, string> = { implement: "Implementar", support: "Soportar", maintain: "Mantener" };
+const modeLabels: Record<WorkbenchMode, string> = { implement: "Implementar", support: "Soportar", maintain: "Mantener", validate: "Validar" };
 
 function safeText(value: string) { return value.replace(/[\r\n]+/g, " ").trim(); }
 
@@ -59,8 +59,39 @@ export function TechnicalWorkbenchPanel({ slug, meta, steps }: TechnicalWorkbenc
       sourceIds: [source.id],
       sourceLabel: source.url,
     }));
-    return { implement: implementation, support, maintain };
-  }, [meta.failureScenarios, meta.targetArchitecture?.roadmap, sources, steps]);
+    const validation: WorkItem[] = [
+      {
+        id: "validation:human-review",
+        title: "Revisión técnica humana",
+        detail: meta.reviewStatus === "reviewed" ? "El contenido declara una revisión técnica completada." : "El contenido sigue pendiente de revisión técnica especialista.",
+        evidence: `Estado declarado: ${meta.reviewStatus}. Confirmar nodos, aristas, animación, texto y límites en el entorno de referencia.`,
+        sourceIds: [],
+      },
+      {
+        id: "validation:source-freshness",
+        title: "Vigencia de fuentes",
+        detail: `${sources.filter((source) => source.validity === "current").length}/${sources.length} fuentes están marcadas como vigentes.`,
+        evidence: sources.filter((source) => source.validity === "review-needed").length ? "Existen fuentes review-needed que deben confirmarse." : "No hay fuentes review-needed declaradas.",
+        sourceIds: sources.map((source) => source.id),
+      },
+    ];
+    if (meta.technicalIntegrity) {
+      Object.entries(meta.technicalIntegrity.scenes).forEach(([sceneId, contract]) => {
+        const ruleCount = (contract.requiredNodes?.length ?? 0) + (contract.requiredEdges?.length ?? 0) + (contract.requiredPaths?.length ?? 0);
+        validation.push({
+          id: `validation:integrity:${sceneId}`,
+          title: `Contrato de integridad · ${sceneId}`,
+          detail: `${ruleCount} regla(s) declarada(s) para la escena.`,
+          evidence: `Confirmar que los nodos, relaciones y rutas requeridos están representados y que los huérfanos son intencionales (${contract.checkOrphans === false ? "sí" : "no"}).`,
+          sourceIds: [
+            ...(contract.requiredEdges ?? []).flatMap((rule) => rule.sourceIds ?? []),
+            ...(contract.requiredPaths ?? []).flatMap((rule) => rule.sourceIds ?? []),
+          ],
+        });
+      });
+    }
+    return { implement: implementation, support, maintain, validate: validation };
+  }, [meta.failureScenarios, meta.reviewStatus, meta.targetArchitecture?.roadmap, meta.technicalIntegrity, sources, steps]);
 
   useEffect(() => {
     try {
