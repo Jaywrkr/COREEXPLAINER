@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.108.0] - 2026-08-10
+
+- El paquete Markdown incorpora el seguimiento local guardado para el explainer.
+- El estado, responsable, fecha y notas se leen solo al descargar y no salen del navegador por red.
+
 ## [0.107.0] - 2026-08-10
 
 - La cola permite registrar localmente responsable, fecha objetivo, estado y notas por explainer.
