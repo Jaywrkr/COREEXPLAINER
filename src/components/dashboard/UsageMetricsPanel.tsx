@@ -1,11 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { clearProductMetrics, emptyProductMetrics, readProductEvents, readProductMetrics, recordProductEvent, type ProductMetrics } from "@/lib/telemetry/productTelemetry";
+import { clearProductMetrics, emptyProductMetrics, PRODUCT_METRICS_CHANGED_EVENT, readProductEvents, readProductMetrics, recordProductEvent, type ProductMetrics } from "@/lib/telemetry/productTelemetry";
 
 export function UsageMetricsPanel() {
   const [metrics, setMetrics] = useState<ProductMetrics>(() => emptyProductMetrics());
-  useEffect(() => { setMetrics(readProductMetrics()); }, []);
+  useEffect(() => {
+    const refresh = () => setMetrics(readProductMetrics());
+    refresh();
+    window.addEventListener(PRODUCT_METRICS_CHANGED_EVENT, refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener(PRODUCT_METRICS_CHANGED_EVENT, refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
   const topExplainer = Object.entries(metrics.explainers).sort((a, b) => b[1] - a[1])[0];
   const download = () => {
     recordProductEvent({ name: "campaign-export", id: "product-metrics" });
@@ -21,6 +30,7 @@ export function UsageMetricsPanel() {
         <div><p className="text-core-text-muted">Temas únicos</p><p className="font-mono text-core-text">{metrics.uniqueExplainers}</p></div>
         <div><p className="text-core-text-muted">Escenas vistas</p><p className="font-mono text-core-text">{metrics.sceneViews}</p></div>
         <div><p className="text-core-text-muted">Escenarios abiertos</p><p className="font-mono text-core-text">{Object.values(metrics.scenarios).reduce((total, value) => total + value, 0)}</p></div>
+        <div><p className="text-core-text-muted">Acciones copiloto</p><p className="font-mono text-core-text">{metrics.copilotActions}</p></div>
       </div>
       <div className="mt-2 grid gap-2 text-xs sm:grid-cols-4">
         <div><p className="text-core-text-muted">Presentaciones</p><p className="font-mono text-core-text">{metrics.presentationsStarted} iniciadas · {metrics.presentationsExited} salidas</p></div>

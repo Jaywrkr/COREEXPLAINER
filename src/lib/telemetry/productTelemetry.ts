@@ -19,6 +19,7 @@ export interface ProductMetrics {
 
 const EVENTS_KEY = "core-explainer:product-events";
 const MAX_EVENTS = 500;
+export const PRODUCT_METRICS_CHANGED_EVENT = "core-explainer:metrics-changed";
 
 export function emptyProductMetrics(): ProductMetrics {
   return { totalEvents: 0, uniqueExplainers: 0, sceneViews: 0, explainers: {}, scenarios: {}, workflows: 0, briefs: 0, drafts: 0, presentationsStarted: 0, presentationsExited: 0, focusToggles: 0, campaignExports: 0, copilotActions: 0 };
@@ -47,6 +48,7 @@ export function recordProductEvent(event: Omit<ProductEvent, "at">) {
     const events = normalizeProductEvents(JSON.parse(window.localStorage.getItem(EVENTS_KEY) ?? "[]"));
     events.push({ name: event.name, slug: clean(event.slug), id: clean(event.id), at: new Date().toISOString() });
     window.localStorage.setItem(EVENTS_KEY, JSON.stringify(events.slice(-MAX_EVENTS)));
+    window.dispatchEvent(new CustomEvent(PRODUCT_METRICS_CHANGED_EVENT));
   } catch { /* local telemetry is best effort */ }
 }
 
@@ -77,4 +79,9 @@ export function buildProductMetrics(events: ProductEvent[]): ProductMetrics {
 
 export function readProductMetrics(): ProductMetrics { return buildProductMetrics(readProductEvents()); }
 
-export function clearProductMetrics() { if (typeof window !== "undefined") window.localStorage.removeItem(EVENTS_KEY); }
+export function clearProductMetrics() {
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(EVENTS_KEY);
+    window.dispatchEvent(new CustomEvent(PRODUCT_METRICS_CHANGED_EVENT));
+  }
+}

@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.202.0";
+export const currentVersion = "0.203.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.203.0",
+    date: "11 ago 2026",
+    title: "Métricas locales en vivo",
+    changes: [
+      "El resumen de utilidad se actualiza cuando una sesión registra nuevos eventos, sin recargar el dashboard.",
+      "También reacciona a cambios del mismo navegador en otra pestaña.",
+      "Las acciones del copiloto aparecen en el resumen junto a escenas, escenarios y presentaciones.",
+    ],
+  },
   {
     version: "0.202.0",
     date: "11 ago 2026",

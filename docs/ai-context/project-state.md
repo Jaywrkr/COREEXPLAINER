@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.203.0 (11-08-2026):** `UsageMetricsPanel` escucha cambios locales de telemetría y eventos `storage`, por lo que el resumen se actualiza sin recargar y se sincroniza entre pestañas. Incluye acciones del copiloto sin cambiar el alcance de privacidad local.
+
 **Actualizacion v0.202.0 (11-08-2026):** las acciones visibles del copiloto (`open-source` y `activate-scenario`) generan eventos `copilot-action` en la telemetría local. Solo se registra tipo e ID permitido; no se guardan preguntas, respuestas ni URLs arbitrarias.
 
 **Actualizacion v0.201.0 (11-08-2026):** los pasos guiados pueden enfocar suavemente los nodos declarados como relevantes. El encuadre se cancela con interacción manual, respeta `prefers-reduced-motion` y no altera la topología ni el contenido técnico.

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.203.0] - 2026-08-11
+
+- El resumen de métricas locales se actualiza en vivo cuando la sesión registra eventos.
+- También se sincroniza entre pestañas del mismo navegador.
+- Se muestra el uso de acciones del copiloto junto a las métricas existentes.
+
 ## [0.202.0] - 2026-08-11
 
 - Las acciones autorizadas del copiloto generan eventos locales tipados.
