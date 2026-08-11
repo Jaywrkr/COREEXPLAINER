@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.214.0";
+export const currentVersion = "0.215.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.215.0",
+    date: "11 ago 2026",
+    title: "Progreso guiado con revisión explícita",
+    changes: [
+      "El botón Siguiente de escenarios exige marcar el paso actual como Revisado o No aplica.",
+      "El progreso se calcula solo con pasos presentes en la guía y muestra porcentaje, evitando conteos de estados obsoletos.",
+      "La navegación directa sigue disponible para comparar fases, pero avanzar conserva una barrera de revisión segura.",
+    ],
+  },
   {
     version: "0.214.0",
     date: "11 ago 2026",

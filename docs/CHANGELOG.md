@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.215.0] - 2026-08-11
+
+- Los escenarios guiados requieren una decisión explícita sobre el paso actual antes de avanzar.
+- El checklist muestra progreso real y porcentaje, ignorando estados obsoletos guardados localmente.
+- La navegación directa entre fases sigue disponible para explorar sin convertirla en ejecución operativa.
+
 ## [0.214.0] - 2026-08-11
 
 - El ledger de evidencia identifica los campos autorados representados por cada claim.

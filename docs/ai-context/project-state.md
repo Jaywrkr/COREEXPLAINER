@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.215.0 (11-08-2026):** `guidedProgress.ts` calcula progreso válido y exige marcar el paso actual antes de usar “Siguiente” en un escenario. La navegación directa sigue permitida, pero el avance secuencial no salta observación, diagnóstico, recuperación o validación sin una decisión local.
+
 **Actualizacion v0.214.0 (11-08-2026):** `EvidenceRecord.claimPaths` enlaza cada registro del ledger con los campos autorados que representa. El mapa visual y el handoff Markdown incluyen la ruta; `validateEvidenceLedger` exige paths no vacíos y no duplicados. Esto mejora auditoría sin convertir la evidencia autorada en prueba del entorno.
 
 **Actualizacion v0.213.0 (11-08-2026):** `workflowState.ts` centraliza estados, etiquetas, responsables y transiciones del workflow editorial. `review-due` ahora es visible y solo retorna a revisión técnica; no se confunde con borrador ni puede alcanzarse por progresión normal. La regresión vive en `scripts/test-workflow-state.ts`.

@@ -15,6 +15,7 @@ import { explainWhatIfImpact } from "@/lib/ai/whatIfImpactAssistant";
 import { EvidenceTrackerPanel } from "./EvidenceTrackerPanel";
 import { useDraggablePanel } from "./useDraggablePanel";
 import { GlossaryText } from "./GlossaryText";
+import { canAdvanceGuidedStep, guidedProgress } from "@/lib/scenarios/guidedProgress";
 
 interface FailureScenarioPanelProps {
   scene: Scene;
@@ -103,6 +104,8 @@ export function FailureScenarioPanel({
   const whatIfImpact = activeScenario ? evaluateWhatIfImpact(scene, activeScenario.deadNodeIds, activeScenario.simulation) : null;
   const technicalFindings = whatIfImpact ? evaluateTechnicalRules(scene, whatIfImpact, integrityReport) : [];
   const reviewedStepCount = Object.keys(checklist).length;
+  const progress = guidedProgress(guidedSteps, checklist);
+  const canAdvanceStep = canAdvanceGuidedStep(guidedSteps, safeStepIndex, checklist);
   const openFindingCount = technicalFindings.filter((finding) => finding.severity !== "info").length;
   const criticalFindingCount = technicalFindings.filter((finding) => finding.severity === "critical").length;
   const linkedSourceCount = new Set(technicalFindings.flatMap((finding) => finding.sourceIds ?? [])).size;
@@ -426,7 +429,7 @@ export function FailureScenarioPanel({
               {guidedSteps.length ? (
                 <details className="border-t border-core-border/[0.12] pt-2">
                   <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted [&::-webkit-details-marker]:hidden">
-                    Checklist de verificación · {Object.keys(checklist).length}/{guidedSteps.length}
+                    Checklist de verificación · {progress.reviewed}/{progress.total} · {progress.percent}%
                   </summary>
                   <div className="mt-2 space-y-1">
                     {guidedSteps.map((step) => {
@@ -805,12 +808,15 @@ export function FailureScenarioPanel({
                   <button
                     type="button"
                     onClick={() => onGuidedStepChange(Math.min(guidedSteps.length - 1, safeStepIndex + 1))}
-                    disabled={safeStepIndex === guidedSteps.length - 1}
+                    disabled={!canAdvanceStep}
                     className="border border-core-accent/50 bg-core-accent/10 px-2.5 py-1.5 font-mono text-[0.6rem] uppercase tracking-[0.05em] text-core-text transition-colors hover:bg-core-accent/20 disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     Siguiente
                   </button>
                 </div>
+              ) : null}
+              {guidedSteps.length > 1 && safeStepIndex < guidedSteps.length - 1 && !canAdvanceStep ? (
+                <p className="text-right text-[0.58rem] text-core-text-muted">Marca este paso como <span className="font-semibold text-core-text">Revisado</span> o <span className="font-semibold text-core-text">No aplica</span> para continuar.</p>
               ) : null}
             </div>
           ) : (
