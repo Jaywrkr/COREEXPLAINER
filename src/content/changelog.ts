@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.178.0";
+export const currentVersion = "0.179.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.179.0",
+    date: "11 ago 2026",
+    title: "Modo presentación inteligente",
+    changes: [
+      "La presentación entra en Focus canvas y mueve sus controles al diagrama para no interrumpir el relato.",
+      "El chrome contextual se oculta tras inactividad y reaparece al mover el puntero; teclado y Escape siguen disponibles.",
+      "Al salir se restaura el Focus anterior y se mantienen paso, autoplay, pausa, reinicio y navegación accesibles.",
+    ],
+  },
   {
     version: "0.178.0",
     date: "11 ago 2026",

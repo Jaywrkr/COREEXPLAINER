@@ -10,6 +10,7 @@ import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
 import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 import { DEFAULT_LEFT_PANEL_WIDTH, MAX_LEFT_PANEL_WIDTH, MIN_LEFT_PANEL_WIDTH, normalizeExplainerUiPreferences } from "@/lib/ui/preferences";
 import { SceneTimeline } from "./SceneTimeline";
+import { PresentationHud } from "./PresentationHud";
 
 const AUTOPLAY_STEP_MS = 6500;
 const UI_PREFERENCES_KEY = "coresolutions:explainer-ui";
@@ -52,9 +53,12 @@ export function ExplainerLayout({
   const [isResizingPanel, setIsResizingPanel] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
   const [preferencesReady, setPreferencesReady] = useState(false);
+  const [presentationChromeVisible, setPresentationChromeVisible] = useState(true);
   const initializedFromLink = useRef(false);
   const previousScenarioRef = useRef<string | null>(initialScenarioId);
   const resizePointerRef = useRef<number | null>(null);
+  const presentationPreviousFocusRef = useRef<boolean | null>(null);
+  const presentationHideTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     try {
@@ -101,6 +105,28 @@ export function ExplainerLayout({
     setIsResizingPanel(false);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   }, []);
+
+  const revealPresentationChrome = useCallback(() => {
+    if (!presentationActive) return;
+    setPresentationChromeVisible(true);
+    if (presentationHideTimerRef.current !== null) window.clearTimeout(presentationHideTimerRef.current);
+    presentationHideTimerRef.current = window.setTimeout(() => setPresentationChromeVisible(false), 3200);
+  }, [presentationActive]);
+
+  useEffect(() => {
+    if (!presentationActive) {
+      setPresentationChromeVisible(true);
+      if (presentationHideTimerRef.current !== null) window.clearTimeout(presentationHideTimerRef.current);
+      presentationHideTimerRef.current = null;
+      return;
+    }
+    setPresentationChromeVisible(true);
+    presentationHideTimerRef.current = window.setTimeout(() => setPresentationChromeVisible(false), 3200);
+    return () => {
+      if (presentationHideTimerRef.current !== null) window.clearTimeout(presentationHideTimerRef.current);
+      presentationHideTimerRef.current = null;
+    };
+  }, [presentationActive]);
   const step = steps[current]!;
   const scene = spec.scenes[step.sceneId];
 
@@ -195,6 +221,10 @@ export function ExplainerLayout({
         event.preventDefault();
         setPresentationActive(false);
         setPresentationPlaying(false);
+        if (presentationPreviousFocusRef.current !== null) {
+          setFocusMode(presentationPreviousFocusRef.current);
+          presentationPreviousFocusRef.current = null;
+        }
         return;
       }
 
@@ -248,13 +278,26 @@ export function ExplainerLayout({
     setPresentationPlaying(false);
     setCurrent(index);
   };
-  const enterPresentation = () => setPresentationActive(true);
+  const enterPresentation = () => {
+    if (presentationPreviousFocusRef.current === null) presentationPreviousFocusRef.current = focusMode;
+    setFocusMode(true);
+    setPresentationChromeVisible(true);
+    setPresentationActive(true);
+  };
   const exitPresentation = () => {
     setPresentationActive(false);
     setPresentationPlaying(false);
+    if (presentationPreviousFocusRef.current !== null) {
+      setFocusMode(presentationPreviousFocusRef.current);
+      presentationPreviousFocusRef.current = null;
+    }
   };
   const togglePresentation = () => {
-    setPresentationActive(true);
+    if (!presentationActive) {
+      enterPresentation();
+      setPresentationPlaying(true);
+      return;
+    }
     setPresentationPlaying((playing) => !playing);
   };
   const resetPresentation = () => {
@@ -309,8 +352,11 @@ export function ExplainerLayout({
           }}
         />
       </div>
-      <div className={focusMode ? "relative min-h-[320px]" : "relative hidden min-h-[320px] md:block"}>
-        <div className="pointer-events-none absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-3 sm:inset-x-6">
+      <div
+        className={focusMode ? "relative min-h-[320px]" : "relative hidden min-h-[320px] md:block"}
+        onPointerMove={revealPresentationChrome}
+      >
+        <div className={`pointer-events-none absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-3 transition-opacity duration-300 sm:inset-x-6 ${presentationActive && !presentationChromeVisible ? "opacity-0" : "opacity-100"}`}>
           <div className="pointer-events-auto max-w-[min(28rem,70vw)] border border-core-border/[0.14] bg-core-panel/85 px-3 py-2 shadow-lg backdrop-blur-md">
             <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-core-accent">{meta.title}</p>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.62rem] text-core-text-secondary"><span>{step.tag}</span><span className="text-core-text-muted">·</span><span>Paso {String(current + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span><span className="text-core-text-muted">·</span><span>{audienceMode === "client" ? "Cliente" : audienceMode === "conceptual" ? "Conceptual" : "Técnico"}</span></div>
@@ -345,6 +391,19 @@ export function ExplainerLayout({
         <div className="pointer-events-none absolute bottom-14 left-4 right-4 z-20 sm:bottom-16 sm:left-6 sm:right-6">
           <SceneTimeline steps={steps} current={current} onSelect={selectStep} />
         </div>
+        {presentationActive ? (
+          <PresentationHud
+            playing={presentationPlaying}
+            current={current}
+            total={steps.length}
+            visible={presentationChromeVisible}
+            onTogglePlaying={() => setPresentationPlaying((playing) => !playing)}
+            onPrevious={goPrev}
+            onNext={goNext}
+            onExit={exitPresentation}
+            onReset={resetPresentation}
+          />
+        ) : null}
       </div>
     </div>
   );

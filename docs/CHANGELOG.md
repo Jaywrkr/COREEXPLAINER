@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.179.0] - 2026-08-11
+
+- La presentación se ejecuta en Focus canvas con HUD compacto dentro del diagrama.
+- Los controles se ocultan tras inactividad y reaparecen al interactuar.
+- Se restaura el estado Focus anterior al salir y se conservan los atajos de teclado.
+
 ## [0.178.0] - 2026-08-11
 
 - Las herramientas avanzadas quedan agrupadas bajo demanda para reducir la carga inicial.

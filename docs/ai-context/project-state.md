@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.179.0 (11-08-2026):** `PresentationHud` lleva los controles de presentación al canvas, entra en Focus preservando el estado anterior y auto-oculta el chrome después de 3.2 s de inactividad. Movimiento del puntero lo revela; Escape y teclado siguen funcionando.
+
 **Actualizacion v0.178.0 (11-08-2026):** `ToolDrawer` agrupa las herramientas opcionales del explainer (copiloto, evidencia, soporte, workflow y paquetes) bajo demanda. Cliente inicia limpio; técnico puede abrir el grupo por defecto. La explicación, navegación y diagrama permanecen visibles.
 
 **Actualizacion v0.177.0 (11-08-2026):** `SceneTimeline` ofrece navegación contextual por escenas dentro del canvas, con `aria-current`, progreso y estado completado. Se mantiene compacta, desplazable horizontalmente y disponible en Focus/móvil.
