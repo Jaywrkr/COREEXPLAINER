@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.147.0] - 2026-08-11
+
+- El generador de borradores IA expone una política `draft-only` con límites y coste estimado.
+- La UI indica que el resultado es educativo, no publicado y no ejecutable.
+- CI protege el contrato de Creator sin llamar al proveedor externo.
+
 ## [0.146.0] - 2026-08-11
 
 - El Copiloto devuelve y muestra una política explícita de solo lectura.
