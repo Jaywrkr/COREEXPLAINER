@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.231.0";
+export const currentVersion = "0.232.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.232.0",
+    date: "11 ago 2026",
+    title: "Telemetría local limitada a identificadores",
+    changes: [
+      "La telemetría de producto solo conserva tokens de identificación acotados y rechaza texto libre.",
+      "Se descartan URLs, preguntas, títulos con espacios y otros valores que podrían contener datos sensibles.",
+      "Las métricas siguen siendo locales, limitadas a 500 eventos y exportables por decisión explícita.",
+    ],
+  },
   {
     version: "0.231.0",
     date: "11 ago 2026",

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.232.0] - 2026-08-11
+
+- La telemetría de producto solo conserva tokens de identificación acotados y rechaza texto libre.
+- Se descartan URLs, preguntas, títulos con espacios y valores potencialmente sensibles.
+- Las métricas siguen siendo locales, limitadas a 500 eventos y exportables por decisión explícita.
+
 ## [0.231.0] - 2026-08-11
 
 - Las fuentes requieren URLs HTTPS parseables, con hostname y sin usuario o contraseña incrustados.

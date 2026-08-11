@@ -29,7 +29,9 @@ export function emptyProductMetrics(): ProductMetrics {
 function clean(value: unknown, max = 160): string | undefined {
   if (typeof value !== "string") return undefined;
   const result = value.replace(/[\r\n]+/g, " ").trim().slice(0, max);
-  return result || undefined;
+  // Telemetry stores identifiers only. Never persist free-form questions,
+  // titles, URLs, notes or other user-entered text in the local event ledger.
+  return result && !/^[a-z][a-z0-9+.-]*:\/\//i.test(result) && /^[a-zA-Z0-9][a-zA-Z0-9:_./-]*$/.test(result) ? result : undefined;
 }
 
 export function normalizeProductEvents(value: unknown): ProductEvent[] {

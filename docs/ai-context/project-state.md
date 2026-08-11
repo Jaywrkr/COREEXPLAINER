@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.232.0 (11-08-2026):** `productTelemetry.clean` conserva solo identificadores con caracteres acotados y rechaza URLs o texto libre. Esto evita que preguntas, títulos, notas o enlaces terminen en el ledger local de métricas; se mantiene el límite de 500 eventos y el alcance browser-only.
+
 **Actualizacion v0.231.0 (11-08-2026):** `isSafeTechnicalSourceUrl` valida HTTPS, hostname y ausencia de credenciales en `meta.technicalReview.sources`; `validateExplainerContent` rechaza URLs inseguras antes de construir el registry y ledger. La regresión `test:source-url` cubre enlaces válidos, HTTP, esquemas peligrosos, URLs incompletas y credenciales.
 
 **Actualizacion v0.230.0 (11-08-2026):** `readJsonBody` consume `Request.body` en chunks, cancela al superar el máximo y solo entonces parsea JSON. Esto protege copilot y creator cuando no existe `content-length`; la prueba de guards cubre payload válido y sobredimensionado.
