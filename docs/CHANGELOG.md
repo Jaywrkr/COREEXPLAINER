@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.164.0] - 2026-08-11
+
+- El handoff muestra una preparación determinista con porcentaje y campos faltantes.
+- La checklist cubre contexto, ruta de triage, evidencia recibida, resultado y decisión de escalamiento.
+- Descargar un paquete incompleto sigue permitido, pero el documento declara su estado para evitar presentarlo como listo.
+- CI protege el cálculo de readiness y la salida Markdown.
+
 ## [0.163.0] - 2026-08-11
 
 - El handoff local de soporte separa evidencia recibida, resultado de comprobación y decisión de escalamiento.

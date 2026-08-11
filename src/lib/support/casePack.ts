@@ -27,6 +27,12 @@ export interface SupportCasePackInput {
   evidence: EvidenceRecord[];
 }
 
+export interface SupportCaseReadiness {
+  score: number;
+  ready: boolean;
+  missing: string[];
+}
+
 function safe(value: string, max = 1200): string {
   return value.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 }
@@ -54,14 +60,33 @@ export function normalizeSupportCaseDraft(value: Partial<SupportCaseDraft> | nul
   };
 }
 
+/** Deterministic handoff checklist; it never asserts that the incident is solved. */
+export function assessSupportCaseReadiness(draft: SupportCaseDraft, triage: SupportTriageBrief): SupportCaseReadiness {
+  const normalized = normalizeSupportCaseDraft(draft);
+  const checks: Array<[string, boolean]> = [
+    ["ID interno", Boolean(normalized.caseId)],
+    ["resumen", Boolean(normalized.summary)],
+    ["impacto", Boolean(normalized.impact)],
+    ["responsable", Boolean(normalized.owner)],
+    ["ruta de triage válida", Boolean(triage.items.some((item) => item.id === normalized.selectedTriageId))],
+    ["evidencia recibida", Boolean(normalized.evidenceReceived)],
+    ["resultado de comprobación", Boolean(normalized.checkResult)],
+    ["decisión de escalamiento", normalized.escalationDecision !== "pending"],
+  ];
+  const missing = checks.filter(([, complete]) => !complete).map(([label]) => label);
+  return { score: Math.round(((checks.length - missing.length) / checks.length) * 100), ready: missing.length === 0, missing };
+}
+
 export function buildSupportCaseMarkdown(input: SupportCasePackInput): string {
   const draft = normalizeSupportCaseDraft(input.draft);
   const selected = input.triage.items.find((item) => item.id === draft.selectedTriageId);
+  const readiness = assessSupportCaseReadiness(draft, input.triage);
   const lines = [
     `Versión de la aplicación: ${safe(input.appVersion, 40)}`,
     `Generado: ${safe(input.generatedAt, 80)}`,
     `# CORESOLUTIONS · Handoff de soporte · ${safe(input.title, 180)}`,
     `Tema: ${safe(input.slug, 120)}`,
+    `PreparaciÃ³n del handoff: ${readiness.score}% (${readiness.ready ? "completo" : `faltan: ${readiness.missing.join(", ")}`})`,
     `Marcas en alcance: ${input.brands.map((brand) => safe(brand, 160)).join("; ") || "no declaradas"}`,
     "",
     "> Paquete conceptual creado en el navegador. No contiene una conexión al entorno, no ejecuta acciones y debe revisarse antes de adjuntarse a un ticket.",

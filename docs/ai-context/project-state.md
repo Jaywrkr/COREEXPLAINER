@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.164.0 (11-08-2026):** `assessSupportCaseReadiness` calcula un porcentaje y faltantes para el handoff local; la UI los muestra y el Markdown los declara. No bloquea la descarga ni implica resolución del caso.
+
 **Actualizacion v0.163.0 (11-08-2026):** `SupportCaseDraft` conserva `evidenceReceived`, `checkResult` y `escalationDecision` (`pending|continue|escalate`); la UI local y el Markdown de handoff los exponen sin conexión operacional.
 
 **Actualizacion v0.162.0 (11-08-2026):** `AI_PERSISTENT_QUOTA_REQUIRED=true` hace que `/api/copilot` y `/api/creator` respondan `503` si la cuota Redis configurada no está disponible; por defecto continúa el fallback process-local. `/api/health` expone `shared-redis-required`.

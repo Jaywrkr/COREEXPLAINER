@@ -5,7 +5,7 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 import { currentVersion } from "@/content/changelog";
 import { buildSupportTriageBrief } from "@/lib/support/triage";
 import { buildEvidenceLedger } from "@/lib/evidence/ledger";
-import { buildSupportCaseMarkdown, emptySupportCaseDraft, normalizeSupportCaseDraft, type SupportCaseDraft } from "@/lib/support/casePack";
+import { assessSupportCaseReadiness, buildSupportCaseMarkdown, emptySupportCaseDraft, normalizeSupportCaseDraft, type SupportCaseDraft } from "@/lib/support/casePack";
 
 interface SupportCasePackPanelProps {
   slug: string;
@@ -18,6 +18,7 @@ export function SupportCasePackPanel({ slug, meta, steps }: SupportCasePackPanel
   const triage = useMemo(() => buildSupportTriageBrief({ slug, meta, steps }), [slug, meta, steps]);
   const evidence = useMemo(() => buildEvidenceLedger({ meta, steps }), [meta, steps]);
   const [draft, setDraft] = useState<SupportCaseDraft>(() => emptySupportCaseDraft());
+  const readiness = useMemo(() => assessSupportCaseReadiness(draft, triage), [draft, triage]);
 
   useEffect(() => {
     try {
@@ -64,6 +65,9 @@ export function SupportCasePackPanel({ slug, meta, steps }: SupportCasePackPanel
       </summary>
       <div className="border-t border-core-border/[0.1] p-3">
         <p className="mb-2 text-[0.66rem] leading-relaxed text-core-text-muted">Registra solo el contexto necesario para un ticket. Los datos quedan en este navegador hasta que descargues el Markdown.</p>
+        <p className={readiness.ready ? "mb-2 text-[0.62rem] text-core-accent" : "mb-2 text-[0.62rem] text-core-warning"}>
+          Preparación del handoff: <span className="font-mono">{readiness.score}%</span>{readiness.ready ? " · completo para revisión" : ` · faltan ${readiness.missing.join(", ")}`}
+        </p>
         <div className="grid gap-2 sm:grid-cols-2">
           <label className="text-[0.6rem] text-core-text-muted">ID interno<input value={draft.caseId} onChange={(event) => update("caseId", event.target.value)} placeholder="INC-2026-001" className="mt-1 w-full border border-core-border/[0.16] bg-core-panel px-2 py-1 text-[0.66rem] text-core-text outline-none focus:border-core-accent/60" /></label>
           <label className="text-[0.6rem] text-core-text-muted">Responsable<input value={draft.owner} onChange={(event) => update("owner", event.target.value)} placeholder="Equipo o persona" className="mt-1 w-full border border-core-border/[0.16] bg-core-panel px-2 py-1 text-[0.66rem] text-core-text outline-none focus:border-core-accent/60" /></label>
