@@ -36,6 +36,23 @@ export function isSafeCopilotActionId(value: unknown): value is string {
   return Boolean(normalized) && !/^[a-z][a-z0-9+.-]*:\/\//i.test(normalized) && SAFE_ACTION_ID.test(normalized);
 }
 
+/** Minimal envelope check for context sent to the read-only provider boundary. */
+export function isValidCopilotContextEnvelope(value: unknown): boolean {
+  if (typeof value !== "string" || value.length > 14_000) return false;
+  let parsed: unknown;
+  try { parsed = JSON.parse(value); } catch { return false; }
+  if (!parsed || typeof parsed !== "object") return false;
+  const context = parsed as { marca?: unknown; tema?: unknown; escena?: unknown; fuentes?: unknown; escenarios?: unknown };
+  const scene = context.escena as { etiqueta?: unknown; titulo?: unknown } | null;
+  const hasText = (candidate: unknown) => typeof candidate === "string" && candidate.trim().length > 0 && candidate.length <= 1_000;
+  const hasTokens = (candidate: unknown) => Array.isArray(candidate) && candidate.length <= 100 && candidate.every((item) => item && typeof item === "object" && isSafeCopilotActionId((item as { id?: unknown }).id));
+  return context.marca === "CORESOLUTIONS"
+    && hasText(context.tema)
+    && Boolean(scene && hasText(scene.etiqueta) && hasText(scene.titulo))
+    && hasTokens(context.fuentes)
+    && hasTokens(context.escenarios);
+}
+
 /**
  * Adds a visible evidence boundary to model prose and reports whether the
  * answer cited an authored source. This never certifies an answer; it keeps

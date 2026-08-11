@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, readJsonBody, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import { estimateAiCost, exceedsAiCostCap } from "@/lib/ai/costEstimate";
-import { isSafeCopilotActionId, reviewCopilotMessage, sanitizeCopilotActions, type CopilotAction, type CopilotPolicy, type CopilotMessageReview } from "@/lib/ai/copilotContract";
+import { isSafeCopilotActionId, isValidCopilotContextEnvelope, reviewCopilotMessage, sanitizeCopilotActions, type CopilotAction, type CopilotPolicy, type CopilotMessageReview } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
 import { sanitizeCopilotInput } from "@/lib/ai/inputSanitization";
 
@@ -29,6 +29,7 @@ export async function POST(request: Request) {
   const rawContext = body.context?.trim();
   if (!rawQuestion || rawQuestion.length > MAX_QUESTION_LENGTH) return response("Escribe una pregunta de hasta 600 caracteres.", 400);
   if (!rawContext || rawContext.length > MAX_CONTEXT_LENGTH) return response("El contexto de la explicacion no esta disponible o es demasiado grande.", 400);
+  if (!isValidCopilotContextEnvelope(rawContext)) return response("El contexto del explainer no tiene el formato autorado esperado.", 400);
   const sanitized = sanitizeCopilotInput(rawQuestion, rawContext);
   const question = sanitized.question.value;
   const context = sanitized.context.value;

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.245.0] - 2026-08-11
+
+### Envelope estructural para contexto del copiloto
+
+- El endpoint acepta contexto de IA solo con marca, tema, escena y colecciones authored esperadas.
+- Se rechaza texto libre disfrazado de contexto antes de invocar al proveedor.
+- La frontera es defensiva y no sustituye firma criptográfica ni revisión humana.
+
 ## [0.244.0] - 2026-08-11
 
 ### Tokens de acción del copiloto acotados

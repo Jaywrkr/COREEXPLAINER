@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.244.0";
+export const currentVersion = "0.245.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.245.0",
+    date: "2026-08-11",
+    title: "Envelope estructural para contexto del copiloto",
+    changes: [
+      "El endpoint acepta contexto de IA solo con marca, tema, escena y colecciones authored esperadas.",
+      "Se rechaza texto libre disfrazado de contexto antes de invocar al proveedor.",
+      "La frontera sigue siendo defensiva: no sustituye firma criptográfica ni revisión humana.",
+    ],
+  },
   {
     version: "0.244.0",
     date: "2026-08-11",

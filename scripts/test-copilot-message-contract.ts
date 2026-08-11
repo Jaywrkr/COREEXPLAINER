@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { reviewCopilotMessage, sanitizeCopilotMessage } from "../src/lib/ai/copilotContract";
+import { isValidCopilotContextEnvelope, reviewCopilotMessage, sanitizeCopilotMessage } from "../src/lib/ai/copilotContract";
 
 assert.equal(sanitizeCopilotMessage("  Respuesta\u0000 segura  "), "Respuesta segura");
 assert.equal(sanitizeCopilotMessage("\u0000\u0001"), null);
@@ -15,4 +15,8 @@ assert.match(uncited.message, /Evidencia a revisar/i);
 assert.ok(uncited.reasons.some((reason) => reason.includes("no incluye")));
 const unknown = reviewCopilotMessage("Dato [fuente:not-allowed].", new Set(["src-1"]));
 assert.ok(unknown.reasons.some((reason) => reason.includes("cita desconocida")));
+const validContext = JSON.stringify({ marca: "CORESOLUTIONS", tema: "VCF", resumen: "Resumen", modo: "client", escena: { etiqueta: "01", titulo: "Escena" }, fuentes: [{ id: "src-1", title: "Fuente", url: "https://example.com" }], escenarios: [{ id: "scenario-1", label: "Fallo", summary: "Resumen" }] });
+assert.equal(isValidCopilotContextEnvelope(validContext), true);
+assert.equal(isValidCopilotContextEnvelope(JSON.stringify({ ...JSON.parse(validContext), marca: "otra" })), false);
+assert.equal(isValidCopilotContextEnvelope("texto libre"), false);
 console.log("Copilot message contract regression checks passed.");
