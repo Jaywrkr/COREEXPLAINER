@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.224.0 (11-08-2026):** `buildReviewActions` reutiliza `summarizeSourceFreshness` y explica en la cola `source-refresh` si cada fuente requiere revisión manual, está fuera de la ventana o tiene fecha inválida. La evidencia incluye las fechas sugeridas; resolver la acción sigue sin mutar contenido ni aprobarlo.
+
 **Actualizacion v0.223.0 (11-08-2026):** `TechnicalReviewPacketDownload` recibe la validez de cada fuente y reutiliza `summarizeSourceFreshness`; el Markdown descargado muestra estado, motivo, antigüedad y fecha sugerida, con el límite explícito de que no certifica el entorno.
 
 **Actualizacion v0.222.0 (11-08-2026):** `technical-review-report` y el paquete de revisión exponen por fuente `freshness` (`ageDays`, `dueAt`, `status`, `reason`) y un resumen agregado. El contrato JSON pasa de schema 1.3 a 1.4; estas señales orientan mantenimiento editorial y no certifican compatibilidad ni el entorno del cliente.

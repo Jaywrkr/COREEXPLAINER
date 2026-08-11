@@ -1,4 +1,5 @@
 import type { ExplainerMeta } from "@/content/types";
+import { summarizeSourceFreshness } from "@/content/technical-source-catalog";
 import { buildScenarioReadinessQueue } from "./scenarioReadiness";
 
 export type ReviewActionKind = "human-review" | "source-refresh" | "content-gate" | "integrity-check" | "scenario-readiness";
@@ -20,7 +21,10 @@ export interface ReviewAction {
  */
 export function buildReviewActions(meta: ExplainerMeta, warnings: string[]): ReviewAction[] {
   const sources = meta.technicalReview.sources;
-  const staleSourceIds = sources.filter((source) => source.validity === "review-needed").map((source) => source.id);
+  const staleSources = sources
+    .map((source) => ({ source, freshness: summarizeSourceFreshness(source) }))
+    .filter(({ freshness }) => freshness.status === "review-needed");
+  const staleSourceIds = staleSources.map(({ source }) => source.id);
   const actions: ReviewAction[] = [];
 
   if (meta.reviewStatus === "pending") {
@@ -35,13 +39,22 @@ export function buildReviewActions(meta: ExplainerMeta, warnings: string[]): Rev
     });
   }
   if (staleSourceIds.length) {
+    const manualCount = staleSources.filter(({ freshness }) => freshness.reason === "manual-review").length;
+    const expiredCount = staleSources.filter(({ freshness }) => freshness.reason === "outside-window").length;
+    const invalidDateCount = staleSources.filter(({ freshness }) => freshness.reason === "invalid-date").length;
+    const reasons = [
+      manualCount ? `${manualCount} marcada(s) manualmente` : "",
+      expiredCount ? `${expiredCount} fuera de la ventana de 180 días` : "",
+      invalidDateCount ? `${invalidDateCount} con fecha inválida` : "",
+    ].filter(Boolean).join(", ");
+    const dueDates = staleSources.map(({ source, freshness }) => `${source.id}: ${freshness.dueAt ?? "sin fecha"}`).join("; ");
     actions.push({
       id: "refresh-sources",
       kind: "source-refresh",
       priority: "high",
       title: "Actualizar fuentes marcadas review-needed",
-      reason: `${staleSourceIds.length} fuente(s) estan fuera de la ventana declarada de revision.`,
-      evidence: "Confirmar release, capacidades, limites y URL oficial; despues actualizar accessedAt y validity en el contenido.",
+      reason: `${staleSourceIds.length} fuente(s) requieren revisión (${reasons || "estado no vigente"}).`,
+      evidence: `Confirmar release, capacidades, límites y URL oficial; después actualizar accessedAt y validity en el contenido. Fechas sugeridas: ${dueDates}.`,
       sourceIds: staleSourceIds,
     });
   }

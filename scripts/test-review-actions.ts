@@ -18,4 +18,11 @@ for (const entry of explainerRegistry) {
 }
 
 assert.ok(actionCount > 0);
+
+const staleMeta = JSON.parse(JSON.stringify(explainerRegistry[0]!.meta)) as typeof explainerRegistry[number]["meta"];
+staleMeta.technicalReview.sources[0] = { ...staleMeta.technicalReview.sources[0]!, accessedAt: "2020-01-01", validity: "current" };
+const refreshAction = buildReviewActions(staleMeta, []).find((action) => action.kind === "source-refresh");
+assert.ok(refreshAction);
+assert.match(refreshAction.reason, /fuera de la ventana/);
+assert.match(refreshAction.evidence, /Fechas sugeridas:/);
 console.log(`Review actions regression checks passed: ${actionCount} actions.`);

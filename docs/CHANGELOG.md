@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.224.0] - 2026-08-11
+
+- La acción `source-refresh` distingue revisión manual, ventana vencida y fechas inválidas.
+- Cada acción conserva las fechas sugeridas por fuente para priorizar mantenimiento editorial.
+- La regresión valida que una fuente antigua produzca una acción explicable y enlazada.
+
 ## [0.223.0] - 2026-08-11
 
 - El paquete de revisión descargado desde el dashboard incluye estado, motivo, antigüedad y fecha sugerida por fuente.
