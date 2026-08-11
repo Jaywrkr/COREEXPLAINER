@@ -10,7 +10,7 @@ import type {
 } from "@/content/types";
 import { technicalIntegrityAssuranceIssues } from "./technicalIntegrityGate";
 import { buildEvidenceLedger, validateEvidenceLedger } from "@/lib/evidence/ledger";
-import { validateFailureScenarioNarrative, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
+import { validateFailureScenarioNarrative, validateFailureScenarioSourceFreshness, validateFailureSimulationProfile } from "@/lib/content-validation/failureSimulationValidation";
 
 const MIN_STEPS = 4;
 const REQUIRED_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
@@ -375,11 +375,11 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
   }
 
   const sceneIds = new Set(Object.keys(spec.scenes));
+  const sourceValidityById = new Map(meta.technicalReview.sources.map((source) => [source.id, source.validity ?? "review-needed"] as const));
   const stepIds = new Set<string>();
   const referencedSceneIds = new Set<string>();
 
   if (meta.technicalIntegrity) {
-    const sourceValidityById = new Map(meta.technicalReview.sources.map((source) => [source.id, source.validity ?? "review-needed"] as const));
     validateTechnicalIntegrityProfile(meta.technicalIntegrity, spec.scenes, sceneIds, technicalSourceIds, sourceValidityById, add);
   }
 
@@ -472,6 +472,7 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
       for (const issue of validateFailureSimulationProfile(scenario.simulation)) add(`${simulationLabel}: ${issue}`);
     }
     for (const issue of validateFailureScenarioNarrative(scenario)) add(`${label}: ${issue}`);
+    for (const issue of validateFailureScenarioSourceFreshness(scenario, sourceValidityById)) add(`${label}: ${issue}`);
 
     if (scenario.guidedSteps) {
       if (scenario.guidedSteps.length < 3) {

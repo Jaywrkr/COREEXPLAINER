@@ -47,3 +47,14 @@ export function validateFailureScenarioNarrative(scenario: FailureScenario): str
   const present = new Set(scenario.guidedSteps.map((step) => step.kind));
   return [...required].filter((kind) => !present.has(kind)).map((kind) => `simulation narrative is missing '${kind}' phase`);
 }
+
+/** Simulated guided steps may not rely on references that are known to need refresh. */
+export function validateFailureScenarioSourceFreshness(
+  scenario: FailureScenario,
+  sourceValidityById: ReadonlyMap<string, "current" | "review-needed">,
+): string[] {
+  if (!scenario.simulation || !scenario.guidedSteps?.length) return [];
+  const sourceIds = [...new Set(scenario.guidedSteps.flatMap((step) => step.sourceIds ?? []))];
+  const stale = sourceIds.filter((sourceId) => sourceValidityById.get(sourceId) !== "current");
+  return stale.length ? [`simulation guided steps require current sources; review-needed or missing: ${stale.join(", ")}`] : [];
+}

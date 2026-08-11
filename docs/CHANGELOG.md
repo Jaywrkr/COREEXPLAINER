@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.196.0] - 2026-08-11
+
+- Los pasos guiados de simulaciones avanzadas requieren fuentes `current`.
+- Referencias `review-needed` o ausentes bloquean el escenario en el content gate.
+- Se añade regresión específica para frescura de fuentes en escenarios.
+
 ## [0.195.0] - 2026-08-11
 
 - El badge del canvas señala fuentes `review-needed`.

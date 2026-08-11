@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import type { TechnicalIntegrityProfile } from "../src/content/types";
 import { technicalIntegrityAssuranceIssues } from "../src/lib/content-validation/technicalIntegrityGate";
-import { validateFailureScenarioNarrative } from "../src/lib/content-validation/failureSimulationValidation";
+import { validateFailureScenarioNarrative, validateFailureScenarioSourceFreshness } from "../src/lib/content-validation/failureSimulationValidation";
 
 const base: TechnicalIntegrityProfile = {
   domain: "generic",
@@ -27,4 +27,6 @@ console.log("Technical integrity assurance gate checks passed.");
 assert.match(technicalIntegrityAssuranceIssues(reviewed, new Map([["source", "review-needed"]])).join(" "), /requires current sources/);
 assert.deepEqual(validateFailureScenarioNarrative({ id: "plain", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"] }), []);
 assert.match(validateFailureScenarioNarrative({ id: "simulated", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"], simulation: { mode: "hard-down", impact: "impacto" } })[0]!, /requires guidedSteps/);
+const simulatedScenario = { id: "simulated", sceneId: "scene", label: "x", summary: "x", detail: "x", limitation: "x", affectedNodes: ["node"], deadNodeIds: ["node"], simulation: { mode: "hard-down" as const, impact: "impacto" }, guidedSteps: [{ id: "observe", kind: "observe" as const, title: "x", instruction: "x", evidence: "x", expected: "x", sourceIds: ["stale"] }] };
+assert.match(validateFailureScenarioSourceFreshness(simulatedScenario, new Map([["stale", "review-needed"]])).join(" "), /require current sources/);
 console.log("Failure narrative gate checks passed.");
