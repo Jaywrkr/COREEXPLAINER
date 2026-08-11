@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.88.0] - 2026-08-09
+
+- El dashboard incorpora un creador asistido de borradores de explainers.
+- El borrador puede generarse con IA o mediante una plantilla local si no hay clave configurada.
+- Ningún borrador se publica automáticamente: debe pasar revisión, fuentes y content gate.
+
 ## [0.87.0] - 2026-08-09
 
 - Se puede descargar un brief Markdown de assessment desde cada explicación.
