@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.204.0 (11-08-2026):** `EvidenceRecord` incluye `sourceStatus` por referencia (`current`, `review-needed`, `missing`) y `EvidenceMapPanel` lo muestra junto a cada fuente. La evidencia sigue siendo un contrato autorado, no una prueba del entorno del cliente.
+
 **Actualizacion v0.203.0 (11-08-2026):** `UsageMetricsPanel` escucha cambios locales de telemetría y eventos `storage`, por lo que el resumen se actualiza sin recargar y se sincroniza entre pestañas. Incluye acciones del copiloto sin cambiar el alcance de privacidad local.
 
 **Actualizacion v0.202.0 (11-08-2026):** las acciones visibles del copiloto (`open-source` y `activate-scenario`) generan eventos `copilot-action` en la telemetría local. Solo se registra tipo e ID permitido; no se guardan preguntas, respuestas ni URLs arbitrarias.

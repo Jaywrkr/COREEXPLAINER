@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.204.0] - 2026-08-11
+
+- Cada registro de evidencia conserva el estado de sus fuentes.
+- El mapa distingue fuentes vigentes, por revisar y faltantes.
+- La vigencia editorial no se presenta como validación del entorno del cliente.
+
 ## [0.203.0] - 2026-08-11
 
 - El resumen de métricas locales se actualiza en vivo cuando la sesión registra eventos.

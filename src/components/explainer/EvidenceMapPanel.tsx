@@ -46,7 +46,9 @@ export function EvidenceMapPanel({ meta, steps, current, activeScenarioId }: Evi
                   <div className="mt-1 flex flex-wrap gap-x-2 gap-y-1">
                     {record.sourceIds.map((sourceId) => {
                       const source = sourceById.get(sourceId);
-                      return source ? <a key={sourceId} href={source.url} target="_blank" rel="noreferrer" className="text-core-accent underline decoration-core-accent/30 underline-offset-2 hover:text-core-text">{sourceId}</a> : <span key={sourceId} className="text-core-warning">{sourceId} · fuente no encontrada</span>;
+                      const status = record.sourceStatus[sourceId];
+                      const statusLabel = status === "current" ? "vigente" : status === "review-needed" ? "revisar" : "faltante";
+                        return source ? <a key={sourceId} href={source.url} target="_blank" rel="noreferrer" className={`underline decoration-core-accent/30 underline-offset-2 hover:text-core-text ${status === "current" ? "text-core-accent" : "text-core-warning"}`} title={status === "current" ? "Fuente marcada como vigente" : "Fuente presente pero requiere revisión de vigencia"}>{sourceId} · {statusLabel}</a> : <span key={sourceId} className="text-core-warning">{sourceId} · fuente no encontrada</span>;
                     })}
                   </div>
                 ) : <p className="mt-1 text-core-warning">Sin fuente enlazada; requiere revisión.</p>}

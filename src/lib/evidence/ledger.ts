@@ -2,6 +2,7 @@ import type { ExplainerMeta, ExplainerStep } from "@/content/types";
 
 export type EvidenceKind = "documentary" | "observed" | "hypothesis" | "acceptance";
 export type EvidenceProvenance = "authored" | "derived";
+export type EvidenceSourceStatus = "current" | "review-needed" | "missing";
 
 export interface EvidenceRecord {
   id: string;
@@ -9,6 +10,7 @@ export interface EvidenceRecord {
   claim: string;
   requestedEvidence: string;
   sourceIds: string[];
+  sourceStatus: Record<string, EvidenceSourceStatus>;
   provenance: EvidenceProvenance;
 }
 
@@ -25,12 +27,21 @@ function unique(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))];
 }
 
+function sourceStatus(meta: ExplainerMeta, sourceIds: string[]): Record<string, EvidenceSourceStatus> {
+  const sources = new Map(meta.technicalReview.sources.map((source) => [source.id, source]));
+  return Object.fromEntries(sourceIds.map((sourceId) => [sourceId, sources.get(sourceId)?.validity === "current" ? "current" : sources.has(sourceId) ? "review-needed" : "missing"]));
+}
+
+function record(meta: ExplainerMeta, base: Omit<EvidenceRecord, "sourceStatus">): EvidenceRecord {
+  return { ...base, sourceStatus: sourceStatus(meta, base.sourceIds) };
+}
+
 /**
  * Normalizes authored evidence into a typed, read-only ledger. The ledger is
  * descriptive: it does not assert that evidence exists in a real environment.
  */
 export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): EvidenceRecord[] {
-  const records: EvidenceRecord[] = steps.map((step) => ({
+  const records: EvidenceRecord[] = steps.map((step) => record(meta, {
     id: `step:${step.id}`,
     kind: "documentary",
     claim: clean(step.title),
@@ -41,37 +52,37 @@ export function buildEvidenceLedger({ meta, steps }: EvidenceLedgerInput): Evide
 
   for (const scenario of meta.failureScenarios ?? []) {
     for (const guidedStep of scenario.guidedSteps ?? []) {
-      records.push({
+      records.push(record(meta, {
         id: `scenario:${scenario.id}:step:${guidedStep.id}`,
         kind: guidedStep.kind === "validate" ? "acceptance" : "observed",
         claim: `${clean(scenario.label)} · ${clean(guidedStep.title)}`,
         requestedEvidence: clean(guidedStep.evidence),
         sourceIds: unique(guidedStep.sourceIds ?? []),
         provenance: "authored",
-      });
+      }));
     }
   }
 
   for (const phase of meta.targetArchitecture?.roadmap ?? []) {
-    records.push({
+    records.push(record(meta, {
       id: `roadmap:${phase.id}`,
       kind: "acceptance",
       claim: clean(phase.title),
       requestedEvidence: clean(`${phase.evidence} Salida: ${phase.exitCriteria}`),
       sourceIds: unique(phase.sourceIds ?? []),
       provenance: "authored",
-    });
+    }));
   }
 
   for (const option of meta.targetArchitecture?.decisionOptions ?? []) {
-    records.push({
+    records.push(record(meta, {
       id: `decision:${option.id}`,
       kind: "hypothesis",
       claim: clean(option.title),
       requestedEvidence: clean(option.evidence),
       sourceIds: unique(option.sourceIds ?? []),
       provenance: "authored",
-    });
+    }));
   }
 
   return records;
