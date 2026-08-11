@@ -39,9 +39,32 @@ function tokenBudget() {
 }
 
 export async function readJsonBody<T>(request: Request, maxBytes: number): Promise<T | null> {
-  const raw = await request.text();
-  if (new TextEncoder().encode(raw).byteLength > maxBytes) return null;
-  try { return JSON.parse(raw) as T; } catch { return null; }
+  if (!request.body || !Number.isFinite(maxBytes) || maxBytes < 0) return null;
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  try {
+    while (true) {
+      const next = await reader.read();
+      if (next.done) break;
+      const chunk = next.value;
+      total += chunk.byteLength;
+      if (total > maxBytes) {
+        await reader.cancel("request body exceeds limit");
+        return null;
+      }
+      chunks.push(chunk);
+    }
+  } catch {
+    return null;
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  try { return JSON.parse(new TextDecoder().decode(bytes)) as T; } catch { return null; }
 }
 
 export async function checkAiAccess(request: Request): Promise<{ allowed: true } | { allowed: false; status: number; message: string; retryAfter?: number }> {

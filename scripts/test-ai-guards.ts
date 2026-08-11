@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { GET as health } from "../app/api/health/route";
 import { estimateAiCost } from "@/lib/ai/costEstimate";
 import { persistentQuotaRequired, reservePersistentQuota } from "@/lib/ai/persistentQuota";
-import { deriveAiClientKey } from "@/lib/ai/endpointGuard";
+import { deriveAiClientKey, readJsonBody } from "@/lib/ai/endpointGuard";
 
 const names = [
   "AI_INPUT_COST_PER_MILLION_USD",
@@ -45,6 +45,11 @@ try {
   assert.equal(deriveAiClientKey(directRequest), deriveAiClientKey(sameDirectRequest), "la clave debe preferir el IP directo del proxy");
   assert.notEqual(deriveAiClientKey(directRequest), deriveAiClientKey(forwardedRequest));
   assert.ok(deriveAiClientKey(new Request("https://example.test", { headers: { "x-real-ip": "x".repeat(10_000) } })).length <= 35, "la clave debe estar acotada");
+
+  const parsed = await readJsonBody<{ ok: boolean }>(new Request("https://example.test", { method: "POST", body: JSON.stringify({ ok: true }) }), 100);
+  assert.deepEqual(parsed, { ok: true });
+  const oversized = await readJsonBody(new Request("https://example.test", { method: "POST", body: "x".repeat(2_000) }), 100);
+  assert.equal(oversized, null, "el body debe cancelarse al superar el límite sin leerlo completo");
 
   const response = await health();
   assert.equal(response.status, 200);

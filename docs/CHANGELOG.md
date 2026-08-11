@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.230.0] - 2026-08-11
+
+- Los endpoints de IA leen el cuerpo HTTP por stream y cancelan al superar el límite configurado.
+- Se evita cargar cuerpos arbitrariamente grandes cuando el cliente omite `content-length`.
+- La regresión cubre JSON válido dentro del límite y un cuerpo sobredimensionado.
+
 ## [0.229.0] - 2026-08-11
 
 - Copiloto y creador comparan el coste también después de recibir los tokens reales del proveedor.

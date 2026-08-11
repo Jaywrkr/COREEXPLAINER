@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.229.0";
+export const currentVersion = "0.230.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.230.0",
+    date: "11 ago 2026",
+    title: "Lectura acotada de cuerpos IA",
+    changes: [
+      "Los endpoints de IA leen el cuerpo HTTP por stream y cancelan al superar el límite configurado.",
+      "Se evita cargar cuerpos arbitrariamente grandes cuando el cliente omite content-length.",
+      "La regresión cubre JSON válido dentro del límite y un cuerpo sobredimensionado.",
+    ],
+  },
   {
     version: "0.229.0",
     date: "11 ago 2026",

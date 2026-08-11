@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.230.0 (11-08-2026):** `readJsonBody` consume `Request.body` en chunks, cancela al superar el máximo y solo entonces parsea JSON. Esto protege copilot y creator cuando no existe `content-length`; la prueba de guards cubre payload válido y sobredimensionado.
+
 **Actualizacion v0.229.0 (11-08-2026):** `app/api/copilot` y `app/api/creator` aplican `exceedsAiCostCap` antes del proveedor y otra vez después de calcular el coste con los tokens observados. Si la respuesta real excede el tope, devuelven `429` con fallback y uso visible; no se presenta como salida aprobada.
 
 **Actualizacion v0.228.0 (11-08-2026):** `app/api/creator` aplica `exceedsAiCostCap` después de estimar tokens y antes de `reserveAiTokens` o de llamar a OpenAI. Si el tope se supera, devuelve fallback local `429` con política y no realiza la llamada externa. Copilot y Creator comparten ahora el mismo guard de coste.
