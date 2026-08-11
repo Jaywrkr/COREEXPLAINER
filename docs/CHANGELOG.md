@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.176.0] - 2026-08-11
+
+- Se añade Focus canvas para presentar el diagrama sin la carga del panel lateral.
+- El HUD contextual muestra tema, paso, audiencia y progreso; `F` alterna el modo.
+- Ancho y modo se guardan localmente con límites normalizados.
+
 ## [0.175.0] - 2026-08-11
 
 - El readiness técnico requiere `reviewStatus: reviewed` además de estructura, fuentes y escenarios.

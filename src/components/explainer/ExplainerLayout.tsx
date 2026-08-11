@@ -8,11 +8,10 @@ import { VisualCanvas } from "./VisualCanvas";
 import type { AudienceMode } from "./AudienceModeToggle";
 import { getGuidedScenarioSteps } from "@/lib/scenarios/guidedScenario";
 import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
+import { DEFAULT_LEFT_PANEL_WIDTH, MAX_LEFT_PANEL_WIDTH, MIN_LEFT_PANEL_WIDTH, normalizeExplainerUiPreferences } from "@/lib/ui/preferences";
 
 const AUTOPLAY_STEP_MS = 6500;
-const MIN_LEFT_PANEL_WIDTH = 320;
-const MAX_LEFT_PANEL_WIDTH = 560;
-const DEFAULT_LEFT_PANEL_WIDTH = 400;
+const UI_PREFERENCES_KEY = "coresolutions:explainer-ui";
 
 interface ExplainerLayoutProps {
   slug: string;
@@ -50,9 +49,37 @@ export function ExplainerLayout({
   const [presentationPlaying, setPresentationPlaying] = useState(false);
   const [leftPanelWidth, setLeftPanelWidth] = useState(DEFAULT_LEFT_PANEL_WIDTH);
   const [isResizingPanel, setIsResizingPanel] = useState(false);
+  const [focusMode, setFocusMode] = useState(false);
+  const [preferencesReady, setPreferencesReady] = useState(false);
   const initializedFromLink = useRef(false);
   const previousScenarioRef = useRef<string | null>(initialScenarioId);
   const resizePointerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = normalizeExplainerUiPreferences(JSON.parse(window.localStorage.getItem(UI_PREFERENCES_KEY) ?? "null"));
+      setLeftPanelWidth(saved.leftPanelWidth);
+      setFocusMode(saved.focusMode);
+    } catch { /* preferences are optional and local-only */ }
+    setPreferencesReady(true);
+  }, []);
+
+  useEffect(() => {
+    if (!preferencesReady) return;
+    try { window.localStorage.setItem(UI_PREFERENCES_KEY, JSON.stringify({ leftPanelWidth, focusMode })); } catch { /* preferences are optional and local-only */ }
+  }, [focusMode, leftPanelWidth, preferencesReady]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.isContentEditable || target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement) return;
+      if (event.key.toLowerCase() !== "f") return;
+      event.preventDefault();
+      setFocusMode((currentFocus) => !currentFocus);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const beginPanelResize = useCallback((event: ReactPointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0) return;
@@ -236,11 +263,11 @@ export function ExplainerLayout({
 
   return (
     <div
-      className={`grid h-screen grid-cols-1 md:grid-cols-[var(--left-panel-width)_minmax(0,1fr)] ${isResizingPanel ? "select-none" : ""}`}
+      className={`grid h-screen grid-cols-1 ${focusMode ? "md:grid-cols-1" : "md:grid-cols-[var(--left-panel-width)_minmax(0,1fr)]"} ${isResizingPanel ? "select-none" : ""}`}
       style={{ "--left-panel-width": `${leftPanelWidth}px` } as CSSProperties}
       data-presentation-mode={presentationActive ? "active" : "inactive"}
     >
-      <div className="relative min-w-0">
+      <div className={`relative min-w-0 ${focusMode ? "hidden" : ""}`}>
         <LeftPanel
           slug={slug}
           meta={meta}
@@ -281,7 +308,16 @@ export function ExplainerLayout({
           }}
         />
       </div>
-      <div className="relative hidden min-h-[320px] md:block">
+      <div className={focusMode ? "relative min-h-[320px]" : "relative hidden min-h-[320px] md:block"}>
+        <div className="pointer-events-none absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-3 sm:inset-x-6">
+          <div className="pointer-events-auto max-w-[min(28rem,70vw)] border border-core-border/[0.14] bg-core-panel/85 px-3 py-2 shadow-lg backdrop-blur-md">
+            <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-core-accent">{meta.title}</p>
+            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.62rem] text-core-text-secondary"><span>{step.tag}</span><span className="text-core-text-muted">·</span><span>Paso {String(current + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span><span className="text-core-text-muted">·</span><span>{audienceMode === "client" ? "Cliente" : audienceMode === "conceptual" ? "Conceptual" : "Técnico"}</span></div>
+          </div>
+          <button type="button" onClick={() => setFocusMode((active) => !active)} className="pointer-events-auto shrink-0 border border-core-border/[0.16] bg-core-panel/85 px-2.5 py-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted shadow-lg backdrop-blur-md transition-colors hover:border-core-accent/60 hover:text-core-text" aria-pressed={focusMode} title="Atajo: F">
+            {focusMode ? "Mostrar panel" : "Focus canvas"}
+          </button>
+        </div>
         <VisualCanvas
           scene={scene}
           sceneId={step.sceneId}

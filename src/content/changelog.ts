@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.175.0";
+export const currentVersion = "0.176.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.176.0",
+    date: "11 ago 2026",
+    title: "Focus canvas y shell contextual",
+    changes: [
+      "El diagrama puede ocupar toda la pantalla con un modo Focus canvas y volver al panel con un solo control.",
+      "Un HUD compacto muestra tema, paso, audiencia y progreso sin repetir la explicación lateral.",
+      "El ancho del panel y el modo Focus se recuerdan localmente y se normalizan dentro de límites accesibles.",
+    ],
+  },
   {
     version: "0.175.0",
     date: "11 ago 2026",

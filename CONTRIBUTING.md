@@ -42,6 +42,7 @@ npm run test:scenario-readiness
 npm run test:technical-review-report
 npm run test:technical-review-package
 npm run test:ai-guards
+npm run test:ui-preferences
 npm run test:ai-usage-telemetry
 npm run test:workbench-export
 npm run typecheck

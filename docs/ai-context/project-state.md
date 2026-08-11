@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.176.0 (11-08-2026):** `ExplainerLayout` ofrece Focus canvas, HUD contextual y persistencia local de ancho/modo. La preferencia se normaliza en `src/lib/ui/preferences.ts`; `F` alterna el foco y el botón devuelve el panel sin perder la escena.
+
 **Actualizacion v0.175.0 (11-08-2026):** `buildImplementationWorkPackage` incluye la revisión especialista como condición de readiness. Con `reviewStatus: pending`, el paquete declara el faltante y el informe no lo presenta como técnicamente listo; la estructura editorial se mantiene separada de la aprobación real.
 
 **Actualizacion v0.174.0 (11-08-2026):** `implementation-readiness-report.ts` genera un índice JSON/Markdown de los 22 explainers con readiness, workstreams, impactos, alto riesgo, escenarios enlazados y faltantes. CI conserva el artefacto para priorizar trabajo técnico; no opera ni certifica entornos.
