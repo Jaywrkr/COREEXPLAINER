@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import { checkAiAccess, providerSignal, reserveAiTokens } from "@/lib/ai/endpointGuard";
 import { estimateAiCost } from "@/lib/ai/costEstimate";
-import type { CopilotAction, CopilotPolicy } from "@/lib/ai/copilotContract";
+import { sanitizeCopilotActions, type CopilotAction, type CopilotPolicy } from "@/lib/ai/copilotContract";
 import { buildCopilotPolicy } from "@/lib/ai/copilotPolicy";
 
 const MAX_QUESTION_LENGTH = 600;
 const MAX_CONTEXT_LENGTH = 14000;
 
-interface CopilotRequest { question?: string; context?: string }
+interface CopilotRequest { question?: string; context?: string; allowedActionIds?: { sourceIds?: unknown; scenarioIds?: unknown } }
 interface AiUsage { inputTokens?: number; outputTokens?: number; totalTokens?: number; model?: string; estimatedCostUsd?: number; costSource?: "environment" }
 
 function response(message: string, status = 200, actions: CopilotAction[] = [], usage?: AiUsage, retryAfter?: number, policy?: CopilotPolicy) {
@@ -28,6 +28,9 @@ export async function POST(request: Request) {
   const context = body.context?.trim();
   if (!question || question.length > MAX_QUESTION_LENGTH) return response("Escribe una pregunta de hasta 600 caracteres.", 400);
   if (!context || context.length > MAX_CONTEXT_LENGTH) return response("El contexto de la explicacion no esta disponible o es demasiado grande.", 400);
+  const allowedActionIds = body.allowedActionIds ?? {};
+  const sourceIds = new Set(Array.isArray(allowedActionIds.sourceIds) ? allowedActionIds.sourceIds.filter((id): id is string => typeof id === "string" && id.length <= 160).map((id) => id.trim()).filter(Boolean) : []);
+  const scenarioIds = new Set(Array.isArray(allowedActionIds.scenarioIds) ? allowedActionIds.scenarioIds.filter((id): id is string => typeof id === "string" && id.length <= 160).map((id) => id.trim()).filter(Boolean) : []);
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return response("El copiloto esta preparado, pero CORESOLUTIONS todavia no ha configurado OPENAI_API_KEY en este entorno.", 503);
@@ -75,9 +78,7 @@ export async function POST(request: Request) {
   if (message) {
     try {
       const parsed = JSON.parse(message) as { message?: unknown; actions?: unknown };
-      const actions = Array.isArray(parsed.actions)
-        ? parsed.actions.filter((action): action is CopilotAction => Boolean(action) && typeof action === "object" && ((action as CopilotAction).type === "open-source" || (action as CopilotAction).type === "activate-scenario") && typeof (action as CopilotAction).id === "string" && typeof (action as CopilotAction).label === "string").slice(0, 3)
-        : [];
+      const actions = sanitizeCopilotActions(parsed.actions, { sourceIds, scenarioIds });
       return response(typeof parsed.message === "string" ? parsed.message : "El copiloto no devolvio una explicacion utilizable.", 200, actions, usage, undefined, policy);
     } catch { return response(message, 200, [], usage, undefined, policy); }
   }

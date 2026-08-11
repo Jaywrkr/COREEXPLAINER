@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.157.0 (11-08-2026):** el endpoint del copiloto recibe `allowedActionIds` del explainer y usa `sanitizeCopilotActions` para aceptar únicamente IDs autorados de fuentes/escenarios, con etiquetas normalizadas y máximo tres acciones. La allowlist es defensiva; no confía en URLs del modelo ni ejecuta operaciones.
+
 **Actualizacion v0.156.0 (11-08-2026):** las acciones de revisión tienen una decisión local (`status`, nota/evidencia y `updatedAt`). Resolver exige evidencia mínima; el exportador la incluye. Se mantiene compatibilidad con claves de estado previas y no existe sincronización ni aprobación automática.
 
 **Actualizacion v0.155.0 (11-08-2026):** `buildReviewActions` deriva acciones `scenario-readiness` desde `buildScenarioReadinessQueue`; la cola técnica las muestra, permite seguimiento local y las exporta junto al backlog existente. Son acciones de contenido/revisión, no operativas.

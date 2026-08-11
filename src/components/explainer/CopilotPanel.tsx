@@ -47,7 +47,14 @@ export function CopilotPanel({ meta, step, audienceMode, scenarios, technicalSou
       const response = await fetch("/api/copilot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: trimmed, context }),
+        body: JSON.stringify({
+          question: trimmed,
+          context,
+          allowedActionIds: {
+            sourceIds: technicalSources.map((source) => source.id),
+            scenarioIds: scenarios.map((scenario) => scenario.id),
+          },
+        }),
       });
       const payload = (await response.json()) as { message?: string; actions?: CopilotAction[]; usage?: { totalTokens?: number; estimatedCostUsd?: number }; policy?: CopilotPolicy };
       setActions(Array.isArray(payload.actions) ? payload.actions : []);

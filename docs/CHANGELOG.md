@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.157.0] - 2026-08-11
+
+- El copiloto recibe una allowlist explícita de IDs de fuentes y escenarios del explainer activo.
+- El servidor descarta acciones con IDs desconocidos, etiquetas vacías o saltos de línea y mantiene el límite de tres acciones.
+- Las acciones siguen siendo exclusivamente `open-source` y `activate-scenario`; no aceptan URLs, comandos ni cambios de infraestructura.
+- CI protege el contrato de sanitización con fixtures offline y la UI envía los IDs autorados.
+
 ## [0.156.0] - 2026-08-11
 
 - El cierre local de una acción de revisión conserva estado, nota/evidencia y fecha de actualización.
