@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.149.0] - 2026-08-11
+
+- Se añade un handoff local de soporte para registrar ID, síntoma, impacto, inicio, responsable y notas sin enviar datos fuera del navegador.
+- El paquete enlaza una ruta de triage, fuentes, confianza y límites, y se descarga como Markdown para revisión humana.
+- El contrato normaliza longitudes y caracteres del caso y advierte que no se deben pegar secretos.
+- CI protege la exportación con una regresión offline.
+
 ## [0.148.0] - 2026-08-11
 
 - Cada explicación incorpora un brief de triage para soporte: síntoma, capa probable, evidencia a solicitar, comprobación segura y criterio de escalamiento.
