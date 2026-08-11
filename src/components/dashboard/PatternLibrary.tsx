@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { solutionPatterns, type SolutionPattern } from "@/content/patterns";
 import { filterSolutionPatterns, selectComparablePatterns } from "@/lib/patterns/patternComparison";
+import { assessPatternReadiness, patternReadinessLabels, type PatternExplainerReadiness, type PatternReadinessStatus } from "@/lib/patterns/patternReadiness";
 
 const comparisonRows: Array<{ label: string; get: (pattern: SolutionPattern) => string }> = [
   { label: "Problema", get: (pattern) => pattern.problem },
@@ -14,13 +15,20 @@ const comparisonRows: Array<{ label: string; get: (pattern: SolutionPattern) => 
   { label: "Marcas", get: (pattern) => pattern.brands.join(" · ") },
 ];
 
-export function PatternLibrary() {
+const readinessStyles: Record<PatternReadinessStatus, string> = {
+  ready: "border-core-success/40 text-core-success",
+  "review-needed": "border-core-warning/40 text-core-warning",
+  blocked: "border-core-error/40 text-core-error",
+};
+
+export function PatternLibrary({ explainerReadiness }: { explainerReadiness: Record<string, PatternExplainerReadiness> }) {
   const [query, setQuery] = useState("");
   const [brand, setBrand] = useState("all");
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const brands = useMemo(() => [...new Set(solutionPatterns.flatMap((pattern) => pattern.brands))].sort(), []);
   const filtered = useMemo(() => filterSolutionPatterns(solutionPatterns, query, brand), [brand, query]);
   const selected = selectComparablePatterns(solutionPatterns, selectedIds);
+  const readinessFor = (pattern: SolutionPattern) => assessPatternReadiness(pattern, pattern.explainerSlugs.map((slug) => explainerReadiness[slug] ?? { slug, exists: false }));
   const toggle = (id: string) => setSelectedIds((current) => current.includes(id) ? current.filter((value) => value !== id) : current.length < 2 ? [...current, id] : current);
 
   return (
@@ -46,6 +54,7 @@ export function PatternLibrary() {
         {filtered.map((pattern) => { const isSelected = selectedIds.includes(pattern.id); return (
           <article key={pattern.id} className={`border bg-core-panel/50 p-4 transition-colors ${isSelected ? "border-core-accent shadow-[0_0_0_1px_rgb(var(--color-accent)/0.2)]" : "border-core-border/[0.12]"}`}>
             <div className="flex items-start justify-between gap-3"><h3 className="font-semibold text-core-text">{pattern.title}</h3><span className="font-mono text-[0.52rem] text-core-text-muted">rev. {pattern.lastReviewedAt}</span></div>
+            {(() => { const readiness = readinessFor(pattern); return <div className="mt-1 flex flex-wrap items-center gap-2"><span className={`border px-1.5 py-0.5 font-mono text-[0.52rem] uppercase ${readinessStyles[readiness.status]}`}>{patternReadinessLabels[readiness.status]}</span>{readiness.reasons.length ? <span className="text-[0.58rem] text-core-text-muted">{readiness.reasons[0]}</span> : null}</div>; })()}
             <p className="mt-1 text-xs leading-relaxed text-core-text-secondary">{pattern.problem}</p>
             <p className="mt-2 border-l-2 border-core-accent/60 pl-2 text-xs leading-relaxed text-core-text"><span className="font-semibold text-core-accent">Resultado:</span> {pattern.outcome}</p>
             <div className="mt-3 grid gap-2 text-[0.62rem] sm:grid-cols-2"><div><p className="font-semibold text-core-text">Señales</p><p className="text-core-text-muted">{pattern.signals.join(" · ")}</p></div><div><p className="font-semibold text-core-text">Evidencia</p><p className="text-core-text-muted">{pattern.evidence.join(" · ")}</p></div></div>

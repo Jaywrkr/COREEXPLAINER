@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.206.0 (11-08-2026):** `PatternLibrary` muestra `ready`, `review-needed` o `blocked` mediante `assessPatternReadiness`, usando el estado de revisión, vigencia de fuentes, advertencias y existencia de explainers enlazados. La biblioteca sigue siendo conceptual y no certifica compatibilidad.
+
 **Actualizacion v0.205.0 (11-08-2026):** `PublicationReadinessPanel` calcula por explainer dos rutas separadas: cliente y soporte. Combina reviewStatus, vigencia de fuentes, advertencias, integridad técnica y madurez de escenarios; solo informa, no publica ni muta contenido.
 
 **Actualizacion v0.204.0 (11-08-2026):** `EvidenceRecord` incluye `sourceStatus` por referencia (`current`, `review-needed`, `missing`) y `EvidenceMapPanel` lo muestra junto a cada fuente. La evidencia sigue siendo un contrato autorado, no una prueba del entorno del cliente.

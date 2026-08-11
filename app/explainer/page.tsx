@@ -13,6 +13,8 @@ import { ScenarioReadinessQueue } from "@/components/dashboard/ScenarioReadiness
 import { AiUsageGovernancePanel } from "@/components/dashboard/AiUsageGovernancePanel";
 import { ReviewCampaignSummary } from "@/components/dashboard/ReviewCampaignSummary";
 import { getAllExplainers } from "@/content/registry";
+import { explainerValidationWarnings } from "@/content/registry";
+import type { PatternExplainerReadiness } from "@/lib/patterns/patternReadiness";
 
 export const metadata: Metadata = {
   title: "Explicadores técnicos · CORESOLUTIONS",
@@ -21,6 +23,13 @@ export const metadata: Metadata = {
 export default function ExplainerDashboardPage() {
   const categories = getExplainersByCategory();
   const reviewCampaignEntries = getAllExplainers().map((entry) => ({ slug: entry.slug, title: entry.meta.title, reviewStatus: entry.meta.reviewStatus }));
+  const explainerReadiness: Record<string, PatternExplainerReadiness> = Object.fromEntries(getAllExplainers().map((entry) => [entry.slug, {
+    slug: entry.slug,
+    exists: true,
+    reviewStatus: entry.meta.reviewStatus,
+    allSourcesCurrent: entry.meta.technicalReview.sources.every((source) => source.validity === "current"),
+    warningCount: (explainerValidationWarnings[entry.slug] ?? []).length,
+  }]));
 
   return (
     <main className="mx-auto min-h-screen max-w-5xl px-6 py-12 sm:px-10">
@@ -33,7 +42,7 @@ export default function ExplainerDashboardPage() {
       </p>
 
       <ExplainerDraftCreator />
-      <PatternLibrary />
+      <PatternLibrary explainerReadiness={explainerReadiness} />
       <UsageMetricsPanel />
       <AiUsageGovernancePanel />
       <TechnicalCoveragePanel />

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.206.0] - 2026-08-11
+
+- La biblioteca de patrones muestra su estado de madurez antes de reutilizarla.
+- Se consideran revisión humana, fuentes vigentes, advertencias y enlaces existentes.
+- No se hacen afirmaciones automáticas de compatibilidad entre productos.
+
 ## [0.205.0] - 2026-08-11
 
 - El dashboard incorpora una puerta de publicación para las rutas cliente y soporte.
