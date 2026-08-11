@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.156.0] - 2026-08-11
+
+- El cierre local de una acción de revisión conserva estado, nota/evidencia y fecha de actualización.
+- Marcar una acción como resuelta exige una nota de al menos 12 caracteres; editarla después sin evidencia suficiente la devuelve a análisis.
+- La exportación del backlog incluye la nota y fecha para facilitar handoff de soporte, implementación y mantenimiento.
+- El registro sigue siendo local, no aprueba contenido, no sincroniza tickets y no ejecuta cambios.
+- CI protege normalización, compatibilidad con estados anteriores y exportación de decisiones.
+
 ## [0.155.0] - 2026-08-11
 
 - El backlog de revisión técnica incorpora acciones `scenario-readiness` derivadas de los faltantes de madurez.

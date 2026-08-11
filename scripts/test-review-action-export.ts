@@ -11,9 +11,12 @@ const markdown = buildReviewActionMarkdown({
     { id: "unsafe", title: "No enlazar", url: "javascript:alert(1)" },
   ],
   statuses: { "source-refresh": "resolved" },
+  decisions: { "source-refresh": { status: "resolved", note: "Release confirmada en fuente oficial", updatedAt: "2026-08-11T01:00:00.000Z" } },
 });
 
 assert.match(markdown, /Estado local: Resuelta/);
+assert.match(markdown, /Release confirmada en fuente oficial/);
+assert.match(markdown, /2026-08-11T01:00:00.000Z/);
 assert.match(markdown, /https:\/\/example\.com\/docs/);
 assert.match(markdown, /Fuente: unsafe/);
 assert.doesNotMatch(markdown, /javascript:/);

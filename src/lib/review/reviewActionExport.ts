@@ -1,5 +1,5 @@
 import type { ReviewAction } from "./reviewActions";
-import type { ReviewActionStatus } from "./reviewActionTracking";
+import type { ReviewActionDecision, ReviewActionStatus } from "./reviewActionTracking";
 import { reviewActionStatusLabels } from "./reviewActionTracking";
 import { isSafeHttpUrl } from "@/lib/workbench/exportMarkdown";
 
@@ -9,6 +9,7 @@ export interface ReviewActionExportInput {
   actions: ReviewAction[];
   sources: Array<{ id: string; title: string; url: string }>;
   statuses?: Record<string, ReviewActionStatus>;
+  decisions?: Record<string, ReviewActionDecision>;
   generatedAt?: string;
 }
 
@@ -27,6 +28,7 @@ export function buildReviewActionMarkdown(input: ReviewActionExportInput): strin
     "",
     ...input.actions.flatMap((action, index) => {
       const status = input.statuses?.[action.id] ?? "pending";
+      const decision = input.decisions?.[action.id];
       const sourceLines = action.sourceIds.length
         ? action.sourceIds.map((sourceId) => {
           const source = sourceMap.get(sourceId);
@@ -38,6 +40,8 @@ export function buildReviewActionMarkdown(input: ReviewActionExportInput): strin
         `- Tipo: ${action.kind}`,
         `- Prioridad: ${action.priority}`,
         `- Estado local: ${reviewActionStatusLabels[status]}`,
+        `- Nota/evidencia de cierre: ${safe(decision?.note || "no registrada")}`,
+        ...(decision?.updatedAt ? [`- Actualizada: ${safe(decision.updatedAt)}`] : []),
         `- Motivo: ${safe(action.reason)}`,
         `- Evidencia esperada: ${safe(action.evidence)}`,
         ...sourceLines,

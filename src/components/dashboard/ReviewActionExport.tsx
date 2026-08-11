@@ -2,7 +2,7 @@
 
 import { type ReviewAction } from "@/lib/review/reviewActions";
 import { buildReviewActionMarkdown } from "@/lib/review/reviewActionExport";
-import { readReviewActionStatus } from "@/lib/review/reviewActionTracking";
+import { readReviewActionDecision, readReviewActionStatus } from "@/lib/review/reviewActionTracking";
 
 interface ReviewActionExportProps {
   slug: string;
@@ -14,7 +14,8 @@ interface ReviewActionExportProps {
 export function ReviewActionExport({ slug, title, actions, sources }: ReviewActionExportProps) {
   const download = () => {
     const statuses = Object.fromEntries(actions.map((action) => [action.id, readReviewActionStatus(slug, action.id)]));
-    const markdown = buildReviewActionMarkdown({ slug, title, actions, sources, statuses, generatedAt: new Date().toISOString() });
+    const decisions = Object.fromEntries(actions.map((action) => [action.id, readReviewActionDecision(slug, action.id)]));
+    const markdown = buildReviewActionMarkdown({ slug, title, actions, sources, statuses, decisions, generatedAt: new Date().toISOString() });
     const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");

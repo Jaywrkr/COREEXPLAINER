@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.156.0 (11-08-2026):** las acciones de revisión tienen una decisión local (`status`, nota/evidencia y `updatedAt`). Resolver exige evidencia mínima; el exportador la incluye. Se mantiene compatibilidad con claves de estado previas y no existe sincronización ni aprobación automática.
+
 **Actualizacion v0.155.0 (11-08-2026):** `buildReviewActions` deriva acciones `scenario-readiness` desde `buildScenarioReadinessQueue`; la cola técnica las muestra, permite seguimiento local y las exporta junto al backlog existente. Son acciones de contenido/revisión, no operativas.
 
 **Actualizacion v0.154.0 (11-08-2026):** `ScenarioReadinessQueue` permite descargar el backlog editorial como Markdown mediante `buildScenarioReadinessMarkdown`, conservando porcentaje, faltantes y enlaces. La salida no aprueba contenido ni sincroniza estados externos.
