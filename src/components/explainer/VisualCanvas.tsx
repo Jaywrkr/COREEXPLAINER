@@ -526,10 +526,25 @@ export function VisualCanvas({
       <canvas
         ref={canvasRef}
         role="img"
+        aria-describedby={`scene-description-${sceneId}`}
         tabIndex={0}
         aria-label="Diagrama interactivo: arrastra para mover, usa la rueda o las teclas más y menos para acercar o alejar, pulsa A para ajustar y cero para restablecer."
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
+      <div id={`scene-description-${sceneId}`} className="sr-only">
+        <p>La escena contiene {scene.nodes.length} componentes y {scene.edges.length} relaciones.</p>
+        <ul>
+          {scene.nodes.map((node) => <li key={node.id}>{node.name}{node.subtitle ? `: ${node.subtitle}` : ""}</li>)}
+        </ul>
+        <ul>
+          {scene.edges.map((edge) => {
+            const from = scene.nodes.find((node) => node.id === edge.from)?.name ?? edge.from;
+            const to = scene.nodes.find((node) => node.id === edge.to)?.name ?? edge.to;
+            return <li key={`${edge.from}-${edge.to}-${edge.kind}`}>{from} conecta con {to} mediante {edge.kind}.</li>;
+          })}
+        </ul>
+        <p>Usa más y menos para zoom y cero para restablecer la vista.</p>
+      </div>
       {prefersReducedMotion ? (
         <p className="sr-only" role="status">
           Animación pausada porque tu dispositivo prefiere reducir el movimiento. El diagrama sigue siendo interactivo.
