@@ -8,10 +8,11 @@ interface CanvasViewControlsProps {
   onZoomIn: () => void;
   onZoomOut: () => void;
   onReset: () => void;
+  onFit: () => void;
 }
 
 /** Keeps viewport controls compact for clients while retaining full access for technical users. */
-export function CanvasViewControls({ scale, technical, onZoomIn, onZoomOut, onReset }: CanvasViewControlsProps) {
+export function CanvasViewControls({ scale, technical, onZoomIn, onZoomOut, onReset, onFit }: CanvasViewControlsProps) {
   const [open, setOpen] = useState(technical);
   const percent = `${Math.round(scale * 100)}%`;
 
@@ -21,6 +22,7 @@ export function CanvasViewControls({ scale, technical, onZoomIn, onZoomOut, onRe
         <button type="button" onClick={onZoomOut} className="px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text" aria-label="Alejar diagrama">−</button>
         <span className="flex min-w-14 items-center justify-center border-x border-core-border/[0.14] px-2 text-core-text" aria-live="polite">{percent}</span>
         <button type="button" onClick={onZoomIn} className="px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text" aria-label="Acercar diagrama">+</button>
+        <button type="button" onClick={onFit} className="border-l border-core-border/[0.14] px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text">Ajustar</button>
         <button type="button" onClick={onReset} className="border-l border-core-border/[0.14] px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text">Restablecer</button>
       </div>
     );
@@ -34,6 +36,7 @@ export function CanvasViewControls({ scale, technical, onZoomIn, onZoomOut, onRe
       <div className="flex border-t border-core-border/[0.12]">
         <button type="button" onClick={onZoomOut} className="px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text" aria-label="Alejar diagrama">−</button>
         <button type="button" onClick={onZoomIn} className="border-l border-core-border/[0.12] px-3 py-2 transition-colors hover:bg-core-accent/10 hover:text-core-text" aria-label="Acercar diagrama">+</button>
+        <button type="button" onClick={onFit} className="border-l border-core-border/[0.12] px-2.5 py-2 text-core-text-muted transition-colors hover:bg-core-accent/10 hover:text-core-text">Ajustar</button>
         <button type="button" onClick={onReset} className="border-l border-core-border/[0.12] px-2.5 py-2 text-core-text-muted transition-colors hover:bg-core-accent/10 hover:text-core-text">Reset</button>
       </div>
     </details>

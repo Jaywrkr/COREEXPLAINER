@@ -226,6 +226,27 @@ export function VisualCanvas({
     zoomAt(rect.width / 2, rect.height / 2, viewportRef.current.scale * factor);
   }, [zoomAt]);
 
+  const fitToScene = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || scene.nodes.length === 0) return;
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width < 80 || rect.height < 80) return;
+    const minX = Math.min(...scene.nodes.map((node) => node.x));
+    const maxX = Math.max(...scene.nodes.map((node) => node.x));
+    const minY = Math.min(...scene.nodes.map((node) => node.y));
+    const maxY = Math.max(...scene.nodes.map((node) => node.y));
+    const centerX = ((minX + maxX) / 2) * rect.width;
+    const centerY = ((minY + maxY) / 2) * rect.height;
+    const groupWidth = Math.max((maxX - minX) * rect.width, 240);
+    const groupHeight = Math.max((maxY - minY) * rect.height, 160);
+    const scale = clamp(Math.min(rect.width / (groupWidth + 180), rect.height / (groupHeight + 140)), 0.65, 1.35);
+    animateViewportTo({
+      scale,
+      x: rect.width / 2 - centerX * scale,
+      y: rect.height / 2 - centerY * scale,
+    });
+  }, [animateViewportTo, scene.nodes]);
+
   const focusOnNodes = useCallback((nodeIds: readonly string[]) => {
     const canvas = canvasRef.current;
     if (!canvas || nodeIds.length === 0) return;
@@ -445,6 +466,9 @@ export function VisualCanvas({
       } else if (event.key === "0") {
         event.preventDefault();
         resetViewport();
+      } else if (event.key.toLowerCase() === "a") {
+        event.preventDefault();
+        fitToScene();
       }
     };
 
@@ -487,7 +511,7 @@ export function VisualCanvas({
       canvas.removeEventListener("pointerleave", handlePointerLeave);
       canvas.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onFailureScenarioChange, onNodeSelect, resetViewport, updateViewport, zoomAt, zoomFromCenter]);
+  }, [fitToScene, onFailureScenarioChange, onNodeSelect, resetViewport, updateViewport, zoomAt, zoomFromCenter]);
 
   return (
     <div className="relative h-full w-full">
@@ -495,7 +519,7 @@ export function VisualCanvas({
         ref={canvasRef}
         role="img"
         tabIndex={0}
-        aria-label="Diagrama interactivo: arrastra para mover, usa la rueda o las teclas más y menos para acercar o alejar, y pulsa cero para restablecer."
+        aria-label="Diagrama interactivo: arrastra para mover, usa la rueda o las teclas más y menos para acercar o alejar, pulsa A para ajustar y cero para restablecer."
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
       {prefersReducedMotion ? (
@@ -576,6 +600,7 @@ export function VisualCanvas({
         onZoomOut={() => zoomFromCenter(1 / 1.2)}
         onZoomIn={() => zoomFromCenter(1.2)}
         onReset={resetViewport}
+        onFit={fitToScene}
       />{/*
 
           −
