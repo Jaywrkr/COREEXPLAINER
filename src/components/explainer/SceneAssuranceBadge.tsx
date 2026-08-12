@@ -30,6 +30,10 @@ export function SceneAssuranceBadge({ report, sourceCount, staleSourceCount, tec
   const hasAlert = status !== "valid" || staleSourceCount > 0;
   const label = report ? ASSURANCE_LABELS[report.assurance] : "Modelo autorado";
 
+  // A healthy model badge is useful during technical review, but is metadata
+  // rather than explanation for a client. Keep warnings discoverable.
+  if (!technical && !hasAlert) return null;
+
   return (
     <details open={open} onToggle={(event) => setOpen(event.currentTarget.open)} className={`absolute left-4 top-14 z-10 w-fit max-w-[min(20rem,calc(100%-2rem))] border bg-core-panel/90 font-mono text-[0.57rem] shadow-sm backdrop-blur-sm ${hasAlert ? "border-core-warning/40" : "border-core-border/[0.14]"}`}>
       <summary className="flex cursor-pointer list-none items-center gap-2 px-2.5 py-1.5 text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
