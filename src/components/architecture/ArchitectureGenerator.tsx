@@ -9,7 +9,8 @@ export function ArchitectureGenerator({ patterns }: { patterns: SolutionPattern[
   const [objective, setObjective] = useState("");
   const [workload, setWorkload] = useState("");
   const [confirmations, setConfirmations] = useState<Record<string, boolean>>({});
-  const draft = useMemo(() => generateArchitectureDraft({ patternId, objective, workload, confirmations }, patterns), [confirmations, objective, patternId, patterns, workload]);
+  const [components, setComponents] = useState<Record<string, { product: string; version: string; modelOrSite: string; source: string }>>({});
+  const draft = useMemo(() => generateArchitectureDraft({ patternId, objective, workload, confirmations, components }, patterns), [components, confirmations, objective, patternId, patterns, workload]);
   const selected = draft.pattern;
 
   return (
@@ -31,6 +32,7 @@ export function ArchitectureGenerator({ patterns }: { patterns: SolutionPattern[
             {selected.evidence.map((item) => <label key={item} className="flex gap-2 text-[0.76rem] leading-snug text-core-text-secondary"><input type="checkbox" checked={Boolean(confirmations[item])} onChange={(event) => setConfirmations((current) => ({ ...current, [item]: event.target.checked }))} className="mt-0.5 accent-core-accent" /><span>{item}</span></label>)}
           </div>
         </div>
+        <div className="border-t border-core-border/[0.1] pt-3"><p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">3 · Ficha por componente</p><div className="mt-2 space-y-3">{selected.brands.map((brand) => { const value = components[brand] ?? { product: "", version: "", modelOrSite: "", source: "" }; const update = (field: keyof typeof value, next: string) => setComponents((current) => ({ ...current, [brand]: { ...value, [field]: next } })); return <fieldset key={brand} className="border border-core-border/[0.1] p-2"><legend className="px-1 text-[0.7rem] font-semibold text-core-text">{brand}</legend><div className="grid gap-1.5 sm:grid-cols-2">{([['product','Producto'],['version','Versión'],['modelOrSite','Modelo / sitio'],['source','Fuente oficial / HCL']] as const).map(([field,label]) => <label key={field} className="text-[0.6rem] text-core-text-muted">{label}<input value={value[field]} onChange={(event) => update(field, event.target.value)} className="mt-0.5 w-full border border-core-border/[0.14] bg-core-bg px-2 py-1.5 text-[0.72rem] text-core-text outline-none focus:border-core-accent/60" /></label>)}</div></fieldset>; })}</div></div>
       </section>
 
       <section className="min-w-0 border border-core-border/[0.12] bg-core-panel/30 p-4">
@@ -47,6 +49,7 @@ export function ArchitectureGenerator({ patterns }: { patterns: SolutionPattern[
           <div><p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Pendientes de ingeniería</p><ul className="mt-2 space-y-1 text-[0.72rem] text-core-text-secondary">{draft.checks.filter((check) => check.status === "required").map((check) => <li key={check.id}>• {check.label}</li>)}{draft.checks.every((check) => check.status === "confirmed") ? <li>• Validar release, modelo, HCL y pruebas reales.</li> : null}</ul></div>
           <div><p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Riesgos a no ocultar</p><ul className="mt-2 space-y-1 text-[0.72rem] text-core-text-secondary">{draft.risks.map((risk) => <li key={risk}>• {risk}</li>)}</ul></div>
         </div>
+        <div className="mt-4 border-t border-core-border/[0.1] pt-3"><p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Estado de componentes</p><div className="mt-2 grid gap-1 sm:grid-cols-2">{draft.components.map(({ brand, status, evidence }) => <div key={brand} className="flex min-w-0 items-center justify-between gap-2 border border-core-border/[0.1] px-2 py-1.5 text-[0.68rem]"><span className="truncate text-core-text">{brand}</span><span className={status === "confirmed" ? "text-core-success" : "text-core-warning"}>{status === "confirmed" ? "confirmado" : "pendiente"}</span>{status === "confirmed" ? <span className="sr-only">{evidence.product} {evidence.version}</span> : null}</div>)}</div></div>
         <p className="mt-4 border-t border-core-border/[0.1] pt-3 text-[0.7rem] leading-relaxed text-core-text-muted">Este generador combina patrones CORESOLUTIONS ya auditados. No calcula compatibilidad, no elige modelos y no aprueba una implementación.</p>
       </section>
     </div>

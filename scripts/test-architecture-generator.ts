@@ -6,6 +6,9 @@ const draft = generateArchitectureDraft({ patternId: "observability-to-action", 
 assert.equal(draft.status, "needs-input");
 assert.ok(draft.checks.every((check) => check.status === "required"));
 const ready = generateArchitectureDraft({ patternId: "observability-to-action", objective: "Operar pagos", workload: "Pagos", confirmations: Object.fromEntries(draft.checks.map((check) => [check.id, true])) }, solutionPatterns);
-assert.equal(ready.status, "conceptual");
+assert.equal(ready.status, "needs-input");
+const componentEvidence = Object.fromEntries(ready.pattern.brands.map((brand) => [brand, { product: brand, version: "actual", modelOrSite: "sitio A", source: "fuente oficial" }]));
+const validated = generateArchitectureDraft({ patternId: "observability-to-action", objective: "Operar pagos", workload: "Pagos", confirmations: Object.fromEntries(draft.checks.map((check) => [check.id, true])), components: componentEvidence }, solutionPatterns);
+assert.equal(validated.status, "conceptual");
 assert.ok(ready.nodes.includes("Aprobación de ingeniería"));
 console.log("Architecture generator checks passed.");
