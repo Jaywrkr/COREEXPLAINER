@@ -615,16 +615,16 @@ export function VisualCanvas({
           ) : null}
         </button>
       ) : null}
-      {showInteractionHint ? (
-        <aside className="absolute bottom-4 left-4 z-20 w-[min(20rem,calc(100%-2rem))] border border-core-accent/30 bg-core-panel/95 p-3 shadow-lg backdrop-blur-sm" aria-label="Cómo explorar el diagrama">
+      {showInteractionHint && !showTechnicalTools ? (
+        <aside className="absolute bottom-28 left-4 z-20 w-[min(18rem,calc(100%-2rem))] border border-core-accent/30 bg-core-panel/95 p-2.5 shadow-lg backdrop-blur-sm" aria-label="Cómo explorar el diagrama">
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-core-accent">Explora el diagrama</p>
-              <p className="mt-1 text-[0.7rem] leading-relaxed text-core-text-secondary">Arrastra para moverte, usa la rueda para acercar y pulsa un nodo para ver su función.</p>
+              <p className="mt-1 text-[0.68rem] leading-relaxed text-core-text-secondary">Arrastra para moverte, usa la rueda para acercar y pulsa un nodo para ver su función.</p>
             </div>
             <button type="button" onClick={dismissInteractionHint} className="shrink-0 border border-core-border/[0.14] px-1.5 py-1 font-mono text-[0.58rem] text-core-text-muted transition-colors hover:border-core-accent/60 hover:text-core-text" aria-label="Cerrar ayuda del diagrama">×</button>
           </div>
-          <p className="mt-2 border-t border-core-border/[0.1] pt-2 font-mono text-[0.56rem] text-core-text-muted">También puedes usar +, − y 0 en el teclado.</p>
+          <p className="mt-1.5 border-t border-core-border/[0.1] pt-1.5 font-mono text-[0.54rem] text-core-text-muted">También puedes usar +, − y 0.</p>
         </aside>
       ) : null}
       <CanvasViewControls
