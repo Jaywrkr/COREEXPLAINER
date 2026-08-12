@@ -151,6 +151,33 @@ export interface TechnicalReview {
   sources: TechnicalSource[];
 }
 
+/**
+ * Internal publication authority. This is not presentation copy: it states
+ * which product owner and evidence must exist before a topic can be treated
+ * as technically publishable.
+ */
+export interface TechnicalAuthorityProfile {
+  owner: string;
+  equipmentClass: "platform" | "hypervisor" | "storage" | "network" | "security" | "backup" | "observability" | "integration" | "process" | "standard";
+  scope: string;
+  requiredEvidence: TechnicalAuthorityEvidence[];
+  requiredRuleFamilies: string[];
+}
+
+export interface TechnicalAuthorityEvidence {
+  sourceId: string;
+  control: string;
+  /** Required when a multi-vendor topic needs evidence from another authority. */
+  owner?: string;
+}
+
+export interface TechnicalAuthorityAssessment {
+  status: "ready" | "blocked";
+  blockers: string[];
+  verifiedEvidence: number;
+  requiredEvidence: number;
+}
+
 export interface TechnicalSource {
   /** Stable key used by each narrated step to cite its supporting sources. */
   id: string;
