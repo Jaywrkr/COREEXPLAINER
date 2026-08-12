@@ -146,11 +146,6 @@ export function VisualCanvas({
   );
 
   useEffect(() => {
-    setInspectorOpen(isTechnicalMode);
-    if (!isTechnicalMode) setInspectorTab("layers");
-  }, [isTechnicalMode]);
-
-  useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const syncPreference = () => {
       reducedMotionRef.current = mediaQuery.matches;
@@ -159,14 +154,6 @@ export function VisualCanvas({
     syncPreference();
     mediaQuery.addEventListener("change", syncPreference);
     return () => mediaQuery.removeEventListener("change", syncPreference);
-  }, []);
-
-  useEffect(() => {
-    try {
-      setShowInteractionHint(window.localStorage.getItem("coresolutions:canvas-hint-dismissed") !== "1");
-    } catch {
-      setShowInteractionHint(true);
-    }
   }, []);
 
   const dismissInteractionHint = useCallback(() => {
@@ -600,7 +587,7 @@ export function VisualCanvas({
           onDecisionOptionChange={onDecisionOptionChange}
         />
       ) : null}
-      {isGuidedMode || isTechnicalMode ? (
+      {isTechnicalMode ? (
         <button
           type="button"
           onClick={() => setInspectorOpen((value) => !value)}
@@ -615,7 +602,7 @@ export function VisualCanvas({
           ) : null}
         </button>
       ) : null}
-      {showInteractionHint ? (
+      {isTechnicalMode && showInteractionHint ? (
         <aside className="absolute bottom-4 left-4 z-20 w-[min(20rem,calc(100%-2rem))] border border-core-accent/30 bg-core-panel/95 p-3 shadow-lg backdrop-blur-sm" aria-label="Cómo explorar el diagrama">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -640,7 +627,7 @@ export function VisualCanvas({
 
           −
 
-      */}<p className={`pointer-events-none absolute bottom-4 bg-core-panel/90 px-3 py-2 font-mono text-[0.65rem] text-core-text-muted ${isGuidedMode ? "left-1/2 -translate-x-1/2" : "right-4"}`}>
+      */}<p className="sr-only">
         Arrastra para mover · rueda para zoom
       </p>
       <SceneAssuranceBadge report={integrityReport} sourceCount={technicalSources.length} staleSourceCount={technicalSources.filter((source) => source.validity === "review-needed").length} technical={isTechnicalMode} />

@@ -27,11 +27,11 @@ export function BeginnerGuide({ mode }: BeginnerGuideProps) {
   if (mode === "technical") return null;
 
   return (
-    <details className="mb-5 border border-core-border/[0.12] bg-core-panel/30 px-3 py-2">
+    <details className="mb-3 border-t border-core-border/[0.1] pt-2">
       <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
         Cómo leer este diagrama
       </summary>
-      <div className="mt-2.5 space-y-2 border-t border-core-border/[0.1] pt-2.5">
+      <div className="mt-2.5 space-y-2 pb-1">
         {GUIDE_ITEMS.map(({ label, text }) => (
           <p key={label} className="text-[0.72rem] leading-relaxed text-core-text-secondary">
             <span className="font-semibold text-core-text">{label}:</span> {text}

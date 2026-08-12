@@ -98,7 +98,7 @@ export function LeftPanel({
           additionalDetail={step.paragraphs[1]}
         />
       ) : null}
-      <ToolDrawer>
+      {isTechnical ? <ToolDrawer>
         <CopilotPanel slug={slug} meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
         <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
         <AssessmentBriefControl slug={slug} meta={meta} steps={steps} />
@@ -107,9 +107,11 @@ export function LeftPanel({
         <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
         <ImplementationWorkPackagePanel slug={slug} meta={meta} steps={steps} />
         <ContentWorkflowPanel slug={slug} meta={meta} />
-      </ToolDrawer>
+      </ToolDrawer> : null}
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
       {isTechnical ? (
+        <details className="mb-5 border-t border-core-border/[0.1] pt-3">
+          <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">Revisión y evidencia</summary>
         <div className="mb-5 flex flex-wrap items-center gap-1.5" aria-label="Acciones de revisión">
           <ExplainerFeedback slug={slug} />
           <SceneShareControl
@@ -120,6 +122,7 @@ export function LeftPanel({
           <BrandContextPanel items={meta.brandContext} />
           <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
         </div>
+        </details>
       ) : (
         <details className="mb-5 border-t border-core-border/[0.1] pt-3">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
@@ -140,7 +143,10 @@ export function LeftPanel({
       )}
 
       {isTechnical ? (
-        <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
+        <details className="mb-4 border-t border-core-border/[0.1] pt-3">
+          <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">Ficha de escena</summary>
+          <div className="mt-2"><TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} /></div>
+        </details>
       ) : null}
 
       {!isTechnical && !isConceptual ? (
