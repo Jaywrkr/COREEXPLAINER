@@ -178,6 +178,14 @@ export interface TechnicalAuthorityAssessment {
   requiredEvidence: number;
 }
 
+/** A testable, source-backed claim boundary for a specific topic. */
+export interface TechnicalAuthorityRule {
+  id: string;
+  control: string;
+  sourceIds: string[];
+  stepIds: string[];
+}
+
 export interface TechnicalSource {
   /** Stable key used by each narrated step to cite its supporting sources. */
   id: string;
