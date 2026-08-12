@@ -47,6 +47,8 @@ import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.jso
 import { webMethodsMeta, webMethodsSteps } from "./webmethods";
 import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
 import { technicalIntegrityProfiles } from "./technical-integrity";
+import { technicalAuthorityProfiles } from "./technical-authority";
+import { assessTechnicalAuthority } from "@/lib/content-validation/technicalAuthorityGate";
 import { enrichTechnicalReview } from "./technical-source-catalog";
 import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
 import { assertTargetArchitectureRegression } from "@/lib/content-validation/targetRegressionFixtures";
@@ -286,6 +288,7 @@ assertTargetArchitectureRegression();
 // Profiles are attached here so every topic receives the same technical gate
 // without duplicating metadata in 22 individual content files.
 export const explainerValidationWarnings: Record<string, string[]> = {};
+export const explainerTechnicalAuthority: Record<string, ReturnType<typeof assessTechnicalAuthority>> = {};
 export const explainerRegistry: ExplainerDefinition[] = definitions.map((definition) => {
   const profile = definition.meta.technicalIntegrity ?? technicalIntegrityProfiles[definition.slug];
   if (!profile) {
@@ -301,8 +304,19 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
   };
   const validation = validateExplainerContent(enriched);
   explainerValidationWarnings[definition.slug] = validation.warnings;
+  const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug]);
+  if (!technicalAuthorityProfiles[definition.slug]) {
+    throw new Error(`Explainer '${definition.slug}' has no technical authority profile`);
+  }
+  explainerTechnicalAuthority[definition.slug] = authority;
   return enriched;
 });
+
+for (const slug of Object.keys(technicalAuthorityProfiles)) {
+  if (!definitions.some((definition) => definition.slug === slug)) {
+    throw new Error(`Technical authority profile '${slug}' has no explainer`);
+  }
+}
 
 export function getExplainer(slug: string): ExplainerDefinition | undefined {
   return explainerRegistry.find((entry) => entry.slug === slug);
