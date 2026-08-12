@@ -55,6 +55,7 @@ import { arubaTechnicalRulePacks } from "./aruba-technical-rules";
 import { checkpointTechnicalRulePacks } from "./checkpoint-technical-rules";
 import { synologyTechnicalRulePacks } from "./synology-technical-rules";
 import { standardsTechnicalRulePacks } from "./standards-technical-rules";
+import { crossVendorDeliveryRulePacks } from "./cross-vendor-delivery-rules";
 import { assessTechnicalAuthority } from "@/lib/content-validation/technicalAuthorityGate";
 import { enrichTechnicalReview } from "./technical-source-catalog";
 import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
@@ -319,6 +320,7 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
     ...(checkpointTechnicalRulePacks[definition.slug] ?? []),
     ...(synologyTechnicalRulePacks[definition.slug] ?? []),
     ...(standardsTechnicalRulePacks[definition.slug] ?? []),
+    ...(crossVendorDeliveryRulePacks[definition.slug] ?? []),
   ];
   const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug], definition.steps, authorityRules);
   if (!technicalAuthorityProfiles[definition.slug]) {
