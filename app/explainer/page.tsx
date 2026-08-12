@@ -44,15 +44,30 @@ export default function ExplainerDashboardPage() {
         conversaciones con clientes.
       </p>
 
-      <ExplainerDraftCreator />
-      <PatternLibrary explainerReadiness={explainerReadiness} />
-      <UsageMetricsPanel />
-      <AiUsageGovernancePanel />
-      <TechnicalCoveragePanel />
-      <PublicationReadinessPanel />
-      <ScenarioReadinessQueue />
-      <ReviewCampaignSummary entries={reviewCampaignEntries} />
-      <TechnicalReviewQueue />
+      <nav aria-label="Secciones del espacio de trabajo" className="mb-10 grid gap-2 sm:grid-cols-3">
+        <a href="#explore" className="border border-core-accent/40 bg-core-accent/10 px-4 py-3 transition-colors hover:border-core-accent">
+          <span className="block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-core-accent">01 · Explorar</span>
+          <span className="mt-1 block text-sm font-semibold text-core-text">Temas para presentar</span>
+        </a>
+        <a href="#review" className="border border-core-border/[0.12] bg-core-panel px-4 py-3 transition-colors hover:border-core-accent/60">
+          <span className="block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-core-text-muted">02 · Revisar</span>
+          <span className="mt-1 block text-sm font-semibold text-core-text">Fuentes y preparación técnica</span>
+        </a>
+        <a href="#create" className="border border-core-border/[0.12] bg-core-panel px-4 py-3 transition-colors hover:border-core-accent/60">
+          <span className="block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-core-text-muted">03 · Crear</span>
+          <span className="mt-1 block text-sm font-semibold text-core-text">Nuevas explicaciones</span>
+        </a>
+      </nav>
+
+      <section id="explore" aria-labelledby="explore-heading" className="scroll-mt-8">
+        <div className="mb-5 flex items-end justify-between gap-4">
+          <div>
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-core-accent">01 · Explorar</p>
+            <h2 id="explore-heading" className="mt-1 text-xl font-bold text-core-text">Temas para presentar</h2>
+            <p className="mt-1 text-sm text-core-text-secondary">Elige una explicación para usarla con un cliente o equipo interno.</p>
+          </div>
+          <span className="hidden font-mono text-xs text-core-text-muted sm:block">{getAllExplainers().length} temas</span>
+        </div>
 
       {categories.length === 0 && (
         <p className="font-mono text-sm text-core-text-muted">Todavía no hay explicadores publicados.</p>
@@ -89,6 +104,46 @@ export default function ExplainerDashboardPage() {
           </section>
         ))}
       </div>
+      </section>
+
+      <section id="review" className="mt-14 scroll-mt-8">
+        <details className="group border border-core-border/[0.12] bg-core-panel/40">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span className="block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-core-text-muted">02 · Revisar</span>
+              <span className="mt-1 block text-base font-bold text-core-text">Fuentes y preparación técnica</span>
+              <span className="mt-1 block text-sm text-core-text-secondary">Validación, cobertura, escenarios y seguimiento de revisión.</span>
+            </span>
+            <span aria-hidden="true" className="font-mono text-lg text-core-accent transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div className="space-y-8 border-t border-core-border/[0.1] p-5">
+            <PatternLibrary explainerReadiness={explainerReadiness} />
+            <TechnicalCoveragePanel />
+            <PublicationReadinessPanel />
+            <ScenarioReadinessQueue />
+            <ReviewCampaignSummary entries={reviewCampaignEntries} />
+            <TechnicalReviewQueue />
+            <UsageMetricsPanel />
+            <AiUsageGovernancePanel />
+          </div>
+        </details>
+      </section>
+
+      <section id="create" className="mt-6 scroll-mt-8">
+        <details className="group border border-core-border/[0.12] bg-core-panel/40">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span className="block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-core-text-muted">03 · Crear</span>
+              <span className="mt-1 block text-base font-bold text-core-text">Nuevas explicaciones</span>
+              <span className="mt-1 block text-sm text-core-text-secondary">Convierte un patrón de proyecto en un borrador revisable.</span>
+            </span>
+            <span aria-hidden="true" className="font-mono text-lg text-core-accent transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <div className="border-t border-core-border/[0.1] p-5">
+            <ExplainerDraftCreator />
+          </div>
+        </details>
+      </section>
     </main>
   );
 }
