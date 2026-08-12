@@ -58,7 +58,7 @@ export function TechnicalIntegrityPanel({
   return (
     <section
       aria-label="Salud técnica del diagrama"
-      className="absolute right-4 top-4 z-10 w-[min(23rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 p-3 shadow-sm backdrop-blur-sm"
+      className="absolute right-4 top-[4.2rem] z-10 w-[min(23rem,calc(100%-2rem))] border border-core-border/[0.14] bg-core-panel/95 p-3 shadow-sm backdrop-blur-sm"
     >
       <div className="flex items-center justify-between gap-3">
         <button

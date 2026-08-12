@@ -64,6 +64,7 @@ const NOOP_SCENARIO_CHANGE = () => {};
 const NOOP_GUIDED_STEP_CHANGE = () => {};
 const NOOP_DECISION_CHANGE = () => {};
 const ALL_NODE_KINDS: NodeKind[] = ["control-plane", "compute", "storage", "network", "workload", "external"];
+type InspectorTab = "integrity" | "layers" | "failures";
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
@@ -108,7 +109,8 @@ export function VisualCanvas({
   const [activeEdgeKinds, setActiveEdgeKinds] = useState<Set<EdgeKind>>(() => new Set());
   const [selectedIntegrityDiagnosticId, setSelectedIntegrityDiagnosticId] = useState<string | null>(null);
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
-  const [clientToolsOpen, setClientToolsOpen] = useState(false);
+  const [inspectorOpen, setInspectorOpen] = useState(audienceMode === "technical");
+  const [inspectorTab, setInspectorTab] = useState<InspectorTab>("integrity");
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [showInteractionHint, setShowInteractionHint] = useState(false);
   const reducedMotionRef = useRef(false);
@@ -135,11 +137,16 @@ export function VisualCanvas({
   const hasIntegrityAlert = Boolean(
     integrityReport && (integrityReport.status !== "valid" || integrityReport.inactiveNodeIds.length > 0),
   );
-  const showTechnicalTools = isTechnicalMode || clientToolsOpen;
+  const showTechnicalTools = inspectorOpen;
   const guidedFocusIds = useMemo(
     () => guidedFocusNodeIds ?? guidedSteps[activeGuidedStepIndex]?.focusNodeIds ?? [],
     [activeGuidedStepIndex, guidedFocusNodeIds, guidedSteps],
   );
+
+  useEffect(() => {
+    setInspectorOpen(isTechnicalMode);
+    if (!isTechnicalMode) setInspectorTab("layers");
+  }, [isTechnicalMode]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -506,7 +513,16 @@ export function VisualCanvas({
       {selectedNode ? (
         <NodeDetailCard node={selectedNode} scene={scene} audienceMode={audienceMode} onClose={() => onNodeSelect(null)} />
       ) : null}
-      {showTechnicalTools && integrityReport ? (
+      {showTechnicalTools ? (
+        <div className="absolute right-4 top-4 z-30 flex max-w-[calc(100%-2rem)] flex-wrap items-center gap-1 border border-core-border/[0.14] bg-core-panel/95 p-1.5 font-mono text-[0.58rem] shadow-sm backdrop-blur-sm" aria-label="Inspector técnico">
+          <span className="px-2 text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-accent">Inspeccionar</span>
+          <button type="button" onClick={() => setInspectorTab("integrity")} aria-pressed={inspectorTab === "integrity"} className={`border px-2 py-1 transition-colors ${inspectorTab === "integrity" ? "border-core-accent/50 text-core-text" : "border-transparent text-core-text-muted hover:border-core-border/[0.18] hover:text-core-text"}`}>Integridad</button>
+          <button type="button" onClick={() => setInspectorTab("layers")} aria-pressed={inspectorTab === "layers"} className={`border px-2 py-1 transition-colors ${inspectorTab === "layers" ? "border-core-accent/50 text-core-text" : "border-transparent text-core-text-muted hover:border-core-border/[0.18] hover:text-core-text"}`}>Capas</button>
+          <button type="button" onClick={() => setInspectorTab("failures")} aria-pressed={inspectorTab === "failures"} className={`border px-2 py-1 transition-colors ${inspectorTab === "failures" ? "border-core-accent/50 text-core-text" : "border-transparent text-core-text-muted hover:border-core-border/[0.18] hover:text-core-text"}`}>Escenarios</button>
+          <button type="button" onClick={() => setInspectorOpen(false)} className="border-l border-core-border/[0.14] px-2 py-1 text-core-text-muted hover:text-core-text" aria-label="Cerrar inspector técnico">×</button>
+        </div>
+      ) : null}
+      {showTechnicalTools && inspectorTab === "integrity" && integrityReport ? (
         <TechnicalIntegrityPanel
           report={integrityReport}
           technicalSources={technicalSources}
@@ -516,41 +532,41 @@ export function VisualCanvas({
           }
         />
       ) : null}
-      {showTechnicalTools ? (
-        <>
-          <DiagramLegend
-            edgeKinds={edgeKinds}
-            activeNodeKinds={activeNodeKinds}
-            activeEdgeKinds={activeEdgeKinds}
-            onToggleNodeKind={toggleNodeKind}
-            onToggleEdgeKind={toggleEdgeKind}
-            onReset={resetVisibility}
-          />
-          <FailureScenarioPanel
-            scene={scene}
-            explainerSlug={explainerSlug}
-            targetArchitecture={targetArchitecture}
-            integrityReport={integrityReport}
-            scenarios={failureScenarios}
-            activeScenarioId={activeFailureScenarioId}
-            onSelectScenario={onFailureScenarioChange}
-            guidedSteps={guidedSteps}
-            activeGuidedStepIndex={activeGuidedStepIndex}
-            onGuidedStepChange={onGuidedStepChange}
-            technicalSources={technicalSources}
-            selectedDecisionOptionId={selectedDecisionOptionId}
-            onDecisionOptionChange={onDecisionOptionChange}
-          />
-        </>
+      {showTechnicalTools && inspectorTab === "layers" ? (
+        <DiagramLegend
+          edgeKinds={edgeKinds}
+          activeNodeKinds={activeNodeKinds}
+          activeEdgeKinds={activeEdgeKinds}
+          onToggleNodeKind={toggleNodeKind}
+          onToggleEdgeKind={toggleEdgeKind}
+          onReset={resetVisibility}
+        />
       ) : null}
-      {isGuidedMode ? (
+      {showTechnicalTools && inspectorTab === "failures" ? (
+        <FailureScenarioPanel
+          scene={scene}
+          explainerSlug={explainerSlug}
+          targetArchitecture={targetArchitecture}
+          integrityReport={integrityReport}
+          scenarios={failureScenarios}
+          activeScenarioId={activeFailureScenarioId}
+          onSelectScenario={onFailureScenarioChange}
+          guidedSteps={guidedSteps}
+          activeGuidedStepIndex={activeGuidedStepIndex}
+          onGuidedStepChange={onGuidedStepChange}
+          technicalSources={technicalSources}
+          selectedDecisionOptionId={selectedDecisionOptionId}
+          onDecisionOptionChange={onDecisionOptionChange}
+        />
+      ) : null}
+      {isGuidedMode || isTechnicalMode ? (
         <button
           type="button"
-          onClick={() => setClientToolsOpen((value) => !value)}
+          onClick={() => setInspectorOpen((value) => !value)}
           aria-expanded={showTechnicalTools}
           className="absolute bottom-16 right-4 z-20 border border-core-border/[0.14] bg-core-panel/95 px-3 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted shadow-sm backdrop-blur-sm transition-colors hover:border-core-accent/50 hover:text-core-text"
         >
-          {showTechnicalTools ? "Ocultar herramientas" : "Más herramientas"}
+          {showTechnicalTools ? "Cerrar inspector" : "Inspeccionar"}
           {hasIntegrityAlert || activeFailureScenarioId ? (
             <span className="ml-2 text-core-warning" aria-label="Hay contexto técnico activo">
               •
