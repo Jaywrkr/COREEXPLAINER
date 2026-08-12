@@ -10,6 +10,9 @@ Reducir la carga visual inicial de CORESOLUTIONS Technical Explainer. La primera
 - Los controles de zoom, ajuste y animación permanecen colapsados inicialmente.
 - El modo presentación aparece como una acción compacta hasta que el usuario lo inicia.
 - El inspector técnico inicia cerrado para evitar que integridad, capas y escenarios oculten el diagrama.
+- El dashboard es una biblioteca de recorridos, no una consola de operación. Su primera vista solo muestra áreas y temas.
+- Creación, revisión, métricas, gobierno y colas internas viven en una única sección cerrada al final del dashboard.
+- Las tarjetas de temas no muestran acciones secundarias ni señales de revisión: abrir el recorrido es la única acción primaria.
 
 ## Criterio de evolución
 
