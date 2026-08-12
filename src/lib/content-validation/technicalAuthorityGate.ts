@@ -37,7 +37,7 @@ export function assessTechnicalAuthority(meta: ExplainerMeta, profile: Technical
   const stepSources = new Map(steps.map((step) => [step.id, new Set(step.sourceIds)]));
   for (const rule of rules) {
     if (!rule.id.trim() || !rule.control.trim() || !rule.sourceIds.length || !rule.stepIds.length) {
-      blockers.push("una regla técnica IBM está incompleta");
+      blockers.push("una regla técnica está incompleta");
       continue;
     }
     for (const sourceId of rule.sourceIds) if (!sources.has(sourceId)) blockers.push(`la regla '${rule.id}' referencia una fuente inexistente '${sourceId}'`);

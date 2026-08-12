@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.246.0 (12-08-2026):** `explainerTechnicalRules` expone los contratos fuente→escena resueltos y `audit:technical-contracts` verifica que los 22 explainers tengan cobertura sin fuentes o pasos rotos. La auditoría es estructural; `reviewStatus` sigue pendiente hasta una aprobación especialista real. webMethods advierte confirmar con IBM la disponibilidad de API Gateway/Developer Portal para un SaaS nuevo.
+
 **Actualizacion v0.245.0 (11-08-2026):** `isValidCopilotContextEnvelope` exige marca `CORESOLUTIONS`, tema, escena y colecciones de IDs estructurados antes de enviar contexto al proveedor; texto libre o envelope incompleto se rechaza. Es una defensa estructural, no una firma criptográfica.
 
 **Actualizacion v0.244.0 (11-08-2026):** `isSafeCopilotActionId` limita IDs de acciones a tokens authored (`[A-Za-z0-9:_./-]`), el endpoint descarta URLs/comandos y limita cada allowlist a 100 IDs; el copiloto sigue read-only y no ejecuta infraestructura.
