@@ -15,12 +15,7 @@ export function ClientStoryCard({ stepTitle, lead, businessImpact, additionalDet
       <h2 className="mt-1 text-[0.98rem] font-semibold leading-snug text-core-text"><GlossaryText text={stepTitle} /></h2>
       <p className="mt-1.5 text-[0.76rem] leading-relaxed text-core-text-secondary"><GlossaryText text={lead} /></p>
       <p className="mt-2 border-t border-core-border/[0.1] pt-2 text-[0.7rem] leading-relaxed text-core-text"><span className="font-semibold">Impacto:</span> <GlossaryText text={businessImpact} /></p>
-      {additionalDetail ? (
-        <details className="mt-2 border-t border-core-border/[0.1] pt-2">
-          <summary className="cursor-pointer list-none font-mono text-[0.56rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">Ver contexto</summary>
-          <p className="mt-2 text-[0.72rem] leading-relaxed text-core-text-secondary"><GlossaryText text={additionalDetail} /></p>
-        </details>
-      ) : null}
+      {additionalDetail ? <details className="mt-2 border-t border-core-border/[0.1] pt-2"><summary className="cursor-pointer list-none font-mono text-[0.56rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">Ver contexto</summary><p className="mt-2 text-[0.72rem] leading-relaxed text-core-text-secondary"><GlossaryText text={additionalDetail} /></p></details> : null}
     </section>
   );
 }

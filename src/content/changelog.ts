@@ -9,9 +9,29 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.246.0";
+export const currentVersion = "0.248.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.248.0",
+    date: "2026-08-12",
+    title: "Generador de arquitecturas conceptuales",
+    changes: [
+      "Un generador local crea borradores visuales desde patrones CORESOLUTIONS auditados.",
+      "Hace visibles evidencias pendientes y riesgos, sin inventar compatibilidad ni aprobar implementaciones.",
+      "Cada borrador conserva aprobación de ingeniería como paso obligatorio.",
+    ],
+  },
+  {
+    version: "0.247.0",
+    date: "2026-08-12",
+    title: "Pulido de lectura en explainers",
+    changes: [
+      "El modo cliente conserva una sola idea y un solo impacto por escena; se retiraron capas repetidas.",
+      "Las herramientas, evidencia y detalle siguen disponibles bajo demanda con una superficie más ligera.",
+      "El acceso a presentación y el panel lateral ocupan menos espacio visual.",
+    ],
+  },
   {
     version: "0.246.0",
     date: "2026-08-12",

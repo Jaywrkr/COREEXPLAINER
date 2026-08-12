@@ -46,6 +46,7 @@ export default function ExplainerDashboardPage() {
         <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-core-accent">CORESOLUTIONS · explicadores visuales</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-core-text sm:text-5xl">¿Qué necesitas explicar?</h1>
         <p className="mt-4 max-w-xl text-base leading-relaxed text-core-text-secondary">Elige un tema. Cada recorrido traduce una arquitectura compleja en una conversación clara.</p>
+        <Link href="/architecture" className="mt-4 inline-flex border border-core-border/[0.14] px-3 py-2 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text">Armar arquitectura conceptual →</Link>
       </section>
 
       <nav aria-label="Áreas de solución" className="mb-8 flex flex-wrap gap-2">
