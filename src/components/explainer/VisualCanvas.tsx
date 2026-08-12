@@ -109,7 +109,7 @@ export function VisualCanvas({
   const [activeEdgeKinds, setActiveEdgeKinds] = useState<Set<EdgeKind>>(() => new Set());
   const [selectedIntegrityDiagnosticId, setSelectedIntegrityDiagnosticId] = useState<string | null>(null);
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
-  const [inspectorOpen, setInspectorOpen] = useState(audienceMode === "technical");
+  const [inspectorOpen, setInspectorOpen] = useState(false);
   const [inspectorTab, setInspectorTab] = useState<InspectorTab>("integrity");
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [motionPaused, setMotionPaused] = useState(false);

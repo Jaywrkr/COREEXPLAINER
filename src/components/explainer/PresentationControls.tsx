@@ -20,6 +20,13 @@ export function PresentationControls({
   onTogglePlaying,
   onReset,
 }: PresentationControlsProps) {
+  if (!active) {
+    return (
+      <button type="button" onClick={onEnter} className="mt-4 w-full border border-core-border/[0.12] px-3 py-2 text-left font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text">
+        Iniciar modo presentación <span aria-hidden="true" className="float-right text-core-accent">→</span>
+      </button>
+    );
+  }
   return (
     <section
       aria-label="Modo presentación"

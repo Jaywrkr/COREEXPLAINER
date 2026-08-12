@@ -14,6 +14,7 @@ const modeLabels: Record<AudienceMode, string> = { client: "Cliente", conceptual
 
 /** Answers “where am I and why does this scene matter?” without duplicating the full panel. */
 export function CanvasContextCard({ meta, step, current, total, audienceMode }: CanvasContextCardProps) {
+  if (audienceMode === "client") return null;
   const lead = step.paragraphs[0] ?? step.caption;
   return (
     <section className="pointer-events-auto max-w-[min(31rem,72vw)] border border-core-border/[0.14] bg-core-panel/90 px-3 py-2.5 shadow-lg backdrop-blur-md" aria-label="Contexto de la escena">
