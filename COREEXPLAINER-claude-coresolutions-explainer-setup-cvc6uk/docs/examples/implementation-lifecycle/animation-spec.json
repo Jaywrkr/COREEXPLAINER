@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "id": "implementation-from-rack-to-acceptance",
+  "title": "Del rack a la aceptación: cómo se implementa una plataforma empresarial",
+  "scenes": {
+    "discovery": { "nodes": [
+      { "id": "customer", "name": "Cliente", "subtitle": "Objetivo de negocio", "x": 0.08, "y": 0.5, "kind": "external", "rps": 2 },
+      { "id": "prerequisites", "name": "Prerrequisitos", "subtitle": "Sitio · HCL · licencias", "x": 0.32, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "inventory", "name": "Inventario", "subtitle": "Activos y dependencias", "x": 0.32, "y": 0.75, "kind": "control-plane", "capacity": 80 },
+      { "id": "scope", "name": "Alcance", "subtitle": "Incluido / fuera", "x": 0.58, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "plan", "name": "Plan", "subtitle": "Tareas y ventanas", "x": 0.84, "y": 0.5, "kind": "control-plane", "capacity": 80 }
+    ], "edges": [
+      { "from": "customer", "to": "scope", "kind": "control" }, { "from": "prerequisites", "to": "scope", "kind": "dependency" }, { "from": "inventory", "to": "scope", "kind": "control" }, { "from": "scope", "to": "plan", "kind": "control" }
+    ] },
+    "rack": { "nodes": [
+      { "id": "rack", "name": "Rack / PDU", "subtitle": "Energía y espacio", "x": 0.08, "y": 0.5, "kind": "external", "capacity": 75 },
+      { "id": "compute", "name": "Lenovo / IBM", "subtitle": "Hosts y servidores", "x": 0.32, "y": 0.3, "kind": "compute", "capacity": 85 },
+      { "id": "storage", "name": "Storage", "subtitle": "Discos / controladoras", "x": 0.32, "y": 0.7, "kind": "storage", "capacity": 85 },
+      { "id": "network", "name": "LAN / SAN", "subtitle": "Cableado y puertos", "x": 0.58, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "firmware", "name": "Gestión y firmware", "subtitle": "Base operable", "x": 0.84, "y": 0.5, "kind": "control-plane", "capacity": 80 }
+    ], "edges": [
+      { "from": "rack", "to": "compute", "kind": "dependency" }, { "from": "rack", "to": "storage", "kind": "dependency" }, { "from": "compute", "to": "network", "kind": "data" }, { "from": "storage", "to": "network", "kind": "storage" }, { "from": "network", "to": "firmware", "kind": "control" }
+    ] },
+    "integration": { "nodes": [
+      { "id": "compute", "name": "Compute", "subtitle": "VMware / Power / x86", "x": 0.08, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "lan", "name": "LAN", "subtitle": "VLAN / routing", "x": 0.3, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "san", "name": "SAN", "subtitle": "FC / multipath", "x": 0.3, "y": 0.75, "kind": "network", "capacity": 80 },
+      { "id": "security", "name": "Seguridad", "subtitle": "Firewall / políticas", "x": 0.55, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "backup", "name": "Backup", "subtitle": "Repositorio / jobs", "x": 0.76, "y": 0.25, "kind": "storage", "capacity": 80 },
+      { "id": "service", "name": "Servicio", "subtitle": "Aplicación integrada", "x": 0.88, "y": 0.75, "kind": "workload", "capacity": 85 }
+    ], "edges": [
+      { "from": "compute", "to": "lan", "kind": "data" }, { "from": "compute", "to": "san", "kind": "storage" }, { "from": "lan", "to": "security", "kind": "data" }, { "from": "san", "to": "security", "kind": "dependency" }, { "from": "security", "to": "service", "kind": "data" }, { "from": "backup", "to": "service", "kind": "storage" }
+    ] },
+    "acceptance": { "nodes": [
+      { "id": "tests", "name": "Pruebas", "subtitle": "Conectividad / HA / restore", "x": 0.08, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "evidence", "name": "Evidencia", "subtitle": "Resultados y métricas", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "documentation", "name": "Documentación", "subtitle": "As-built / runbook", "x": 0.55, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "operations", "name": "Operación", "subtitle": "Monitoreo / soporte", "x": 0.55, "y": 0.75, "kind": "external", "capacity": 75 },
+      { "id": "acceptance", "name": "Aceptación", "subtitle": "Cliente", "x": 0.86, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "tests", "to": "evidence", "kind": "control" }, { "from": "evidence", "to": "documentation", "kind": "control" }, { "from": "evidence", "to": "operations", "kind": "dependency" }, { "from": "documentation", "to": "acceptance", "kind": "data" }, { "from": "operations", "to": "acceptance", "kind": "dependency" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "prerequisites", "name": "Prerrequisitos", "subtitle": "Sitio / HCL / alcance", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "rack", "name": "Rack e instalación", "subtitle": "Base física", "x": 0.28, "y": 0.3, "kind": "compute", "capacity": 80, "killable": true },
+      { "id": "integration", "name": "Integración", "subtitle": "LAN / SAN / seguridad", "x": 0.48, "y": 0.3, "kind": "network", "capacity": 80, "killable": true },
+      { "id": "acceptance", "name": "Aceptación", "subtitle": "Criterio compartido", "x": 0.68, "y": 0.3, "kind": "external", "capacity": 75, "killable": true },
+      { "id": "documentation", "name": "Documentación", "subtitle": "Transferencia", "x": 0.88, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "service", "name": "Servicio", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "prerequisites", "to": "rack", "kind": "dependency" }, { "from": "rack", "to": "integration", "kind": "control" }, { "from": "integration", "to": "acceptance", "kind": "dependency" }, { "from": "acceptance", "to": "documentation", "kind": "control" }, { "from": "documentation", "to": "service", "kind": "dependency" }
+    ] }
+  }
+}

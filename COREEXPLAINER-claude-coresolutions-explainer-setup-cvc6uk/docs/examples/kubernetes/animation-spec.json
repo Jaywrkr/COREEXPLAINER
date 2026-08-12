@@ -1,0 +1,99 @@
+{
+  "version": "1.0",
+  "id": "kubernetes-application-journey",
+  "title": "Cómo llega una aplicación a estar disponible en Kubernetes",
+  "scenes": {
+    "desired-state": {
+      "nodes": [
+        { "id": "developer", "name": "Equipo / Git", "subtitle": "Manifiesto declarativo", "x": 0.1, "y": 0.5, "kind": "external" },
+        { "id": "api", "name": "Kubernetes API", "subtitle": "Estado almacenado", "x": 0.35, "y": 0.5, "kind": "control-plane" },
+        { "id": "controller", "name": "Controller Manager", "subtitle": "Reconciliación", "x": 0.6, "y": 0.2, "kind": "control-plane" },
+        { "id": "pod1", "name": "Pod frontend 1", "subtitle": "Estado observado", "x": 0.82, "y": 0.3, "kind": "workload" },
+        { "id": "pod2", "name": "Pod frontend 2", "subtitle": "Estado observado", "x": 0.82, "y": 0.7, "kind": "workload" },
+        { "id": "node", "name": "Nodo worker", "subtitle": "Ejecuta Pods", "x": 0.6, "y": 0.82, "kind": "compute" }
+      ],
+      "edges": [
+        { "from": "developer", "to": "api", "kind": "control" },
+        { "from": "api", "to": "controller", "kind": "control" },
+        { "from": "controller", "to": "pod1", "kind": "control" },
+        { "from": "controller", "to": "pod2", "kind": "control" },
+        { "from": "pod1", "to": "node", "kind": "dependency" },
+        { "from": "pod2", "to": "node", "kind": "dependency" }
+      ]
+    },
+    "scheduling": {
+      "nodes": [
+        { "id": "pod", "name": "Pod pendiente", "subtitle": "Aún sin nodo", "x": 0.12, "y": 0.5, "kind": "workload" },
+        { "id": "scheduler", "name": "kube-scheduler", "subtitle": "Filtra y puntúa", "x": 0.42, "y": 0.5, "kind": "control-plane" },
+        { "id": "node1", "name": "Nodo worker 1", "subtitle": "Recursos / taints", "x": 0.76, "y": 0.25, "kind": "compute", "capacity": 60, "killable": true },
+        { "id": "node2", "name": "Nodo worker 2", "subtitle": "Recursos / afinidad", "x": 0.76, "y": 0.75, "kind": "compute", "capacity": 60 },
+        { "id": "constraints", "name": "Restricciones", "subtitle": "Requests y placement", "x": 0.42, "y": 0.15, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "pod", "to": "scheduler", "kind": "dependency" },
+        { "from": "constraints", "to": "scheduler", "kind": "control" },
+        { "from": "scheduler", "to": "node1", "kind": "control" },
+        { "from": "scheduler", "to": "node2", "kind": "control" }
+      ]
+    },
+    "service": {
+      "nodes": [
+        { "id": "client", "name": "Cliente", "subtitle": "Solicitud", "x": 0.08, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "service", "name": "Service", "subtitle": "Punto estable", "x": 0.32, "y": 0.5, "kind": "network", "capacity": 100 },
+        { "id": "endpoints", "name": "Endpoints", "subtitle": "Selección por labels", "x": 0.54, "y": 0.5, "kind": "control-plane" },
+        { "id": "pod1", "name": "Pod listo 1", "subtitle": "Readiness OK", "x": 0.78, "y": 0.25, "kind": "workload", "capacity": 40 },
+        { "id": "pod2", "name": "Pod listo 2", "subtitle": "Readiness OK", "x": 0.78, "y": 0.75, "kind": "workload", "capacity": 40 },
+        { "id": "readiness", "name": "Readiness probe", "subtitle": "Incluye o retira endpoints", "x": 0.54, "y": 0.15, "kind": "control-plane" }
+      ],
+      "edges": [
+        { "from": "client", "to": "service", "kind": "data" },
+        { "from": "service", "to": "endpoints", "kind": "control" },
+        { "from": "endpoints", "to": "pod1", "kind": "data" },
+        { "from": "endpoints", "to": "pod2", "kind": "data" },
+        { "from": "readiness", "to": "endpoints", "kind": "control" }
+      ]
+    },
+    "rollout": {
+      "nodes": [
+        { "id": "release", "name": "Deployment", "subtitle": "Desired replicas + imagen", "x": 0.12, "y": 0.5, "kind": "control-plane" },
+        { "id": "old-rs", "name": "ReplicaSet anterior", "subtitle": "Versión N", "x": 0.4, "y": 0.25, "kind": "control-plane" },
+        { "id": "new-rs", "name": "ReplicaSet nuevo", "subtitle": "Versión N+1", "x": 0.4, "y": 0.75, "kind": "control-plane" },
+        { "id": "old-pod", "name": "Pods anteriores", "subtitle": "Reduciendo gradualmente", "x": 0.72, "y": 0.25, "kind": "workload", "capacity": 40 },
+        { "id": "new-pod", "name": "Pods nuevos", "subtitle": "Readiness requerida", "x": 0.72, "y": 0.75, "kind": "workload", "capacity": 40 },
+        { "id": "service", "name": "Service", "subtitle": "Tráfico durante transición", "x": 0.94, "y": 0.5, "kind": "network" }
+      ],
+      "edges": [
+        { "from": "release", "to": "old-rs", "kind": "control" },
+        { "from": "release", "to": "new-rs", "kind": "control" },
+        { "from": "old-rs", "to": "old-pod", "kind": "control" },
+        { "from": "new-rs", "to": "new-pod", "kind": "control" },
+        { "from": "old-pod", "to": "service", "kind": "data" },
+        { "from": "new-pod", "to": "service", "kind": "data" }
+      ]
+    },
+    "failure": {
+      "nodes": [
+        { "id": "client", "name": "Cliente", "subtitle": "Solicitudes", "x": 0.07, "y": 0.5, "kind": "external", "rps": 4 },
+        { "id": "service", "name": "Service", "subtitle": "Endpoints disponibles", "x": 0.3, "y": 0.5, "kind": "network" },
+        { "id": "pod1", "name": "Pod frontend 1", "subtitle": "Puede fallar", "x": 0.55, "y": 0.25, "kind": "workload", "killable": true },
+        { "id": "pod2", "name": "Pod frontend 2", "subtitle": "Réplica", "x": 0.55, "y": 0.75, "kind": "workload" },
+        { "id": "node1", "name": "Nodo worker 1", "subtitle": "Ejecuta Pod 1", "x": 0.78, "y": 0.25, "kind": "compute", "killable": true },
+        { "id": "node2", "name": "Nodo worker 2", "subtitle": "Ejecuta Pod 2", "x": 0.78, "y": 0.75, "kind": "compute" },
+        { "id": "controller", "name": "Controller", "subtitle": "Reconciliación", "x": 0.3, "y": 0.15, "kind": "control-plane" },
+        { "id": "registry", "name": "Registry de imágenes", "subtitle": "Pull de contenedores", "x": 0.3, "y": 0.85, "kind": "storage", "killable": true },
+        { "id": "readiness", "name": "Readiness probe", "subtitle": "Estado de servicio", "x": 0.55, "y": 0.5, "kind": "control-plane", "killable": true }
+      ],
+      "edges": [
+        { "from": "client", "to": "service", "kind": "data" },
+        { "from": "service", "to": "pod1", "kind": "data" },
+        { "from": "service", "to": "pod2", "kind": "data" },
+        { "from": "pod1", "to": "node1", "kind": "dependency" },
+        { "from": "pod2", "to": "node2", "kind": "dependency" },
+        { "from": "controller", "to": "pod1", "kind": "control" },
+        { "from": "controller", "to": "pod2", "kind": "control" },
+        { "from": "registry", "to": "pod1", "kind": "dependency" },
+        { "from": "readiness", "to": "service", "kind": "control" }
+      ]
+    }
+  }
+}

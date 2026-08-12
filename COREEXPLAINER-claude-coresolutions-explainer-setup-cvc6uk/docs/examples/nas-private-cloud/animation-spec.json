@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "id": "nas-private-cloud-service",
+  "title": "Cómo un NAS se convierte en un servicio de archivos confiable",
+  "scenes": {
+    "service": { "nodes": [
+      { "id": "users", "name": "Usuarios / apps", "subtitle": "Necesidad de archivos", "x": 0.08, "y": 0.5, "kind": "external", "rps": 4 },
+      { "id": "network", "name": "Red Aruba HPE", "subtitle": "VLAN y acceso", "x": 0.3, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "nas", "name": "Synology NAS", "subtitle": "DSM", "x": 0.55, "y": 0.5, "kind": "storage", "capacity": 90 },
+      { "id": "share", "name": "Share / protocolo", "subtitle": "SMB / NFS", "x": 0.78, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "data", "name": "Datos", "subtitle": "Archivos", "x": 0.95, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "users", "to": "network", "kind": "data" }, { "from": "network", "to": "nas", "kind": "dependency" }, { "from": "nas", "to": "share", "kind": "control" }, { "from": "share", "to": "data", "kind": "storage" }
+    ] },
+    "identity": { "nodes": [
+      { "id": "user", "name": "Usuario", "subtitle": "Solicitud", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "directory", "name": "Active Directory", "subtitle": "Identidad y grupos", "x": 0.3, "y": 0.25, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "dns", "name": "DNS / NTP", "subtitle": "Dependencias", "x": 0.3, "y": 0.75, "kind": "network", "capacity": 70 },
+      { "id": "nas", "name": "Synology NAS", "subtitle": "Cliente de dominio", "x": 0.58, "y": 0.5, "kind": "storage", "capacity": 85 },
+      { "id": "share", "name": "ACL del share", "subtitle": "Autorización", "x": 0.82, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "access", "name": "Acceso permitido", "subtitle": "Resultado", "x": 0.96, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "user", "to": "directory", "kind": "control" }, { "from": "directory", "to": "nas", "kind": "dependency" }, { "from": "dns", "to": "nas", "kind": "dependency" }, { "from": "nas", "to": "share", "kind": "control" }, { "from": "share", "to": "access", "kind": "dependency" }
+    ] },
+    "ha": { "nodes": [
+      { "id": "client", "name": "Cliente", "subtitle": "IP de cluster", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "nas-a", "name": "NAS activo", "subtitle": "DSM services", "x": 0.32, "y": 0.3, "kind": "storage", "capacity": 85 },
+      { "id": "nas-b", "name": "NAS pasivo", "subtitle": "Replica de cluster", "x": 0.32, "y": 0.7, "kind": "storage", "capacity": 85 },
+      { "id": "heartbeat", "name": "Heartbeat / HA link", "subtitle": "Estado del par", "x": 0.58, "y": 0.5, "kind": "network", "capacity": 75 },
+      { "id": "cluster-ip", "name": "IP de cluster", "subtitle": "Punto de acceso", "x": 0.8, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "share", "name": "Servicio de archivos", "subtitle": "Share", "x": 0.96, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "client", "to": "cluster-ip", "kind": "data" }, { "from": "nas-a", "to": "heartbeat", "kind": "control" }, { "from": "nas-b", "to": "heartbeat", "kind": "control" }, { "from": "heartbeat", "to": "cluster-ip", "kind": "control" }, { "from": "cluster-ip", "to": "share", "kind": "dependency" }
+    ] },
+    "protection": { "nodes": [
+      { "id": "share", "name": "Share NAS", "subtitle": "Producción", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 4 },
+      { "id": "raid", "name": "RAID / volumen", "subtitle": "Falla de disco", "x": 0.32, "y": 0.25, "kind": "storage", "capacity": 80 },
+      { "id": "ha", "name": "HA del NAS", "subtitle": "Falla de servidor", "x": 0.32, "y": 0.75, "kind": "control-plane", "capacity": 80 },
+      { "id": "veeam", "name": "Veeam", "subtitle": "Backup de archivos", "x": 0.58, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "repository", "name": "Repositorio protegido", "subtitle": "Retención", "x": 0.8, "y": 0.5, "kind": "storage", "capacity": 85 },
+      { "id": "restore", "name": "Restore", "subtitle": "Punto anterior", "x": 0.96, "y": 0.5, "kind": "external" }
+    ], "edges": [
+      { "from": "share", "to": "raid", "kind": "storage" }, { "from": "share", "to": "ha", "kind": "dependency" }, { "from": "share", "to": "veeam", "kind": "data" }, { "from": "veeam", "to": "repository", "kind": "data" }, { "from": "repository", "to": "restore", "kind": "dependency" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "directory", "name": "Directorio", "subtitle": "Usuarios y grupos", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "heartbeat", "name": "Heartbeat HA", "subtitle": "Estado del par", "x": 0.28, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "nas-b", "name": "NAS pasivo", "subtitle": "Failover", "x": 0.48, "y": 0.3, "kind": "storage", "capacity": 80 },
+      { "id": "share", "name": "Share", "subtitle": "ACL y disponibilidad", "x": 0.68, "y": 0.3, "kind": "workload", "capacity": 80, "killable": true },
+      { "id": "veeam", "name": "Backup", "subtitle": "Copia recuperable", "x": 0.88, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "users", "name": "Usuarios", "subtitle": "Resultado", "x": 0.5, "y": 0.75, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "directory", "to": "share", "kind": "control" }, { "from": "heartbeat", "to": "nas-b", "kind": "control" }, { "from": "nas-b", "to": "share", "kind": "dependency" }, { "from": "share", "to": "veeam", "kind": "data" }, { "from": "veeam", "to": "users", "kind": "dependency" }, { "from": "share", "to": "users", "kind": "data" }
+    ] }
+  }
+}

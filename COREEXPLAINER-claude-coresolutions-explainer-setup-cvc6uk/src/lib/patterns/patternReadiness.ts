@@ -1,0 +1,49 @@
+import type { SolutionPattern } from "@/content/patterns";
+import { summarizeSourceFreshness } from "@/content/technical-source-catalog";
+
+export type PatternReadinessStatus = "ready" | "review-needed" | "blocked";
+
+export interface PatternExplainerReadiness {
+  slug: string;
+  exists: boolean;
+  reviewStatus?: "pending" | "reviewed";
+  allSourcesCurrent?: boolean;
+  warningCount?: number;
+  /** Whether linked explainers have a support-ready failure scenario. */
+  scenarioCoverage?: "ready" | "partial" | "none";
+  /** Assurance of linked topology rules, not a product certification. */
+  technicalIntegrity?: "baseline" | "source-backed" | "reviewed";
+}
+
+export interface PatternReadiness {
+  status: PatternReadinessStatus;
+  reasons: string[];
+}
+
+export function assessPatternReadiness(pattern: SolutionPattern, linked: PatternExplainerReadiness[]): PatternReadiness {
+  const reasons: string[] = [];
+  const missing = linked.filter((item) => !item.exists);
+  const pending = linked.filter((item) => item.exists && item.reviewStatus !== "reviewed");
+  const stale = linked.filter((item) => item.exists && item.allSourcesCurrent === false);
+  const warnings = linked.reduce((sum, item) => sum + (item.warningCount ?? 0), 0);
+  const withoutScenarioCoverage = linked.filter((item) => item.exists && item.scenarioCoverage !== "ready");
+  const withoutReviewedIntegrity = linked.filter((item) => item.exists && item.technicalIntegrity !== "reviewed");
+  const patternFreshness = summarizeSourceFreshness({ accessedAt: pattern.lastReviewedAt, validity: "current" });
+  if (missing.length) reasons.push(`explainer(s) no encontrado(s): ${missing.map((item) => item.slug).join(", ")}`);
+  if (pending.length) reasons.push(`${pending.length} explainer(s) con revisión pendiente`);
+  if (stale.length) reasons.push(`${stale.length} explainer(s) con fuentes por revisar`);
+  if (warnings) reasons.push(`${warnings} advertencia(s) de validación en explainers vinculados`);
+  if (!pattern.evidence.length) reasons.push("el patrón no declara evidencia mínima");
+  if (withoutScenarioCoverage.length) reasons.push(`${withoutScenarioCoverage.length} explainer(s) sin escenario de soporte completamente maduro`);
+  if (withoutReviewedIntegrity.length) reasons.push(`${withoutReviewedIntegrity.length} explainer(s) con integridad tecnica no revisada`);
+  if (patternFreshness.status === "review-needed") reasons.push(`el patrón requiere revisión (${patternFreshness.reason}; antes de ${patternFreshness.dueAt ?? "fecha no disponible"})`);
+  if (missing.length || !pattern.evidence.length) return { status: "blocked", reasons };
+  if (pending.length || stale.length || warnings || withoutScenarioCoverage.length || withoutReviewedIntegrity.length || patternFreshness.status === "review-needed") return { status: "review-needed", reasons };
+  return { status: "ready", reasons: [] };
+}
+
+export const patternReadinessLabels: Record<PatternReadinessStatus, string> = {
+  ready: "Listo para reutilizar",
+  "review-needed": "Revisar antes de reutilizar",
+  blocked: "Bloqueado",
+};

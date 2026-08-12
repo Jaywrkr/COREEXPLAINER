@@ -1,0 +1,85 @@
+{
+  "version": "1.0",
+  "id": "ransomware-resilience-lifecycle",
+  "title": "Cómo reducir el radio de explosión y recuperar con confianza",
+  "scenes": {
+    "prevention": {
+      "nodes": [
+        { "id": "exposure", "name": "Exposición", "subtitle": "Internet, correo y vulnerabilidades", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+        { "id": "identity", "name": "Identidad", "subtitle": "Mínimo privilegio", "x": 0.28, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+        { "id": "endpoint", "name": "Endpoint", "subtitle": "Protección y respuesta", "x": 0.48, "y": 0.5, "kind": "workload", "capacity": 80 },
+        { "id": "network", "name": "Red Aruba HPE", "subtitle": "Segmentos y rutas", "x": 0.68, "y": 0.5, "kind": "network", "capacity": 85 },
+        { "id": "workloads", "name": "VMware/Broadcom + Lenovo", "subtitle": "Workloads protegidos", "x": 0.9, "y": 0.5, "kind": "compute", "capacity": 90 }
+      ],
+      "edges": [
+        { "from": "exposure", "to": "identity", "kind": "dependency" },
+        { "from": "identity", "to": "endpoint", "kind": "control" },
+        { "from": "endpoint", "to": "network", "kind": "data" },
+        { "from": "network", "to": "workloads", "kind": "dependency" }
+      ]
+    },
+    "detection": {
+      "nodes": [
+        { "id": "endpoint", "name": "Endpoint", "subtitle": "Proceso o cifrado anómalo", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 3 },
+        { "id": "network", "name": "Telemetría de red", "subtitle": "Conexiones y movimiento", "x": 0.3, "y": 0.5, "kind": "network", "capacity": 75 },
+        { "id": "ibm-storage", "name": "IBM FlashSystem 9.1.1", "subtitle": "Anomaly / ransomware signal", "x": 0.5, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "detection", "name": "Detección correlacionada", "subtitle": "Señal investigable", "x": 0.7, "y": 0.5, "kind": "control-plane", "capacity": 75, "killable": true },
+        { "id": "security-ops", "name": "Equipo de respuesta", "subtitle": "Decide y escala", "x": 0.9, "y": 0.5, "kind": "external", "capacity": 70 }
+      ],
+      "edges": [
+        { "from": "endpoint", "to": "detection", "kind": "data" },
+        { "from": "network", "to": "detection", "kind": "data" },
+        { "from": "ibm-storage", "to": "detection", "kind": "data" },
+        { "from": "detection", "to": "security-ops", "kind": "control" }
+      ]
+    },
+    "containment": {
+      "nodes": [
+        { "id": "security-ops", "name": "Equipo de respuesta", "subtitle": "Decisión de contención", "x": 0.1, "y": 0.5, "kind": "external", "rps": 2 },
+        { "id": "segmentation", "name": "Segmentación", "subtitle": "Check Point / Aruba HPE", "x": 0.34, "y": 0.5, "kind": "network", "capacity": 80, "killable": true },
+        { "id": "identity", "name": "Identidad comprometida", "subtitle": "Cuenta o token", "x": 0.56, "y": 0.25, "kind": "control-plane", "capacity": 70 },
+        { "id": "workloads", "name": "Workloads", "subtitle": "VMware/Broadcom", "x": 0.78, "y": 0.3, "kind": "workload", "capacity": 85 },
+        { "id": "backup-admin", "name": "Administración de backup", "subtitle": "Dominio separado", "x": 0.78, "y": 0.72, "kind": "control-plane", "capacity": 75 },
+        { "id": "lateral", "name": "Movimiento lateral", "subtitle": "Riesgo a limitar", "x": 0.98, "y": 0.5, "kind": "external", "capacity": 60 }
+      ],
+      "edges": [
+        { "from": "security-ops", "to": "segmentation", "kind": "control" },
+        { "from": "identity", "to": "segmentation", "kind": "dependency" },
+        { "from": "segmentation", "to": "workloads", "kind": "dependency" },
+        { "from": "segmentation", "to": "backup-admin", "kind": "dependency" },
+        { "from": "identity", "to": "lateral", "kind": "failure" },
+        { "from": "workloads", "to": "lateral", "kind": "failure" }
+      ]
+    },
+    "recovery": {
+      "nodes": [
+        { "id": "incident", "name": "Incidente contenido", "subtitle": "Alcance conocido", "x": 0.07, "y": 0.5, "kind": "external", "rps": 2 },
+        { "id": "veeam", "name": "Veeam", "subtitle": "Puntos de recuperación", "x": 0.28, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+        { "id": "immutable-copy", "name": "Copia offline / inmutable", "subtitle": "Credenciales separadas", "x": 0.5, "y": 0.5, "kind": "storage", "capacity": 85, "killable": true },
+        { "id": "clean-room", "name": "Sala limpia", "subtitle": "Lenovo + VMware/VCF", "x": 0.72, "y": 0.3, "kind": "compute", "capacity": 80 },
+        { "id": "application", "name": "Servicio recuperado", "subtitle": "Dependencias verificadas", "x": 0.91, "y": 0.7, "kind": "workload", "capacity": 80 }
+      ],
+      "edges": [
+        { "from": "incident", "to": "veeam", "kind": "control" },
+        { "from": "veeam", "to": "immutable-copy", "kind": "data" },
+        { "from": "immutable-copy", "to": "clean-room", "kind": "storage" },
+        { "from": "clean-room", "to": "application", "kind": "dependency" }
+      ]
+    },
+    "learning": {
+      "nodes": [
+        { "id": "exercise", "name": "Ejercicio de respuesta", "subtitle": "Simula decisiones", "x": 0.1, "y": 0.5, "kind": "external", "rps": 2 },
+        { "id": "clean-room", "name": "Entorno limpio", "subtitle": "Reconstrucción", "x": 0.32, "y": 0.5, "kind": "compute", "capacity": 80 },
+        { "id": "verification", "name": "Verificación", "subtitle": "Punto, dependencias y limpieza", "x": 0.54, "y": 0.5, "kind": "control-plane", "capacity": 80, "killable": true },
+        { "id": "application", "name": "Aplicación", "subtitle": "Criterios de aceptación", "x": 0.76, "y": 0.5, "kind": "workload", "capacity": 80 },
+        { "id": "lessons", "name": "Lecciones aprendidas", "subtitle": "Ajustes para la próxima prueba", "x": 0.94, "y": 0.5, "kind": "external" }
+      ],
+      "edges": [
+        { "from": "exercise", "to": "clean-room", "kind": "control" },
+        { "from": "clean-room", "to": "verification", "kind": "dependency" },
+        { "from": "verification", "to": "application", "kind": "control" },
+        { "from": "application", "to": "lessons", "kind": "data" }
+      ]
+    }
+  }
+}

@@ -1,57 +1,223 @@
+import Link from "next/link";
 import type { ExplainerMeta, ExplainerStep } from "@/content/types";
+import type { Scene } from "@/lib/animation-spec/types";
+import { AudienceModeToggle, type AudienceMode } from "./AudienceModeToggle";
 import { BrandMark } from "./BrandMark";
+import { PresentationControls } from "./PresentationControls";
 import { ProgressDots } from "./ProgressDots";
 import { StepNav } from "./StepNav";
+import { TechnicalReviewPanel } from "./TechnicalReviewPanel";
+import { TechnicalSceneSummary } from "./TechnicalSceneSummary";
+import { SceneShareControl } from "./SceneShareControl";
+import { BrandContextPanel } from "./BrandContextPanel";
+import { ExplainerFeedback } from "./ExplainerFeedback";
+import { BeginnerGuide } from "./BeginnerGuide";
+import { AudienceOutcomePanel } from "./AudienceOutcomePanel";
+import { GlossaryText } from "./GlossaryText";
+import { CopilotPanel } from "./CopilotPanel";
+import { AssessmentBriefControl } from "./AssessmentBriefControl";
+import { ContentWorkflowPanel } from "./ContentWorkflowPanel";
+import { TechnicalWorkbenchPanel } from "./TechnicalWorkbenchPanel";
+import { SupportTriagePanel } from "./SupportTriagePanel";
+import { SupportCasePackPanel } from "./SupportCasePackPanel";
+import { ImplementationWorkPackagePanel } from "./ImplementationWorkPackagePanel";
+import { ToolDrawer } from "./ToolDrawer";
+import { EvidenceMapPanel } from "./EvidenceMapPanel";
+import { ClientStoryCard } from "./ClientStoryCard";
 
 interface LeftPanelProps {
+  slug: string;
   meta: ExplainerMeta;
   steps: ExplainerStep[];
+  scene: Scene;
   current: number;
   onSelectStep: (index: number) => void;
   onPrev: () => void;
   onNext: () => void;
-  onCta: () => void;
+  presentationActive: boolean;
+  presentationPlaying: boolean;
+  onEnterPresentation: () => void;
+  onExitPresentation: () => void;
+  onTogglePresentation: () => void;
+  onResetPresentation: () => void;
+  audienceMode: AudienceMode;
+  onAudienceModeChange: (mode: AudienceMode) => void;
+  activeFailureScenarioId: string | null;
+  onSelectScenario: (scenarioId: string | null) => void;
 }
 
-export function LeftPanel({ meta, steps, current, onSelectStep, onPrev, onNext, onCta }: LeftPanelProps) {
+export function LeftPanel({
+  slug,
+  meta,
+  steps,
+  scene,
+  current,
+  onSelectStep,
+  onPrev,
+  onNext,
+  presentationActive,
+  presentationPlaying,
+  onEnterPresentation,
+  onExitPresentation,
+  onTogglePresentation,
+  onResetPresentation,
+  audienceMode,
+  onAudienceModeChange,
+  activeFailureScenarioId,
+  onSelectScenario,
+}: LeftPanelProps) {
   const step = steps[current]!;
+  const isTechnical = audienceMode === "technical";
+  const isConceptual = audienceMode === "conceptual";
+  const leadParagraph = step.paragraphs[0] ?? "";
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-8">
+    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-5">
       <BrandMark />
 
-      <span className="mb-4 block font-mono text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
+      <Link
+        href="/explainer"
+        className="mb-4 inline-flex w-fit items-center gap-2 border border-core-border/[0.12] px-2.5 py-1.5 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text"
+      >
+        <span aria-hidden="true">←</span>
+        Todos los temas
+      </Link>
+
+      <span className="mb-2 block font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-accent">
         {step.tag}
       </span>
-      <h1 className="mb-2 text-2xl font-bold leading-tight text-core-text sm:text-[1.65rem]">{meta.title}</h1>
-      <p className="mb-6 text-sm leading-relaxed text-core-text-secondary">{meta.tagline}</p>
-
-      <div>
-        <div className="mb-2 font-mono text-xs font-semibold text-core-accent">
-          {String(current + 1).padStart(2, "0")} / {steps.length}
-        </div>
-        <h2 className="mb-3.5 text-lg font-bold text-core-text">{step.title}</h2>
-        <div className="space-y-3.5">
-          {step.paragraphs.map((paragraph, index) => (
-            <p key={index} className="text-sm leading-relaxed text-core-text-secondary">
-              {paragraph}
-            </p>
-          ))}
-          <p className="border-l-2 border-core-accent pl-3 text-[0.85rem] text-core-text">
-            {step.businessImpact}
-          </p>
-        </div>
+      <h1 className="mb-1.5 text-xl font-bold leading-tight text-core-text sm:text-[1.45rem]"><GlossaryText text={meta.title} /></h1>
+      <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
+      <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
+      <BeginnerGuide mode={audienceMode} />
+      {!isTechnical && !isConceptual ? (
+        <ClientStoryCard
+          stepTitle={step.title}
+          lead={leadParagraph}
+          businessImpact={step.businessImpact}
+          additionalDetail={step.paragraphs[1]}
+        />
+      ) : null}
+      <ToolDrawer>
+        <CopilotPanel slug={slug} meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
+        <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
+        <AssessmentBriefControl slug={slug} meta={meta} steps={steps} />
+        <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
+        <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
+        <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
+        <ImplementationWorkPackagePanel slug={slug} meta={meta} steps={steps} />
+        <ContentWorkflowPanel slug={slug} meta={meta} />
+      </ToolDrawer>
+      {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
+      <div className="mb-5 flex flex-wrap items-center gap-1.5">
+        <ExplainerFeedback slug={slug} />
+        <SceneShareControl
+          sceneId={step.sceneId}
+          scenarioId={activeFailureScenarioId}
+          audienceMode={audienceMode}
+        />
+        <BrandContextPanel items={meta.brandContext} />
+        <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
       </div>
+
+      {isTechnical ? (
+        <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
+      ) : null}
+
+      {!isTechnical && !isConceptual ? (
+        <details className="mb-4 border-t border-core-border/[0.1] pt-3">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+            <span>Cómo se representa</span>
+            <span aria-hidden="true" className="text-core-accent">+</span>
+          </summary>
+          <div className="mt-2 space-y-2 text-[0.72rem] leading-relaxed text-core-text-secondary">
+            <p><GlossaryText text={step.paragraphs[1] ?? step.caption} /></p>
+            <p className="border-l-2 border-core-accent/60 pl-2 text-core-text-muted">Puedes pulsar un nodo, arrastrar el diagrama o abrir “Más herramientas” cuando quieras profundizar.</p>
+          </div>
+        </details>
+      ) : null}
+
+      {isTechnical || isConceptual ? <div className="border-t border-core-border/[0.1] pt-4">
+        <div className="mb-1.5 flex items-center justify-between gap-3 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+          <span>Escena {String(current + 1).padStart(2, "0")}</span>
+          <span className="text-core-text-muted">{steps.length} pasos</span>
+        </div>
+        <h2 className="mb-2.5 text-base font-bold leading-snug text-core-text"><GlossaryText text={step.title} /></h2>
+        {isTechnical ? (
+          <div className="space-y-2.5">
+            {step.paragraphs.map((paragraph, index) => (
+              <p key={index} className="text-[0.8rem] leading-relaxed text-core-text-secondary">
+                <GlossaryText text={paragraph} />
+              </p>
+            ))}
+            <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
+              <span className="font-semibold text-core-accent">Impacto:</span> <GlossaryText text={step.businessImpact} />
+            </p>
+          </div>
+        ) : isConceptual ? (
+          <div className="space-y-2.5">
+            <div className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2.5">
+              <p className="mb-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+                Cómo funciona
+              </p>
+              <div className="space-y-2">
+                {step.paragraphs.map((paragraph, index) => (
+                  <p key={index} className="text-[0.78rem] leading-relaxed text-core-text-secondary">
+                    <GlossaryText text={paragraph} />
+                  </p>
+                ))}
+              </div>
+            </div>
+            <p className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2 text-[0.76rem] leading-relaxed text-core-text">
+              <span className="font-semibold text-core-accent">Por qué importa:</span> <GlossaryText text={step.businessImpact} />
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2.5">
+            <div className="border-l-2 border-core-accent bg-core-panel/40 px-2.5 py-2.5">
+              <p className="mb-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
+                Idea clave
+              </p>
+              <p className="text-[0.82rem] leading-relaxed text-core-text-secondary"><GlossaryText text={leadParagraph} /></p>
+            </div>
+            <p className="text-[0.78rem] leading-relaxed text-core-text-secondary">
+              <span className="font-semibold text-core-text">Valor para el cliente:</span> <GlossaryText text={step.businessImpact} />
+            </p>
+            {step.paragraphs.length > 1 ? (
+              <details className="border-t border-core-border/[0.1] pt-2">
+                <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+                  Ver detalle técnico
+                </summary>
+                <div className="mt-2 space-y-2">
+                  {step.paragraphs.slice(1).map((paragraph, index) => (
+                    <p key={index} className="text-[0.76rem] leading-relaxed text-core-text-muted">
+                      <GlossaryText text={paragraph} />
+                    </p>
+                  ))}
+                </div>
+              </details>
+            ) : null}
+          </div>
+        )}
+      </div> : null}
 
       <StepNav
         canGoPrev={current > 0}
         canGoNext={current < steps.length - 1}
         onPrev={onPrev}
         onNext={onNext}
-        ctaLabel={meta.ctaLabel}
-        onCta={onCta}
       />
       <ProgressDots count={steps.length} current={current} onSelect={onSelectStep} />
+      <PresentationControls
+        active={presentationActive}
+        playing={presentationPlaying}
+        current={current}
+        total={steps.length}
+        onEnter={onEnterPresentation}
+        onExit={onExitPresentation}
+        onTogglePlaying={onTogglePresentation}
+        onReset={onResetPresentation}
+      />
     </div>
   );
 }

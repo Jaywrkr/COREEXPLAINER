@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "id": "checkpoint-clusterxl-ha",
+  "title": "Cómo funciona un firewall Check Point en alta disponibilidad",
+  "scenes": {
+    "traffic": { "nodes": [
+      { "id": "users", "name": "Usuarios", "subtitle": "Internet / sucursales", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "vip", "name": "Cluster VIP", "subtitle": "Gateway lógico", "x": 0.32, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "active", "name": "Gateway activo", "subtitle": "Inspección y NAT", "x": 0.58, "y": 0.3, "kind": "control-plane", "capacity": 85 },
+      { "id": "standby", "name": "Gateway standby", "subtitle": "Listo para asumir", "x": 0.58, "y": 0.7, "kind": "control-plane", "capacity": 75 },
+      { "id": "service", "name": "Servicios", "subtitle": "Aplicaciones", "x": 0.86, "y": 0.5, "kind": "workload", "capacity": 85 }
+    ], "edges": [
+      { "from": "users", "to": "vip", "kind": "data" }, { "from": "vip", "to": "active", "kind": "data" }, { "from": "vip", "to": "standby", "kind": "dependency" }, { "from": "active", "to": "service", "kind": "data" }, { "from": "standby", "to": "service", "kind": "dependency" }
+    ] },
+    "members": { "nodes": [
+      { "id": "compatibility", "name": "Requisitos comunes", "subtitle": "Versión · interfaces · HCL", "x": 0.1, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "active", "name": "Active", "subtitle": "Procesa tráfico", "x": 0.38, "y": 0.25, "kind": "control-plane", "capacity": 85 },
+      { "id": "standby", "name": "Standby", "subtitle": "Espera preparada", "x": 0.38, "y": 0.75, "kind": "control-plane", "capacity": 75 },
+      { "id": "vip", "name": "VIP", "subtitle": "Identidad del cluster", "x": 0.68, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "service", "name": "Cliente / servicio", "subtitle": "Destino", "x": 0.9, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "compatibility", "to": "active", "kind": "control" }, { "from": "compatibility", "to": "standby", "kind": "control" }, { "from": "active", "to": "vip", "kind": "data" }, { "from": "standby", "to": "vip", "kind": "dependency" }, { "from": "vip", "to": "service", "kind": "data" }
+    ] },
+    "sync": { "nodes": [
+      { "id": "active", "name": "Active", "subtitle": "Estado de conexiones", "x": 0.1, "y": 0.35, "kind": "control-plane", "capacity": 85 },
+      { "id": "policy", "name": "Política publicada", "subtitle": "Reglas y objetos", "x": 0.1, "y": 0.7, "kind": "control-plane", "capacity": 80 },
+      { "id": "sync", "name": "Sync network", "subtitle": "Estado compartido", "x": 0.42, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "standby", "name": "Standby", "subtitle": "Contexto actualizado", "x": 0.72, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "service", "name": "Sesión / servicio", "subtitle": "Resultado", "x": 0.94, "y": 0.5, "kind": "workload", "capacity": 75 }
+    ], "edges": [
+      { "from": "active", "to": "sync", "kind": "control" }, { "from": "policy", "to": "sync", "kind": "control" }, { "from": "sync", "to": "standby", "kind": "control" }, { "from": "standby", "to": "service", "kind": "dependency" }
+    ] },
+    "failover": { "nodes": [
+      { "id": "active", "name": "Miembro activo", "subtitle": "Se detiene", "x": 0.1, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "vip", "name": "VIP / ARP", "subtitle": "Convergencia", "x": 0.34, "y": 0.5, "kind": "network", "capacity": 75 },
+      { "id": "standby", "name": "Nuevo activo", "subtitle": "Asume tráfico", "x": 0.58, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "routing", "name": "Routing / switching", "subtitle": "Camino de retorno", "x": 0.58, "y": 0.8, "kind": "network", "capacity": 75 },
+      { "id": "service", "name": "Aplicación", "subtitle": "Aceptación", "x": 0.86, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "active", "to": "vip", "kind": "failure" }, { "from": "vip", "to": "standby", "kind": "control" }, { "from": "standby", "to": "service", "kind": "data" }, { "from": "routing", "to": "service", "kind": "dependency" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "active", "name": "Active", "subtitle": "Miembro que procesa", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 80, "killable": true },
+      { "id": "sync", "name": "Sync", "subtitle": "Estado compartido", "x": 0.28, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "vip", "name": "VIP / ARP", "subtitle": "Identidad lógica", "x": 0.48, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "policy", "name": "Política", "subtitle": "Reglas publicadas", "x": 0.68, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "standby", "name": "Standby", "subtitle": "Recurso de continuidad", "x": 0.88, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "service", "name": "Servicio", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "active", "to": "sync", "kind": "control" }, { "from": "sync", "to": "vip", "kind": "dependency" }, { "from": "vip", "to": "policy", "kind": "control" }, { "from": "policy", "to": "standby", "kind": "control" }, { "from": "standby", "to": "service", "kind": "data" }
+    ] }
+  }
+}

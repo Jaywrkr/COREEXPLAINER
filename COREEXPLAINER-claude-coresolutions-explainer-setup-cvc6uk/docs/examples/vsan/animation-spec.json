@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "id": "vsan-object-protection",
+  "title": "Cómo protege vSAN los objetos de una VM",
+  "scenes": {
+    "local-storage": {
+      "nodes": [
+        { "id": "vm", "name": "VM", "subtitle": "Carga de trabajo", "x": 0.12, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "host1", "name": "Host ESXi 1", "subtitle": "Discos locales", "x": 0.38, "y": 0.25, "kind": "compute" },
+        { "id": "host2", "name": "Host ESXi 2", "subtitle": "Discos locales", "x": 0.38, "y": 0.75, "kind": "compute" },
+        { "id": "disk1", "name": "Discos locales 1", "subtitle": "Capacidad aportada", "x": 0.68, "y": 0.25, "kind": "storage" },
+        { "id": "disk2", "name": "Discos locales 2", "subtitle": "Capacidad aportada", "x": 0.68, "y": 0.75, "kind": "storage" },
+        { "id": "vsan", "name": "vSAN", "subtitle": "Datastore distribuido", "x": 0.9, "y": 0.5, "kind": "storage", "capacity": 100 }
+      ],
+      "edges": [
+        { "from": "vm", "to": "vsan", "kind": "data" },
+        { "from": "host1", "to": "disk1", "kind": "dependency" },
+        { "from": "host2", "to": "disk2", "kind": "dependency" },
+        { "from": "disk1", "to": "vsan", "kind": "storage" },
+        { "from": "disk2", "to": "vsan", "kind": "storage" }
+      ]
+    },
+    "object-distribution": {
+      "nodes": [
+        { "id": "vm", "name": "VM", "subtitle": "VMDK y namespace", "x": 0.12, "y": 0.5, "kind": "workload", "rps": 4 },
+        { "id": "object", "name": "Objeto vSAN", "subtitle": "Volumen lógico", "x": 0.38, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "component1", "name": "Componente 1", "subtitle": "Host ESXi 1", "x": 0.68, "y": 0.25, "kind": "storage" },
+        { "id": "component2", "name": "Componente 2", "subtitle": "Host ESXi 2", "x": 0.68, "y": 0.75, "kind": "storage" },
+        { "id": "datastore", "name": "Datastore vSAN", "subtitle": "Espacio consumible", "x": 0.9, "y": 0.5, "kind": "storage" }
+      ],
+      "edges": [
+        { "from": "vm", "to": "object", "kind": "data" },
+        { "from": "object", "to": "component1", "kind": "storage" },
+        { "from": "object", "to": "component2", "kind": "storage" },
+        { "from": "component1", "to": "datastore", "kind": "dependency" },
+        { "from": "component2", "to": "datastore", "kind": "dependency" }
+      ]
+    },
+    "policy-placement": {
+      "nodes": [
+        { "id": "policy", "name": "VM Storage Policy", "subtitle": "Protección requerida", "x": 0.12, "y": 0.5, "kind": "control-plane" },
+        { "id": "object", "name": "Objeto de VM", "subtitle": "Debe cumplir la política", "x": 0.38, "y": 0.5, "kind": "storage", "capacity": 80 },
+        { "id": "domain1", "name": "Fault domain 1", "subtitle": "Host o grupo", "x": 0.68, "y": 0.2, "kind": "compute" },
+        { "id": "domain2", "name": "Fault domain 2", "subtitle": "Host o grupo", "x": 0.68, "y": 0.5, "kind": "compute" },
+        { "id": "domain3", "name": "Fault domain 3", "subtitle": "Quórum / tolerancia", "x": 0.68, "y": 0.8, "kind": "compute" },
+        { "id": "placement", "name": "Colocación", "subtitle": "Componentes compatibles", "x": 0.9, "y": 0.5, "kind": "storage" }
+      ],
+      "edges": [
+        { "from": "policy", "to": "object", "kind": "control" },
+        { "from": "object", "to": "domain1", "kind": "storage" },
+        { "from": "object", "to": "domain2", "kind": "storage" },
+        { "from": "object", "to": "domain3", "kind": "storage" },
+        { "from": "domain1", "to": "placement", "kind": "dependency" },
+        { "from": "domain2", "to": "placement", "kind": "dependency" },
+        { "from": "domain3", "to": "placement", "kind": "dependency" }
+      ]
+    },
+    "failure-resync": {
+      "nodes": [
+        { "id": "host1", "name": "Host ESXi 1", "subtitle": "Aporta componentes", "x": 0.15, "y": 0.25, "kind": "compute", "killable": true },
+        { "id": "disk1", "name": "Disco local 1", "subtitle": "Componente afectado", "x": 0.15, "y": 0.75, "kind": "storage", "killable": true },
+        { "id": "object", "name": "Objeto de VM", "subtitle": "Disponibilidad reducida", "x": 0.46, "y": 0.5, "kind": "storage", "capacity": 70 },
+        { "id": "host2", "name": "Host ESXi 2", "subtitle": "Componente activo", "x": 0.75, "y": 0.25, "kind": "compute" },
+        { "id": "resync", "name": "Resync", "subtitle": "Reconstrucción posible", "x": 0.75, "y": 0.75, "kind": "control-plane" },
+        { "id": "network", "name": "Red vSAN", "subtitle": "Comunicación entre hosts", "x": 0.95, "y": 0.5, "kind": "network" }
+      ],
+      "edges": [
+        { "from": "host1", "to": "object", "kind": "failure" },
+        { "from": "disk1", "to": "object", "kind": "failure" },
+        { "from": "object", "to": "host2", "kind": "storage" },
+        { "from": "object", "to": "resync", "kind": "control" },
+        { "from": "resync", "to": "network", "kind": "dependency" }
+      ]
+    },
+    "limits": {
+      "nodes": [
+        { "id": "object", "name": "Objeto de VM", "subtitle": "Requiere protección", "x": 0.12, "y": 0.5, "kind": "workload" },
+        { "id": "capacity", "name": "Capacidad de rebuild", "subtitle": "Espacio libre", "x": 0.43, "y": 0.18, "kind": "storage", "capacity": 100, "killable": true },
+        { "id": "fault-domains", "name": "Dominios de fallo", "subtitle": "Topología disponible", "x": 0.43, "y": 0.5, "kind": "compute", "killable": true },
+        { "id": "network", "name": "Red vSAN", "subtitle": "MTU y conectividad", "x": 0.43, "y": 0.82, "kind": "network", "killable": true },
+        { "id": "policy", "name": "Política de storage", "subtitle": "FTT / RAID", "x": 0.75, "y": 0.5, "kind": "control-plane" },
+        { "id": "state", "name": "Estado del objeto", "subtitle": "Conforme o inaccesible", "x": 0.95, "y": 0.5, "kind": "storage" }
+      ],
+      "edges": [
+        { "from": "object", "to": "policy", "kind": "control" },
+        { "from": "capacity", "to": "state", "kind": "failure" },
+        { "from": "fault-domains", "to": "state", "kind": "failure" },
+        { "from": "network", "to": "state", "kind": "failure" },
+        { "from": "policy", "to": "state", "kind": "dependency" }
+      ]
+    }
+  }
+}

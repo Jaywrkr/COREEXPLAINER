@@ -1,0 +1,172 @@
+import type { Scene } from "@/lib/animation-spec/types";
+import type {
+  TechnicalIntegrityDiagnostic,
+  TechnicalIntegrityAssurance,
+  TechnicalIntegrityDomain,
+  TechnicalIntegrityReport,
+  TechnicalIntegritySceneContract,
+} from "@/content/types";
+
+const DEFAULT_PATH_EDGE_KINDS = new Set(["data", "control", "storage", "dependency"]);
+
+function hasEdge(scene: Scene, from: string, to: string, kind: string) {
+  return scene.edges.some((edge) => edge.from === from && edge.to === to && edge.kind === kind);
+}
+
+function edgeBetween(scene: Scene, from: string, to: string) {
+  return scene.edges.find((edge) => edge.from === from && edge.to === to);
+}
+
+function findPath(
+  scene: Scene,
+  from: string,
+  to: string,
+  allowedEdgeKinds?: readonly string[],
+  unavailableNodeIds?: ReadonlySet<string>,
+) {
+  const allowed = allowedEdgeKinds ? new Set(allowedEdgeKinds) : DEFAULT_PATH_EDGE_KINDS;
+  const unavailable = unavailableNodeIds ?? new Set<string>();
+  if (unavailable.has(from) || unavailable.has(to)) return false;
+  const queue = [from];
+  const visited = new Set([from]);
+
+  while (queue.length) {
+    const current = queue.shift()!;
+    if (current === to) return true;
+
+    for (const edge of scene.edges) {
+      if (edge.from !== current || unavailable.has(edge.to) || !allowed.has(edge.kind) || visited.has(edge.to)) continue;
+      visited.add(edge.to);
+      queue.push(edge.to);
+    }
+  }
+
+  return false;
+}
+
+function statusFor(diagnostics: TechnicalIntegrityDiagnostic[]): TechnicalIntegrityReport["status"] {
+  if (diagnostics.some((diagnostic) => diagnostic.severity === "error")) return "error";
+  if (diagnostics.length > 0) return "warning";
+  return "valid";
+}
+
+/** Evaluates one scene against its explicit, content-owned technical contract. */
+export function evaluateTopologyIntegrity(
+  scene: Scene,
+  contract: TechnicalIntegritySceneContract | undefined,
+  domain: TechnicalIntegrityDomain = "generic",
+  assurance: TechnicalIntegrityAssurance = "baseline",
+  inactiveNodeIds: readonly string[] = [],
+): TechnicalIntegrityReport | null {
+  if (!contract) return null;
+
+  const nodeIds = new Set(scene.nodes.map((node) => node.id));
+  const inactive = new Set(inactiveNodeIds.filter((nodeId) => nodeIds.has(nodeId)));
+  const diagnostics: TechnicalIntegrityDiagnostic[] = [];
+
+  for (const requiredNodeId of contract.requiredNodes ?? []) {
+    if (nodeIds.has(requiredNodeId)) continue;
+    diagnostics.push({
+      id: `node-${requiredNodeId}`,
+      severity: "error",
+      title: "Componente requerido ausente",
+      detail: `El diagrama no contiene el componente '${requiredNodeId}' declarado por el contrato técnico.`,
+      rationale: "La explicación no puede sostener la arquitectura esperada si falta uno de sus componentes explícitos.",
+      recommendation: "Revisar el animation spec y volver a conectar el componente que la escena declara como requerido.",
+      nodeIds: [requiredNodeId],
+      sourceIds: [],
+    });
+  }
+
+  for (const inactiveNodeId of inactive) {
+    diagnostics.push({
+      id: `inactive-node-${inactiveNodeId}`,
+      severity: "warning",
+      title: "Componente inactivo en la simulación",
+      detail: `El componente '${inactiveNodeId}' está marcado como inactivo por el escenario actual.`,
+      rationale: "La topología base puede ser válida, pero una falla simulada cambia temporalmente la disponibilidad del camino.",
+      recommendation: "Confirmar el impacto del fallo y seguir el paso de recuperación del escenario antes de restaurar el servicio.",
+      nodeIds: [inactiveNodeId],
+      sourceIds: [],
+    });
+  }
+
+  for (const rule of contract.requiredEdges ?? []) {
+    if (hasEdge(scene, rule.from, rule.to, rule.kind)) continue;
+    const actualEdge = edgeBetween(scene, rule.from, rule.to);
+    diagnostics.push({
+      id: rule.id,
+      severity: rule.severity ?? "error",
+      title: rule.label,
+      detail: actualEdge
+        ? `La relación ${rule.from} → ${rule.to} está declarada como '${actualEdge.kind}', pero debería ser '${rule.kind}'.`
+        : `Falta la relación ${rule.from} → ${rule.to} (${rule.kind}) en esta escena.`,
+      rationale: rule.rationale,
+      recommendation: rule.recommendation ?? "Comparar la relación dibujada con la configuración o dependencia esperada y corregir su semántica.",
+      nodeIds: [rule.from, rule.to].filter((id) => nodeIds.has(id)),
+      sourceIds: rule.sourceIds ?? [],
+    });
+  }
+
+  for (const rule of contract.requiredPaths ?? []) {
+    if (nodeIds.has(rule.from) && nodeIds.has(rule.to) && findPath(scene, rule.from, rule.to, rule.allowedEdgeKinds, inactive)) {
+      continue;
+    }
+    diagnostics.push({
+      id: rule.id,
+      severity: rule.severity ?? "error",
+      title: rule.label,
+      detail: `No existe un camino válido entre ${rule.from} y ${rule.to} con las relaciones declaradas.`,
+      rationale: rule.rationale,
+      recommendation: rule.recommendation ?? "Trazar la dependencia intermedia y validar que todos los componentes del camino estén disponibles.",
+      nodeIds: [rule.from, rule.to].filter((id) => nodeIds.has(id)),
+      sourceIds: rule.sourceIds ?? [],
+    });
+  }
+
+  for (const edge of scene.edges) {
+    const missingEndpoint = !nodeIds.has(edge.from) || !nodeIds.has(edge.to);
+    if (!missingEndpoint) continue;
+    diagnostics.push({
+      id: `dangling-edge-${edge.from}-${edge.to}-${edge.kind}`,
+      severity: "error",
+      title: "Relación sin componente válido",
+      detail: `La relación ${edge.from} → ${edge.to} apunta a un nodo que no existe en esta escena.`,
+      rationale: "Una arista sin ambos extremos no representa una conexión técnica interpretable.",
+      recommendation: "Corregir el origen o destino de la relación antes de publicar la escena.",
+      nodeIds: [edge.from, edge.to].filter((id) => nodeIds.has(id)),
+      sourceIds: [],
+    });
+  }
+
+  if (contract.checkOrphans !== false) {
+    const connectedNodeIds = new Set<string>();
+    for (const edge of scene.edges) {
+      if (nodeIds.has(edge.from) && nodeIds.has(edge.to)) {
+        connectedNodeIds.add(edge.from);
+        connectedNodeIds.add(edge.to);
+      }
+    }
+    for (const node of scene.nodes) {
+      if (connectedNodeIds.has(node.id)) continue;
+      diagnostics.push({
+        id: `orphan-node-${node.id}`,
+        severity: "warning",
+        title: "Componente aislado",
+        detail: `El componente '${node.id}' no tiene ninguna relación visible en esta escena.`,
+        rationale: "Un componente aislado puede indicar una dependencia omitida o una pieza que la narrativa todavía no conecta.",
+        recommendation: "Confirmar si el aislamiento es intencional; si no lo es, añadir la dependencia que conecta este componente con el servicio.",
+        nodeIds: [node.id],
+        sourceIds: [],
+      });
+    }
+  }
+
+  const checkedRules = (contract.requiredNodes?.length ?? 0)
+    + (contract.requiredEdges?.length ?? 0)
+    + (contract.requiredPaths?.length ?? 0)
+    + scene.edges.length
+    + (contract.checkOrphans === false ? 0 : scene.nodes.length);
+
+  return { domain, assurance, inactiveNodeIds: Array.from(inactive), status: statusFor(diagnostics), checkedRules, diagnostics };
+}

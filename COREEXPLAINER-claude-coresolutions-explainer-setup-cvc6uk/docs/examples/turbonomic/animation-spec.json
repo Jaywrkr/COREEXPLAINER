@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "id": "turbonomic-demand-to-action",
+  "title": "Cómo IBM Turbonomic decide qué recurso necesita cada aplicación",
+  "scenes": {
+    "demand": { "nodes": [
+      { "id": "application", "name": "Aplicación", "subtitle": "SLO / servicio", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 3 },
+      { "id": "demand", "name": "Demanda", "subtitle": "CPU · memoria · I/O", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "vm", "name": "VM / contenedor", "subtitle": "Workload", "x": 0.56, "y": 0.3, "kind": "compute", "capacity": 80 },
+      { "id": "storage", "name": "Storage", "subtitle": "Datastore / volumen", "x": 0.56, "y": 0.75, "kind": "storage", "capacity": 80 },
+      { "id": "health", "name": "Salud de la aplicación", "subtitle": "Resultado", "x": 0.86, "y": 0.5, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "application", "to": "demand", "kind": "control" }, { "from": "demand", "to": "vm", "kind": "dependency" }, { "from": "demand", "to": "storage", "kind": "storage" }, { "from": "vm", "to": "health", "kind": "data" }, { "from": "storage", "to": "health", "kind": "dependency" }
+    ] },
+    "supply-chain": { "nodes": [
+      { "id": "targets", "name": "Targets", "subtitle": "vCenter · cloud · APM", "x": 0.08, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "supply-chain", "name": "Supply chain", "subtitle": "Entidades y relaciones", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "application", "name": "Aplicación / VM", "subtitle": "Buyer", "x": 0.57, "y": 0.25, "kind": "workload", "capacity": 80 },
+      { "id": "compute", "name": "Host / cluster", "subtitle": "Seller de compute", "x": 0.57, "y": 0.75, "kind": "compute", "capacity": 80 },
+      { "id": "storage", "name": "Datastore / array", "subtitle": "Seller de storage", "x": 0.82, "y": 0.5, "kind": "storage", "capacity": 80 }
+    ], "edges": [
+      { "from": "targets", "to": "supply-chain", "kind": "control" }, { "from": "supply-chain", "to": "application", "kind": "dependency" }, { "from": "supply-chain", "to": "compute", "kind": "dependency" }, { "from": "supply-chain", "to": "storage", "kind": "storage" }, { "from": "compute", "to": "storage", "kind": "storage" }
+    ] },
+    "market": { "nodes": [
+      { "id": "demand", "name": "Demand", "subtitle": "Resource buyer", "x": 0.08, "y": 0.5, "kind": "workload", "capacity": 80 },
+      { "id": "market", "name": "Economic engine", "subtitle": "Equilibrio", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "compute", "name": "Compute", "subtitle": "Capacidad", "x": 0.56, "y": 0.25, "kind": "compute", "capacity": 80 },
+      { "id": "storage", "name": "Storage", "subtitle": "Latencia / capacidad", "x": 0.56, "y": 0.75, "kind": "storage", "capacity": 80 },
+      { "id": "constraints", "name": "Constraints", "subtitle": "Afinidad / política", "x": 0.78, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "action", "name": "Acción candidata", "subtitle": "Move / resize / provision", "x": 0.95, "y": 0.5, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "demand", "to": "market", "kind": "data" }, { "from": "compute", "to": "market", "kind": "dependency" }, { "from": "storage", "to": "market", "kind": "storage" }, { "from": "constraints", "to": "market", "kind": "control" }, { "from": "market", "to": "action", "kind": "control" }
+    ] },
+    "automation": { "nodes": [
+      { "id": "recommendation", "name": "Recomendación", "subtitle": "Acción generada", "x": 0.08, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "policy", "name": "Automation policy", "subtitle": "Scope / modo / ventana", "x": 0.3, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "approval", "name": "Aprobación", "subtitle": "Humana / ServiceNow", "x": 0.52, "y": 0.25, "kind": "external", "capacity": 75 },
+      { "id": "workflow", "name": "Workflow", "subtitle": "Webhook / runbook", "x": 0.52, "y": 0.75, "kind": "control-plane", "capacity": 75 },
+      { "id": "action", "name": "Ejecución", "subtitle": "Target manager", "x": 0.76, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "service", "name": "Servicio", "subtitle": "Validar resultado", "x": 0.95, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "recommendation", "to": "policy", "kind": "control" }, { "from": "policy", "to": "approval", "kind": "dependency" }, { "from": "policy", "to": "workflow", "kind": "control" }, { "from": "approval", "to": "action", "kind": "control" }, { "from": "workflow", "to": "action", "kind": "control" }, { "from": "action", "to": "service", "kind": "data" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "target", "name": "Target", "subtitle": "Discovery / permisos", "x": 0.08, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "demand", "name": "Demanda", "subtitle": "Datos de workload", "x": 0.28, "y": 0.3, "kind": "workload", "capacity": 75, "killable": true },
+      { "id": "market", "name": "Análisis", "subtitle": "Supply / relaciones", "x": 0.48, "y": 0.3, "kind": "control-plane", "capacity": 80 },
+      { "id": "constraints", "name": "Constraints", "subtitle": "Políticas / capacidad", "x": 0.68, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "policy", "name": "Automation policy", "subtitle": "Guardrails", "x": 0.88, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "action", "name": "Acción", "subtitle": "Resultado", "x": 0.55, "y": 0.75, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "target", "to": "demand", "kind": "control" }, { "from": "demand", "to": "market", "kind": "data" }, { "from": "market", "to": "constraints", "kind": "dependency" }, { "from": "constraints", "to": "policy", "kind": "control" }, { "from": "policy", "to": "action", "kind": "control" }
+    ] }
+  }
+}

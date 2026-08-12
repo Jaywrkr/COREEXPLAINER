@@ -67,6 +67,31 @@ debe intentar especificar un ícono por nodo; si un tema necesita
 distinguir visualmente nodos del mismo `kind`, usa `subtitle`, no un campo
 de ícono nuevo.
 
+### Texto y geometría del nodo
+
+El motor calcula el ancho y alto de cada tarjeta a partir de `name` y
+`subtitle`. Si el texto no cabe en una línea, lo envuelve y aumenta la altura;
+no se trunca con puntos suspensivos. Aristas, hit-testing, selección y el
+control de fallo usan esa misma geometría, por lo que un nuevo nombre largo no
+debe dejar texto fuera de la tarjeta ni conexiones atravesando su interior.
+
+### Relaciones semánticas
+
+Cada arista debe declarar `kind` para que el diagrama explique qué significa
+la conexión, no solo que existe:
+
+| kind | Significado visual |
+| --- | --- |
+| `data` | Camino de datos de usuarios, aplicaciones o servicios |
+| `control` | Gestión, orquestación o configuración |
+| `storage` | Relación con almacenamiento o persistencia |
+| `dependency` | Dependencia conceptual entre componentes |
+| `failure` | Relación o impacto asociado a un escenario de fallo |
+
+El canvas usa estilos de línea distintos y ofrece una leyenda con filtros de
+capas y relaciones. Si una conexión es pedagógica y no representa un camino
+de paquetes real, debe explicarse también en el storyboard.
+
 ### Reglas de contenido de una escena
 
 - Toda posición (`x`, `y`) es una fracción 0–1 del tamaño del canvas en ese

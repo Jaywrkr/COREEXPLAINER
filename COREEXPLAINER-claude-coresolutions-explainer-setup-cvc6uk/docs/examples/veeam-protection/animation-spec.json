@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "id": "veeam-heterogeneous-protection",
+  "title": "Cómo una política protege VMware, AIX, NAS y cinta",
+  "scenes": {
+    "workloads": { "nodes": [
+      { "id": "vmware", "name": "VMware / VCF", "subtitle": "VMs", "x": 0.08, "y": 0.2, "kind": "workload", "rps": 3 },
+      { "id": "physical", "name": "Lenovo físico", "subtitle": "Agente", "x": 0.08, "y": 0.5, "kind": "compute", "rps": 2 },
+      { "id": "aix", "name": "IBM Power / AIX", "subtitle": "Plugin o agente", "x": 0.08, "y": 0.8, "kind": "workload", "rps": 2 },
+      { "id": "nas", "name": "NAS / shares", "subtitle": "Archivos", "x": 0.35, "y": 0.5, "kind": "storage", "capacity": 80 },
+      { "id": "policy", "name": "Política Veeam", "subtitle": "RPO y retención", "x": 0.6, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "application", "name": "Aplicación", "subtitle": "Consistencia", "x": 0.9, "y": 0.5, "kind": "external" }
+    ], "edges": [
+      { "from": "vmware", "to": "policy", "kind": "data" }, { "from": "physical", "to": "policy", "kind": "data" }, { "from": "aix", "to": "policy", "kind": "data" }, { "from": "nas", "to": "policy", "kind": "data" }, { "from": "policy", "to": "application", "kind": "dependency" }
+    ] },
+    "data-pipe": { "nodes": [
+      { "id": "source", "name": "Host / datastore origen", "subtitle": "Lee bloques", "x": 0.1, "y": 0.5, "kind": "compute", "rps": 4 },
+      { "id": "veeam-server", "name": "Veeam server", "subtitle": "Orquesta job", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "proxy", "name": "Backup proxy", "subtitle": "Data mover", "x": 0.55, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "network", "name": "Red de transporte", "subtitle": "Data pipe", "x": 0.75, "y": 0.28, "kind": "network", "capacity": 75 },
+      { "id": "repository", "name": "Repositorio", "subtitle": "Escribe backup", "x": 0.9, "y": 0.65, "kind": "storage", "capacity": 85 }
+    ], "edges": [
+      { "from": "source", "to": "veeam-server", "kind": "control" }, { "from": "source", "to": "proxy", "kind": "data" }, { "from": "proxy", "to": "network", "kind": "data" }, { "from": "network", "to": "repository", "kind": "data" }, { "from": "veeam-server", "to": "repository", "kind": "control" }
+    ] },
+    "retention": { "nodes": [
+      { "id": "repository", "name": "Repositorio", "subtitle": "Recuperación rápida", "x": 0.12, "y": 0.5, "kind": "storage", "capacity": 85 },
+      { "id": "immutable", "name": "Repositorio inmutable", "subtitle": "Retención protegida", "x": 0.38, "y": 0.5, "kind": "storage", "capacity": 80 },
+      { "id": "tape-job", "name": "Tape job", "subtitle": "Copia dedicada", "x": 0.62, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "library", "name": "Librería TS / LTO", "subtitle": "Medio offline", "x": 0.86, "y": 0.5, "kind": "storage", "capacity": 70 }
+    ], "edges": [
+      { "from": "repository", "to": "immutable", "kind": "storage" }, { "from": "repository", "to": "tape-job", "kind": "data" }, { "from": "tape-job", "to": "library", "kind": "data" }, { "from": "immutable", "to": "library", "kind": "dependency" }
+    ] },
+    "restore": { "nodes": [
+      { "id": "point", "name": "Punto de recuperación", "subtitle": "Fecha y retención", "x": 0.1, "y": 0.5, "kind": "storage", "capacity": 80 },
+      { "id": "restore", "name": "Restore", "subtitle": "VM, archivo o agente", "x": 0.34, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "network", "name": "Red e identidad", "subtitle": "Dependencias", "x": 0.57, "y": 0.28, "kind": "network", "capacity": 75 },
+      { "id": "storage", "name": "Storage destino", "subtitle": "Lenovo / IBM", "x": 0.57, "y": 0.72, "kind": "storage", "capacity": 80 },
+      { "id": "application", "name": "Servicio validado", "subtitle": "Criterios de aceptación", "x": 0.88, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "point", "to": "restore", "kind": "data" }, { "from": "restore", "to": "network", "kind": "dependency" }, { "from": "restore", "to": "storage", "kind": "storage" }, { "from": "network", "to": "application", "kind": "dependency" }, { "from": "storage", "to": "application", "kind": "dependency" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "source", "name": "Fuente", "subtitle": "Job y consistencia", "x": 0.08, "y": 0.3, "kind": "compute", "capacity": 75, "killable": true },
+      { "id": "veeam-server", "name": "Veeam server", "subtitle": "Control", "x": 0.28, "y": 0.3, "kind": "control-plane", "capacity": 75 },
+      { "id": "proxy", "name": "Proxy", "subtitle": "Throughput", "x": 0.48, "y": 0.3, "kind": "compute", "capacity": 70, "killable": true },
+      { "id": "repository", "name": "Repositorio", "subtitle": "Capacidad y lectura", "x": 0.68, "y": 0.3, "kind": "storage", "capacity": 80, "killable": true },
+      { "id": "restore", "name": "Restore", "subtitle": "Aplicación utilizable", "x": 0.88, "y": 0.3, "kind": "workload", "capacity": 75, "killable": true },
+      { "id": "tape", "name": "Cinta", "subtitle": "Retención offline", "x": 0.56, "y": 0.75, "kind": "storage", "capacity": 70 }
+    ], "edges": [
+      { "from": "source", "to": "veeam-server", "kind": "control" }, { "from": "source", "to": "proxy", "kind": "data" }, { "from": "proxy", "to": "repository", "kind": "data" }, { "from": "repository", "to": "restore", "kind": "data" }, { "from": "repository", "to": "tape", "kind": "data" }
+    ] }
+  }
+}

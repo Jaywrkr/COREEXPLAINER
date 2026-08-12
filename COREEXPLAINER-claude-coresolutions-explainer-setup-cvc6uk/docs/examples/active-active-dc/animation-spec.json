@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "id": "active-active-two-domains",
+  "title": "Cómo se sostiene un data center en dos dominios",
+  "scenes": {
+    "two-domains": { "nodes": [
+      { "id": "site-a", "name": "Rack / sitio A", "subtitle": "Hosts y storage", "x": 0.2, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "site-b", "name": "Rack / sitio B", "subtitle": "Hosts y storage", "x": 0.8, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "inter-site", "name": "Interconexión", "subtitle": "Estado y datos", "x": 0.5, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "quorum", "name": "Quorum / decisión", "subtitle": "Integridad", "x": 0.5, "y": 0.75, "kind": "control-plane", "capacity": 75 },
+      { "id": "workloads", "name": "Workloads", "subtitle": "VMs y servicios", "x": 0.5, "y": 0.5, "kind": "workload", "capacity": 90 }
+    ], "edges": [
+      { "from": "site-a", "to": "inter-site", "kind": "data" }, { "from": "site-b", "to": "inter-site", "kind": "data" }, { "from": "inter-site", "to": "quorum", "kind": "control" }, { "from": "site-a", "to": "workloads", "kind": "dependency" }, { "from": "site-b", "to": "workloads", "kind": "dependency" }
+    ] },
+    "storage-ha": { "nodes": [
+      { "id": "host-a", "name": "Hosts A", "subtitle": "Paths locales", "x": 0.1, "y": 0.28, "kind": "compute", "capacity": 80 },
+      { "id": "host-b", "name": "Hosts B", "subtitle": "Paths locales", "x": 0.1, "y": 0.72, "kind": "compute", "capacity": 80 },
+      { "id": "array-a", "name": "FlashSystem A", "subtitle": "Copia preferida", "x": 0.42, "y": 0.28, "kind": "storage", "capacity": 85 },
+      { "id": "array-b", "name": "FlashSystem B", "subtitle": "Copia espejo", "x": 0.42, "y": 0.72, "kind": "storage", "capacity": 85 },
+      { "id": "replication", "name": "Relación HA", "subtitle": "Estado de copia", "x": 0.68, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "quorum", "name": "Quorum", "subtitle": "Estado y consistencia", "x": 0.9, "y": 0.5, "kind": "external" }
+    ], "edges": [
+      { "from": "host-a", "to": "array-a", "kind": "storage" }, { "from": "host-b", "to": "array-b", "kind": "storage" }, { "from": "array-a", "to": "replication", "kind": "storage" }, { "from": "array-b", "to": "replication", "kind": "storage" }, { "from": "replication", "to": "quorum", "kind": "control" }
+    ] },
+    "network-ha": { "nodes": [
+      { "id": "hosts", "name": "Hosts / VMs", "subtitle": "LAN y storage", "x": 0.1, "y": 0.5, "kind": "compute", "capacity": 85, "rps": 4 },
+      { "id": "switch-a", "name": "Switch pair A", "subtitle": "VSX/LAG según diseño", "x": 0.34, "y": 0.25, "kind": "network", "capacity": 80 },
+      { "id": "switch-b", "name": "Switch pair B", "subtitle": "VSX/LAG según diseño", "x": 0.34, "y": 0.75, "kind": "network", "capacity": 80 },
+      { "id": "storage-a", "name": "Storage A", "subtitle": "Paths", "x": 0.62, "y": 0.25, "kind": "storage", "capacity": 80 },
+      { "id": "storage-b", "name": "Storage B", "subtitle": "Paths", "x": 0.62, "y": 0.75, "kind": "storage", "capacity": 80 },
+      { "id": "inter-site", "name": "Enlace inter-site", "subtitle": "Estado / replicación", "x": 0.9, "y": 0.5, "kind": "network", "capacity": 75 }
+    ], "edges": [
+      { "from": "hosts", "to": "switch-a", "kind": "data" }, { "from": "hosts", "to": "switch-b", "kind": "data" }, { "from": "switch-a", "to": "storage-a", "kind": "storage" }, { "from": "switch-b", "to": "storage-b", "kind": "storage" }, { "from": "switch-a", "to": "inter-site", "kind": "control" }, { "from": "switch-b", "to": "inter-site", "kind": "control" }
+    ] },
+    "failover": { "nodes": [
+      { "id": "signal", "name": "Falla / señal", "subtitle": "Incidente", "x": 0.08, "y": 0.5, "kind": "external", "rps": 2 },
+      { "id": "decision", "name": "Runbook", "subtitle": "Responsable y orden", "x": 0.3, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "site-a", "name": "Sitio A", "subtitle": "Origen", "x": 0.52, "y": 0.25, "kind": "compute", "capacity": 80 },
+      { "id": "site-b", "name": "Sitio B", "subtitle": "Destino", "x": 0.72, "y": 0.75, "kind": "compute", "capacity": 80 },
+      { "id": "application", "name": "Aplicación", "subtitle": "Validación", "x": 0.94, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "signal", "to": "decision", "kind": "failure" }, { "from": "decision", "to": "site-a", "kind": "control" }, { "from": "decision", "to": "site-b", "kind": "control" }, { "from": "site-b", "to": "application", "kind": "dependency" }, { "from": "site-a", "to": "application", "kind": "dependency" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "site-a", "name": "Sitio A", "subtitle": "Capacidad y paths", "x": 0.12, "y": 0.3, "kind": "compute", "capacity": 80, "killable": true },
+      { "id": "inter-site", "name": "Enlace inter-site", "subtitle": "Visibilidad", "x": 0.34, "y": 0.3, "kind": "network", "capacity": 75, "killable": true },
+      { "id": "quorum", "name": "Quorum", "subtitle": "Integridad", "x": 0.56, "y": 0.3, "kind": "control-plane", "capacity": 70, "killable": true },
+      { "id": "site-b", "name": "Sitio B", "subtitle": "Recursos restantes", "x": 0.78, "y": 0.3, "kind": "compute", "capacity": 80, "killable": true },
+      { "id": "storage-link", "name": "Estado de réplica", "subtitle": "Sincronización", "x": 0.5, "y": 0.75, "kind": "storage", "capacity": 75, "killable": true },
+      { "id": "workloads", "name": "Cargas prioritarias", "subtitle": "Criterios de servicio", "x": 0.9, "y": 0.75, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "site-a", "to": "inter-site", "kind": "control" }, { "from": "inter-site", "to": "quorum", "kind": "control" }, { "from": "quorum", "to": "site-b", "kind": "dependency" }, { "from": "site-a", "to": "storage-link", "kind": "storage" }, { "from": "storage-link", "to": "site-b", "kind": "storage" }, { "from": "site-b", "to": "workloads", "kind": "dependency" }
+    ] }
+  }
+}

@@ -2,6 +2,17 @@
 
 ## Stack
 
+El modo presentación está documentado en `docs/ai-context/presentation-mode.md`.
+El gate de contenido está documentado en `docs/ai-context/content-quality-gate.md`.
+El lenguaje visual de relaciones y capas está documentado en `docs/ai-context/visual-language.md`.
+
+La interacción de hover está documentada en `docs/ai-context/hover-highlighting.md`.
+Los escenarios de fallo están documentados en `docs/ai-context/failure-scenarios.md`.
+La alineación comercial de marcas está documentada en `docs/product/portfolio.md`.
+El contrato de marcas por tema está documentado en `docs/ai-context/brand-context.md`.
+Los patrones reales de implementación se resumen en `docs/product/coresolutions-project-patterns.md`.
+La política de publicación manual de Vercel está en `docs/ai-context/vercel-deployment-policy.md`.
+
 - **Next.js 15** (App Router), **TypeScript** estricto, **Tailwind CSS**.
 - Sin backend propio, sin base de datos, sin llamadas a red en runtime en
   esta fase. Todo el contenido es estático y vive en el repositorio.
@@ -82,17 +93,60 @@ cuatro diagramas distintos, no cuatro estados del mismo diagrama.
 - **`docs/ai-context/canvas-navigation.md`** — contrato de interacción del
   viewport (pan, zoom, reset y conversión de clics). Leer antes de modificar
   la navegación del canvas.
+- **`docs/ai-context/node-details.md`** — contrato de selección e información
+  contextual de las tarjetas del canvas.
+- **`docs/ai-context/vcf-technical-validation.md`** — matriz de afirmaciones,
+  fuentes y límites técnicos del ejemplo VCF. Leer antes de cambiar copy o
+  topología de este tema.
+- **`src/components/explainer/NodeDetailCard.tsx`** — ficha genérica de un
+  nodo seleccionado; usa solo campos ya definidos en el spec.
+- **`src/components/explainer/VersionChangelog.tsx`** — control global
+  cliente que abre/cierra el historial de versiones. Su contenido estático
+  viene de `src/content/changelog.ts`; ver también
+  `docs/ai-context/release-versioning.md`.
 - **`src/components/explainer/ExplainerLayout.tsx`** — orquesta el estado
   de "paso actual" y compone `LeftPanel` + `VisualCanvas`. Este es el único
   componente que un nuevo tema (que no sea VCF) reutiliza tal cual.
 - **`src/content/vcf.ts`** — ejemplo de contenido. Un tema nuevo agrega un
   archivo hermano (`src/content/<tema>.ts`) con la misma forma
   (`ExplainerMeta` + `ExplainerStep[]`).
+- **`src/content/vsphere-ha.ts`** — segundo ejemplo de referencia: cinco
+  escenas sobre protección y reinicio condicional de VMs con vSphere HA.
+- **`src/content/vsan.ts`** — tercer ejemplo de referencia: cinco escenas
+  sobre objetos, políticas de storage y reconstrucción condicional.
+- **`src/content/nsx.ts`** — cuarto ejemplo de referencia: cinco escenas sobre
+  segmentos, overlay, firewall distribuido y gateways.
+- **`src/content/zero-trust.ts`** — quinto ejemplo de referencia: cinco escenas
+  sobre decisiones de acceso, contexto y enforcement.
+- **`src/content/kubernetes.ts`** — sexto ejemplo de referencia: cinco escenas
+  sobre estado deseado, scheduling, Services y rollouts.
+- **`src/content/observability.ts`** — séptimo ejemplo de referencia: cinco
+  escenas sobre recorridos distribuidos, señales, Collector y diagnóstico.
+- **`src/content/backup-dr.ts`** — octavo ejemplo de referencia: cinco escenas
+  sobre objetivos RPO/RTO, protección Veeam, copias IBM, recuperación y pruebas,
+  alineado al portafolio CORESOLUTIONS.
+- **`src/content/ransomware-resilience.ts`** — noveno ejemplo de referencia:
+  cinco escenas sobre prevención, detección, contención, recuperación limpia y
+  validación, separado conceptualmente de Backup/DR.
+- **`src/content/san-storage.ts`** — décimo ejemplo de referencia: cinco escenas
+  sobre capas SAN, pools, LUNs, host mapping, multipath, migración y replicación.
+- **`src/content/veeam-protection.ts`**, **`active-active-dc.ts`**,
+  **`lan-san.ts`** y **`nas-private-cloud.ts`** — batch de cuatro temas basados
+  en patrones reales: protección heterogénea, continuidad en dos dominios,
+  integración de planos de red y NAS como servicio de archivos.
 - **`src/content/registry.ts`** — el catálogo: un `ExplainerDefinition[]`
-  con `{ slug, category, meta, steps, spec }`. Es lo único que conoce la
+  con `{ slug, category, meta, steps, spec }`. `meta.technicalReview` mantiene
+  fecha, alcance y fuentes consultadas visibles por tema. Cada paso enlaza sus
+  `sourceIds` con ese catálogo para mostrar evidencia por escena. Es lo único que conoce la
   lista completa de temas. `app/explainer/page.tsx` (dashboard) y
   `app/explainer/[slug]/page.tsx` (ruta dinámica) leen de aquí — no hay una
-  carpeta de ruta por tema.
+  carpeta de ruta por tema. La ruta dinámica acepta `scene`, `scenario` y
+  `mode` para compartir el contexto de una demo; ver
+   `docs/ai-context/audience-modes-and-deep-links.md`.
+- **`src/content/brand-context.ts`** — presets reutilizables de marca para que
+  cada `ExplainerMeta` declare función y límite sin repetir el catálogo.
+- **`src/components/explainer/BrandContextPanel.tsx`** — ficha visible de las
+  marcas asociadas al patrón; no sustituye la trazabilidad técnica.
 
 ## Cómo agregar un tema nuevo manualmente (sin IA todavía)
 

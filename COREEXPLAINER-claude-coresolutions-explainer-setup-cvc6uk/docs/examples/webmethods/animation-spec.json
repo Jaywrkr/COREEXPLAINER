@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "id": "webmethods-hybrid-integration",
+  "title": "Cómo IBM webMethods conecta APIs, aplicaciones, eventos y B2B",
+  "scenes": {
+    "landscape": { "nodes": [
+      { "id": "api", "name": "APIs", "subtitle": "Consumidores", "x": 0.08, "y": 0.2, "kind": "external", "rps": 3 },
+      { "id": "applications", "name": "Aplicaciones", "subtitle": "Legacy / SaaS", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 3 },
+      { "id": "events", "name": "Eventos", "subtitle": "Kafka / streams", "x": 0.08, "y": 0.8, "kind": "network", "rps": 2 },
+      { "id": "integration", "name": "Integration", "subtitle": "Flujos y servicios", "x": 0.38, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "b2b", "name": "B2B / EDI", "subtitle": "Partners", "x": 0.62, "y": 0.25, "kind": "external", "capacity": 75 },
+      { "id": "files", "name": "Archivos", "subtitle": "MFT", "x": 0.62, "y": 0.75, "kind": "storage", "capacity": 75 },
+      { "id": "control", "name": "Hybrid control plane", "subtitle": "Gobierno y visibilidad", "x": 0.9, "y": 0.5, "kind": "control-plane", "capacity": 80 }
+    ], "edges": [
+      { "from": "api", "to": "integration", "kind": "data" }, { "from": "applications", "to": "integration", "kind": "data" }, { "from": "events", "to": "integration", "kind": "data" }, { "from": "integration", "to": "b2b", "kind": "dependency" }, { "from": "integration", "to": "files", "kind": "storage" }, { "from": "integration", "to": "control", "kind": "control" }
+    ] },
+    "flow": { "nodes": [
+      { "id": "request", "name": "Solicitud", "subtitle": "API / evento / archivo", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "integration", "name": "Integration Server", "subtitle": "Servicio / flujo", "x": 0.32, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "mapping", "name": "Mapping", "subtitle": "Transformación", "x": 0.54, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "backend", "name": "Backend", "subtitle": "ERP / DB / SaaS", "x": 0.54, "y": 0.75, "kind": "workload", "capacity": 80 },
+      { "id": "response", "name": "Respuesta", "subtitle": "Resultado", "x": 0.82, "y": 0.5, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "request", "to": "integration", "kind": "data" }, { "from": "integration", "to": "mapping", "kind": "control" }, { "from": "integration", "to": "backend", "kind": "data" }, { "from": "mapping", "to": "backend", "kind": "dependency" }, { "from": "backend", "to": "response", "kind": "data" }
+    ] },
+    "hybrid": { "nodes": [
+      { "id": "control", "name": "Control plane", "subtitle": "Gestión / catálogo", "x": 0.08, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "cloud-runtime", "name": "Runtime cloud", "subtitle": "Ejecución gestionada", "x": 0.35, "y": 0.25, "kind": "compute", "capacity": 80 },
+      { "id": "runtime", "name": "Runtime remoto", "subtitle": "Red del cliente", "x": 0.35, "y": 0.75, "kind": "compute", "capacity": 80 },
+      { "id": "secure-link", "name": "VPE / VPN", "subtitle": "Conectividad privada", "x": 0.58, "y": 0.5, "kind": "network", "capacity": 75 },
+      { "id": "systems", "name": "Sistemas del cliente", "subtitle": "Data / APIs / legacy", "x": 0.84, "y": 0.5, "kind": "workload", "capacity": 85 }
+    ], "edges": [
+      { "from": "control", "to": "cloud-runtime", "kind": "control" }, { "from": "control", "to": "runtime", "kind": "control" }, { "from": "cloud-runtime", "to": "secure-link", "kind": "data" }, { "from": "runtime", "to": "secure-link", "kind": "data" }, { "from": "secure-link", "to": "systems", "kind": "dependency" }
+    ] },
+    "governance": { "nodes": [
+      { "id": "consumer", "name": "Consumidor", "subtitle": "App / partner", "x": 0.08, "y": 0.5, "kind": "external", "rps": 3 },
+      { "id": "portal", "name": "Developer Portal", "subtitle": "Catálogo / docs", "x": 0.3, "y": 0.25, "kind": "control-plane", "capacity": 75 },
+      { "id": "gateway", "name": "API Gateway", "subtitle": "Policy enforcement", "x": 0.3, "y": 0.75, "kind": "network", "capacity": 85 },
+      { "id": "policy", "name": "Identidad / cuotas", "subtitle": "OAuth · keys · limits", "x": 0.55, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "integration", "name": "Integration Server", "subtitle": "Backend service", "x": 0.78, "y": 0.5, "kind": "compute", "capacity": 80 },
+      { "id": "service", "name": "Servicio", "subtitle": "Resultado", "x": 0.95, "y": 0.5, "kind": "workload", "capacity": 80 }
+    ], "edges": [
+      { "from": "consumer", "to": "gateway", "kind": "data" }, { "from": "portal", "to": "consumer", "kind": "dependency" }, { "from": "gateway", "to": "policy", "kind": "control" }, { "from": "policy", "to": "integration", "kind": "dependency" }, { "from": "integration", "to": "service", "kind": "data" }
+    ] },
+    "limits": { "nodes": [
+      { "id": "runtime", "name": "Runtime", "subtitle": "Ejecución", "x": 0.08, "y": 0.3, "kind": "compute", "capacity": 75, "killable": true },
+      { "id": "gateway", "name": "API Gateway", "subtitle": "Policy enforcement", "x": 0.28, "y": 0.3, "kind": "network", "capacity": 80, "killable": true },
+      { "id": "mapping", "name": "Mapping", "subtitle": "Contrato / transformación", "x": 0.48, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "compatibility", "name": "Interoperabilidad", "subtitle": "Releases soportados", "x": 0.68, "y": 0.3, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "backend", "name": "Backend", "subtitle": "Resultado", "x": 0.88, "y": 0.3, "kind": "workload", "capacity": 80 },
+      { "id": "operator", "name": "Operación", "subtitle": "Logs / retries / DLQ", "x": 0.55, "y": 0.75, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "runtime", "to": "gateway", "kind": "data" }, { "from": "gateway", "to": "mapping", "kind": "control" }, { "from": "mapping", "to": "compatibility", "kind": "dependency" }, { "from": "compatibility", "to": "backend", "kind": "dependency" }, { "from": "backend", "to": "operator", "kind": "control" }
+    ] }
+  }
+}

@@ -1,0 +1,39 @@
+import type { ExplainerMeta, ExplainerStep, FailureScenario } from "./types";
+import { brandContext } from "./brand-context";
+
+export const checkpointHaFailureScenarios: FailureScenario[] = [
+  { id: "sync-link", sceneId: "limits", label: "Sync de estado degradada", summary: "El miembro standby no tiene una vista confiable del estado.", detail: "ClusterXL usa una red de sincronización para compartir estado. Pérdida, latencia, configuración o capacidad insuficiente pueden cambiar el comportamiento del failover.", limitation: "La demo no inspecciona Delta Sync, interfaces ni tablas de estado reales.", affectedNodes: ["sync", "standby"], deadNodeIds: ["sync"] },
+  { id: "vip-routing", sceneId: "limits", label: "VIP o routing incorrecto", summary: "Los clientes no encuentran el miembro activo después del cambio.", detail: "La VIP, ARP, routing y topología deben converger de forma coherente. El failover del gateway no corrige una ruta de retorno mal diseñada.", limitation: "No se simulan ARP, routing dinámico ni anuncios de una red real.", affectedNodes: ["vip", "routing"], deadNodeIds: ["vip"] },
+  { id: "policy-drift", sceneId: "limits", label: "Política distinta entre miembros", summary: "La protección no es equivalente en ambos caminos.", detail: "Un cluster requiere miembros compatibles y una política publicada de forma coherente. Versiones, objetos, blades o reglas divergentes pueden producir resultados inesperados.", limitation: "La animación no compara bases de políticas ni paquetes instalados.", affectedNodes: ["policy", "standby"], deadNodeIds: ["policy"] },
+  { id: "failover-test", sceneId: "limits", label: "Failover nunca probado", summary: "La alta disponibilidad existe en el diagrama, no en la evidencia.", detail: "Un diseño HA debe probar pérdida de miembro, enlace, sync y rutas, además de sesiones y aplicaciones. Sin prueba, el tiempo de recuperación es una suposición.", limitation: "La demo solo marca dependencias; no ejecuta tráfico ni mide sesiones.", affectedNodes: ["active", "service"], deadNodeIds: ["active"] },
+];
+
+export const checkpointHaMeta: ExplainerMeta = {
+  chip: "Seguridad · Check Point HA",
+  title: "Cómo funciona un firewall Check Point en alta disponibilidad",
+  tagline: "Una explicación visual de miembros, VIP, sincronización, política y pruebas de failover sin confundir HA con balanceo automático.",
+  brandContext: brandContext.checkpointHa,
+  storyboardDoc: "docs/examples/checkpoint-ha/storyboard.md",
+  technicalValidationDoc: "docs/ai-context/checkpoint-ha-technical-validation.md",
+  technicalReview: {
+    lastReviewedAt: "2026-08-05",
+    scope: "Patrón conceptual revisado con Check Point R82/R82.10 ClusterXL, High Availability y sincronización; validar edición, appliance, Gaia, topología, licencias, reglas y diseño de red.",
+    sources: [
+      { id: "checkpoint-clusterxl", title: "Check Point R82 ClusterXL Administration Guide", url: "https://sc1.checkpoint.com/documents/R82/WebAdminGuides/EN/CP_R82_ClusterXL_AdminGuide/CP_R82_ClusterXL_AdminGuide.pdf", accessedAt: "2026-08-05" },
+      { id: "checkpoint-intro", title: "Introduction to ClusterXL", url: "https://sc1.checkpoint.com/documents/R82/WebAdminGuides/EN/CP_R82_ClusterXL_AdminGuide/Content/Topics-CXLG/Introduction-to-ClusterXL.htm", accessedAt: "2026-08-05" },
+      { id: "checkpoint-compat", title: "ClusterXL requirements and compatibility", url: "https://sc1.checkpoint.com/documents/R82.10/WebAdminGuides/EN/CP_R82.10_ClusterXL_AdminGuide/Content/Topics-CXLG/ClusterXL-Requirements-and-Compatibility.htm", accessedAt: "2026-08-05" },
+      { id: "checkpoint-install", title: "Installing a ClusterXL cluster", url: "https://sc1.checkpoint.com/documents/R82/WebAdminGuides/EN/CP_R82_Installation_and_Upgrade_Guide/Content/Topics-IUG/Installing-ClusterXL-Cluster.htm", accessedAt: "2026-08-05" },
+      { id: "aruba-design", title: "Aruba validated data center design", url: "https://www.arubanetworks.com/techdocs/VSG/docs/040-dc-design/Media/PDF/Aruba_VSG_Data-Center-Design.pdf", accessedAt: "2026-08-05" },
+    ],
+  },
+  reviewStatus: "pending",
+  failureScenarios: checkpointHaFailureScenarios,
+};
+
+export const checkpointHaSteps: ExplainerStep[] = [
+  { id: "traffic", tag: "01 — EL TRÁFICO", title: "El firewall se vuelve una dependencia del servicio", paragraphs: ["Usuarios, aplicaciones y servicios atraviesan gateways que aplican política, NAT, VPN o inspección según el diseño. El servicio depende tanto del camino de ida como del retorno.", "La alta disponibilidad empieza por identificar interfaces, zonas, VIP, rutas y conexiones que deben seguir funcionando cuando un miembro deja de procesar."], businessImpact: "El cliente puede conversar de continuidad de sesiones y rutas, no solo de tener dos appliances en un rack.", sceneId: "traffic", caption: "Usuarios → VIP → gateway → servicios", sourceIds: ["checkpoint-intro", "aruba-design"] },
+  { id: "members", tag: "02 — LOS MIEMBROS", title: "HA significa miembros compatibles y un rol activo/standby", paragraphs: ["En ClusterXL High Availability, un miembro activo procesa el tráfico y otro queda listo para asumir. Load Sharing es otro modo y no debe explicarse como si fuera el mismo comportamiento.", "Los miembros deben cumplir requisitos de plataforma, interfaces, software y topología. La VIP representa al cluster, mientras las IP físicas identifican a cada miembro."], businessImpact: "La arquitectura evita vender ‘activo-activo’ cuando el objetivo real es continuidad activo/standby.", sceneId: "members", caption: "Miembro activo + standby + VIP + requisitos comunes", sourceIds: ["checkpoint-intro", "checkpoint-compat"] },
+  { id: "sync", tag: "03 — SINCRONIZACIÓN", title: "El estado compartido determina qué tan suave es el cambio", paragraphs: ["La red de sincronización permite compartir información de conexiones y estado entre miembros. Debe diseñarse con capacidad, aislamiento y observabilidad adecuados.", "Un failover puede cambiar el miembro que responde por la VIP; la continuidad observable depende de la sincronización, la red, el protocolo y el comportamiento de los clientes."], businessImpact: "El equipo puede localizar el riesgo en sync, VIP, routing o política en lugar de asumir que todo es ‘transparente’. ", sceneId: "sync", caption: "Estado y políticas → sync → standby preparado", sourceIds: ["checkpoint-clusterxl", "checkpoint-install"] },
+  { id: "failover", tag: "04 — FAILOVER", title: "La prueba recorre tráfico, rutas, sesiones y operación", paragraphs: ["Un failover controlado debe observar VIP, ARP, routing, sesiones, VPN, inspección, logs y aplicaciones. También debe validar cómo se recupera el miembro que falló y quién autoriza el retorno.", "La infraestructura de switching aporta conectividad, pero no corrige una política incompleta ni un diseño de retorno asimétrico."], businessImpact: "El cliente recibe un runbook de cambio y una evidencia de recuperación, no solo una casilla de ‘cluster healthy’. ", sceneId: "failover", caption: "Fallo controlado → VIP → tráfico → aceptación", sourceIds: ["checkpoint-clusterxl", "aruba-design"] },
+  { id: "limits", tag: "05 — LÍMITES", title: "Dos firewalls no garantizan continuidad por sí solos", paragraphs: ["Activa fallos de sync, VIP, política o miembro activo. Cada escenario señala una dependencia distinta y evita que la demo prometa sesiones intactas en cualquier aplicación.", "La animación no valida blades, licencias, comandos, reglas, routing ni sesiones reales. El diseño final debe probarse con tráfico representativo y el release instalado."], businessImpact: "La conversación pasa de ‘tenemos redundancia’ a ‘sabemos qué falla, qué converge y qué debemos medir’. ", sceneId: "limits", caption: "Activa fallos para descubrir la condición HA aún no demostrada", sourceIds: ["checkpoint-clusterxl", "checkpoint-compat", "aruba-design"] },
+];

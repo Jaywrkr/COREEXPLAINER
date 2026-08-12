@@ -1,4 +1,4 @@
-# AI Workflow — CoreSolutions Technical Explainer
+# AI Workflow — CORESOLUTIONS Technical Explainer
 
 Este archivo es el punto de entrada para cualquier IA (Claude, ChatGPT u otra)
 que retome el desarrollo de este proyecto. Léelo primero, en este orden:
