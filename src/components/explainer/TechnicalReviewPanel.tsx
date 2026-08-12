@@ -47,17 +47,29 @@ function SourceLink({ source }: { source: TechnicalSource }) {
 /** Compact, expandable source traceability shown for every explainer topic. */
 export function TechnicalReviewPanel({ review, activeSourceIds }: TechnicalReviewPanelProps) {
   const activeSources = review.sources.filter((source) => activeSourceIds.includes(source.id));
+  const sourcesNeedReview = review.sources.filter((source) => source.validity === "review-needed").length;
+  const reviewLabel = sourcesNeedReview > 0 ? "Revisar fuentes" : "Fuentes vigentes";
   return (
     <section className="min-w-0 max-w-full shrink-0 flex-1">
       <details>
         <summary className="flex max-w-full cursor-pointer list-none items-center gap-1.5 whitespace-nowrap border border-core-border/[0.12] bg-core-panel/60 px-2 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted transition-colors hover:border-core-accent/40 hover:text-core-text [&::-webkit-details-marker]:hidden">
-          <span>Trazabilidad</span>
-          <span className="text-core-accent">{formatDate(review.lastReviewedAt)}</span>
+          <span>Fuentes y límites</span>
+          <span aria-hidden="true" className={sourcesNeedReview > 0 ? "text-core-warning" : "text-core-success"}>●</span>
+          <span className="text-core-accent">{reviewLabel}</span>
         </summary>
         <div className="mt-2 max-h-[min(60vh,34rem)] w-full max-w-full overflow-y-auto overscroll-contain border border-core-border/[0.14] bg-core-panel p-3 shadow-lg">
           <p className="text-[0.7rem] leading-relaxed text-core-text-secondary">
             <span className="font-semibold text-core-text">Alcance:</span> {review.scope}
           </p>
+          <div className="mt-2 grid grid-cols-2 gap-2 border-y border-core-border/[0.1] py-2 font-mono text-[0.58rem] text-core-text-muted">
+            <span><strong className="text-core-text">Revisión:</strong> {formatDate(review.lastReviewedAt)}</span>
+            <span><strong className="text-core-text">Fuentes:</strong> {review.sources.length}</span>
+          </div>
+          {sourcesNeedReview > 0 ? (
+            <p className="mt-2 border-l-2 border-core-warning/70 pl-2.5 text-[0.68rem] leading-relaxed text-core-warning">
+              {sourcesNeedReview} fuente{sourcesNeedReview === 1 ? " requiere" : "s requieren"} revisión antes de usar esta explicación como referencia actual.
+            </p>
+          ) : null}
           <p className="mt-1 text-[0.68rem] leading-relaxed text-core-text-muted">
             Cada enlace indica la fecha en que fue consultado para esta revisión.
           </p>
