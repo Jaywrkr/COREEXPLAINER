@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.245.0";
+export const currentVersion = "0.246.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.246.0",
+    date: "2026-08-12",
+    title: "Auditoría técnica de todos los temas",
+    changes: [
+      "Los 22 explainers tienen contratos fuente→escena auditables y una regresión contra referencias rotas.",
+      "La cobertura estructural se mantiene separada de la aprobación humana de implementación.",
+      "webMethods exige confirmar con IBM la disponibilidad de API Gateway/Developer Portal en un SaaS nuevo.",
+    ],
+  },
   {
     version: "0.245.0",
     date: "2026-08-11",

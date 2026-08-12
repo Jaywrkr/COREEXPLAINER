@@ -297,6 +297,8 @@ assertTargetArchitectureRegression();
 // without duplicating metadata in 22 individual content files.
 export const explainerValidationWarnings: Record<string, string[]> = {};
 export const explainerTechnicalAuthority: Record<string, ReturnType<typeof assessTechnicalAuthority>> = {};
+/** Source-to-scene contracts resolved for each explainer; internal audit input. */
+export const explainerTechnicalRules: Record<string, import("./types").TechnicalAuthorityRule[]> = {};
 export const explainerRegistry: ExplainerDefinition[] = definitions.map((definition) => {
   const profile = definition.meta.technicalIntegrity ?? technicalIntegrityProfiles[definition.slug];
   if (!profile) {
@@ -322,6 +324,7 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
     ...(standardsTechnicalRulePacks[definition.slug] ?? []),
     ...(crossVendorDeliveryRulePacks[definition.slug] ?? []),
   ];
+  explainerTechnicalRules[definition.slug] = authorityRules;
   const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug], definition.steps, authorityRules);
   if (!technicalAuthorityProfiles[definition.slug]) {
     throw new Error(`Explainer '${definition.slug}' has no technical authority profile`);

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.246.0] - 2026-08-12
+
+### Auditoría técnica de todos los temas
+
+- Los 22 explainers tienen contratos fuente→escena auditables y una regresión que evita temas sin reglas o referencias rotas.
+- La auditoría conserva la separación entre cobertura estructural y aprobación humana: ningún tema se presenta como certificado.
+- webMethods queda marcado para confirmar con IBM la disponibilidad de API Gateway/Developer Portal en un SaaS nuevo.
+
 ## [0.245.0] - 2026-08-11
 
 ### Envelope estructural para contexto del copiloto
