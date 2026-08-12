@@ -113,6 +113,7 @@ export function VisualCanvas({
   const [inspectorTab, setInspectorTab] = useState<InspectorTab>("integrity");
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [motionPaused, setMotionPaused] = useState(false);
+  const [, setClientToolsOpen] = useState(false);
   const [showInteractionHint, setShowInteractionHint] = useState(false);
   const reducedMotionRef = useRef(false);
   const { theme } = useTheme();
