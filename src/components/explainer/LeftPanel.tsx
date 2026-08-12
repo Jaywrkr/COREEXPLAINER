@@ -109,16 +109,35 @@ export function LeftPanel({
         <ContentWorkflowPanel slug={slug} meta={meta} />
       </ToolDrawer>
       {isConceptual ? <AudienceOutcomePanel mode={audienceMode} meta={meta} step={step} /> : null}
-      <div className="mb-5 flex flex-wrap items-center gap-1.5">
-        <ExplainerFeedback slug={slug} />
-        <SceneShareControl
-          sceneId={step.sceneId}
-          scenarioId={activeFailureScenarioId}
-          audienceMode={audienceMode}
-        />
-        <BrandContextPanel items={meta.brandContext} />
-        <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
-      </div>
+      {isTechnical ? (
+        <div className="mb-5 flex flex-wrap items-center gap-1.5" aria-label="Acciones de revisión">
+          <ExplainerFeedback slug={slug} />
+          <SceneShareControl
+            sceneId={step.sceneId}
+            scenarioId={activeFailureScenarioId}
+            audienceMode={audienceMode}
+          />
+          <BrandContextPanel items={meta.brandContext} />
+          <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
+        </div>
+      ) : (
+        <details className="mb-5 border-t border-core-border/[0.1] pt-3">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+            <span>Más sobre esta explicación</span>
+            <span aria-hidden="true" className="text-core-accent">+</span>
+          </summary>
+          <div className="mt-2 flex flex-wrap items-center gap-1.5" aria-label="Acciones adicionales">
+            <ExplainerFeedback slug={slug} />
+            <SceneShareControl
+              sceneId={step.sceneId}
+              scenarioId={activeFailureScenarioId}
+              audienceMode={audienceMode}
+            />
+            <BrandContextPanel items={meta.brandContext} />
+            <TechnicalReviewPanel review={meta.technicalReview} activeSourceIds={step.sourceIds} />
+          </div>
+        </details>
+      )}
 
       {isTechnical ? (
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
