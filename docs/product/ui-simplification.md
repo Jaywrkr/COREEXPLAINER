@@ -13,6 +13,8 @@ Reducir la carga visual inicial de CORESOLUTIONS Technical Explainer. La primera
 - El dashboard es una biblioteca de recorridos, no una consola de operación. Su primera vista solo muestra áreas y temas.
 - Creación, revisión, métricas, gobierno y colas internas viven en una única sección cerrada al final del dashboard.
 - Las tarjetas de temas no muestran acciones secundarias ni señales de revisión: abrir el recorrido es la única acción primaria.
+- La portada se redujo de una cuadrícula de tarjetas y navegación auxiliar a un índice desplegable: una categoría abierta inicialmente y filas de temas con título, contexto breve y una única salida.
+- La categoría funciona como decisión de primer nivel; el tema como decisión de segundo nivel. Los detalles del tema se ven solamente después de elegirlo.
 
 ## Criterio de evolución
 

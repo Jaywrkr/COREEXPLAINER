@@ -31,53 +31,37 @@ export default function ExplainerDashboardPage() {
   }]));
 
   return (
-    <main className="mx-auto min-h-screen max-w-6xl px-5 py-7 sm:px-8 sm:py-10">
-      <header className="flex items-start justify-between gap-4">
-        <BrandMark />
-        <details className="mt-1 text-right">
-          <summary className="cursor-pointer list-none font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
-            Espacio interno <span className="ml-1 text-core-accent">+</span>
-          </summary>
-          <p className="mt-2 max-w-52 text-left text-[0.68rem] leading-relaxed text-core-text-muted">Revisión técnica, gobierno y creación. No es necesario para presentar un tema.</p>
-        </details>
-      </header>
+    <main className="mx-auto min-h-screen max-w-3xl px-5 py-7 sm:px-8 sm:py-10">
+      <BrandMark />
 
-      <section className="max-w-2xl pb-10 pt-3 sm:pb-14">
-        <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-core-accent">CORESOLUTIONS · explicadores visuales</p>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight text-core-text sm:text-5xl">¿Qué necesitas explicar?</h1>
-        <p className="mt-4 max-w-xl text-base leading-relaxed text-core-text-secondary">Elige un tema. Cada recorrido traduce una arquitectura compleja en una conversación clara.</p>
+      <section className="pb-8 pt-1 sm:pb-10">
+        <h1 className="text-2xl font-bold tracking-tight text-core-text sm:text-3xl">Elige un tema para explicar</h1>
+        <p className="mt-2 text-sm leading-relaxed text-core-text-secondary">Abre un área y selecciona el recorrido que necesitas.</p>
       </section>
 
-      <nav aria-label="Áreas de solución" className="mb-8 flex flex-wrap gap-2">
-        {categories.map(({ category, items }) => (
-          <a key={category} href={`#${category}`} className="border border-core-border/[0.12] px-3 py-2 font-mono text-[0.62rem] text-core-text-secondary transition-colors hover:border-core-accent/60 hover:text-core-text">
-            {category} <span className="ml-1 text-core-text-muted">{items.length}</span>
-          </a>
-        ))}
-      </nav>
-
-      <section aria-label="Temas disponibles" className="space-y-12">
-        {categories.map(({ category, items }) => (
-          <section key={category} id={category} className="scroll-mt-6">
-            <div className="mb-4 flex items-baseline justify-between gap-4 border-b border-core-border/[0.1] pb-3">
-              <h2 className="text-lg font-bold text-core-text">{category}</h2>
-              <p className="font-mono text-[0.58rem] uppercase tracking-[0.08em] text-core-text-muted">{items.length} temas</p>
-            </div>
-            <div className="grid gap-px border border-core-border/[0.1] bg-core-border/[0.1] sm:grid-cols-2 lg:grid-cols-3">
+      <section aria-label="Temas disponibles" className="border-y border-core-border/[0.12]">
+        {categories.map(({ category, items }, index) => (
+          <details key={category} open={index === 0} className="group border-b border-core-border/[0.1] last:border-b-0">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-1 py-4 text-core-text transition-colors hover:text-core-accent [&::-webkit-details-marker]:hidden">
+              <span className="text-base font-semibold">{category}</span>
+              <span className="font-mono text-[0.6rem] uppercase tracking-[0.08em] text-core-text-muted"><span>{items.length} temas</span> <span aria-hidden="true" className="ml-2 text-core-accent transition-transform group-open:rotate-45">+</span></span>
+            </summary>
+            <div className="pb-3">
               {items.map((entry) => (
-                <Link key={entry.slug} href={`/explainer/${entry.slug}`} className="group min-h-44 bg-core-panel p-5 transition-colors hover:bg-core-accent/[0.07]">
-                  <p className="font-mono text-[0.58rem] uppercase tracking-[0.09em] text-core-text-muted">{entry.steps.length} escenas</p>
-                  <h3 className="mt-4 text-base font-bold text-core-text">{entry.meta.title}</h3>
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-core-text-secondary">{entry.meta.tagline}</p>
-                  <span className="mt-5 block font-mono text-[0.62rem] font-semibold text-core-accent">Abrir recorrido <span aria-hidden="true">→</span></span>
+                <Link key={entry.slug} href={`/explainer/${entry.slug}`} className="group/item flex items-center justify-between gap-4 border-t border-core-border/[0.08] px-1 py-3.5 transition-colors hover:bg-core-accent/[0.05]">
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-core-text">{entry.meta.title}</span>
+                    <span className="mt-0.5 block truncate text-[0.72rem] text-core-text-secondary">{entry.meta.tagline}</span>
+                  </span>
+                  <span aria-hidden="true" className="shrink-0 font-mono text-sm text-core-text-muted transition-colors group-hover/item:text-core-accent">→</span>
                 </Link>
               ))}
             </div>
-          </section>
+          </details>
         ))}
       </section>
 
-      <details className="mt-16 border-t border-core-border/[0.12] pt-5">
+      <details className="mt-12 border-t border-core-border/[0.12] pt-5">
         <summary className="cursor-pointer list-none font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
           Abrir operaciones internas <span className="ml-1 text-core-accent">+</span>
         </summary>
