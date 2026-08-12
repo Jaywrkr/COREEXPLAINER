@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.247.0] - 2026-08-12
+
+### Pulido de lectura en explainers
+
+- El modo cliente conserva una sola idea y un solo impacto por escena; se retiraron capas repetidas.
+- Las herramientas, evidencia y detalle siguen disponibles bajo demanda con una superficie más ligera.
+- El acceso a presentación y el panel lateral ocupan menos espacio visual.
+
 ## [0.246.0] - 2026-08-12
 
 ### Auditoría técnica de todos los temas

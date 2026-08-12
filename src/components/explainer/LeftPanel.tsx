@@ -72,7 +72,7 @@ export function LeftPanel({
   const leadParagraph = step.paragraphs[0] ?? "";
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-5">
+    <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-4 sm:p-5">
       <BrandMark />
 
       <Link
@@ -87,7 +87,7 @@ export function LeftPanel({
         {step.tag}
       </span>
       <h1 className="mb-1.5 text-xl font-bold leading-tight text-core-text sm:text-[1.45rem]"><GlossaryText text={meta.title} /></h1>
-      <p className="mb-4 text-[0.8rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
+      <p className="mb-3 line-clamp-2 text-[0.78rem] leading-relaxed text-core-text-secondary"><GlossaryText text={meta.tagline} /></p>
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       <BeginnerGuide mode={audienceMode} />
       {!isTechnical && !isConceptual ? (
@@ -95,7 +95,6 @@ export function LeftPanel({
           stepTitle={step.title}
           lead={leadParagraph}
           businessImpact={step.businessImpact}
-          additionalDetail={step.paragraphs[1]}
         />
       ) : null}
       <ToolDrawer>
@@ -141,19 +140,6 @@ export function LeftPanel({
 
       {isTechnical ? (
         <TechnicalSceneSummary scene={scene} step={step} review={meta.technicalReview} />
-      ) : null}
-
-      {!isTechnical && !isConceptual ? (
-        <details className="mb-4 border-t border-core-border/[0.1] pt-3">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
-            <span>Cómo se representa</span>
-            <span aria-hidden="true" className="text-core-accent">+</span>
-          </summary>
-          <div className="mt-2 space-y-2 text-[0.72rem] leading-relaxed text-core-text-secondary">
-            <p><GlossaryText text={step.paragraphs[1] ?? step.caption} /></p>
-            <p className="border-l-2 border-core-accent/60 pl-2 text-core-text-muted">Puedes pulsar un nodo, arrastrar el diagrama o abrir “Más herramientas” cuando quieras profundizar.</p>
-          </div>
-        </details>
       ) : null}
 
       {isTechnical || isConceptual ? <div className="border-t border-core-border/[0.1] pt-4">
