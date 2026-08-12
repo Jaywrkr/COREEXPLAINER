@@ -1,21 +1,18 @@
 # UI simplification — Calm Interface
 
-## Objetivo
+## Objective
 
-Reducir la carga visual inicial de CORESOLUTIONS Technical Explainer. La primera lectura debe mostrar una sola explicación y un diagrama claro; las capacidades avanzadas permanecen disponibles bajo demanda.
+Reduce cognitive load inside each CORESOLUTIONS explainer. The first reading must show one explanation and a clear diagram; advanced capabilities remain available on demand.
 
-## Decisiones aplicadas
+## Decisions
 
-- El modo cliente no duplica el contexto de la escena sobre el lienzo.
-- Los controles de zoom, ajuste y animación permanecen colapsados inicialmente.
-- El modo presentación aparece como una acción compacta hasta que el usuario lo inicia.
-- El inspector técnico inicia cerrado para evitar que integridad, capas y escenarios oculten el diagrama.
-- El dashboard es una biblioteca de recorridos, no una consola de operación. Su primera vista solo muestra áreas y temas.
-- Creación, revisión, métricas, gobierno y colas internas viven en una única sección cerrada al final del dashboard.
-- Las tarjetas de temas no muestran acciones secundarias ni señales de revisión: abrir el recorrido es la única acción primaria.
-- La portada se redujo de una cuadrícula de tarjetas y navegación auxiliar a un índice desplegable: una categoría abierta inicialmente y filas de temas con título, contexto breve y una única salida.
-- La categoría funciona como decisión de primer nivel; el tema como decisión de segundo nivel. Los detalles del tema se ven solamente después de elegirlo.
+- Client mode does not duplicate scene context over the canvas.
+- The primary narrative is one idea and its impact, rather than several competing cards.
+- Viewport, animation, inspector, layer and failure controls stay closed by default.
+- The technical inspector is available only in technical mode and never opens automatically.
+- Advanced tools and evidence are not part of the client first-read path.
+- The dashboard retains its visual topic catalog; simplification is concentrated inside every explainer.
 
-## Criterio de evolución
+## Evolution criterion
 
-No se debe añadir una capacidad visible al primer nivel sin retirar o agrupar otra. Cliente prioriza comprensión; técnico prioriza diagnóstico bajo demanda.
+Do not add a first-level visible capability without removing or grouping another. Client mode prioritizes understanding; technical mode prioritizes explicit diagnosis.

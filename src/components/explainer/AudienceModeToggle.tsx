@@ -20,7 +20,7 @@ export function AudienceModeToggle({ mode, onChange }: AudienceModeToggleProps) 
   };
 
   return (
-    <fieldset className="mb-4 flex items-start gap-2 border border-core-border/[0.12] bg-core-panel/50 px-2 py-1.5">
+    <fieldset className="mb-4 flex items-center gap-2 border-t border-core-border/[0.1] py-2.5">
       <legend className="sr-only">Nivel de explicación</legend>
       <span className="mt-1 shrink-0 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">
         Nivel
@@ -47,7 +47,6 @@ export function AudienceModeToggle({ mode, onChange }: AudienceModeToggleProps) 
             );
           })}
         </div>
-        <p className="mt-1 text-[0.58rem] leading-relaxed text-core-text-muted">{descriptions[mode]}</p>
       </div>
     </fieldset>
   );
