@@ -18,4 +18,5 @@ const meta = {
 assert.deepEqual(assessTechnicalAuthority(meta, profile), { status: "ready", blockers: [], verifiedEvidence: 1, requiredEvidence: 1 });
 assert.match(assessTechnicalAuthority({ ...meta, reviewStatus: "pending" }, profile).blockers.join(" "), /revisión humana/);
 assert.match(assessTechnicalAuthority({ ...meta, technicalReview: { ...meta.technicalReview, sources: [{ ...meta.technicalReview.sources[0]!, publisher: "Veeam" }] } }, profile).blockers.join(" "), /fabricante/);
+assert.match(assessTechnicalAuthority(meta, profile, [{ id: "step", sourceIds: [] } as unknown as import("../src/content/types").ExplainerStep], [{ id: "rule", control: "control", sourceIds: ["ibm-source"], stepIds: ["step"] }]).blockers.join(" "), /no cita evidencia/);
 console.log("Technical authority gate regression checks passed.");
