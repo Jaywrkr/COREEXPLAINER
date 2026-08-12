@@ -32,6 +32,17 @@
 - [ ] `npm run build`
 - [ ] `npm audit --omit=dev --audit-level=high`
 
+## Calidad UX/UI
+
+- [ ] La acción principal y el propósito de la pantalla se entienden sin explicación oral.
+- [ ] El modo cliente no muestra herramientas técnicas innecesarias por defecto.
+- [ ] La información secundaria usa divulgación progresiva con una etiqueta clara.
+- [ ] Ningún overlay tapa el nodo o texto que explica.
+- [ ] Teclado, focus visible y movimiento reducido fueron comprobados.
+- [ ] El canvas tiene una alternativa semántica o textual equivalente.
+- [ ] La animación comunica una relación o cambio de estado; no es decorativa.
+- [ ] Se actualizaron docs relevantes, versión y changelog cuando aplica.
+
 ## Revisión humana
 
 - Responsable técnico: <!-- nombre o equipo -->
