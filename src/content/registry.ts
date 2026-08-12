@@ -49,6 +49,7 @@ import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.jso
 import { technicalIntegrityProfiles } from "./technical-integrity";
 import { technicalAuthorityProfiles } from "./technical-authority";
 import { ibmTechnicalRulePacks } from "./ibm-technical-rules";
+import { broadcomVmwareTechnicalRulePacks } from "./broadcom-vmware-technical-rules";
 import { assessTechnicalAuthority } from "@/lib/content-validation/technicalAuthorityGate";
 import { enrichTechnicalReview } from "./technical-source-catalog";
 import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/regressionFixtures";
@@ -305,7 +306,11 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
   };
   const validation = validateExplainerContent(enriched);
   explainerValidationWarnings[definition.slug] = validation.warnings;
-  const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug], definition.steps, ibmTechnicalRulePacks[definition.slug]);
+  const authorityRules = [
+    ...(ibmTechnicalRulePacks[definition.slug] ?? []),
+    ...(broadcomVmwareTechnicalRulePacks[definition.slug] ?? []),
+  ];
+  const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug], definition.steps, authorityRules);
   if (!technicalAuthorityProfiles[definition.slug]) {
     throw new Error(`Explainer '${definition.slug}' has no technical authority profile`);
   }
