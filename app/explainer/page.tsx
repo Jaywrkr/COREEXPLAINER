@@ -1,149 +1,98 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BrandMark } from "@/components/explainer/BrandMark";
-import { ExplainerFeedback } from "@/components/explainer/ExplainerFeedback";
-import { getExplainersByCategory } from "@/content/registry";
 import { ExplainerDraftCreator } from "@/components/dashboard/ExplainerDraftCreator";
 import { PatternLibrary } from "@/components/dashboard/PatternLibrary";
-import { UsageMetricsPanel } from "@/components/dashboard/UsageMetricsPanel";
 import { TechnicalReviewQueue } from "@/components/dashboard/TechnicalReviewQueue";
 import { TechnicalCoveragePanel } from "@/components/dashboard/TechnicalCoveragePanel";
 import { PublicationReadinessPanel } from "@/components/dashboard/PublicationReadinessPanel";
 import { ScenarioReadinessQueue } from "@/components/dashboard/ScenarioReadinessQueue";
 import { AiUsageGovernancePanel } from "@/components/dashboard/AiUsageGovernancePanel";
 import { ReviewCampaignSummary } from "@/components/dashboard/ReviewCampaignSummary";
-import { getAllExplainers } from "@/content/registry";
-import { explainerValidationWarnings } from "@/content/registry";
+import { UsageMetricsPanel } from "@/components/dashboard/UsageMetricsPanel";
+import { explainerValidationWarnings, getAllExplainers, getExplainersByCategory } from "@/content/registry";
 import type { PatternExplainerReadiness } from "@/lib/patterns/patternReadiness";
 import { isScenarioReadyForSupport } from "@/lib/review/scenarioReadiness";
 
-export const metadata: Metadata = {
-  title: "Explicadores técnicos · CORESOLUTIONS",
-};
+export const metadata: Metadata = { title: "Explicadores técnicos · CORESOLUTIONS" };
 
 export default function ExplainerDashboardPage() {
   const categories = getExplainersByCategory();
-  const reviewCampaignEntries = getAllExplainers().map((entry) => ({ slug: entry.slug, title: entry.meta.title, reviewStatus: entry.meta.reviewStatus }));
-  const explainerReadiness: Record<string, PatternExplainerReadiness> = Object.fromEntries(getAllExplainers().map((entry) => [entry.slug, {
-    slug: entry.slug,
+  const explainers = getAllExplainers();
+  const reviewCampaignEntries = explainers.map(({ slug, meta }) => ({ slug, title: meta.title, reviewStatus: meta.reviewStatus }));
+  const explainerReadiness: Record<string, PatternExplainerReadiness> = Object.fromEntries(explainers.map(({ slug, meta }) => [slug, {
+    slug,
     exists: true,
-    reviewStatus: entry.meta.reviewStatus,
-    allSourcesCurrent: entry.meta.technicalReview.sources.every((source) => source.validity === "current"),
-    warningCount: (explainerValidationWarnings[entry.slug] ?? []).length,
-    scenarioCoverage: entry.meta.failureScenarios?.length ? entry.meta.failureScenarios.every((scenario) => isScenarioReadyForSupport(entry.meta, scenario)) ? "ready" : "partial" : "none",
-    technicalIntegrity: entry.meta.technicalIntegrity?.assurance,
+    reviewStatus: meta.reviewStatus,
+    allSourcesCurrent: meta.technicalReview.sources.every((source) => source.validity === "current"),
+    warningCount: (explainerValidationWarnings[slug] ?? []).length,
+    scenarioCoverage: meta.failureScenarios?.length ? meta.failureScenarios.every((scenario) => isScenarioReadyForSupport(meta, scenario)) ? "ready" : "partial" : "none",
+    technicalIntegrity: meta.technicalIntegrity?.assurance,
   }]));
 
   return (
-    <main className="mx-auto min-h-screen max-w-5xl px-6 py-12 sm:px-10">
-      <BrandMark />
+    <main className="mx-auto min-h-screen max-w-6xl px-5 py-7 sm:px-8 sm:py-10">
+      <header className="flex items-start justify-between gap-4">
+        <BrandMark />
+        <details className="mt-1 text-right">
+          <summary className="cursor-pointer list-none font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+            Espacio interno <span className="ml-1 text-core-accent">+</span>
+          </summary>
+          <p className="mt-2 max-w-52 text-left text-[0.68rem] leading-relaxed text-core-text-muted">Revisión técnica, gobierno y creación. No es necesario para presentar un tema.</p>
+        </details>
+      </header>
 
-      <h1 className="mb-2 text-2xl font-bold text-core-text sm:text-3xl">Explicadores técnicos</h1>
-      <p className="mb-12 max-w-2xl text-sm leading-relaxed text-core-text-secondary">
-        Explicaciones visuales interactivas, organizadas por categoría, listas para usarse en
-        conversaciones con clientes.
-      </p>
+      <section className="max-w-2xl pb-10 pt-3 sm:pb-14">
+        <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.12em] text-core-accent">CORESOLUTIONS · explicadores visuales</p>
+        <h1 className="mt-3 text-3xl font-bold tracking-tight text-core-text sm:text-5xl">¿Qué necesitas explicar?</h1>
+        <p className="mt-4 max-w-xl text-base leading-relaxed text-core-text-secondary">Elige un tema. Cada recorrido traduce una arquitectura compleja en una conversación clara.</p>
+      </section>
 
-      <nav aria-label="Secciones del espacio de trabajo" className="mb-10 grid gap-2 sm:grid-cols-3">
-        <a href="#explore" className="border border-core-accent/40 bg-core-accent/10 px-4 py-3 transition-colors hover:border-core-accent">
-          <span className="block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-core-accent">01 · Explorar</span>
-          <span className="mt-1 block text-sm font-semibold text-core-text">Temas para presentar</span>
-        </a>
-        <a href="#review" className="border border-core-border/[0.12] bg-core-panel px-4 py-3 transition-colors hover:border-core-accent/60">
-          <span className="block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-core-text-muted">02 · Revisar</span>
-          <span className="mt-1 block text-sm font-semibold text-core-text">Fuentes y preparación técnica</span>
-        </a>
-        <a href="#create" className="border border-core-border/[0.12] bg-core-panel px-4 py-3 transition-colors hover:border-core-accent/60">
-          <span className="block font-mono text-[0.62rem] uppercase tracking-[0.12em] text-core-text-muted">03 · Crear</span>
-          <span className="mt-1 block text-sm font-semibold text-core-text">Nuevas explicaciones</span>
-        </a>
+      <nav aria-label="Áreas de solución" className="mb-8 flex flex-wrap gap-2">
+        {categories.map(({ category, items }) => (
+          <a key={category} href={`#${category}`} className="border border-core-border/[0.12] px-3 py-2 font-mono text-[0.62rem] text-core-text-secondary transition-colors hover:border-core-accent/60 hover:text-core-text">
+            {category} <span className="ml-1 text-core-text-muted">{items.length}</span>
+          </a>
+        ))}
       </nav>
 
-      <section id="explore" aria-labelledby="explore-heading" className="scroll-mt-8">
-        <div className="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-core-accent">01 · Explorar</p>
-            <h2 id="explore-heading" className="mt-1 text-xl font-bold text-core-text">Temas para presentar</h2>
-            <p className="mt-1 text-sm text-core-text-secondary">Elige una explicación para usarla con un cliente o equipo interno.</p>
-          </div>
-          <span className="hidden font-mono text-xs text-core-text-muted sm:block">{getAllExplainers().length} temas</span>
-        </div>
-
-      {categories.length === 0 && (
-        <p className="font-mono text-sm text-core-text-muted">Todavía no hay explicadores publicados.</p>
-      )}
-
-      <div className="flex flex-col gap-12">
+      <section aria-label="Temas disponibles" className="space-y-12">
         {categories.map(({ category, items }) => (
-          <section key={category}>
-            <h2 className="mb-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-core-accent">
-              {category}
-            </h2>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <section key={category} id={category} className="scroll-mt-6">
+            <div className="mb-4 flex items-baseline justify-between gap-4 border-b border-core-border/[0.1] pb-3">
+              <h2 className="text-lg font-bold text-core-text">{category}</h2>
+              <p className="font-mono text-[0.58rem] uppercase tracking-[0.08em] text-core-text-muted">{items.length} temas</p>
+            </div>
+            <div className="grid gap-px border border-core-border/[0.1] bg-core-border/[0.1] sm:grid-cols-2 lg:grid-cols-3">
               {items.map((entry) => (
-                <article
-                  key={entry.slug}
-                  className="group flex flex-col justify-between border border-core-border/[0.09] bg-core-panel p-5 transition-colors hover:border-core-accent"
-                >
-                  <Link href={`/explainer/${entry.slug}`} className="flex-1">
-                    <span className="mb-3 block font-mono text-[0.65rem] uppercase tracking-[0.1em] text-core-text-muted">
-                      {entry.steps.length} pasos
-                    </span>
-                    <h3 className="mb-2 text-base font-bold text-core-text">{entry.meta.title}</h3>
-                    <p className="text-sm leading-relaxed text-core-text-secondary">{entry.meta.tagline}</p>
-                    <span className="mt-6 block font-mono text-xs font-semibold text-core-accent group-hover:underline">
-                      Ver explicación →
-                    </span>
-                  </Link>
-                  <div className="mt-4 border-t border-core-border/[0.1] pt-3">
-                    <ExplainerFeedback slug={entry.slug} />
-                  </div>
-                </article>
+                <Link key={entry.slug} href={`/explainer/${entry.slug}`} className="group min-h-44 bg-core-panel p-5 transition-colors hover:bg-core-accent/[0.07]">
+                  <p className="font-mono text-[0.58rem] uppercase tracking-[0.09em] text-core-text-muted">{entry.steps.length} escenas</p>
+                  <h3 className="mt-4 text-base font-bold text-core-text">{entry.meta.title}</h3>
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-core-text-secondary">{entry.meta.tagline}</p>
+                  <span className="mt-5 block font-mono text-[0.62rem] font-semibold text-core-accent">Abrir recorrido <span aria-hidden="true">→</span></span>
+                </Link>
               ))}
             </div>
           </section>
         ))}
-      </div>
       </section>
 
-      <section id="review" className="mt-14 scroll-mt-8">
-        <details className="group border border-core-border/[0.12] bg-core-panel/40">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
-            <span>
-              <span className="block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-core-text-muted">02 · Revisar</span>
-              <span className="mt-1 block text-base font-bold text-core-text">Fuentes y preparación técnica</span>
-              <span className="mt-1 block text-sm text-core-text-secondary">Validación, cobertura, escenarios y seguimiento de revisión.</span>
-            </span>
-            <span aria-hidden="true" className="font-mono text-lg text-core-accent transition-transform group-open:rotate-45">+</span>
-          </summary>
-          <div className="space-y-8 border-t border-core-border/[0.1] p-5">
-            <PatternLibrary explainerReadiness={explainerReadiness} />
-            <TechnicalCoveragePanel />
-            <PublicationReadinessPanel />
-            <ScenarioReadinessQueue />
-            <ReviewCampaignSummary entries={reviewCampaignEntries} />
-            <TechnicalReviewQueue />
-            <UsageMetricsPanel />
-            <AiUsageGovernancePanel />
-          </div>
-        </details>
-      </section>
-
-      <section id="create" className="mt-6 scroll-mt-8">
-        <details className="group border border-core-border/[0.12] bg-core-panel/40">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
-            <span>
-              <span className="block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-core-text-muted">03 · Crear</span>
-              <span className="mt-1 block text-base font-bold text-core-text">Nuevas explicaciones</span>
-              <span className="mt-1 block text-sm text-core-text-secondary">Convierte un patrón de proyecto en un borrador revisable.</span>
-            </span>
-            <span aria-hidden="true" className="font-mono text-lg text-core-accent transition-transform group-open:rotate-45">+</span>
-          </summary>
-          <div className="border-t border-core-border/[0.1] p-5">
-            <ExplainerDraftCreator />
-          </div>
-        </details>
-      </section>
+      <details className="mt-16 border-t border-core-border/[0.12] pt-5">
+        <summary className="cursor-pointer list-none font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">
+          Abrir operaciones internas <span className="ml-1 text-core-accent">+</span>
+        </summary>
+        <div className="mt-6 space-y-8">
+          <PatternLibrary explainerReadiness={explainerReadiness} />
+          <TechnicalCoveragePanel />
+          <PublicationReadinessPanel />
+          <ScenarioReadinessQueue />
+          <ReviewCampaignSummary entries={reviewCampaignEntries} />
+          <TechnicalReviewQueue />
+          <UsageMetricsPanel />
+          <AiUsageGovernancePanel />
+          <ExplainerDraftCreator />
+        </div>
+      </details>
     </main>
   );
 }
