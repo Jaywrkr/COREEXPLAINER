@@ -1,5 +1,7 @@
 # Estado del proyecto
 
+**Actualizacion v0.248.0 (12-08-2026):** `/architecture` genera borradores visuales solo desde patrones CORESOLUTIONS auditados. Obliga a declarar objetivo, workload y evidencia; muestra riesgos y pendientes, pero no calcula compatibilidad ni cambia ningún estado de revisión.
+
 **Actualizacion v0.247.0 (12-08-2026):** el modo cliente de cada explainer reduce la lectura inicial a una idea y un impacto; se retiraron la pregunta genérica y la representación duplicada. Herramientas, evidencia y detalle técnico siguen bajo demanda, y el acceso a presentación ocupa menos espacio.
 
 **Actualizacion v0.246.0 (12-08-2026):** `explainerTechnicalRules` expone los contratos fuente→escena resueltos y `audit:technical-contracts` verifica que los 22 explainers tengan cobertura sin fuentes o pasos rotos. La auditoría es estructural; `reviewStatus` sigue pendiente hasta una aprobación especialista real. webMethods advierte confirmar con IBM la disponibilidad de API Gateway/Developer Portal para un SaaS nuevo.

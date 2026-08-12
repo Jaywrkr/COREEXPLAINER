@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.248.0] - 2026-08-12
+
+### Generador de arquitecturas conceptuales
+
+- Un generador local crea borradores visuales desde patrones CORESOLUTIONS auditados.
+- Hace visibles evidencias pendientes y riesgos, sin inventar compatibilidad ni aprobar implementaciones.
+- Cada borrador conserva aprobación de ingeniería como paso obligatorio.
+
 ## [0.247.0] - 2026-08-12
 
 ### Pulido de lectura en explainers
