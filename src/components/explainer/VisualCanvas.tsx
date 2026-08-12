@@ -110,6 +110,7 @@ export function VisualCanvas({
   const [inactiveNodeIds, setInactiveNodeIds] = useState<string[]>([]);
   const [clientToolsOpen, setClientToolsOpen] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [motionPaused, setMotionPaused] = useState(false);
   const [showInteractionHint, setShowInteractionHint] = useState(false);
   const reducedMotionRef = useRef(false);
   const { theme } = useTheme();
@@ -461,7 +462,7 @@ export function VisualCanvas({
     const loop = (now: number) => {
       const dt = Math.min(now - last, 50);
       last = now;
-      engine.update(reducedMotionRef.current ? 0 : dt);
+      engine.update(reducedMotionRef.current || motionPaused ? 0 : dt);
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -487,7 +488,7 @@ export function VisualCanvas({
       canvas.removeEventListener("pointerleave", handlePointerLeave);
       canvas.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onFailureScenarioChange, onNodeSelect, resetViewport, updateViewport, zoomAt, zoomFromCenter]);
+  }, [motionPaused, onFailureScenarioChange, onNodeSelect, resetViewport, updateViewport, zoomAt, zoomFromCenter]);
 
   return (
     <div className="relative h-full w-full">
@@ -573,6 +574,8 @@ export function VisualCanvas({
       <CanvasViewControls
         scale={viewport.scale}
         technical={isTechnicalMode}
+        motionPaused={motionPaused || prefersReducedMotion}
+        onToggleMotion={() => setMotionPaused((value) => !value)}
         onZoomOut={() => zoomFromCenter(1 / 1.2)}
         onZoomIn={() => zoomFromCenter(1.2)}
         onReset={resetViewport}
