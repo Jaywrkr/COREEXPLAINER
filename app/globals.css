@@ -25,6 +25,11 @@
   --color-success: 31 157 85; /* #1F9D55 */
   --color-warning: 214 164 25; /* #D6A419 */
   --color-error: 194 59 59; /* #C23B3B */
+
+  /* Shared interaction tokens: keep controls predictable across every topic. */
+  --ui-control-min: 2rem;
+  --ui-focus-ring: 0 0 0 2px rgb(var(--color-bg)), 0 0 0 4px rgb(var(--color-accent));
+  --ui-panel-radius: 0.125rem;
 }
 
 :root[data-theme="light"] {
@@ -74,6 +79,22 @@ body {
 ::selection {
   background-color: #3b4cce;
   color: #f5f6fa;
+}
+
+/* Keyboard focus is part of the visual language, not an implementation detail. */
+:where(button, a, summary, [role="button"]):focus-visible {
+  outline: none;
+  box-shadow: var(--ui-focus-ring);
+}
+
+/* Use on compact icon/text controls so touch and keyboard targets stay usable. */
+.core-control {
+  min-width: var(--ui-control-min);
+  min-height: var(--ui-control-min);
+}
+
+.core-surface {
+  border-radius: var(--ui-panel-radius);
 }
 
 /* Thin, technical scrollbars — no rounded corners, matches the sober aesthetic. */
