@@ -263,7 +263,10 @@ export function FailureScenarioPanel({
           ) : null}
           </div>
           {minimized && activeScenario ? (
-            <p className="mt-1 truncate text-[0.66rem] text-core-text-secondary"><GlossaryText text={activeScenario.label} /></p>
+            <p className="mt-1 truncate text-[0.66rem] text-core-text-secondary">
+              <GlossaryText text={activeScenario.label} />
+              {guidedSteps.length ? <span className="ml-2 font-mono text-core-text-muted">· {safeStepIndex + 1}/{guidedSteps.length}</span> : null}
+            </p>
           ) : null}
         </div>
         <div className="flex shrink-0 items-center gap-2">
@@ -317,6 +320,23 @@ export function FailureScenarioPanel({
 
           {activeScenario ? (
             <div className="mt-3 space-y-3 border-t border-core-border/[0.12] pt-3">
+              <div className="grid grid-cols-4 gap-1" aria-label="Ruta causal del escenario">
+                {(["observe", "diagnose", "recover", "validate"] as GuidedScenarioStep["kind"][]).map((kind) => {
+                  const stepIndex = guidedSteps.findIndex((step) => step.kind === kind);
+                  const active = stepIndex === safeStepIndex;
+                  return (
+                    <button
+                      key={kind}
+                      type="button"
+                      disabled={stepIndex < 0}
+                      onClick={() => { if (stepIndex >= 0) onGuidedStepChange(stepIndex); }}
+                      className={`border px-1 py-1 text-[0.56rem] font-semibold transition-colors ${active ? "border-core-accent/60 bg-core-accent/10 text-core-text" : "border-core-border/[0.12] text-core-text-muted hover:border-core-accent/40 hover:text-core-text disabled:opacity-40"}`}
+                    >
+                      {stepLabels[kind]}
+                    </button>
+                  );
+                })}
+              </div>
               <div className="flex items-center justify-between gap-3">
                 <p className="font-mono text-[0.62rem] font-semibold uppercase tracking-[0.08em] text-core-accent">
                   Guía de análisis
@@ -325,27 +345,6 @@ export function FailureScenarioPanel({
                   {guidedSteps.length ? `Paso ${safeStepIndex + 1} de ${guidedSteps.length}` : "Contexto"}
                 </span>
               </div>
-
-              {guidedSteps.length ? (
-                <div className="grid grid-cols-4 gap-1" role="tablist" aria-label="Fases del escenario">
-                  {guidedSteps.map((step, index) => (
-                    <button
-                      key={step.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={index === safeStepIndex}
-                      onClick={() => onGuidedStepChange(index)}
-                      className={`border px-1.5 py-1.5 text-[0.6rem] font-semibold transition-colors ${
-                        index === safeStepIndex
-                          ? "border-core-accent/60 bg-core-accent/10 text-core-text"
-                          : "border-core-border/[0.12] text-core-text-muted hover:border-core-accent/40 hover:text-core-text"
-                      }`}
-                    >
-                      {stepLabels[step.kind]}
-                    </button>
-                  ))}
-                </div>
-              ) : null}
 
               {activeStep ? (
                 <div aria-live="polite" className="space-y-2">
