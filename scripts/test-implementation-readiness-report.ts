@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 const output = execFileSync(process.execPath, ["node_modules/tsx/dist/cli.mjs", "scripts/implementation-readiness-report.ts", "--json"], { encoding: "utf8" });
 const report = JSON.parse(output) as { schemaVersion: string; appVersion: string; generatedAt: string; summary: { explainers: number; ready: number; notReady: number; impacts: number; highRiskImpacts: number; impactsWithScenarios: number }; rows: Array<{ slug: string; brands: string[]; readiness: { score: number; missing: string[] }; workstreams: number; impacts: number; highRiskImpacts: number; impactsWithScenarios: number }> };
 assert.equal(report.schemaVersion, "1.0");
-assert.equal(report.appVersion, "0.175.0");
+assert.equal(report.appVersion, "0.245.0");
 assert.match(report.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.equal(report.summary.explainers, 22);
 assert.equal(report.rows.length, 22);
