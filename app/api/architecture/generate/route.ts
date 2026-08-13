@@ -3,6 +3,14 @@ import { normalizeGeneratedDiagram, studioCatalog, validateStudioDiagram } from 
 
 export const runtime = "nodejs";
 
+function openAiFailureMessage(status: number, code?: string) {
+  if (status === 401) return "OpenAI rechazó la clave. Confirma que OPENAI_API_KEY se copió completa y pertenece al proyecto correcto.";
+  if (status === 403) return "La clave no tiene permiso para usar este modelo. Revisa sus permisos y el proyecto de OpenAI.";
+  if (status === 429) return "OpenAI alcanzó un límite de uso o de facturación. Revisa Billing y Limits en la plataforma de OpenAI.";
+  if (status === 404) return "El modelo configurado no está disponible para esta clave. Usa gpt-4.1-mini o elimina OPENAI_ARCHITECTURE_MODEL.";
+  return `OpenAI no pudo generar el diagrama (${status}${code ? ` · ${code}` : ""}). Revisa los logs de Vercel para el detalle operativo.`;
+}
+
 const schema = {
   type: "object", additionalProperties: false,
   required: ["title", "summary", "assumptions", "nodes", "connections"],
@@ -27,7 +35,12 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
       body: JSON.stringify({ model: process.env.OPENAI_ARCHITECTURE_MODEL || "gpt-4.1-mini", temperature: 0.2, response_format: { type: "json_schema", json_schema: { name: "architecture_diagram", strict: true, schema } }, messages: [{ role: "system", content: system }, { role: "user", content: prompt }] }),
     });
-    if (!response.ok) return NextResponse.json({ error: "La generación no estuvo disponible. Revisa la clave, el modelo configurado y los límites de la cuenta." }, { status: 502 });
+    if (!response.ok) {
+      const upstream = await response.json().catch(() => null) as { error?: { code?: unknown } } | null;
+      const code = typeof upstream?.error?.code === "string" ? upstream.error.code : undefined;
+      console.error("Architecture Studio OpenAI request failed", { status: response.status, code });
+      return NextResponse.json({ error: openAiFailureMessage(response.status, code), upstreamStatus: response.status }, { status: 502 });
+    }
     const payload = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
     const diagram = normalizeGeneratedDiagram(JSON.parse(payload.choices?.[0]?.message?.content ?? "null"));
     if (!diagram) return NextResponse.json({ error: "La IA devolvió una arquitectura no reconocible." }, { status: 422 });
