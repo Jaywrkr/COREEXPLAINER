@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.249.0] - 2026-08-12
+
+### Architecture Studio con IA y validación de topología
+
+- El Studio parte de un canvas vacío: transforma la descripción de un cliente en una arquitectura conceptual editable con IA.
+- El catálogo CORESOLUTIONS limita los equipos y puertos disponibles. Las conexiones incompatibles se reparan únicamente cuando existe un puerto equivalente declarado; de otro modo se omiten y quedan como supuesto.
+- Las posiciones generadas se normalizan dentro del canvas, y los vínculos de telemetría y backup usan puertos lógicos explícitos.
+- Los errores de OpenAI indican de forma segura si el problema es clave, permisos, modelo o límite de facturación; nunca exponen secretos.
+
 ## [0.248.0] - 2026-08-12
 
 ### Generador de arquitecturas conceptuales
