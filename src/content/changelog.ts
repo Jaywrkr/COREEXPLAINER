@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.248.0";
+export const currentVersion = "0.249.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.249.0",
+    date: "2026-08-12",
+    title: "Architecture Studio con IA y validación de topología",
+    changes: [
+      "Architecture Studio parte de un canvas vacío y transforma la descripción del cliente en una propuesta conceptual editable con IA.",
+      "El catálogo CORESOLUTIONS restringe equipos y puertos; las conexiones se validan y las incompatibles se omiten en lugar de dibujarse.",
+      "La generación normaliza posiciones, vínculos lógicos de telemetría y backup, y muestra diagnósticos seguros para clave, permisos, modelo o límites de OpenAI.",
+    ],
+  },
   {
     version: "0.248.0",
     date: "2026-08-12",

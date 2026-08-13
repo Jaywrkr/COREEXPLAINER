@@ -64,15 +64,42 @@ export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null 
     if (!node || typeof node !== "object") return [];
     const value = node as Partial<StudioNode>;
     if (typeof value.componentId !== "string" || !componentById(value.componentId)) return [];
-    const x = typeof value.x === "number" ? (value.x >= 0 && value.x <= 1 ? value.x * 100 : value.x) : 12 + ((index % 4) * 25);
-    const y = typeof value.y === "number" ? (value.y >= 0 && value.y <= 1 ? value.y * 100 : value.y) : 18 + (Math.floor(index / 4) * 30);
+    const rawX = typeof value.x === "number" ? (value.x >= 0 && value.x <= 1 ? value.x * 100 : value.x) : 12 + ((index % 4) * 25);
+    const rawY = typeof value.y === "number" ? (value.y >= 0 && value.y <= 1 ? value.y * 100 : value.y) : 18 + (Math.floor(index / 4) * 30);
+    // Layout values from a model are presentation metadata, not a technical claim.
+    // Keep every authorized node usable instead of rejecting a technically sound draft.
+    const x = Math.max(7, Math.min(93, Number.isFinite(rawX) ? rawX : 50));
+    const y = Math.max(8, Math.min(90, Number.isFinite(rawY) ? rawY : 50));
     return [{ id: typeof value.id === "string" && value.id ? value.id.slice(0, 48) : `node-${index + 1}`, componentId: value.componentId, label: typeof value.label === "string" && value.label.trim() ? value.label.trim().slice(0, 72) : componentById(value.componentId)!.name, x, y }];
   });
+  const assumptions = Array.isArray(candidate.assumptions) ? candidate.assumptions.filter((item): item is string => typeof item === "string").slice(0, 8) : [];
+  const omittedConnectionNotes: string[] = [];
   const connections = candidate.connections.slice(0, 28).flatMap((connection, index) => {
     if (!connection || typeof connection !== "object") return [];
     const value = connection as Partial<StudioConnection>;
     if (![value.from, value.to, value.fromPort, value.toPort].every((item) => typeof item === "string")) return [];
-    return [{ id: typeof value.id === "string" && value.id ? value.id.slice(0, 48) : `connection-${index + 1}`, from: value.from!, to: value.to!, fromPort: value.fromPort!, toPort: value.toPort!, label: typeof value.label === "string" ? value.label.slice(0, 64) : "" }];
+    const from = nodes.find((node) => node.id === value.from);
+    const to = nodes.find((node) => node.id === value.to);
+    if (!from || !to || from.id === to.id) return [];
+    const fromComponent = componentById(from.componentId);
+    const toComponent = componentById(to.componentId);
+    let fromPort = fromComponent?.ports.find((port) => port.id === value.fromPort);
+    let toPort = toComponent?.ports.find((port) => port.id === value.toPort);
+    // A model may select a physical port for a logical API/backup relation.
+    // Repair only by selecting an already-declared port with the same protocol.
+    if (fromPort && (!toPort || !compatiblePortTypes(fromPort.type, toPort.type))) {
+      const matches = toComponent?.ports.filter((port) => compatiblePortTypes(fromPort!.type, port.type)) ?? [];
+      if (matches.length === 1) toPort = matches[0];
+    }
+    if (toPort && (!fromPort || !compatiblePortTypes(fromPort.type, toPort.type))) {
+      const matches = fromComponent?.ports.filter((port) => compatiblePortTypes(port.type, toPort!.type)) ?? [];
+      if (matches.length === 1) fromPort = matches[0];
+    }
+    if (!fromPort || !toPort || !compatiblePortTypes(fromPort.type, toPort.type)) {
+      omittedConnectionNotes.push(`Se omitió la conexión ${from.label} → ${to.label}: falta un puerto compatible confirmado.`);
+      return [];
+    }
+    return [{ id: typeof value.id === "string" && value.id ? value.id.slice(0, 48) : `connection-${index + 1}`, from: from.id, to: to.id, fromPort: fromPort.id, toPort: toPort.id, label: typeof value.label === "string" ? value.label.slice(0, 64) : "" }];
   });
-  return { title: typeof candidate.title === "string" ? candidate.title.slice(0, 100) : "Arquitectura conceptual", summary: typeof candidate.summary === "string" ? candidate.summary.slice(0, 500) : "Borrador generado para discovery.", assumptions: Array.isArray(candidate.assumptions) ? candidate.assumptions.filter((item): item is string => typeof item === "string").slice(0, 8) : [], nodes, connections };
+  return { title: typeof candidate.title === "string" ? candidate.title.slice(0, 100) : "Arquitectura conceptual", summary: typeof candidate.summary === "string" ? candidate.summary.slice(0, 500) : "Borrador generado para discovery.", assumptions: [...assumptions, ...omittedConnectionNotes].slice(0, 10), nodes, connections };
 }
