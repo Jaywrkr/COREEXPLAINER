@@ -12,6 +12,8 @@ Para crear un cable, seleccionar un equipo, pulsar uno de sus puertos y luego se
 
 La vista puede filtrar datos, gestión, storage, backup/DR u observabilidad. Cada equipo se puede ubicar en un dominio visual (Sede 1, Sede 2, Data Center, Nube o DR Site); el minimapa mantiene orientación en topologías grandes. La exportación descarga un SVG limpio, apto para adjuntar o imprimir como PDF sin los paneles de edición.
 
+Al generar una propuesta, el Studio abre automáticamente el canvas a pantalla completa y distribuye los nodos en celdas por dominio. Esto es una distribución inicial de lectura: el usuario conserva libertad para mover los equipos y usar zoom o centrado.
+
 ## Configuración
 
 En Vercel, agregar `OPENAI_API_KEY` como variable de entorno de **Production** y **Preview**. No usar `NEXT_PUBLIC_`: la clave se lee solamente desde `app/api/architecture/generate/route.ts`. `OPENAI_ARCHITECTURE_MODEL` es opcional y permite elegir un modelo aprobado por la cuenta.
