@@ -5,6 +5,14 @@ const valid = normalizeGeneratedDiagram({ title: "Prueba", summary: "Prueba", as
 assert.ok(valid);
 assert.equal(validateStudioDiagram(valid).valid, true);
 
+const normalizedCoordinates = normalizeGeneratedDiagram({ title: "Coordenadas", summary: "Prueba", assumptions: [], nodes: [{ id: "host", componentId: "vmware-host", label: "Host", x: 0.2, y: 0.4 }], connections: [] });
+assert.equal(normalizedCoordinates?.nodes[0]?.x, 20);
+assert.equal(normalizedCoordinates?.nodes[0]?.y, 40);
+
+const operationalLinks = normalizeGeneratedDiagram({ title: "Operación", summary: "Prueba", assumptions: [], nodes: [{ id: "host", componentId: "vmware-host", label: "Host", x: 20, y: 40 }, { id: "instana", componentId: "instana", label: "Instana", x: 70, y: 30 }, { id: "veeam", componentId: "veeam", label: "Veeam", x: 70, y: 60 }], connections: [{ id: "telemetry", from: "instana", fromPort: "api", to: "host", toPort: "api", label: "Telemetría" }, { id: "protection", from: "veeam", fromPort: "backup", to: "host", toPort: "backup", label: "Protección" }] });
+assert.ok(operationalLinks);
+assert.equal(validateStudioDiagram(operationalLinks).valid, true);
+
 const firstConnection = valid.connections[0];
 assert.ok(firstConnection);
 const invalid = { ...valid, connections: [{ ...firstConnection, fromPort: "eth", toPort: "fc" }] };
