@@ -15,6 +15,7 @@
     "audit:technical-contracts": "tsx scripts/technical-contract-audit.ts",
     "test:technical-contract-audit": "tsx scripts/test-technical-contract-audit.ts",
     "test:architecture-generator": "tsx scripts/test-architecture-generator.ts",
+    "test:architecture-studio": "tsx scripts/test-architecture-studio.ts",
     "test:ai-guards": "tsx scripts/test-ai-guards.ts",
     "test:ai-input-sanitization": "tsx scripts/test-ai-input-sanitization.ts",
     "test:ai-cost-cap": "tsx scripts/test-ai-cost-cap.ts",

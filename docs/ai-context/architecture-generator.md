@@ -1,3 +1,3 @@
 # Contexto del generador de arquitecturas
 
-`src/lib/architecture/generator.ts` solo puede construir borradores desde `solutionPatterns`. No aceptar texto libre como prueba técnica y no cambiar ningún estado de revisión. Para agregar un patrón, validar sus explainers vinculados y sus marcas mediante el gate existente antes de exponerlo en `/architecture`.
+`/architecture` es independiente de los explainers. `src/lib/architecture/studio.ts` define el catálogo y la validación local; la IA solo propone datos que pasan por `normalizeGeneratedDiagram` y `validateStudioDiagram`. No aceptar texto libre como prueba técnica, ni permitir que la IA añada componentes, puertos o conexiones fuera del catálogo. La ruta de API no debe exponer ni registrar `OPENAI_API_KEY`.
