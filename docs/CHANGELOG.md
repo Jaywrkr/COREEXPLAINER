@@ -2,12 +2,11 @@
 
 ## [0.249.0] - 2026-08-12
 
-### Architecture Studio con IA y validación de topología
+### Architecture Studio con IA, topología y canvas completo
 
-- El Studio parte de un canvas vacío: transforma la descripción de un cliente en una arquitectura conceptual editable con IA.
-- El catálogo CORESOLUTIONS limita los equipos y puertos disponibles. Las conexiones incompatibles se reparan únicamente cuando existe un puerto equivalente declarado; de otro modo se omiten y quedan como supuesto.
-- Las posiciones generadas se normalizan dentro del canvas, y los vínculos de telemetría y backup usan puertos lógicos explícitos.
-- Los errores de OpenAI indican de forma segura si el problema es clave, permisos, modelo o límite de facturación; nunca exponen secretos.
+- El Studio transforma la descripción del cliente en una arquitectura conceptual editable y normaliza posiciones y vínculos lógicos soportados.
+- El catálogo CORESOLUTIONS limita equipos y puertos; las conexiones incompatibles se omiten o se corrigen solo cuando existe equivalencia declarada.
+- El canvas ofrece pantalla completa, catálogo, inspector, zoom, centrado y cableado visual entre puertos compatibles.
 
 ## [0.248.0] - 2026-08-12
 
