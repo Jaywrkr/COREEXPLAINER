@@ -10,6 +10,8 @@ El botón **Pantalla completa** abre un área de trabajo que ocupa el viewport. 
 
 Para crear un cable, seleccionar un equipo, pulsar uno de sus puertos y luego seleccionar el puerto de destino. El canvas solo activa destinos compatibles. Los cables se enrutan en ángulos rectos, tienen color por protocolo y muestran su etiqueta. Al seleccionar un cable, el inspector permite comprobar sus extremos o eliminarlo. La validez sigue determinada por `validateStudioDiagram`, no por la apariencia del dibujo.
 
+La vista puede filtrar datos, gestión, storage, backup/DR u observabilidad. Cada equipo se puede ubicar en un dominio visual (Sede 1, Sede 2, Data Center, Nube o DR Site); el minimapa mantiene orientación en topologías grandes. La exportación descarga un SVG limpio, apto para adjuntar o imprimir como PDF sin los paneles de edición.
+
 ## Configuración
 
 En Vercel, agregar `OPENAI_API_KEY` como variable de entorno de **Production** y **Preview**. No usar `NEXT_PUBLIC_`: la clave se lee solamente desde `app/api/architecture/generate/route.ts`. `OPENAI_ARCHITECTURE_MODEL` es opcional y permite elegir un modelo aprobado por la cuenta.

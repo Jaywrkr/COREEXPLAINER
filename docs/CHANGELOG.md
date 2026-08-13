@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.250.0] - 2026-08-12
+
+### Diagrama semántico para Architecture Studio
+
+- Dominios visuales para sedes, data center, nube y sitio de recuperación.
+- Capas de tráfico, puertos activables, cables con significado técnico e indicadores de resiliencia.
+- Minimapa y exportación limpia del diagrama como SVG.
+
 ## [0.249.0] - 2026-08-12
 
 ### Architecture Studio con IA, topología y canvas completo
