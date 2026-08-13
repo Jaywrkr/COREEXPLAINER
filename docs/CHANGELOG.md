@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.252.0] - 2026-08-13
+
+### Rutas de cable editables y zoom gestual
+
+- Al seleccionar un cable aparece un punto de quiebre arrastrable para reubicar su ruta ortogonal.
+- El cambio es visual; los extremos, puertos y validación técnica no se modifican.
+- Zoom mediante rueda/trackpad, botones `+` / `−` y restablecimiento al 100%.
+
 ## [0.251.0] - 2026-08-12
 
 ### Distribución automática del canvas
