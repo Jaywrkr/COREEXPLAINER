@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.249.0] - 2026-08-12
+
+### Canvas de arquitectura a pantalla completa
+
+- Architecture Studio incorpora un espacio de trabajo a pantalla completa con catálogo, inspector, zoom, centrado y paneles colapsables.
+- Los cables se crean visualmente entre puertos autorizados; los destinos incompatibles no se habilitan.
+- Los recorridos usan ángulos rectos, color por protocolo e inspector de conexión, mientras el validador técnico sigue siendo la autoridad.
+
 ## [0.248.0] - 2026-08-12
 
 ### Generador de arquitecturas conceptuales

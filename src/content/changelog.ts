@@ -9,9 +9,19 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.248.0";
+export const currentVersion = "0.249.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  {
+    version: "0.249.0",
+    date: "2026-08-12",
+    title: "Canvas de arquitectura a pantalla completa",
+    changes: [
+      "Architecture Studio incorpora un espacio de trabajo a pantalla completa con catálogo, inspector, zoom, centrado y controles colapsables.",
+      "Los cables se crean entre puertos visuales y solo habilitan destinos compatibles según el catálogo CORESOLUTIONS.",
+      "Las conexiones se enrutan en ángulos rectos, se diferencian por protocolo y pueden inspeccionarse o eliminarse sin salir del canvas.",
+    ],
+  },
   {
     version: "0.248.0",
     date: "2026-08-12",
