@@ -97,6 +97,14 @@ body {
   border-radius: var(--ui-panel-radius);
 }
 
+/* Architecture Studio uses a percentage SVG coordinate space. Keep its helper
+   labels readable without letting non-uniform canvas dimensions stretch them. */
+svg[viewBox="0 0 100 100"] text {
+  font-size: 0.8px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
 /* Thin, technical scrollbars — no rounded corners, matches the sober aesthetic. */
 ::-webkit-scrollbar {
   width: 8px;

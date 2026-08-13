@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.251.0] - 2026-08-12
+
+### Distribución automática del canvas
+
+- Las propuestas de IA abren directamente en pantalla completa.
+- Los nodos se distribuyen por dominio para reducir solapamientos y aprovechar el canvas.
+- Se preservan los controles de zoom y centrado del modo de diseño.
+
 ## [0.250.0] - 2026-08-12
 
 ### Diagrama semántico para Architecture Studio
