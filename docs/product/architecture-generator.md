@@ -14,6 +14,8 @@ La vista puede filtrar datos, gestión, storage, backup/DR u observabilidad. Cad
 
 Al generar una propuesta, el Studio abre automáticamente el canvas a pantalla completa y distribuye los nodos en celdas por dominio. Esto es una distribución inicial de lectura: el usuario conserva libertad para mover los equipos y usar zoom o centrado.
 
+Los cables seleccionados muestran un punto de quiebre arrastrable para ajustar su recorrido y evitar cruces visuales. Esta acción no modifica los extremos, puertos ni la validación técnica. El zoom se controla con los botones, la rueda del mouse o el trackpad; `100%` restablece el encuadre.
+
 ## Configuración
 
 En Vercel, agregar `OPENAI_API_KEY` como variable de entorno de **Production** y **Preview**. No usar `NEXT_PUBLIC_`: la clave se lee solamente desde `app/api/architecture/generate/route.ts`. `OPENAI_ARCHITECTURE_MODEL` es opcional y permite elegir un modelo aprobado por la cuenta.
