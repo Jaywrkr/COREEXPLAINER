@@ -9,17 +9,18 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.249.0";
+export const currentVersion = "0.250.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  { version: "0.250.0", date: "2026-08-12", title: "Diagrama semántico para Architecture Studio", changes: ["Los equipos se agrupan visualmente por dominio: sedes, data center, nube o DR Site.", "El canvas agrega capas de tráfico, puertos opcionales, cables por protocolo, etiquetas editables y señales de redundancia.", "Incluye minimapa y exportación limpia del diagrama como SVG, sin los paneles de trabajo."] },
   {
     version: "0.249.0",
     date: "2026-08-12",
-    title: "Architecture Studio con IA y validación de topología",
+    title: "Architecture Studio con IA, topología y canvas completo",
     changes: [
       "Architecture Studio parte de un canvas vacío y transforma la descripción del cliente en una propuesta conceptual editable con IA.",
-      "El catálogo CORESOLUTIONS restringe equipos y puertos; las conexiones se validan y las incompatibles se omiten en lugar de dibujarse.",
-      "La generación normaliza posiciones, vínculos lógicos de telemetría y backup, y muestra diagnósticos seguros para clave, permisos, modelo o límites de OpenAI.",
+      "El catálogo CORESOLUTIONS restringe equipos y puertos; las conexiones se validan y las incompatibles se omiten o corrigen solo cuando existe equivalencia declarada.",
+      "El canvas incorpora pantalla completa, catálogo, inspector, zoom y cableado visual entre puertos compatibles.",
     ],
   },
   {
