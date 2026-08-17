@@ -75,7 +75,7 @@ jobs:
       - name: Run technical review package regressions
         run: npm run test:technical-review-package
       - name: Upload technical review report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: technical-review-report-${{ github.run_id }}
           path: |
@@ -85,7 +85,7 @@ jobs:
       - name: Generate implementation readiness artifact
         run: npm run report:implementation-readiness -- --output-dir implementation-readiness-package
       - name: Upload implementation readiness artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: implementation-readiness-${{ github.run_id }}
           path: implementation-readiness-package/
