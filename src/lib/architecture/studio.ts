@@ -44,7 +44,7 @@ const NODE_MIN_DX = 20;
 const NODE_MIN_DY = 15;
 
 /** Nudges apart any nodes whose footprints overlap so a generated diagram never renders stacked. */
-function resolveOverlaps(nodes: StudioNode[]): StudioNode[] {
+export function resolveOverlaps(nodes: StudioNode[]): StudioNode[] {
   const placed = nodes.map((node) => ({ ...node }));
   for (let pass = 0; pass < 40; pass++) {
     let moved = false;
@@ -124,8 +124,9 @@ export function assessDiagramRisks(diagram: StudioDiagram): string[] {
     .filter((n): n is StudioNode => Boolean(n));
 
   for (const node of diagram.nodes) {
-    const kind = kindOf(node);
-    if (kind !== "compute" && kind !== "storage") continue;
+    // Only "compute" catalog entries declare a backup port; storage protection here
+    // is modeled through the host agent, so flagging storage directly has no fix available.
+    if (kindOf(node) !== "compute") continue;
     if (!neighborsOf(node.id).some((neighbor) => kindOf(neighbor) === "backup")) {
       risks.push(`${node.label} no tiene ninguna conexión de respaldo (backup) en este diagrama.`);
     }
@@ -140,6 +141,28 @@ export function assessDiagramRisks(diagram: StudioDiagram): string[] {
   }
 
   return risks;
+}
+
+/**
+ * Wires every compute node that lacks one to the diagram's backup platform, using each
+ * side's "backup" port. Storage isn't touched — the catalog models its protection through
+ * the host agent, so it has no backup port to connect. A no-op when no backup node exists.
+ */
+function ensureBackupCoverage(nodes: StudioNode[], connections: StudioConnection[]): StudioConnection[] {
+  const backupNode = nodes.find((node) => componentById(node.componentId)?.kind === "backup");
+  const backupNodePort = backupNode ? portFor(backupNode.componentId, "backup") ?? componentById(backupNode.componentId)?.ports.find((port) => port.type === "backup") : undefined;
+  if (!backupNode || !backupNodePort) return connections;
+  const added: StudioConnection[] = [];
+  for (const node of nodes) {
+    if (node.id === backupNode.id || componentById(node.componentId)?.kind !== "compute") continue;
+    const nodeBackupPort = componentById(node.componentId)?.ports.find((port) => port.type === "backup");
+    if (!nodeBackupPort) continue;
+    const alreadyLinked = connections.concat(added).some((c) =>
+      (c.from === node.id && c.to === backupNode.id) || (c.from === backupNode.id && c.to === node.id));
+    if (alreadyLinked) continue;
+    added.push({ id: `backup-auto-${node.id}`, from: node.id, to: backupNode.id, fromPort: nodeBackupPort.id, toPort: backupNodePort.id, label: "Protección / backup" });
+  }
+  return [...connections, ...added].slice(0, 28);
 }
 
 export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null {
@@ -188,5 +211,6 @@ export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null 
     }
     return [{ id: typeof value.id === "string" && value.id ? value.id.slice(0, 48) : `connection-${index + 1}`, from: from.id, to: to.id, fromPort: fromPort.id, toPort: toPort.id, label: typeof value.label === "string" ? value.label.slice(0, 64) : "" }];
   });
-  return { title: typeof candidate.title === "string" ? candidate.title.slice(0, 100) : "Arquitectura conceptual", summary: typeof candidate.summary === "string" ? candidate.summary.slice(0, 500) : "Borrador generado para discovery.", assumptions: [...assumptions, ...omittedConnectionNotes].slice(0, 10), nodes: placedNodes, connections };
+  const connectionsWithBackup = ensureBackupCoverage(placedNodes, connections);
+  return { title: typeof candidate.title === "string" ? candidate.title.slice(0, 100) : "Arquitectura conceptual", summary: typeof candidate.summary === "string" ? candidate.summary.slice(0, 500) : "Borrador generado para discovery.", assumptions: [...assumptions, ...omittedConnectionNotes].slice(0, 10), nodes: placedNodes, connections: connectionsWithBackup };
 }
