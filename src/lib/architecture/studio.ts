@@ -56,6 +56,39 @@ export function validateStudioDiagram(diagram: StudioDiagram): StudioValidation 
   return { valid: issues.length === 0, issues };
 }
 
+/**
+ * Plain-language risk notes for someone who isn't an infrastructure architect:
+ * equipment with no backup link, and a single piece of network gear that
+ * everything else depends on. Not exhaustive — just the two mistakes that are
+ * easy to make and easy to miss when reading a diagram.
+ */
+export function assessDiagramRisks(diagram: StudioDiagram): string[] {
+  const risks: string[] = [];
+  const kindOf = (node: StudioNode) => componentById(node.componentId)?.kind;
+  const neighborsOf = (nodeId: string) => diagram.connections
+    .filter((c) => c.from === nodeId || c.to === nodeId)
+    .map((c) => diagram.nodes.find((n) => n.id === (c.from === nodeId ? c.to : c.from)))
+    .filter((n): n is StudioNode => Boolean(n));
+
+  for (const node of diagram.nodes) {
+    const kind = kindOf(node);
+    if (kind !== "compute" && kind !== "storage") continue;
+    if (!neighborsOf(node.id).some((neighbor) => kindOf(neighbor) === "backup")) {
+      risks.push(`${node.label} no tiene ninguna conexión de respaldo (backup) en este diagrama.`);
+    }
+  }
+
+  const networkNodes = diagram.nodes.filter((node) => kindOf(node) === "network");
+  if (networkNodes.length === 1) {
+    const [switchNode] = networkNodes;
+    if (neighborsOf(switchNode.id).length >= 2) {
+      risks.push(`Toda la conectividad de red pasa por un solo equipo (${switchNode.label}); si falla, los demás equipos pierden comunicación.`);
+    }
+  }
+
+  return risks;
+}
+
 export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null {
   if (!input || typeof input !== "object") return null;
   const candidate = input as Partial<StudioDiagram>;

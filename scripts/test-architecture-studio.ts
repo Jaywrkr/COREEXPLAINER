@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { normalizeGeneratedDiagram, validateStudioDiagram } from "../src/lib/architecture/studio";
+import { assessDiagramRisks, normalizeGeneratedDiagram, validateStudioDiagram } from "../src/lib/architecture/studio";
 
 const valid = normalizeGeneratedDiagram({ title: "Prueba", summary: "Prueba", assumptions: [], nodes: [{ id: "host", componentId: "vmware-host", label: "Host", x: 20, y: 40 }, { id: "storage", componentId: "ibm-flashsystem", label: "Storage", x: 70, y: 40 }], connections: [{ id: "fc", from: "host", fromPort: "fc", to: "storage", toPort: "fc", label: "SAN FC" }] });
 assert.ok(valid);
@@ -20,6 +20,18 @@ assert.equal(validateStudioDiagram(operationalLinks).valid, true);
 const repairedLogicalLink = normalizeGeneratedDiagram({ title: "Reparación", summary: "Prueba", assumptions: [], nodes: [{ id: "host", componentId: "vmware-host", label: "Host", x: 20, y: 40 }, { id: "instana", componentId: "instana", label: "Instana", x: 70, y: 30 }], connections: [{ id: "telemetry", from: "instana", fromPort: "api", to: "host", toPort: "eth", label: "Telemetría" }] });
 assert.equal(repairedLogicalLink?.connections[0]?.toPort, "api");
 assert.equal(validateStudioDiagram(repairedLogicalLink!).valid, true);
+
+const unprotectedRisks = assessDiagramRisks(valid);
+assert.equal(unprotectedRisks.length, 2, "Host y storage sin backup deben generar dos avisos");
+assert.ok(unprotectedRisks.some((risk) => risk.includes("Host")));
+assert.ok(unprotectedRisks.some((risk) => risk.includes("Storage")));
+
+const protectedRisks = assessDiagramRisks(operationalLinks!);
+assert.ok(!protectedRisks.some((risk) => risk.includes("Host")), "Host con backup conectado no debe generar aviso");
+
+const spofDiagram = normalizeGeneratedDiagram({ title: "SPOF", summary: "Prueba", assumptions: [], nodes: [{ id: "switch", componentId: "aruba-cx", label: "Switch único", x: 50, y: 20 }, { id: "host1", componentId: "vmware-host", label: "Host 1", x: 25, y: 60 }, { id: "host2", componentId: "vmware-host", label: "Host 2", x: 75, y: 60 }], connections: [{ id: "l1", from: "switch", fromPort: "eth", to: "host1", toPort: "eth", label: "" }, { id: "l2", from: "switch", fromPort: "eth", to: "host2", toPort: "eth", label: "" }] });
+const spofRisks = assessDiagramRisks(spofDiagram!);
+assert.ok(spofRisks.some((risk) => risk.includes("Switch único")), "Un solo switch con 2+ dependientes debe marcarse como riesgo");
 
 const firstConnection = valid.connections[0];
 assert.ok(firstConnection);
