@@ -1,16 +1,16 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { compatiblePortTypes, componentById, portFor, studioCatalog, type StudioConnection, type StudioDiagram, type StudioNode, type StudioPort, validateStudioDiagram } from "@/lib/architecture/studio";
+import { compatiblePortTypes, componentById, portFor, siteOfLabel, studioCatalog, type StudioConnection, type StudioDiagram, type StudioNode, type StudioPort, type StudioSite, validateStudioDiagram } from "@/lib/architecture/studio";
 
 type Layer = "Todo" | "Datos" | "Gestión" | "Storage" | "Backup/DR" | "Observabilidad";
-type Domain = "Sin dominio" | "Sede 1" | "Sede 2" | "Data Center" | "Nube" | "DR Site";
+type Domain = StudioSite;
 const layers: Layer[] = ["Todo", "Datos", "Gestión", "Storage", "Backup/DR", "Observabilidad"];
 const domains: Domain[] = ["Sin dominio", "Sede 1", "Sede 2", "Data Center", "Nube", "DR Site"];
 const colors: Record<string, string> = { ethernet: "#4f7cff", "fibre-channel": "#a78bfa", iscsi: "#34d399", management: "#fbbf24", api: "#22d3ee", backup: "#f472b6" };
 const cableLabels: Record<string, string> = { ethernet: "Datos Ethernet", "fibre-channel": "FC Fabric A", iscsi: "iSCSI", management: "Gestión", api: "Telemetría", backup: "Backup / replicación" };
 const nodeClass: Record<string, string> = { external: "border-slate-400/50", network: "border-cyan-400/50", security: "border-red-400/55", compute: "border-core-accent/55", storage: "border-violet-400/55", platform: "border-amber-400/55", observability: "border-emerald-400/55", backup: "border-fuchsia-400/55" };
-const domainOf = (label: string): Domain => /sede 1/i.test(label) ? "Sede 1" : /sede 2/i.test(label) ? "Sede 2" : /\bdr\b/i.test(label) ? "DR Site" : "Data Center";
+const domainOf = siteOfLabel;
 const layerMatches = (type: string, layer: Layer) => layer === "Todo" || (layer === "Datos" && type === "ethernet") || (layer === "Gestión" && type === "management") || (layer === "Storage" && (type === "fibre-channel" || type === "iscsi")) || (layer === "Backup/DR" && type === "backup") || (layer === "Observabilidad" && type === "api");
 
 function autoArrange(diagram: StudioDiagram) { const groups = new Map<Domain, StudioNode[]>(); diagram.nodes.forEach((node) => { const domain = domainOf(node.label); groups.set(domain, [...(groups.get(domain) ?? []), node]); }); const order = [...groups.keys()]; return { ...diagram, nodes: diagram.nodes.map((node) => { const domain = domainOf(node.label), group = groups.get(domain) ?? [], i = group.findIndex((item) => item.id === node.id), count = Math.max(1, group.length), g = order.indexOf(domain), columns = Math.min(3, count); return { ...node, x: 10 + (g % 3) * 32 + ((i % columns) + 1) * (26 / (columns + 1)), y: 14 + Math.floor(g / 3) * 43 + (Math.floor(i / columns) + 1) * (27 / (Math.ceil(count / columns) + 1)) }; }) }; }
