@@ -50,7 +50,7 @@ function resolveOverlaps(nodes: StudioNode[]): StudioNode[] {
     let moved = false;
     for (let i = 0; i < placed.length; i++) {
       for (let j = i + 1; j < placed.length; j++) {
-        const a = placed[i], b = placed[j];
+        const a = placed[i]!, b = placed[j]!;
         const dx = b.x - a.x, dy = b.y - a.y;
         const overlapX = NODE_MIN_DX - Math.abs(dx), overlapY = NODE_MIN_DY - Math.abs(dy);
         if (overlapX <= 0 || overlapY <= 0) continue;
@@ -133,7 +133,7 @@ export function assessDiagramRisks(diagram: StudioDiagram): string[] {
 
   const networkNodes = diagram.nodes.filter((node) => kindOf(node) === "network");
   if (networkNodes.length === 1) {
-    const [switchNode] = networkNodes;
+    const switchNode = networkNodes[0]!;
     if (neighborsOf(switchNode.id).length >= 2) {
       risks.push(`Toda la conectividad de red pasa por un solo equipo (${switchNode.label}); si falla, los demás equipos pierden comunicación.`);
     }

@@ -31,7 +31,7 @@ const overlapping = normalizeGeneratedDiagram({ title: "Solape", summary: "Prueb
 assert.ok(overlapping);
 for (let i = 0; i < overlapping!.nodes.length; i++) {
   for (let j = i + 1; j < overlapping!.nodes.length; j++) {
-    const a = overlapping!.nodes[i], b = overlapping!.nodes[j];
+    const a = overlapping!.nodes[i]!, b = overlapping!.nodes[j]!;
     assert.ok(Math.abs(a.x - b.x) >= 19.9 || Math.abs(a.y - b.y) >= 14.9, `${a.label} y ${b.label} quedaron solapados`);
   }
 }
