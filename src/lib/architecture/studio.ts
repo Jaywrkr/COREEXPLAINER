@@ -28,6 +28,16 @@ export const studioCatalog: StudioCatalogComponent[] = [
   { id: "webmethods", vendor: "IBM", name: "webMethods", kind: "platform", description: "Integración, APIs y eventos gobernados.", ports: [{ id: "api", label: "API / integración", type: "api" }, { id: "eth", label: "Ethernet", type: "ethernet" }] },
 ];
 
+/** Plain-language explanation of what a link type means, for people who don't read port diagrams for a living. */
+export const portTypeExplanation: Record<StudioPortType, string> = {
+  ethernet: "Cable de red para el tráfico normal de datos.",
+  "fibre-channel": "Cableado dedicado de alta velocidad para acceder al almacenamiento.",
+  iscsi: "Acceso a almacenamiento sobre la red Ethernet existente, sin cableado dedicado.",
+  api: "Vínculo lógico: un sistema consulta o recibe datos del otro por software, no requiere cable propio.",
+  management: "Canal separado para administrar el equipo (consola/gestión), no transporta tráfico de aplicaciones.",
+  backup: "Vínculo de protección de datos: copia o replica información hacia este equipo.",
+};
+
 export function componentById(id: string) { return studioCatalog.find((component) => component.id === id); }
 export function portFor(componentId: string, portId: string) { return componentById(componentId)?.ports.find((port) => port.id === portId); }
 export function compatiblePortTypes(left: StudioPortType, right: StudioPortType) {
