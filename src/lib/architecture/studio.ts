@@ -13,6 +13,15 @@ export interface StudioNode { id: string; componentId: string; label: string; x:
 export interface StudioConnection { id: string; from: string; fromPort: string; to: string; toPort: string; label: string; }
 export interface StudioDiagram { title: string; summary: string; assumptions: string[]; nodes: StudioNode[]; connections: StudioConnection[]; }
 export interface StudioValidation { valid: boolean; issues: string[]; }
+export type StudioSite = "Sin dominio" | "Sede 1" | "Sede 2" | "Data Center" | "Nube" | "DR Site";
+
+// Recognizes the ways people actually name a primary/secondary site (sede, sitio, DC, principal/alterno)
+// so a generated diagram groups equipment by physical location without the user tagging each node by hand.
+export const siteOfLabel = (label: string): StudioSite =>
+  /sede\s*1|sitio\s*1|site\s*1|dc\s*1|\bprincipal\b/i.test(label) ? "Sede 1"
+    : /sede\s*2|sitio\s*2|site\s*2|dc\s*2|\balterno\b|\bsecundari[oa]\b/i.test(label) ? "Sede 2"
+    : /\bdr\b|recuperaci[oó]n de desastres|disaster recovery/i.test(label) ? "DR Site"
+    : "Data Center";
 
 /** Authoritative logical building blocks. This is intentionally not an HCL or a BOM. */
 export const studioCatalog: StudioCatalogComponent[] = [

@@ -1,5 +1,11 @@
 import assert from "node:assert/strict";
-import { assessDiagramRisks, normalizeGeneratedDiagram, validateStudioDiagram } from "../src/lib/architecture/studio";
+import { assessDiagramRisks, normalizeGeneratedDiagram, siteOfLabel, validateStudioDiagram } from "../src/lib/architecture/studio";
+
+assert.equal(siteOfLabel("Lenovo Nodo 1 – DC Principal"), "Sede 1");
+assert.equal(siteOfLabel("Lenovo Nodo 5 – DC Alterno"), "Sede 2");
+assert.equal(siteOfLabel("Switch Aruba CX – Sitio Secundario"), "Sede 2");
+assert.equal(siteOfLabel("Veeam Data Platform"), "Data Center");
+assert.equal(siteOfLabel("Host VMware – Recuperación de desastres"), "DR Site");
 
 const valid = normalizeGeneratedDiagram({ title: "Prueba", summary: "Prueba", assumptions: [], nodes: [{ id: "host", componentId: "vmware-host", label: "Host", x: 20, y: 40 }, { id: "storage", componentId: "ibm-flashsystem", label: "Storage", x: 70, y: 40 }], connections: [{ id: "fc", from: "host", fromPort: "fc", to: "storage", toPort: "fc", label: "SAN FC" }] });
 assert.ok(valid);
