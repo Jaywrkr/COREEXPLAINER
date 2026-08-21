@@ -37,12 +37,19 @@ for (let i = 0; i < overlapping!.nodes.length; i++) {
 }
 
 const unprotectedRisks = assessDiagramRisks(valid);
-assert.equal(unprotectedRisks.length, 2, "Host y storage sin backup deben generar dos avisos");
+assert.equal(unprotectedRisks.length, 1, "Solo el host de cómputo sin backup debe generar aviso (storage no tiene puerto de backup)");
 assert.ok(unprotectedRisks.some((risk) => risk.includes("Host")));
-assert.ok(unprotectedRisks.some((risk) => risk.includes("Storage")));
+assert.ok(!unprotectedRisks.some((risk) => risk.includes("Storage")), "Storage no declara puerto de backup, no debe marcarse como riesgo");
 
 const protectedRisks = assessDiagramRisks(operationalLinks!);
 assert.ok(!protectedRisks.some((risk) => risk.includes("Host")), "Host con backup conectado no debe generar aviso");
+
+const autoBackup = normalizeGeneratedDiagram({ title: "Auto backup", summary: "Prueba", assumptions: [], nodes: [{ id: "host1", componentId: "vmware-host", label: "Host 1", x: 20, y: 30 }, { id: "host2", componentId: "lenovo-server", label: "Host 2", x: 20, y: 60 }, { id: "storage", componentId: "ibm-flashsystem", label: "Storage", x: 50, y: 45 }, { id: "veeam", componentId: "veeam", label: "Veeam", x: 80, y: 45 }], connections: [] });
+assert.ok(autoBackup);
+assert.equal(assessDiagramRisks(autoBackup!).length, 0, "Con Veeam presente, ambos hosts de cómputo deben quedar auto-conectados a backup");
+const backupLinks = autoBackup!.connections.filter((c) => c.fromPort === "backup" || c.toPort === "backup");
+assert.equal(backupLinks.length, 2, "Debe auto-generarse un enlace de backup por cada nodo de cómputo");
+assert.ok(!autoBackup!.connections.some((c) => (c.from === "storage" || c.to === "storage")), "Storage no tiene puerto de backup declarado, no debe conectarse automáticamente");
 
 const spofDiagram = normalizeGeneratedDiagram({ title: "SPOF", summary: "Prueba", assumptions: [], nodes: [{ id: "switch", componentId: "aruba-cx", label: "Switch único", x: 50, y: 20 }, { id: "host1", componentId: "vmware-host", label: "Host 1", x: 25, y: 60 }, { id: "host2", componentId: "vmware-host", label: "Host 2", x: 75, y: 60 }], connections: [{ id: "l1", from: "switch", fromPort: "eth", to: "host1", toPort: "eth", label: "" }, { id: "l2", from: "switch", fromPort: "eth", to: "host2", toPort: "eth", label: "" }] });
 const spofRisks = assessDiagramRisks(spofDiagram!);
