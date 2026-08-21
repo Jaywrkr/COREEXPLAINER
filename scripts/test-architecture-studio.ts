@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { assessDiagramRisks, normalizeGeneratedDiagram, siteOfLabel, validateStudioDiagram } from "../src/lib/architecture/studio";
+import { assessDiagramRisks, assessReadiness, normalizeGeneratedDiagram, siteOfLabel, validateStudioDiagram } from "../src/lib/architecture/studio";
 
 assert.equal(siteOfLabel("Lenovo Nodo 1 – DC Principal"), "Sede 1");
 assert.equal(siteOfLabel("Lenovo Nodo 5 – DC Alterno"), "Sede 2");
@@ -47,6 +47,18 @@ assert.ok(!protectedRisks.some((risk) => risk.includes("Host")), "Host con backu
 const spofDiagram = normalizeGeneratedDiagram({ title: "SPOF", summary: "Prueba", assumptions: [], nodes: [{ id: "switch", componentId: "aruba-cx", label: "Switch único", x: 50, y: 20 }, { id: "host1", componentId: "vmware-host", label: "Host 1", x: 25, y: 60 }, { id: "host2", componentId: "vmware-host", label: "Host 2", x: 75, y: 60 }], connections: [{ id: "l1", from: "switch", fromPort: "eth", to: "host1", toPort: "eth", label: "" }, { id: "l2", from: "switch", fromPort: "eth", to: "host2", toPort: "eth", label: "" }] });
 const spofRisks = assessDiagramRisks(spofDiagram!);
 assert.ok(spofRisks.some((risk) => risk.includes("Switch único")), "Un solo switch con 2+ dependientes debe marcarse como riesgo");
+
+const emptyDiagram = { title: "", summary: "", assumptions: [] as string[], nodes: [], connections: [] };
+const blockedReadiness = assessReadiness(emptyDiagram, { valid: false, issues: ["x", "y"] }, []);
+assert.equal(blockedReadiness.tone, "blocked");
+assert.match(blockedReadiness.label, /2 errores/);
+
+const reviewReadiness = assessReadiness({ ...emptyDiagram, assumptions: ["Se asume enlace 10G disponible."] }, { valid: true, issues: [] }, ["Host sin backup."]);
+assert.equal(reviewReadiness.tone, "review");
+assert.match(reviewReadiness.label, /Revisar 2 puntos/);
+
+const readyReadiness = assessReadiness(emptyDiagram, { valid: true, issues: [] }, []);
+assert.equal(readyReadiness.tone, "ready");
 
 const firstConnection = valid.connections[0];
 assert.ok(firstConnection);

@@ -142,6 +142,24 @@ export function assessDiagramRisks(diagram: StudioDiagram): string[] {
   return risks;
 }
 
+export interface StudioReadiness { tone: "blocked" | "review" | "ready"; label: string; }
+
+/**
+ * One verdict that rolls up everything else on screen (technical validation, plain-language
+ * risks, and the model's own assumptions) into a single answer to "can I send this to the
+ * client?" — instead of making a non-architect read three separate lists and decide for
+ * themselves. It's an automated check, not a substitute for an architect's own review.
+ */
+export function assessReadiness(diagram: StudioDiagram, validation: StudioValidation, risks: string[]): StudioReadiness {
+  if (!validation.valid) {
+    const n = validation.issues.length;
+    return { tone: "blocked", label: `${n} error${n === 1 ? "" : "es"} técnico${n === 1 ? "" : "s"} por corregir` };
+  }
+  const pending = risks.length + diagram.assumptions.length;
+  if (pending > 0) return { tone: "review", label: `Revisar ${pending} punto${pending === 1 ? "" : "s"} antes de enviar` };
+  return { tone: "ready", label: "Listo para enviar al cliente" };
+}
+
 export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null {
   if (!input || typeof input !== "object") return null;
   const candidate = input as Partial<StudioDiagram>;
