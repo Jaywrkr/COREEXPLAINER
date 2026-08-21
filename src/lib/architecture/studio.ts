@@ -28,6 +28,40 @@ export const studioCatalog: StudioCatalogComponent[] = [
   { id: "webmethods", vendor: "IBM", name: "webMethods", kind: "platform", description: "Integración, APIs y eventos gobernados.", ports: [{ id: "api", label: "API / integración", type: "api" }, { id: "eth", label: "Ethernet", type: "ethernet" }] },
 ];
 
+// Nodes render as a fixed-width card centered on (x, y); these are the minimum
+// center-to-center gaps (in the same 0-100 canvas units) that keep two cards from
+// visually overlapping. Values approximate the rendered card footprint.
+const NODE_MIN_DX = 20;
+const NODE_MIN_DY = 15;
+
+/** Nudges apart any nodes whose footprints overlap so a generated diagram never renders stacked. */
+function resolveOverlaps(nodes: StudioNode[]): StudioNode[] {
+  const placed = nodes.map((node) => ({ ...node }));
+  for (let pass = 0; pass < 40; pass++) {
+    let moved = false;
+    for (let i = 0; i < placed.length; i++) {
+      for (let j = i + 1; j < placed.length; j++) {
+        const a = placed[i], b = placed[j];
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const overlapX = NODE_MIN_DX - Math.abs(dx), overlapY = NODE_MIN_DY - Math.abs(dy);
+        if (overlapX <= 0 || overlapY <= 0) continue;
+        moved = true;
+        if (overlapX / NODE_MIN_DX < overlapY / NODE_MIN_DY) {
+          const push = (overlapX / 2) * (dx === 0 ? (i < j ? -1 : 1) : Math.sign(dx) || 1);
+          a.x -= push; b.x += push;
+        } else {
+          const push = (overlapY / 2) * (dy === 0 ? (i < j ? -1 : 1) : Math.sign(dy) || 1);
+          a.y -= push; b.y += push;
+        }
+        a.x = Math.max(7, Math.min(93, a.x)); b.x = Math.max(7, Math.min(93, b.x));
+        a.y = Math.max(8, Math.min(90, a.y)); b.y = Math.max(8, Math.min(90, b.y));
+      }
+    }
+    if (!moved) break;
+  }
+  return placed;
+}
+
 export function componentById(id: string) { return studioCatalog.find((component) => component.id === id); }
 export function portFor(componentId: string, portId: string) { return componentById(componentId)?.ports.find((port) => port.id === portId); }
 export function compatiblePortTypes(left: StudioPortType, right: StudioPortType) {
@@ -72,14 +106,15 @@ export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null 
     const y = Math.max(8, Math.min(90, Number.isFinite(rawY) ? rawY : 50));
     return [{ id: typeof value.id === "string" && value.id ? value.id.slice(0, 48) : `node-${index + 1}`, componentId: value.componentId, label: typeof value.label === "string" && value.label.trim() ? value.label.trim().slice(0, 72) : componentById(value.componentId)!.name, x, y }];
   });
+  const placedNodes = resolveOverlaps(nodes);
   const assumptions = Array.isArray(candidate.assumptions) ? candidate.assumptions.filter((item): item is string => typeof item === "string").slice(0, 8) : [];
   const omittedConnectionNotes: string[] = [];
   const connections = candidate.connections.slice(0, 28).flatMap((connection, index) => {
     if (!connection || typeof connection !== "object") return [];
     const value = connection as Partial<StudioConnection>;
     if (![value.from, value.to, value.fromPort, value.toPort].every((item) => typeof item === "string")) return [];
-    const from = nodes.find((node) => node.id === value.from);
-    const to = nodes.find((node) => node.id === value.to);
+    const from = placedNodes.find((node) => node.id === value.from);
+    const to = placedNodes.find((node) => node.id === value.to);
     if (!from || !to || from.id === to.id) return [];
     const fromComponent = componentById(from.componentId);
     const toComponent = componentById(to.componentId);
@@ -101,5 +136,5 @@ export function normalizeGeneratedDiagram(input: unknown): StudioDiagram | null 
     }
     return [{ id: typeof value.id === "string" && value.id ? value.id.slice(0, 48) : `connection-${index + 1}`, from: from.id, to: to.id, fromPort: fromPort.id, toPort: toPort.id, label: typeof value.label === "string" ? value.label.slice(0, 64) : "" }];
   });
-  return { title: typeof candidate.title === "string" ? candidate.title.slice(0, 100) : "Arquitectura conceptual", summary: typeof candidate.summary === "string" ? candidate.summary.slice(0, 500) : "Borrador generado para discovery.", assumptions: [...assumptions, ...omittedConnectionNotes].slice(0, 10), nodes, connections };
+  return { title: typeof candidate.title === "string" ? candidate.title.slice(0, 100) : "Arquitectura conceptual", summary: typeof candidate.summary === "string" ? candidate.summary.slice(0, 500) : "Borrador generado para discovery.", assumptions: [...assumptions, ...omittedConnectionNotes].slice(0, 10), nodes: placedNodes, connections };
 }
