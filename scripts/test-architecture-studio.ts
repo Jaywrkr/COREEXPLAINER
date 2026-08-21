@@ -21,6 +21,15 @@ const repairedLogicalLink = normalizeGeneratedDiagram({ title: "Reparación", su
 assert.equal(repairedLogicalLink?.connections[0]?.toPort, "api");
 assert.equal(validateStudioDiagram(repairedLogicalLink!).valid, true);
 
+const overlapping = normalizeGeneratedDiagram({ title: "Solape", summary: "Prueba", assumptions: [], nodes: [{ id: "a", componentId: "vmware-host", label: "A", x: 50, y: 50 }, { id: "b", componentId: "ibm-flashsystem", label: "B", x: 51, y: 50 }, { id: "c", componentId: "veeam", label: "C", x: 50, y: 51 }], connections: [] });
+assert.ok(overlapping);
+for (let i = 0; i < overlapping!.nodes.length; i++) {
+  for (let j = i + 1; j < overlapping!.nodes.length; j++) {
+    const a = overlapping!.nodes[i], b = overlapping!.nodes[j];
+    assert.ok(Math.abs(a.x - b.x) >= 19.9 || Math.abs(a.y - b.y) >= 14.9, `${a.label} y ${b.label} quedaron solapados`);
+  }
+}
+
 const firstConnection = valid.connections[0];
 assert.ok(firstConnection);
 const invalid = { ...valid, connections: [{ ...firstConnection, fromPort: "eth", toPort: "fc" }] };
