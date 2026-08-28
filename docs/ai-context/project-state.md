@@ -1,13 +1,13 @@
 # Estado del proyecto
 
-> **Estado operativo sincronizado:** 28-08-2026 contra `main` (`fc1c008`).
+> **Estado operativo sincronizado:** 28-08-2026 contra `main` (`d574887`).
 > La fecha de cada actualización inferior es el registro histórico de ese
 > cambio; no equivale a una nueva certificación técnica, de compatibilidad o
 > del entorno de un cliente.
 
 ## Punto de partida para la siguiente sesión
 
-- La versión publicada del repositorio es **0.252.0**.
+- La versión de trabajo del repositorio es **0.254.0**.
 - Architecture Studio (`/architecture`) genera borradores conceptuales desde
   el catálogo CORESOLUTIONS, los valida localmente y no certifica modelos,
   firmware, licencias, HCL, cableado físico, sizing ni una topología de
@@ -19,8 +19,13 @@
   [`../DOCUMENTATION_STATUS.md`](../DOCUMENTATION_STATUS.md). Las auditorías,
   fuentes y revisiones técnicas mantienen sus fechas reales hasta que se
   ejecuten de nuevo.
+- El shell de los explainers ahora empieza en Cliente y expone Detalle técnico
+  bajo demanda. La siguiente fase pendiente es condensar el contenido de cada
+  tema según la auditoría de simplificación, sin borrar fuentes o límites.
 
 **Actualizacion v0.248.0 (12-08-2026):** `/architecture` genera borradores visuales solo desde patrones CORESOLUTIONS auditados. Obliga a declarar objetivo, workload y evidencia; muestra riesgos y pendientes, pero no calcula compatibilidad ni cambia ningún estado de revisión.
+
+**Actualizacion v0.254.0 (28-08-2026):** el shell compartido de explainers reduce la primera lectura a Cliente o Detalle técnico. Cliente ya no repite la explicación debajo de su tarjeta de idea/impacto y el canvas oculta timeline/caption técnico; los controles técnicos se conservan bajo demanda.
 
 **Actualizacion v0.247.0 (12-08-2026):** el modo cliente de cada explainer reduce la lectura inicial a una idea y un impacto; se retiraron la pregunta genérica y la representación duplicada. Herramientas, evidencia y detalle técnico siguen bajo demanda, y el acceso a presentación ocupa menos espacio.
 
