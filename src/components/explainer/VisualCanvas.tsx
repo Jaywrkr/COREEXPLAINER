@@ -113,12 +113,9 @@ export function VisualCanvas({
   const [inspectorTab, setInspectorTab] = useState<InspectorTab>("integrity");
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const [motionPaused, setMotionPaused] = useState(false);
-  const [, setClientToolsOpen] = useState(false);
-  const [showInteractionHint, setShowInteractionHint] = useState(false);
   const reducedMotionRef = useRef(false);
   const { theme } = useTheme();
   const isTechnicalMode = audienceMode === "technical";
-  const isGuidedMode = !isTechnicalMode;
   const edgeKinds = useMemo(
     () => Array.from(new Set(scene.edges.map((edge) => edge.kind))),
     [scene],
@@ -156,10 +153,6 @@ export function VisualCanvas({
     return () => mediaQuery.removeEventListener("change", syncPreference);
   }, []);
 
-  const dismissInteractionHint = useCallback(() => {
-    setShowInteractionHint(false);
-    try { window.localStorage.setItem("coresolutions:canvas-hint-dismissed", "1"); } catch { /* optional preference */ }
-  }, []);
   const combinedFocusIds = useMemo(
     () => Array.from(new Set([...guidedFocusIds, ...(selectedIntegrityDiagnostic?.nodeIds ?? [])])),
     [guidedFocusIds, selectedIntegrityDiagnostic],
@@ -300,14 +293,6 @@ export function VisualCanvas({
   }, [edgeKinds, resetViewport, scene]);
 
   useEffect(() => {
-    setClientToolsOpen(false);
-  }, [audienceMode, sceneId]);
-
-  useEffect(() => {
-    if (isGuidedMode && (activeFailureScenarioId || hasIntegrityAlert)) setClientToolsOpen(true);
-  }, [activeFailureScenarioId, hasIntegrityAlert, isGuidedMode]);
-
-  useEffect(() => {
     const hiddenNodeKinds = new Set(ALL_NODE_KINDS.filter((kind) => !activeNodeKinds.has(kind)));
     const hiddenEdgeKinds = new Set(edgeKinds.filter((kind) => !activeEdgeKinds.has(kind)));
     engineRef.current.setVisibility(hiddenNodeKinds, hiddenEdgeKinds);
@@ -322,6 +307,16 @@ export function VisualCanvas({
     engineRef.current.setFailureState(scenario?.deadNodeIds ?? []);
     setInactiveNodeIds(scenario?.deadNodeIds ?? []);
   }, [activeFailureScenarioId, failureScenarios]);
+
+  const toggleNodeAvailability = useCallback((nodeId: string) => {
+    const next = inactiveNodeIds.includes(nodeId)
+      ? inactiveNodeIds.filter((id) => id !== nodeId)
+      : [...inactiveNodeIds, nodeId];
+    preserveManualFailureRef.current = true;
+    engineRef.current.setFailureState(next);
+    setInactiveNodeIds(next);
+    onFailureScenarioChange(null);
+  }, [inactiveNodeIds, onFailureScenarioChange]);
 
   useEffect(() => {
     engineRef.current.setFocusNodes(combinedFocusIds);
@@ -516,7 +511,7 @@ export function VisualCanvas({
         role="img"
         aria-describedby={`scene-description-${sceneId}`}
         tabIndex={0}
-        aria-label="Diagrama interactivo: arrastra para mover, usa la rueda o las teclas más y menos para acercar o alejar, pulsa A para ajustar y cero para restablecer."
+        aria-label="Diagrama interactivo: arrastra para mover, usa la rueda o las teclas más y menos para acercar o alejar, y pulsa un componente para abrir el laboratorio de comprensión."
         className="block h-full w-full cursor-grab touch-none bg-core-bg active:cursor-grabbing"
       />
       <div id={`scene-description-${sceneId}`} className="sr-only">
@@ -539,7 +534,7 @@ export function VisualCanvas({
         </p>
       ) : null}
       {selectedNode ? (
-        <NodeDetailCard node={selectedNode} scene={scene} audienceMode={audienceMode} onClose={() => onNodeSelect(null)} />
+        <NodeDetailCard node={selectedNode} scene={scene} audienceMode={audienceMode} isInactive={inactiveNodeIds.includes(selectedNode.id)} onToggleAvailability={toggleNodeAvailability} onClose={() => onNodeSelect(null)} />
       ) : null}
       {showTechnicalTools ? (
         <div className="absolute right-4 top-4 z-30 flex max-w-[calc(100%-2rem)] flex-wrap items-center gap-1 border border-core-border/[0.14] bg-core-panel/95 p-1.5 font-mono text-[0.58rem] shadow-sm backdrop-blur-sm" aria-label="Inspector técnico">
@@ -601,18 +596,6 @@ export function VisualCanvas({
             </span>
           ) : null}
         </button>
-      ) : null}
-      {isTechnicalMode && showInteractionHint ? (
-        <aside className="absolute bottom-4 left-4 z-20 w-[min(20rem,calc(100%-2rem))] border border-core-accent/30 bg-core-panel/95 p-3 shadow-lg backdrop-blur-sm" aria-label="Cómo explorar el diagrama">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.1em] text-core-accent">Explora el diagrama</p>
-              <p className="mt-1 text-[0.68rem] leading-relaxed text-core-text-secondary">Arrastra para moverte, usa la rueda para acercar y pulsa un nodo para ver su función.</p>
-            </div>
-            <button type="button" onClick={dismissInteractionHint} className="shrink-0 border border-core-border/[0.14] px-1.5 py-1 font-mono text-[0.58rem] text-core-text-muted transition-colors hover:border-core-accent/60 hover:text-core-text" aria-label="Cerrar ayuda del diagrama">×</button>
-          </div>
-          <p className="mt-1.5 border-t border-core-border/[0.1] pt-1.5 font-mono text-[0.54rem] text-core-text-muted">También puedes usar +, − y 0.</p>
-        </aside>
       ) : null}
       <CanvasViewControls
         scale={viewport.scale}
