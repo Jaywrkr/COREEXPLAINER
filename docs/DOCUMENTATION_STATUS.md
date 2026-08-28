@@ -1,6 +1,6 @@
 # Estado de la documentación
 
-**Sincronizado:** 28-08-2026 contra `main` (`d574887`, versión de trabajo `0.253.0`).
+**Sincronizado:** 28-08-2026 contra `main` (`d574887`, versión de trabajo `0.254.0`).
 
 Este índice evita una ambigüedad importante: una fecha de documentación viva
 indica cuándo se alineó con el producto; una fecha de auditoría o de fuente

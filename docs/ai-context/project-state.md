@@ -7,7 +7,7 @@
 
 ## Punto de partida para la siguiente sesión
 
-- La versión de trabajo del repositorio es **0.253.0**.
+- La versión de trabajo del repositorio es **0.254.0**.
 - Architecture Studio (`/architecture`) genera borradores conceptuales desde
   el catálogo CORESOLUTIONS, los valida localmente y no certifica modelos,
   firmware, licencias, HCL, cableado físico, sizing ni una topología de
@@ -27,8 +27,13 @@
   [`../audits/explainer-extreme-simplification-audit-2026-08-28.md`](../audits/explainer-extreme-simplification-audit-2026-08-28.md):
   primero simplificar el shell común y luego condensar el contenido de cada
   tema en problema → mecanismo → decisión.
+- El shell de los explainers ahora empieza en Cliente y expone Detalle técnico
+  bajo demanda. La siguiente fase pendiente es condensar el contenido de cada
+  tema según la auditoría de simplificación, sin borrar fuentes o límites.
 
 **Actualizacion v0.248.0 (12-08-2026):** `/architecture` genera borradores visuales solo desde patrones CORESOLUTIONS auditados. Obliga a declarar objetivo, workload y evidencia; muestra riesgos y pendientes, pero no calcula compatibilidad ni cambia ningún estado de revisión.
+
+**Actualizacion v0.254.0 (28-08-2026):** el shell compartido de explainers reduce la primera lectura a Cliente o Detalle técnico. Cliente ya no repite la explicación debajo de su tarjeta de idea/impacto y el canvas oculta timeline/caption técnico; los controles técnicos se conservan bajo demanda.
 
 **Actualizacion v0.253.0 (28-08-2026):** Architecture Studio puede descargar un paquete de diseño técnico en Markdown. Incluye inventario de bloques autorizados, conexiones y puertos lógicos, supuestos, riesgos, resultados de validación, preguntas de discovery y pendientes de ingeniería; no se presenta como BOM, HCL, diseño de bajo nivel ni aprobación de implementación.
 

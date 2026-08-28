@@ -396,12 +396,14 @@ export function ExplainerLayout({
           onDecisionOptionChange={setSelectedDecisionOptionId}
           guidedFocusNodeIds={guidedFocusNodeIds}
         />
-        <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center font-mono text-[0.74rem] tracking-[0.02em] text-core-text-muted">
-          {step.caption}
-        </div>
-        <div className="pointer-events-none absolute bottom-14 left-4 right-4 z-20 sm:bottom-16 sm:left-6 sm:right-6">
-          <SceneTimeline steps={steps} current={current} onSelect={selectStep} />
-        </div>
+        {audienceMode === "technical" ? <>
+          <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-center font-mono text-[0.74rem] tracking-[0.02em] text-core-text-muted">
+            {step.caption}
+          </div>
+          <div className="pointer-events-none absolute bottom-14 left-4 right-4 z-20 sm:bottom-16 sm:left-6 sm:right-6">
+            <SceneTimeline steps={steps} current={current} onSelect={selectStep} />
+          </div>
+        </> : null}
         {presentationActive ? (
           <PresentationHud
             playing={presentationPlaying}

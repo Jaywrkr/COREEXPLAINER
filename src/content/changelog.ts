@@ -9,9 +9,10 @@ export interface ChangelogEntry {
  * Source of the release information rendered in the global version control.
  * Keep this aligned with package.json and docs/CHANGELOG.md.
  */
-export const currentVersion = "0.253.0";
+export const currentVersion = "0.254.0";
 
 export const changelogEntries: ChangelogEntry[] = [
+  { version: "0.254.0", date: "2026-08-28", title: "Shell de explainers simplificado", changes: ["La primera vista reduce los niveles a Cliente o Detalle técnico; enlaces antiguos con modo conceptual pasan a Cliente.", "Cliente muestra una única tarjeta de idea e impacto, sin duplicar texto técnico, guía de lectura ni navegación completa de escenas.", "La línea de tiempo y el caption técnico solo aparecen al abrir Detalle técnico; las herramientas se agrupan como Operar y entregar."] },
   { version: "0.253.0", date: "2026-08-28", title: "Paquete de diseño técnico", changes: ["Architecture Studio descarga un handoff Markdown con inventario conceptual, conexiones y sus puertos lógicos, supuestos, riesgos y chequeo estructural.", "El documento deriva preguntas de discovery por bloque y protocolo, además de pendientes obligatorios para ingeniería.", "El paquete conserva los límites: es un borrador conceptual y no sustituye BOM, HCL, sizing, cableado físico ni aprobación de implementación."] },
   { version: "0.252.0", date: "2026-08-13", title: "Rutas de cable editables y zoom gestual", changes: ["Cada cable seleccionado muestra un punto de quiebre arrastrable para reubicar su recorrido ortogonal.", "El cambio de ruta es solo visual: no altera equipos, puertos ni validación técnica.", "El canvas admite zoom con rueda o trackpad, además de botones de zoom y restablecimiento al 100%. "] },
   { version: "0.251.0", date: "2026-08-12", title: "Distribución automática del canvas", changes: ["La propuesta generada abre directamente el modo pantalla completa.", "Los nodos se distribuyen en celdas por dominio antes de mostrarse, evitando superposiciones entre sedes, data center y DR.", "Los controles de zoom y centrado se mantienen disponibles para ajustar la lectura del diagrama."] },

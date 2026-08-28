@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.254.0] - 2026-08-28
+
+### Shell de explainers simplificado
+
+- La primera vista queda en Cliente o Detalle técnico; enlaces antiguos con modo conceptual abren la vista Cliente.
+- Cliente muestra una sola idea e impacto, sin duplicar el texto de la escena ni exponer la línea de tiempo técnica.
+- Las herramientas técnicas pasan a llamarse **Operar y entregar** y quedan fuera de la lectura inicial.
+
 ## [0.253.0] - 2026-08-28
 
 ### Paquete de diseño técnico

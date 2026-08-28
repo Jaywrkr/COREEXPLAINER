@@ -5,13 +5,13 @@ interface AudienceModeToggleProps {
   onChange: (mode: AudienceMode) => void;
 }
 
-/** Lets each person choose the depth that matches their context. */
+/** Keeps the first decision understandable: read simply or open the technical layer. */
 export function AudienceModeToggle({ mode, onChange }: AudienceModeToggleProps) {
-  const options: AudienceMode[] = ["client", "conceptual", "technical"];
+  const options: AudienceMode[] = ["client", "technical"];
   const labels: Record<AudienceMode, string> = {
     client: "Cliente",
     conceptual: "Conceptual",
-    technical: "Técnico",
+    technical: "Detalle técnico",
   };
   const descriptions: Record<AudienceMode, string> = {
     client: "Qué problema resuelve y por qué importa.",
@@ -20,13 +20,11 @@ export function AudienceModeToggle({ mode, onChange }: AudienceModeToggleProps) 
   };
 
   return (
-    <fieldset className="mb-4 flex items-center gap-2 border-t border-core-border/[0.1] py-2.5">
-      <legend className="sr-only">Nivel de explicación</legend>
-      <span className="mt-1 shrink-0 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">
-        Nivel
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="grid grid-cols-3 gap-0.5" role="group" aria-label="Seleccionar nivel de explicación">
+    <fieldset className="mb-3 border-t border-core-border/[0.1] pt-2.5">
+      <legend className="sr-only">Nivel de detalle</legend>
+      <div className="flex items-center justify-between gap-3">
+        <span className="shrink-0 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Vista</span>
+        <div className="grid min-w-0 flex-1 grid-cols-2 gap-0.5" role="group" aria-label="Seleccionar nivel de detalle">
           {options.map((option) => {
             const selected = option === mode;
             return (
@@ -36,7 +34,7 @@ export function AudienceModeToggle({ mode, onChange }: AudienceModeToggleProps) 
                 aria-pressed={selected}
                 title={descriptions[option]}
                 onClick={() => onChange(option)}
-                className={`px-1.5 py-1 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.04em] transition-colors ${
+                className={`px-1.5 py-1.5 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.04em] transition-colors ${
                   selected
                     ? "bg-core-accent text-core-bg"
                     : "text-core-text-muted hover:bg-core-accent/10 hover:text-core-text"

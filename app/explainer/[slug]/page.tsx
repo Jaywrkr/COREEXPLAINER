@@ -39,9 +39,9 @@ export default async function ExplainerTopicPage({ params, searchParams }: PageP
     ? scenarioFromLink.id
     : null;
   const requestedMode = firstParam(query.mode);
-  const initialAudienceMode = requestedMode === "technical" || requestedMode === "conceptual"
-    ? requestedMode
-    : "client";
+  // Legacy `conceptual` links now open the simple client view. Keeping the URL
+  // compatible avoids exposing a third, ambiguous level of detail.
+  const initialAudienceMode = requestedMode === "technical" ? "technical" : "client";
 
   return (
     <ExplainerLayout
