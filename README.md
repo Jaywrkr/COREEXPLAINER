@@ -4,6 +4,10 @@ Explicaciones visuales interactivas de conceptos técnicos complejos, para
 conversaciones de venta consultiva de CORESOLUTIONS. Next.js + TypeScript,
 desplegable en Vercel.
 
+> **Documentación operativa sincronizada:** 28-08-2026. Consulta el
+> [estado de documentación](./docs/DOCUMENTATION_STATUS.md) para distinguir
+> documentación viva de registros históricos y revisiones técnicas fechadas.
+
 - **¿Vas a desarrollar esto con ayuda de una IA (Claude, ChatGPT, etc.)?**
   Empieza por [`AI_WORKFLOW.md`](./AI_WORKFLOW.md).
 - **¿Buscas contexto de producto?** [`docs/product/vision.md`](./docs/product/vision.md).
@@ -11,6 +15,7 @@ desplegable en Vercel.
 - **¿Qué hemos implementado realmente?** [`docs/product/coresolutions-project-patterns.md`](./docs/product/coresolutions-project-patterns.md).
 - **¿Cómo se declaran las marcas por tema?** [`docs/ai-context/brand-context.md`](./docs/ai-context/brand-context.md).
 - **¿Estado actual del proyecto?** [`docs/ai-context/project-state.md`](./docs/ai-context/project-state.md).
+- **¿Qué Markdown debe actualizar una nueva sesión de IA?** [`docs/DOCUMENTATION_STATUS.md`](./docs/DOCUMENTATION_STATUS.md).
 - **¿Qué cambios tiene cada versión?** [`docs/CHANGELOG.md`](./docs/CHANGELOG.md).
 - **¿Vas a revisar el ejemplo VCF?** [`docs/ai-context/vcf-technical-validation.md`](./docs/ai-context/vcf-technical-validation.md).
 - **¿Vas a revisar vSphere HA?** [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
