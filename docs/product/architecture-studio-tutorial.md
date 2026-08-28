@@ -1,6 +1,6 @@
 # Tutorial de Architecture Studio
 
-> **Sincronizado:** 28-08-2026 contra `main` (`fc1c008`).
+> **Sincronizado:** 28-08-2026 contra `main` (`d574887`).
 
 Architecture Studio es independiente de los temas explicativos. Sirve para discovery, preventa y handoff técnico.
 
@@ -15,5 +15,8 @@ Architecture Studio es independiente de los temas explicativos. Sirve para disco
    ajuste visual en una conexión técnicamente inválida.
 6. Completa producto, versión, modelo/sitio y fuente/HCL por marca antes de
    preparar la revisión de ingeniería.
+7. Usa **Paquete técnico** para descargar el handoff de preventa a ingeniería:
+   inventario, flujos, supuestos, riesgos y preguntas abiertas. Revisa y
+   completa esos pendientes fuera del canvas antes de implementar.
 
 Un estado conceptual completo no es aprobación: la implementación requiere validación humana, compatibilidad, sizing, seguridad, pruebas y aceptación.

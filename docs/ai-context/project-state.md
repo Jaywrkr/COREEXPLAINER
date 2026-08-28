@@ -1,13 +1,13 @@
 # Estado del proyecto
 
-> **Estado operativo sincronizado:** 28-08-2026 contra `main` (`fc1c008`).
+> **Estado operativo sincronizado:** 28-08-2026 contra `main` (`d574887`).
 > La fecha de cada actualización inferior es el registro histórico de ese
 > cambio; no equivale a una nueva certificación técnica, de compatibilidad o
 > del entorno de un cliente.
 
 ## Punto de partida para la siguiente sesión
 
-- La versión publicada del repositorio es **0.252.0**.
+- La versión de trabajo del repositorio es **0.253.0**.
 - Architecture Studio (`/architecture`) genera borradores conceptuales desde
   el catálogo CORESOLUTIONS, los valida localmente y no certifica modelos,
   firmware, licencias, HCL, cableado físico, sizing ni una topología de
@@ -15,12 +15,18 @@
 - El Studio ya abre las propuestas a pantalla completa, distribuye nodos por
   dominio/sede, evita solapes, permite centrar/zoom y conserva la validación
   de conexiones aunque el usuario ajuste el recorrido visual del cable.
+- El control **Paquete técnico** descarga un handoff Markdown con inventario,
+  conexiones, supuestos, riesgos, validación y preguntas de discovery. Es
+  útil para preventa y la transición a ingeniería, pero no aprueba diseño ni
+  implementación.
 - La documentación viva se gobierna en
   [`../DOCUMENTATION_STATUS.md`](../DOCUMENTATION_STATUS.md). Las auditorías,
   fuentes y revisiones técnicas mantienen sus fechas reales hasta que se
   ejecuten de nuevo.
 
 **Actualizacion v0.248.0 (12-08-2026):** `/architecture` genera borradores visuales solo desde patrones CORESOLUTIONS auditados. Obliga a declarar objetivo, workload y evidencia; muestra riesgos y pendientes, pero no calcula compatibilidad ni cambia ningún estado de revisión.
+
+**Actualizacion v0.253.0 (28-08-2026):** Architecture Studio puede descargar un paquete de diseño técnico en Markdown. Incluye inventario de bloques autorizados, conexiones y puertos lógicos, supuestos, riesgos, resultados de validación, preguntas de discovery y pendientes de ingeniería; no se presenta como BOM, HCL, diseño de bajo nivel ni aprobación de implementación.
 
 **Actualizacion v0.247.0 (12-08-2026):** el modo cliente de cada explainer reduce la lectura inicial a una idea y un impacto; se retiraron la pregunta genérica y la representación duplicada. Herramientas, evidencia y detalle técnico siguen bajo demanda, y el acceso a presentación ocupa menos espacio.
 

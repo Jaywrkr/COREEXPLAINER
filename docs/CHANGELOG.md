@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.253.0] - 2026-08-28
+
+### Paquete de diseño técnico
+
+- Architecture Studio descarga un handoff Markdown con inventario conceptual, conexiones y puertos lógicos, supuestos, riesgos y chequeo estructural.
+- El paquete propone preguntas de discovery según bloques y protocolos, además de pendientes obligatorios para la revisión de ingeniería.
+- El documento es conceptual: no reemplaza BOM, HCL, sizing, cableado físico ni aprobación de implementación.
+
 ## [0.252.0] - 2026-08-13
 
 ### Rutas de cable editables y zoom gestual

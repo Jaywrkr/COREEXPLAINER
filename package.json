@@ -1,6 +1,6 @@
 {
   "name": "coresolutions-technical-explainer",
-  "version": "0.252.0",
+  "version": "0.253.0",
   "private": true,
   "description": "CORESOLUTIONS Technical Explainer — interactive visual explainer for complex IT concepts.",
   "scripts": {
@@ -16,6 +16,7 @@
     "test:technical-contract-audit": "tsx scripts/test-technical-contract-audit.ts",
     "test:architecture-generator": "tsx scripts/test-architecture-generator.ts",
     "test:architecture-studio": "tsx scripts/test-architecture-studio.ts",
+    "test:architecture-design-package": "tsx scripts/test-architecture-design-package.ts",
     "test:architecture-ai-diagnostics": "tsx scripts/test-architecture-ai-diagnostics.ts",
     "test:ai-guards": "tsx scripts/test-ai-guards.ts",
     "test:ai-input-sanitization": "tsx scripts/test-ai-input-sanitization.ts",

@@ -1,6 +1,6 @@
 # Architecture Studio · generación conceptual con IA
 
-> **Sincronizado:** 28-08-2026 contra `main` (`fc1c008`). La fecha indica la
+> **Sincronizado:** 28-08-2026 contra `main` (`d574887`). La fecha indica la
 > vigencia de esta guía operativa; las fuentes de compatibilidad y las
 > aprobaciones de ingeniería se mantienen por separado.
 
@@ -19,6 +19,14 @@ La vista puede filtrar datos, gestión, storage, backup/DR u observabilidad. Cad
 Al generar una propuesta, el Studio abre automáticamente el canvas a pantalla completa y distribuye los nodos en celdas por dominio. Esto es una distribución inicial de lectura: el usuario conserva libertad para mover los equipos y usar zoom o centrado.
 
 Los cables seleccionados muestran un punto de quiebre arrastrable para ajustar su recorrido y evitar cruces visuales. Esta acción no modifica los extremos, puertos ni la validación técnica. El zoom se controla con los botones, la rueda del mouse o el trackpad; `100%` restablece el encuadre.
+
+## Handoff a ingeniería
+
+El control **Paquete técnico** descarga un Markdown generado desde el canvas:
+inventario de bloques, conexiones y sus puertos lógicos, supuestos, riesgos,
+resultado del chequeo automático, preguntas de discovery y pendientes previos
+a implementar. Es el artefacto de transición entre discovery/preventa e
+ingeniería; no es una BOM, HCL, diseño de bajo nivel ni aprobación.
 
 ## Configuración
 
