@@ -1,13 +1,18 @@
 # Estado del proyecto
 
-> **Estado operativo sincronizado:** 28-08-2026 contra `main` (`d574887`).
+> **Estado operativo sincronizado:** 28-08-2026 contra `codex/core-glide-mcp-explainer`.
 > La fecha de cada actualización inferior es el registro histórico de ese
 > cambio; no equivale a una nueva certificación técnica, de compatibilidad o
 > del entorno de un cliente.
 
 ## Punto de partida para la siguiente sesión
 
-- La versión de trabajo del repositorio es **0.256.0**.
+- La versión de trabajo del repositorio es **0.257.0**.
+- El catálogo contiene **23 explainers**. El más reciente es
+  `/explainer/core-glide-mcp`: explica consultas operativas de Glide desde
+  Codex mediante un servidor MCP remoto de solo lectura. Sus escenas separan
+  datos, consulta controlada, validación humana y gobierno; no modifican
+  Glide ni certifican permisos, relaciones o resultados reales.
 - Architecture Studio (`/architecture`) genera borradores conceptuales desde
   el catálogo CORESOLUTIONS, los valida localmente y no certifica modelos,
   firmware, licencias, HCL, cableado físico, sizing ni una topología de
@@ -44,6 +49,8 @@
 **Actualizacion v0.255.0 (28-08-2026):** seleccionar un nodo abre el Laboratorio de comprensión: consola conceptual, comprobación de relaciones y, para nodos `killable`, interrupción/restauración visual. Estas acciones no ejecutan comandos, no hacen ping ni consultan el entorno real.
 
 **Actualizacion v0.256.0 (28-08-2026):** siglas y términos conocidos tienen un popover de lenguaje simple al hover/foco. Se eliminan el resumen flotante y Operar y entregar; la ficha de nodos diferencia aplicación, hardware, red, software de control, datos y externos. El host SAN permite explorar Lenovo ThinkSystem o IBM Power con color de marca.
+
+**Actualizacion v0.257.0 (28-08-2026):** se agrega `/explainer/core-glide-mcp` con cuatro escenas y un escenario guiado de alias ambiguo. El tema cita MCP, Glide, OpenAI y la implementación de CORESOLUTIONS; conserva `reviewStatus: pending` hasta confirmar token, tablas, relaciones y gobierno humano del servicio activo.
 
 **Actualizacion v0.253.0 (28-08-2026):** Architecture Studio puede descargar un paquete de diseño técnico en Markdown. Incluye inventario de bloques autorizados, conexiones y puertos lógicos, supuestos, riesgos, resultados de validación, preguntas de discovery y pendientes de ingeniería; no se presenta como BOM, HCL, diseño de bajo nivel ni aprobación de implementación.
 

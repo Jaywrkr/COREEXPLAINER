@@ -24,7 +24,7 @@ Las reglas tienen ID estable, explicación, severidad y, cuando corresponde, fue
 
 ## Cobertura actual
 
-Los 22 explainers del registro tienen un perfil. VCF y NSX conservan las reglas más profundas del primer batch: dependencias de plataforma, plano de gestión, storage compartido, underlay/overlay, GENEVE, DFW y caminos north-south. El resto tiene una línea base explícita por escena que comprueba componentes esenciales, una relación semántica y un camino principal.
+Los 23 explainers del registro tienen un perfil. VCF y NSX conservan las reglas más profundas del primer batch: dependencias de plataforma, plano de gestión, storage compartido, underlay/overlay, GENEVE, DFW y caminos north-south. El resto tiene una línea base explícita por escena que comprueba componentes esenciales, una relación semántica y un camino principal. Core Glide MCP añade controles de relaciones documentadas, cadena de consulta MCP y validación humana, sin presentar el modelo como acceso a datos reales.
 
 | Dominio | Temas incluidos |
 | --- | --- |
