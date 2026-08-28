@@ -1,5 +1,9 @@
 # Architecture Studio · generación conceptual con IA
 
+> **Sincronizado:** 28-08-2026 contra `main` (`fc1c008`). La fecha indica la
+> vigencia de esta guía operativa; las fuentes de compatibilidad y las
+> aprobaciones de ingeniería se mantienen por separado.
+
 La ruta `/architecture` parte de un canvas vacío. El usuario describe el entorno y la necesidad del cliente; una API de IA del lado del servidor genera un borrador visual exclusivamente con el catálogo lógico autorizado de CORESOLUTIONS.
 
 El usuario puede arrastrar nodos, editar su nombre, reemplazarlos por otro bloque autorizado y crear/editar conexiones. Cada conexión vuelve a validarse: sus extremos deben existir y los puertos deben usar el mismo medio/protocolo (salvo gestión sobre Ethernet). La plataforma normaliza coordenadas generadas y puede corregir un puerto solo cuando el catálogo contiene un único puerto equivalente; si no puede demostrar compatibilidad, omite la conexión y deja el pendiente visible.

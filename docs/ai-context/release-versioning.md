@@ -1,5 +1,7 @@
 # Versionado y changelog
 
+> **Sincronizado:** 28-08-2026 contra `main` (`fc1c008`).
+
 El producto muestra su versión actual en un control global, abajo a la
 izquierda. Al hacer clic, el usuario puede abrir el changelog sin abandonar
 la explicación que está viendo.
@@ -26,6 +28,14 @@ contenido visible de la aplicación.
 5. Actualizar `docs/ai-context/project-state.md` si la funcionalidad cambia
    el estado del producto o el modo de continuarlo con IA.
 6. Ejecutar `npm run typecheck` y `npm run build` antes del commit.
+
+## Fechas de documentación
+
+La fecha de edición de documentación operativa se gobierna en
+[`../DOCUMENTATION_STATUS.md`](../DOCUMENTATION_STATUS.md). No se debe cambiar
+la fecha de una entrada de `docs/CHANGELOG.md`, de una auditoría, de una fuente
+oficial ni de una revisión técnica solo para indicar que un Markdown fue
+visitado: esas fechas son evidencia histórica y requieren una revisión real.
 
 El control de versión se monta una sola vez en `app/layout.tsx` mediante
 `VersionChangelog.tsx`. Es un componente cliente porque gestiona la apertura
