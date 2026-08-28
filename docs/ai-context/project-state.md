@@ -23,6 +23,10 @@
   [`../DOCUMENTATION_STATUS.md`](../DOCUMENTATION_STATUS.md). Las auditorías,
   fuentes y revisiones técnicas mantienen sus fechas reales hasta que se
   ejecuten de nuevo.
+- La siguiente evolución de UI está especificada en
+  [`../audits/explainer-extreme-simplification-audit-2026-08-28.md`](../audits/explainer-extreme-simplification-audit-2026-08-28.md):
+  primero simplificar el shell común y luego condensar el contenido de cada
+  tema en problema → mecanismo → decisión.
 
 **Actualizacion v0.248.0 (12-08-2026):** `/architecture` genera borradores visuales solo desde patrones CORESOLUTIONS auditados. Obliga a declarar objetivo, workload y evidencia; muestra riesgos y pendientes, pero no calcula compatibilidad ni cambia ningún estado de revisión.
 
