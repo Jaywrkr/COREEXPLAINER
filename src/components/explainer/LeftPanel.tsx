@@ -12,15 +12,6 @@ import { SceneShareControl } from "./SceneShareControl";
 import { BrandContextPanel } from "./BrandContextPanel";
 import { ExplainerFeedback } from "./ExplainerFeedback";
 import { GlossaryText } from "./GlossaryText";
-import { CopilotPanel } from "./CopilotPanel";
-import { AssessmentBriefControl } from "./AssessmentBriefControl";
-import { ContentWorkflowPanel } from "./ContentWorkflowPanel";
-import { TechnicalWorkbenchPanel } from "./TechnicalWorkbenchPanel";
-import { SupportTriagePanel } from "./SupportTriagePanel";
-import { SupportCasePackPanel } from "./SupportCasePackPanel";
-import { ImplementationWorkPackagePanel } from "./ImplementationWorkPackagePanel";
-import { ToolDrawer } from "./ToolDrawer";
-import { EvidenceMapPanel } from "./EvidenceMapPanel";
 import { ClientStoryCard } from "./ClientStoryCard";
 
 interface LeftPanelProps {
@@ -41,7 +32,6 @@ interface LeftPanelProps {
   audienceMode: AudienceMode;
   onAudienceModeChange: (mode: AudienceMode) => void;
   activeFailureScenarioId: string | null;
-  onSelectScenario: (scenarioId: string | null) => void;
 }
 
 export function LeftPanel({
@@ -62,7 +52,6 @@ export function LeftPanel({
   audienceMode,
   onAudienceModeChange,
   activeFailureScenarioId,
-  onSelectScenario,
 }: LeftPanelProps) {
   const step = steps[current]!;
   const isTechnical = audienceMode === "technical";
@@ -93,16 +82,6 @@ export function LeftPanel({
           businessImpact={step.businessImpact}
         />
       ) : null}
-      {isTechnical ? <ToolDrawer>
-        <CopilotPanel slug={slug} meta={meta} step={step} audienceMode={audienceMode} scenarios={meta.failureScenarios ?? []} technicalSources={meta.technicalReview.sources} onSelectScenario={onSelectScenario} />
-        <EvidenceMapPanel meta={meta} steps={steps} current={current} activeScenarioId={activeFailureScenarioId} />
-        <AssessmentBriefControl slug={slug} meta={meta} steps={steps} />
-        <TechnicalWorkbenchPanel slug={slug} meta={meta} steps={steps} />
-        <SupportTriagePanel slug={slug} meta={meta} steps={steps} />
-        <SupportCasePackPanel slug={slug} meta={meta} steps={steps} />
-        <ImplementationWorkPackagePanel slug={slug} meta={meta} steps={steps} />
-        <ContentWorkflowPanel slug={slug} meta={meta} />
-      </ToolDrawer> : null}
       {isTechnical ? (
         <details className="mb-5 border-t border-core-border/[0.1] pt-3">
           <summary className="cursor-pointer list-none font-mono text-[0.6rem] font-semibold uppercase tracking-[0.07em] text-core-text-muted transition-colors hover:text-core-text [&::-webkit-details-marker]:hidden">Revisión y evidencia</summary>

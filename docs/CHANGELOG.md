@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.256.0] - 2026-08-28
+
+### Nodos claros y UI técnica reducida
+
+- Siglas y términos conocidos muestran un popover explicativo al hover o foco, sin usar el tooltip básico del navegador.
+- Se retiraron el resumen flotante redundante del canvas y el bloque **Operar y entregar** de la lectura del explainer.
+- Las fichas distinguen aplicación, hardware, red, software de control, datos y sistemas externos. El host SAN permite explorar Lenovo ThinkSystem o IBM Power con colores de marca.
+
 ## [0.255.0] - 2026-08-28
 
 ### Laboratorio de comprensión del diagrama

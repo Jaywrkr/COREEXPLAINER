@@ -14,3 +14,9 @@ not reintroduce a third audience selector unless it demonstrates a decision
 that cannot be served by either level. Timeline, scene caption and operational
 tools are technical-only; this prevents the canvas from competing with its
 own controls.
+
+Do not reintroduce a floating scene summary over the diagram. Its title,
+caption and paragraph duplicate the left narrative while reducing the area
+available to understand the topology. Keep optional operational workspaces out
+of the explainer reading path unless a user explicitly enters a dedicated
+workflow.
