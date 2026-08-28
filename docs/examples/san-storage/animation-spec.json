@@ -6,7 +6,7 @@
     "foundation": {
       "nodes": [
         { "id": "application", "name": "Aplicación", "subtitle": "VMware, AIX u otra carga", "x": 0.08, "y": 0.5, "kind": "workload", "rps": 4 },
-        { "id": "host", "name": "Host Lenovo / IBM Power", "subtitle": "SO, hipervisor y HBA", "x": 0.28, "y": 0.5, "kind": "compute", "capacity": 85 },
+        { "id": "host", "name": "Host", "subtitle": "Elige Lenovo ThinkSystem o IBM Power", "x": 0.28, "y": 0.5, "kind": "compute", "capacity": 85 },
         { "id": "fabric-a", "name": "Fabric FC A", "subtitle": "Camino independiente", "x": 0.5, "y": 0.28, "kind": "network", "capacity": 80 },
         { "id": "fabric-b", "name": "Fabric FC B", "subtitle": "Camino independiente", "x": 0.5, "y": 0.72, "kind": "network", "capacity": 80 },
         { "id": "array", "name": "IBM FlashSystem", "subtitle": "Nodos y puertos de storage", "x": 0.75, "y": 0.5, "kind": "storage", "capacity": 90 },

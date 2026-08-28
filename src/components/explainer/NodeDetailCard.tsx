@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { EdgeKind, NodeKind, Scene, SceneNode } from "@/lib/animation-spec/types";
 import type { AudienceMode } from "./AudienceModeToggle";
 import { GlossaryText } from "./GlossaryText";
@@ -13,12 +13,21 @@ interface NodeDetailCardProps {
 }
 
 const KIND_LABELS: Record<NodeKind, string> = {
-  "control-plane": "Plano de control",
-  compute: "Cómputo",
+  "control-plane": "Software de control",
+  compute: "Hardware de cómputo",
   storage: "Almacenamiento",
-  network: "Red",
-  workload: "Carga de trabajo",
-  external: "Sistema externo",
+  network: "Infraestructura de red",
+  workload: "Aplicación",
+  external: "Usuario o sistema externo",
+};
+
+const KIND_BADGES: Record<NodeKind, { code: string; label: string; description: string; tone: string }> = {
+  "control-plane": { code: "SW", label: "Software", description: "Una capacidad que coordina, configura o gobierna otros elementos.", tone: "border-amber-400/50 bg-amber-400/10 text-amber-300" },
+  compute: { code: "HW", label: "Hardware", description: "Un equipo físico que ejecuta software y conecta recursos.", tone: "border-core-accent/50 bg-core-accent/10 text-core-accent" },
+  storage: { code: "DATA", label: "Datos", description: "Una capa que conserva y presenta información persistente.", tone: "border-violet-400/50 bg-violet-400/10 text-violet-300" },
+  network: { code: "NET", label: "Red", description: "Una conexión o elemento que transporta y separa comunicaciones.", tone: "border-cyan-400/50 bg-cyan-400/10 text-cyan-300" },
+  workload: { code: "APP", label: "Aplicación", description: "Una mini aplicación o servicio que usa la plataforma para atender una necesidad de negocio.", tone: "border-emerald-400/50 bg-emerald-400/10 text-emerald-300" },
+  external: { code: "EXT", label: "Externo", description: "Una persona, sistema o dependencia que está fuera de la plataforma representada.", tone: "border-slate-400/50 bg-slate-400/10 text-slate-300" },
 };
 
 const KIND_DESCRIPTIONS: Record<NodeKind, string> = {
@@ -42,6 +51,14 @@ const EDGE_LABELS: Record<EdgeKind, string> = {
 export function NodeDetailCard({ node, scene, audienceMode, isInactive, onToggleAvailability, onClose }: NodeDetailCardProps) {
   const isTechnical = audienceMode === "technical";
   const [labView, setLabView] = useState<"none" | "console" | "check">("none");
+  const [hostBrand, setHostBrand] = useState<"lenovo" | "ibm">("lenovo");
+  const badge = KIND_BADGES[node.kind];
+  const canChooseHostBrand = node.kind === "compute" && /elige lenovo thinksystem o ibm power/i.test(node.subtitle ?? "");
+  const selectedHost = hostBrand === "lenovo"
+    ? { name: "Lenovo ThinkSystem", detail: "Servidor físico para ejecutar la aplicación y presentar sus adaptadores hacia la SAN.", tone: "border-[#e2231a]/55 bg-[#e2231a]/10 text-[#ff6b61]" }
+    : { name: "IBM Power", detail: "Servidor IBM Power para ejecutar cargas AIX y presentar sus adaptadores hacia la SAN.", tone: "border-[#0f62fe]/55 bg-[#0f62fe]/10 text-[#78a9ff]" };
+
+  useEffect(() => setLabView("none"), [node.id]);
   const connections = scene.edges
     .filter((edge) => edge.from === node.id || edge.to === node.id)
     .map((edge) => {
@@ -79,12 +96,33 @@ export function NodeDetailCard({ node, scene, audienceMode, isInactive, onToggle
       </div>
 
       <div className="space-y-4 px-4 py-4">
+        <div className={`border p-3 ${badge.tone}`}>
+          <div className="flex items-center gap-3">
+            <span aria-hidden="true" className="grid h-9 w-10 shrink-0 place-items-center border border-current/40 bg-core-bg/40 font-mono text-[0.58rem] font-bold">{badge.code}</span>
+            <div>
+              <p className="font-mono text-[0.56rem] font-semibold uppercase tracking-[0.09em]">{badge.label}</p>
+              <p className="mt-0.5 text-[0.7rem] leading-relaxed text-core-text-secondary">{badge.description}</p>
+            </div>
+          </div>
+        </div>
+
         <div>
           <p className="mb-1 font-mono text-[0.62rem] font-semibold uppercase tracking-[0.1em] text-core-text-muted">
-            Qué representa
+            Qué hace aquí
           </p>
           <p className="text-xs leading-relaxed text-core-text-secondary"><GlossaryText text={KIND_DESCRIPTIONS[node.kind]} /></p>
         </div>
+
+        {canChooseHostBrand ? (
+          <div className="border-t border-core-border/[0.1] pt-3">
+            <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Tipo de host para explorar</p>
+            <div className="mt-2 grid grid-cols-2 gap-1.5">
+              <button type="button" aria-pressed={hostBrand === "lenovo"} onClick={() => setHostBrand("lenovo")} className={`border px-2 py-2 text-left text-[0.66rem] font-semibold transition-colors ${hostBrand === "lenovo" ? "border-[#e2231a]/70 bg-[#e2231a]/15 text-[#ff6b61]" : "border-core-border/[0.14] text-core-text-muted"}`}>Lenovo<br /><span className="font-normal">ThinkSystem</span></button>
+              <button type="button" aria-pressed={hostBrand === "ibm"} onClick={() => setHostBrand("ibm")} className={`border px-2 py-2 text-left text-[0.66rem] font-semibold transition-colors ${hostBrand === "ibm" ? "border-[#0f62fe]/70 bg-[#0f62fe]/15 text-[#78a9ff]" : "border-core-border/[0.14] text-core-text-muted"}`}>IBM<br /><span className="font-normal">Power</span></button>
+            </div>
+            <div className={`mt-2 border p-2 text-[0.7rem] leading-relaxed ${selectedHost.tone}`}><span className="font-semibold">{selectedHost.name}:</span> {selectedHost.detail}</div>
+          </div>
+        ) : null}
 
         {node.subtitle ? (
           <div>

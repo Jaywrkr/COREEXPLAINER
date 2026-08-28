@@ -21,3 +21,10 @@ explicar.
 Mantener los controles de vista compactos. Puertos, capas, escenarios,
 integridad y herramientas de operación continúan disponibles bajo Detalle
 técnico, no como paneles permanentes sobre el canvas.
+
+Las fichas de nodo deben explicar primero su naturaleza visual: aplicación,
+hardware, red, software de control, datos o sistema externo. Evitar categorías
+abstractas como “carga de trabajo” cuando una persona puede entender
+“aplicación”. Cuando un nodo representa variantes de producto, como el host
+SAN, permitir explorar las alternativas con colores de marca sin afirmar que
+la selección cambió el entorno real.

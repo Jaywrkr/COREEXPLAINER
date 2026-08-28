@@ -61,12 +61,15 @@ export function GlossaryText({ text, className }: GlossaryTextProps) {
         return (
           <abbr
             key={`${part}-${index}`}
-            title={explanation}
             tabIndex={0}
             aria-label={`${part}: ${explanation}`}
-            className="cursor-help border-b border-dotted border-core-accent/60 no-underline"
+            className="group relative cursor-help border-b border-dotted border-core-accent/60 no-underline outline-none focus-visible:border-core-accent"
           >
             {part}
+            <span role="tooltip" className="pointer-events-none absolute bottom-[calc(100%+0.45rem)] left-1/2 z-50 w-56 -translate-x-1/2 border border-core-accent/35 bg-core-panel px-2.5 py-2 text-left text-[0.68rem] font-normal normal-case leading-relaxed text-core-text opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus:opacity-100">
+              <span className="mb-0.5 block font-mono text-[0.52rem] font-semibold uppercase tracking-[0.08em] text-core-accent">En palabras simples</span>
+              {explanation}
+            </span>
           </abbr>
         );
       })}

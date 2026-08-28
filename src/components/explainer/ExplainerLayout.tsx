@@ -11,7 +11,6 @@ import { recordProductEvent } from "@/lib/telemetry/productTelemetry";
 import { DEFAULT_LEFT_PANEL_WIDTH, MAX_LEFT_PANEL_WIDTH, MIN_LEFT_PANEL_WIDTH, normalizeExplainerUiPreferences } from "@/lib/ui/preferences";
 import { SceneTimeline } from "./SceneTimeline";
 import { PresentationHud } from "./PresentationHud";
-import { CanvasContextCard } from "./CanvasContextCard";
 
 const AUTOPLAY_STEP_MS = 6500;
 const UI_PREFERENCES_KEY = "coresolutions:explainer-ui";
@@ -340,7 +339,6 @@ export function ExplainerLayout({
           audienceMode={audienceMode}
           onAudienceModeChange={setAudienceMode}
           activeFailureScenarioId={activeFailureScenarioId}
-          onSelectScenario={setActiveFailureScenarioId}
         />
         <button
           type="button"
@@ -366,12 +364,7 @@ export function ExplainerLayout({
         className={focusMode ? "relative min-h-[320px]" : "relative hidden min-h-[320px] md:block"}
         onPointerMove={revealPresentationChrome}
       >
-        <div className={`pointer-events-none absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-3 transition-opacity duration-300 sm:inset-x-6 ${presentationActive && !presentationChromeVisible ? "opacity-0" : "opacity-100"}`}>
-          <CanvasContextCard meta={meta} step={step} current={current} total={steps.length} audienceMode={audienceMode} />
-          <div className="hidden">
-            <p className="font-mono text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-core-accent">{meta.title}</p>
-            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.62rem] text-core-text-secondary"><span>{step.tag}</span><span className="text-core-text-muted">·</span><span>Paso {String(current + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</span><span className="text-core-text-muted">·</span><span>{audienceMode === "client" ? "Cliente" : audienceMode === "conceptual" ? "Conceptual" : "Técnico"}</span></div>
-          </div>
+        <div className={`pointer-events-none absolute right-4 top-4 z-20 transition-opacity duration-300 sm:right-6 ${presentationActive && !presentationChromeVisible ? "opacity-0" : "opacity-100"}`}>
           <button type="button" onClick={toggleFocusMode} className="pointer-events-auto shrink-0 border border-core-border/[0.16] bg-core-panel/85 px-2.5 py-2 font-mono text-[0.58rem] font-semibold uppercase tracking-[0.06em] text-core-text-muted shadow-lg backdrop-blur-md transition-colors hover:border-core-accent/60 hover:text-core-text" aria-pressed={focusMode} title="Atajo: F">
             {focusMode ? "Mostrar panel" : "Focus canvas"}
           </button>

@@ -7,7 +7,7 @@
 
 ## Punto de partida para la siguiente sesión
 
-- La versión de trabajo del repositorio es **0.255.0**.
+- La versión de trabajo del repositorio es **0.256.0**.
 - Architecture Studio (`/architecture`) genera borradores conceptuales desde
   el catálogo CORESOLUTIONS, los valida localmente y no certifica modelos,
   firmware, licencias, HCL, cableado físico, sizing ni una topología de
@@ -33,12 +33,17 @@
 - El canvas dispone de un Laboratorio de comprensión por componente: consola y
   comprobación conceptual de relaciones, más fallo/restauración local solo si
   el nodo está declarado como simulable. No representa conectividad real.
+- La interfaz ya no monta el resumen flotante redundante ni el bloque Operar y
+  entregar. Los términos conocidos usan popovers y las fichas de nodo explican
+  visualmente si se trata de aplicación, hardware, red, software o datos.
 
 **Actualizacion v0.248.0 (12-08-2026):** `/architecture` genera borradores visuales solo desde patrones CORESOLUTIONS auditados. Obliga a declarar objetivo, workload y evidencia; muestra riesgos y pendientes, pero no calcula compatibilidad ni cambia ningún estado de revisión.
 
 **Actualizacion v0.254.0 (28-08-2026):** el shell compartido de explainers reduce la primera lectura a Cliente o Detalle técnico. Cliente ya no repite la explicación debajo de su tarjeta de idea/impacto y el canvas oculta timeline/caption técnico; los controles técnicos se conservan bajo demanda.
 
 **Actualizacion v0.255.0 (28-08-2026):** seleccionar un nodo abre el Laboratorio de comprensión: consola conceptual, comprobación de relaciones y, para nodos `killable`, interrupción/restauración visual. Estas acciones no ejecutan comandos, no hacen ping ni consultan el entorno real.
+
+**Actualizacion v0.256.0 (28-08-2026):** siglas y términos conocidos tienen un popover de lenguaje simple al hover/foco. Se eliminan el resumen flotante y Operar y entregar; la ficha de nodos diferencia aplicación, hardware, red, software de control, datos y externos. El host SAN permite explorar Lenovo ThinkSystem o IBM Power con color de marca.
 
 **Actualizacion v0.253.0 (28-08-2026):** Architecture Studio puede descargar un paquete de diseño técnico en Markdown. Incluye inventario de bloques autorizados, conexiones y puertos lógicos, supuestos, riesgos, resultados de validación, preguntas de discovery y pendientes de ingeniería; no se presenta como BOM, HCL, diseño de bajo nivel ni aprobación de implementación.
 
