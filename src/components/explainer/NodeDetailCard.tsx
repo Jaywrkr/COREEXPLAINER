@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { EdgeKind, NodeKind, Scene, SceneNode } from "@/lib/animation-spec/types";
 import type { AudienceMode } from "./AudienceModeToggle";
 import { GlossaryText } from "./GlossaryText";
@@ -6,6 +7,8 @@ interface NodeDetailCardProps {
   node: SceneNode;
   scene: Scene;
   audienceMode: AudienceMode;
+  isInactive: boolean;
+  onToggleAvailability: (nodeId: string) => void;
   onClose: () => void;
 }
 
@@ -36,8 +39,9 @@ const EDGE_LABELS: Record<EdgeKind, string> = {
 };
 
 /** Shows the selected node at the depth chosen for the current audience. */
-export function NodeDetailCard({ node, scene, audienceMode, onClose }: NodeDetailCardProps) {
+export function NodeDetailCard({ node, scene, audienceMode, isInactive, onToggleAvailability, onClose }: NodeDetailCardProps) {
   const isTechnical = audienceMode === "technical";
+  const [labView, setLabView] = useState<"none" | "console" | "check">("none");
   const connections = scene.edges
     .filter((edge) => edge.from === node.id || edge.to === node.id)
     .map((edge) => {
@@ -108,6 +112,18 @@ export function NodeDetailCard({ node, scene, audienceMode, onClose }: NodeDetai
             {!isTechnical && connections.length > 3 ? <p className="mt-1 text-[0.62rem] text-core-text-muted">+ {connections.length - 3} conexiones técnicas disponibles en modo técnico.</p> : null}
           </div>
         ) : null}
+
+        <div className="border-t border-core-border/[0.1] pt-3">
+          <p className="font-mono text-[0.6rem] font-semibold uppercase tracking-[0.08em] text-core-text-muted">Laboratorio de comprensión</p>
+          <p className="mt-1 text-[0.7rem] leading-relaxed text-core-text-secondary">Explora el comportamiento representado en el diagrama. No se accede ni se modifica infraestructura real.</p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <button type="button" onClick={() => setLabView("console")} className="border border-core-border/[0.16] px-2 py-1 text-[0.62rem] font-semibold text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text">Consola conceptual</button>
+            <button type="button" onClick={() => setLabView("check")} className="border border-core-border/[0.16] px-2 py-1 text-[0.62rem] font-semibold text-core-text-muted transition-colors hover:border-core-accent/50 hover:text-core-text">Comprobar conexiones</button>
+            {node.killable ? <button type="button" onClick={() => onToggleAvailability(node.id)} className={`border px-2 py-1 text-[0.62rem] font-semibold transition-colors ${isInactive ? "border-core-success/50 text-core-success hover:bg-core-success/10" : "border-red-400/45 text-red-400 hover:bg-red-400/10"}`}>{isInactive ? "Restaurar simulación" : "Simular interrupción"}</button> : null}
+          </div>
+          {labView === "console" ? <div className="mt-2 border border-core-border/[0.12] bg-core-bg p-2 font-mono text-[0.6rem] leading-relaxed text-core-text-secondary"><p>&gt; componente: {node.name}</p><p>&gt; estado simulado: {isInactive ? "no disponible" : "disponible"}</p><p>&gt; relaciones visibles: {connections.length}</p><p className="mt-1 text-core-text-muted">Esta consola explica el modelo visual; no ejecuta comandos ni consulta equipos reales.</p></div> : null}
+          {labView === "check" ? <div className="mt-2 border border-core-border/[0.12] bg-core-bg p-2 text-[0.68rem] leading-relaxed text-core-text-secondary">{isInactive ? `Resultado conceptual: ${node.name} está interrumpido en la simulación; sus ${connections.length} relación${connections.length === 1 ? "" : "es"} deben revisarse por impacto.` : connections.length ? `Resultado conceptual: ${node.name} participa en ${connections.length} relación${connections.length === 1 ? "" : "es"} modelada${connections.length === 1 ? "" : "s"}. Revisa cada flecha para seguir el recorrido.` : "Resultado conceptual: este componente no tiene relaciones declaradas en esta escena."}<p className="mt-1 text-core-text-muted">No es un ping, traceroute ni comprobación del entorno del cliente.</p></div> : null}
+        </div>
 
         {isTechnical ? (
           <dl className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-core-border/[0.1] pt-3 text-xs">

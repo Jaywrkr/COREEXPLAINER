@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.255.0] - 2026-08-28
+
+### Laboratorio de comprensión del diagrama
+
+- Al seleccionar un componente se puede abrir una consola conceptual y comprobar las relaciones modeladas, sin ejecutar comandos ni consultar el entorno del cliente.
+- Los nodos declarados como simulables se pueden interrumpir o restaurar para observar impacto visual y dependencias.
+- Se retiraron componentes de interfaz sin ruta de uso y una ayuda técnica flotante inactiva.
+
 ## [0.254.0] - 2026-08-28
 
 ### Shell de explainers simplificado
