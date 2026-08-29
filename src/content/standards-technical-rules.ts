@@ -2,6 +2,10 @@ import type { TechnicalAuthorityRule } from "./types";
 
 /** Source-to-scene contracts owned by public standards and open communities. */
 export const standardsTechnicalRulePacks: Record<string, TechnicalAuthorityRule[]> = {
+  "core-glide-mcp": [
+    { id: "mcp-controlled-tool-boundary", control: "Codex must request declared MCP tools with explicit schemas; the diagram cannot imply unrestricted navigation of Glide.", sourceIds: ["mcp-architecture", "mcp-tools"], stepIds: ["controlled-query", "guardrails"] },
+    { id: "glide-read-only-evidence-boundary", control: "Glide data, aliases and results must remain evidence with documented limits; ambiguous relations require human validation rather than automatic joining.", sourceIds: ["glide-tables-api", "core-glide-mcp"], stepIds: ["distributed-data", "confidence", "guardrails"] },
+  ],
   "zero-trust": [
     { id: "nist-zt-request-context", control: "Access claims must retain an explicit subject, resource, action and context evaluation boundary.", sourceIds: ["nist-800-207", "cisa-ztmm"], stepIds: ["request", "context", "limits"] },
     { id: "nist-zt-decision-enforcement", control: "Policy decision functions must remain distinct from policy enforcement near the protected resource.", sourceIds: ["nist-800-207", "nist-components"], stepIds: ["decision", "enforcement"] },
