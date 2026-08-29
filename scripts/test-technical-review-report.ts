@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
+import packageJson from "../package.json";
+import { explainerRegistry } from "../src/content/registry";
 
 const output = execFileSync(process.execPath, ["node_modules/tsx/dist/cli.mjs", "scripts/technical-review-report.ts", "--json"], { encoding: "utf8" });
 const report = JSON.parse(output) as {
@@ -13,9 +15,9 @@ const report = JSON.parse(output) as {
 
 assert.match(report.generatedAt, /^\d{4}-\d{2}-\d{2}T/);
 assert.equal(report.schemaVersion, "1.4");
-assert.equal(report.appVersion, "0.245.0");
-assert.equal(report.summary.explainers, 22);
-assert.equal(report.summary.pending, 22);
+assert.equal(report.appVersion, packageJson.version);
+assert.equal(report.summary.explainers, explainerRegistry.length);
+assert.equal(report.summary.pending, explainerRegistry.filter((entry) => entry.meta.reviewStatus === "pending").length);
 assert.equal(report.rows.length, report.summary.explainers);
 assert.ok(report.summary.actions > 0);
 assert.equal(report.summary.freshness.current + report.summary.freshness.reviewNeeded, report.summary.coverage.sources);

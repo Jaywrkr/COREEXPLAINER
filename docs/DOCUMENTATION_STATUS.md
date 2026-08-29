@@ -1,6 +1,6 @@
 # Estado de la documentación
 
-**Sincronizado:** 28-08-2026 contra `main` (`ddfed21`, versión de trabajo `0.256.0`).
+**Sincronizado:** 29-08-2026 contra `codex/mcp-fundamentals-explainer` (versión de trabajo `0.257.0`).
 
 Este índice evita una ambigüedad importante: una fecha de documentación viva
 indica cuándo se alineó con el producto; una fecha de auditoría o de fuente

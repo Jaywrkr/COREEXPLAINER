@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "id": "mcp-fundamentals",
+  "title": "Cómo funciona Model Context Protocol (MCP)",
+  "scenes": {
+    "why-mcp": { "nodes": [
+      { "id": "host", "name": "Aplicación de IA", "subtitle": "Necesita integrar sistemas", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 2 },
+      { "id": "api-a", "name": "API A", "subtitle": "Contrato propio", "x": 0.38, "y": 0.2, "kind": "external", "capacity": 70 },
+      { "id": "api-b", "name": "API B", "subtitle": "Autenticación distinta", "x": 0.38, "y": 0.5, "kind": "external", "capacity": 70 },
+      { "id": "api-c", "name": "API C", "subtitle": "Formato distinto", "x": 0.38, "y": 0.8, "kind": "external", "capacity": 70 },
+      { "id": "mcp", "name": "MCP", "subtitle": "Contrato común", "x": 0.68, "y": 0.5, "kind": "control-plane", "capacity": 85 },
+      { "id": "servers", "name": "Servidores MCP", "subtitle": "Adaptan sistemas externos", "x": 0.9, "y": 0.5, "kind": "compute", "capacity": 80 }
+    ], "edges": [
+      { "from": "host", "to": "api-a", "kind": "dependency" }, { "from": "host", "to": "api-b", "kind": "dependency" }, { "from": "host", "to": "api-c", "kind": "dependency" }, { "from": "host", "to": "mcp", "kind": "control" }, { "from": "mcp", "to": "servers", "kind": "dependency" }
+    ] },
+    "architecture": { "nodes": [
+      { "id": "person", "name": "Persona", "subtitle": "Formula una intención", "x": 0.07, "y": 0.5, "kind": "external", "rps": 2 },
+      { "id": "host", "name": "Host de IA", "subtitle": "Experiencia y coordinación", "x": 0.25, "y": 0.5, "kind": "workload", "capacity": 85 },
+      { "id": "client", "name": "Cliente MCP", "subtitle": "Conexión por servidor", "x": 0.45, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "server", "name": "Servidor MCP", "subtitle": "Capacidades declaradas", "x": 0.66, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "external-system", "name": "Sistema externo", "subtitle": "API, base de datos o servicio", "x": 0.9, "y": 0.5, "kind": "external", "capacity": 80 }
+    ], "edges": [
+      { "from": "person", "to": "host", "kind": "data" }, { "from": "host", "to": "client", "kind": "control" }, { "from": "client", "to": "server", "kind": "control" }, { "from": "server", "to": "external-system", "kind": "dependency" }
+    ] },
+    "capabilities": { "nodes": [
+      { "id": "host", "name": "Host", "subtitle": "Descubre capacidades", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 2 },
+      { "id": "server", "name": "Servidor MCP", "subtitle": "Publica un catálogo", "x": 0.33, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "resources", "name": "Recursos", "subtitle": "Contexto para leer", "x": 0.62, "y": 0.2, "kind": "storage", "capacity": 75 },
+      { "id": "prompts", "name": "Prompts", "subtitle": "Plantillas reutilizables", "x": 0.62, "y": 0.5, "kind": "control-plane", "capacity": 75 },
+      { "id": "tool", "name": "Herramienta", "subtitle": "Función con esquema", "x": 0.62, "y": 0.8, "kind": "network", "capacity": 80 },
+      { "id": "result", "name": "Resultado", "subtitle": "Contenido estructurado", "x": 0.9, "y": 0.5, "kind": "external", "capacity": 80 }
+    ], "edges": [
+      { "from": "host", "to": "server", "kind": "control" }, { "from": "server", "to": "resources", "kind": "data" }, { "from": "server", "to": "prompts", "kind": "control" }, { "from": "server", "to": "tool", "kind": "control" }, { "from": "resources", "to": "result", "kind": "data" }, { "from": "tool", "to": "result", "kind": "data" }
+    ] },
+    "message-flow": { "nodes": [
+      { "id": "client", "name": "Cliente MCP", "subtitle": "Inicializa la sesión", "x": 0.08, "y": 0.5, "kind": "control-plane", "rps": 2 },
+      { "id": "server", "name": "Servidor MCP", "subtitle": "Negocia capacidades", "x": 0.28, "y": 0.5, "kind": "compute", "capacity": 85 },
+      { "id": "catalog", "name": "Catálogo", "subtitle": "Listar capacidades", "x": 0.48, "y": 0.25, "kind": "storage", "capacity": 75 },
+      { "id": "request", "name": "Solicitud JSON-RPC", "subtitle": "Método y parámetros", "x": 0.48, "y": 0.75, "kind": "network", "capacity": 80 },
+      { "id": "validation", "name": "Validación", "subtitle": "Esquema y política", "x": 0.69, "y": 0.5, "kind": "control-plane", "capacity": 80 },
+      { "id": "response", "name": "Resultado o error", "subtitle": "Respuesta estructurada", "x": 0.92, "y": 0.5, "kind": "external", "capacity": 80 }
+    ], "edges": [
+      { "from": "client", "to": "server", "kind": "control" }, { "from": "server", "to": "catalog", "kind": "data" }, { "from": "client", "to": "request", "kind": "data" }, { "from": "request", "to": "validation", "kind": "control" }, { "from": "validation", "to": "response", "kind": "data" }
+    ] },
+    "boundaries": { "nodes": [
+      { "id": "host", "name": "Host", "subtitle": "Solicita una capacidad", "x": 0.1, "y": 0.5, "kind": "workload", "rps": 2 },
+      { "id": "tool", "name": "Herramienta", "subtitle": "Operación declarada", "x": 0.3, "y": 0.5, "kind": "network", "capacity": 80 },
+      { "id": "authorization", "name": "Autorización", "subtitle": "Identidad y alcance", "x": 0.5, "y": 0.25, "kind": "control-plane", "capacity": 75, "killable": true },
+      { "id": "server", "name": "Servidor MCP", "subtitle": "Valida y aplica límites", "x": 0.5, "y": 0.72, "kind": "compute", "capacity": 85 },
+      { "id": "external-system", "name": "Sistema externo", "subtitle": "Efecto real si se permite", "x": 0.75, "y": 0.5, "kind": "external", "capacity": 80 },
+      { "id": "audit", "name": "Auditoría humana", "subtitle": "Revisión y evidencia", "x": 0.93, "y": 0.5, "kind": "external", "capacity": 75 }
+    ], "edges": [
+      { "from": "host", "to": "tool", "kind": "control" }, { "from": "tool", "to": "authorization", "kind": "control" }, { "from": "authorization", "to": "server", "kind": "dependency" }, { "from": "server", "to": "external-system", "kind": "data" }, { "from": "external-system", "to": "audit", "kind": "dependency" }
+    ] }
+  }
+}

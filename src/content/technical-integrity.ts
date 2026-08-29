@@ -295,4 +295,11 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     governance: { nodes: ["consumer", "portal", "gateway", "policy", "integration", "service"], edge: ["gateway", "policy", "control"], path: ["consumer", "service"], sourceIds: ["wm-gateway", "wm-gateway-components"] },
     limits: { nodes: ["runtime", "gateway", "mapping", "compatibility", "backend", "operator"], edge: ["mapping", "compatibility", "dependency"], path: ["runtime", "operator"], sourceIds: ["wm-interoperability", "wm-gateway", "wm-services"] },
   }),
+  "mcp-fundamentals": sourceBackedProfile("application", {
+    "why-mcp": { nodes: ["host", "api-a", "api-b", "api-c", "mcp", "servers"], edge: ["host", "mcp", "control"], path: ["host", "servers"], sourceIds: ["mcp-architecture"] },
+    architecture: { nodes: ["person", "host", "client", "server", "external-system"], edge: ["client", "server", "control"], path: ["person", "external-system"], sourceIds: ["mcp-architecture", "mcp-lifecycle"] },
+    capabilities: { nodes: ["host", "server", "resources", "prompts", "tool", "result"], edge: ["server", "tool", "control"], path: ["host", "result"], sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"] },
+    "message-flow": { nodes: ["client", "server", "catalog", "request", "validation", "response"], edge: ["request", "validation", "control"], path: ["client", "response"], sourceIds: ["mcp-lifecycle", "mcp-tools"] },
+    boundaries: { nodes: ["host", "tool", "authorization", "server", "external-system", "audit"], edge: ["tool", "authorization", "control"], path: ["host", "external-system"], sourceIds: ["mcp-authorization", "mcp-tools"] },
+  }),
 };

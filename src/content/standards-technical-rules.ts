@@ -2,6 +2,11 @@ import type { TechnicalAuthorityRule } from "./types";
 
 /** Source-to-scene contracts owned by public standards and open communities. */
 export const standardsTechnicalRulePacks: Record<string, TechnicalAuthorityRule[]> = {
+  "mcp-fundamentals": [
+    { id: "mcp-host-client-server", control: "The explainer must keep the host, its MCP client and the external MCP server as separate roles.", sourceIds: ["mcp-architecture", "mcp-lifecycle"], stepIds: ["why-mcp", "architecture", "message-flow"] },
+    { id: "mcp-capability-boundaries", control: "Tools, resources and prompts must remain distinct capabilities; tool invocation requires an explicit server-defined schema.", sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"], stepIds: ["capabilities", "message-flow"] },
+    { id: "mcp-authorization-boundary", control: "MCP discovery must not be presented as authorization to access or change an external system.", sourceIds: ["mcp-authorization", "mcp-tools"], stepIds: ["boundaries"] },
+  ],
   "zero-trust": [
     { id: "nist-zt-request-context", control: "Access claims must retain an explicit subject, resource, action and context evaluation boundary.", sourceIds: ["nist-800-207", "cisa-ztmm"], stepIds: ["request", "context", "limits"] },
     { id: "nist-zt-decision-enforcement", control: "Policy decision functions must remain distinct from policy enforcement near the protected resource.", sourceIds: ["nist-800-207", "nist-components"], stepIds: ["decision", "enforcement"] },

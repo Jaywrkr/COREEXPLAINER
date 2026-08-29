@@ -46,6 +46,8 @@ import { turbonomicMeta, turbonomicSteps } from "./turbonomic";
 import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.json";
 import { webMethodsMeta, webMethodsSteps } from "./webmethods";
 import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
+import { mcpFundamentalsMeta, mcpFundamentalsSteps } from "./mcp-fundamentals";
+import mcpFundamentalsRawSpec from "../../docs/examples/mcp-fundamentals/animation-spec.json";
 import { technicalIntegrityProfiles } from "./technical-integrity";
 import { technicalAuthorityProfiles } from "./technical-authority";
 import { ibmTechnicalRulePacks } from "./ibm-technical-rules";
@@ -254,6 +256,14 @@ const webMethodsDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(webMethodsRawSpec),
 };
 
+const mcpFundamentalsDefinition: ExplainerDefinition = {
+  slug: "mcp-fundamentals",
+  category: "Cloud",
+  meta: mcpFundamentalsMeta,
+  steps: mcpFundamentalsSteps,
+  spec: parseAnimationSpec(mcpFundamentalsRawSpec),
+};
+
 const definitions: ExplainerDefinition[] = [
   vcfDefinition,
   vsphereHaDefinition,
@@ -277,6 +287,7 @@ const definitions: ExplainerDefinition[] = [
   instanaDefinition,
   turbonomicDefinition,
   webMethodsDefinition,
+  mcpFundamentalsDefinition,
 ];
 
 const patternIssues = validateSolutionPatterns(

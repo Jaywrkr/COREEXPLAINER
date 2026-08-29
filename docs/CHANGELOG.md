@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.257.0] - 2026-08-29
+
+### Fundamentos de Model Context Protocol
+
+- Nuevo explainer neutral de MCP: qué problema resuelve, arquitectura host–cliente–servidor, capacidades y ciclo de mensajes.
+- Separa recursos, prompts y herramientas, sin confundir el descubrimiento de una herramienta con acceso o autorización.
+- Los límites de identidad, permisos, secretos, validación y revisión humana quedan explícitos; la simulación no ejecuta un MCP real.
+
 ## [0.256.0] - 2026-08-28
 
 ### Nodos claros y UI técnica reducida
