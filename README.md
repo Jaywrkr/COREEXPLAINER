@@ -27,7 +27,7 @@ desplegable en Vercel.
 - **¿Vas a revisar Backup/DR?** [`docs/ai-context/backup-dr-technical-validation.md`](./docs/ai-context/backup-dr-technical-validation.md).
 - **¿Vas a revisar ransomware?** [`docs/ai-context/ransomware-resilience-technical-validation.md`](./docs/ai-context/ransomware-resilience-technical-validation.md).
 - **¿Vas a revisar Storage SAN?** [`docs/ai-context/san-storage-technical-validation.md`](./docs/ai-context/san-storage-technical-validation.md).
-- **¿Vas a revisar Core Glide MCP?** [`docs/ai-context/core-glide-mcp-technical-validation.md`](./docs/ai-context/core-glide-mcp-technical-validation.md).
+- **¿Vas a revisar cómo funciona MCP?** [`docs/ai-context/mcp-fundamentals-technical-validation.md`](./docs/ai-context/mcp-fundamentals-technical-validation.md).
 - **¿Vas a revisar el batch de infraestructura?** Consulta las matrices en `docs/ai-context/` para Veeam, active-active, LAN/SAN y NAS.
 - **¿Vas a publicar en Vercel?** Lee [`docs/ai-context/vercel-deployment-policy.md`](./docs/ai-context/vercel-deployment-policy.md).
 - **¿Vas a preparar una demo para cliente o técnico?** [`docs/ai-context/audience-modes-and-deep-links.md`](./docs/ai-context/audience-modes-and-deep-links.md).
@@ -41,8 +41,8 @@ Temas disponibles: `/explainer/vcf`, `/explainer/vsphere-ha`, `/explainer/vsan`,
 `/explainer/ransomware-resilience`, `/explainer/san-storage`,
 `/explainer/veeam-protection`, `/explainer/active-active-dc`,
 `/explainer/lan-san` y `/explainer/nas-private-cloud`.
-También está disponible `/explainer/core-glide-mcp`, sobre consultas operativas
-controladas de Glide mediante MCP de solo lectura.
+También está disponible `/explainer/mcp-fundamentals`, una explicación neutral
+del protocolo Model Context Protocol.
 La validación técnica de vSphere HA está en
 [`docs/ai-context/vsphere-ha-technical-validation.md`](./docs/ai-context/vsphere-ha-technical-validation.md).
 La validación técnica de vSAN está en
@@ -114,5 +114,5 @@ docs/examples/veeam-protection/     batch: protección heterogénea
 docs/examples/active-active-dc/     batch: data center activo-activo
 docs/examples/lan-san/              batch: integración LAN/SAN
 docs/examples/nas-private-cloud/   batch: NAS como servicio de archivos
-docs/examples/core-glide-mcp/      consultas operativas de Glide mediante MCP
+docs/examples/mcp-fundamentals/    fundamentos de Model Context Protocol
 ```

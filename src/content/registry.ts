@@ -46,8 +46,8 @@ import { turbonomicMeta, turbonomicSteps } from "./turbonomic";
 import turbonomicRawSpec from "../../docs/examples/turbonomic/animation-spec.json";
 import { webMethodsMeta, webMethodsSteps } from "./webmethods";
 import webMethodsRawSpec from "../../docs/examples/webmethods/animation-spec.json";
-import { coreGlideMcpMeta, coreGlideMcpSteps } from "./core-glide-mcp";
-import coreGlideMcpRawSpec from "../../docs/examples/core-glide-mcp/animation-spec.json";
+import { mcpFundamentalsMeta, mcpFundamentalsSteps } from "./mcp-fundamentals";
+import mcpFundamentalsRawSpec from "../../docs/examples/mcp-fundamentals/animation-spec.json";
 import { technicalIntegrityProfiles } from "./technical-integrity";
 import { technicalAuthorityProfiles } from "./technical-authority";
 import { ibmTechnicalRulePacks } from "./ibm-technical-rules";
@@ -256,12 +256,12 @@ const webMethodsDefinition: ExplainerDefinition = {
   spec: parseAnimationSpec(webMethodsRawSpec),
 };
 
-const coreGlideMcpDefinition: ExplainerDefinition = {
-  slug: "core-glide-mcp",
+const mcpFundamentalsDefinition: ExplainerDefinition = {
+  slug: "mcp-fundamentals",
   category: "Cloud",
-  meta: coreGlideMcpMeta,
-  steps: coreGlideMcpSteps,
-  spec: parseAnimationSpec(coreGlideMcpRawSpec),
+  meta: mcpFundamentalsMeta,
+  steps: mcpFundamentalsSteps,
+  spec: parseAnimationSpec(mcpFundamentalsRawSpec),
 };
 
 const definitions: ExplainerDefinition[] = [
@@ -287,7 +287,7 @@ const definitions: ExplainerDefinition[] = [
   instanaDefinition,
   turbonomicDefinition,
   webMethodsDefinition,
-  coreGlideMcpDefinition,
+  mcpFundamentalsDefinition,
 ];
 
 const patternIssues = validateSolutionPatterns(
@@ -305,7 +305,7 @@ assertTargetArchitectureRegression();
 // The registry is the publication boundary: malformed or incomplete content
 // fails during build instead of reaching the client as a partial explainer.
 // Profiles are attached here so every topic receives the same technical gate
-// without duplicating metadata across individual content files.
+// without duplicating metadata in 22 individual content files.
 export const explainerValidationWarnings: Record<string, string[]> = {};
 export const explainerTechnicalAuthority: Record<string, ReturnType<typeof assessTechnicalAuthority>> = {};
 /** Source-to-scene contracts resolved for each explainer; internal audit input. */

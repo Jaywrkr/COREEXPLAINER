@@ -2,9 +2,10 @@ import type { TechnicalAuthorityRule } from "./types";
 
 /** Source-to-scene contracts owned by public standards and open communities. */
 export const standardsTechnicalRulePacks: Record<string, TechnicalAuthorityRule[]> = {
-  "core-glide-mcp": [
-    { id: "mcp-controlled-tool-boundary", control: "Codex must request declared MCP tools with explicit schemas; the diagram cannot imply unrestricted navigation of Glide.", sourceIds: ["mcp-architecture", "mcp-tools"], stepIds: ["controlled-query", "guardrails"] },
-    { id: "glide-read-only-evidence-boundary", control: "Glide data, aliases and results must remain evidence with documented limits; ambiguous relations require human validation rather than automatic joining.", sourceIds: ["glide-tables-api", "core-glide-mcp"], stepIds: ["distributed-data", "confidence", "guardrails"] },
+  "mcp-fundamentals": [
+    { id: "mcp-host-client-server", control: "The explainer must keep the host, its MCP client and the external MCP server as separate roles.", sourceIds: ["mcp-architecture", "mcp-lifecycle"], stepIds: ["why-mcp", "architecture", "message-flow"] },
+    { id: "mcp-capability-boundaries", control: "Tools, resources and prompts must remain distinct capabilities; tool invocation requires an explicit server-defined schema.", sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"], stepIds: ["capabilities", "message-flow"] },
+    { id: "mcp-authorization-boundary", control: "MCP discovery must not be presented as authorization to access or change an external system.", sourceIds: ["mcp-authorization", "mcp-tools"], stepIds: ["boundaries"] },
   ],
   "zero-trust": [
     { id: "nist-zt-request-context", control: "Access claims must retain an explicit subject, resource, action and context evaluation boundary.", sourceIds: ["nist-800-207", "cisa-ztmm"], stepIds: ["request", "context", "limits"] },

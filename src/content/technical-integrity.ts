@@ -295,10 +295,11 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     governance: { nodes: ["consumer", "portal", "gateway", "policy", "integration", "service"], edge: ["gateway", "policy", "control"], path: ["consumer", "service"], sourceIds: ["wm-gateway", "wm-gateway-components"] },
     limits: { nodes: ["runtime", "gateway", "mapping", "compatibility", "backend", "operator"], edge: ["mapping", "compatibility", "dependency"], path: ["runtime", "operator"], sourceIds: ["wm-interoperability", "wm-gateway", "wm-services"] },
   }),
-  "core-glide-mcp": sourceBackedProfile("application", {
-    "distributed-data": { nodes: ["project", "activities", "ticket", "client", "people", "relation-map", "question"], edge: ["project", "relation-map", "control"], path: ["activities", "question"], sourceIds: ["core-glide-mcp", "glide-tables-api"] },
-    "controlled-query": { nodes: ["user", "codex", "mcp", "render", "glide-api", "glide-tables", "relations", "response"], edge: ["codex", "mcp", "control"], path: ["user", "response"], sourceIds: ["mcp-architecture", "mcp-tools", "glide-tables-api", "core-glide-mcp"] },
-    confidence: { nodes: ["project", "ticket", "alias", "relation-map", "result", "human-review", "token"], edge: ["result", "human-review", "dependency"], path: ["project", "human-review"], sourceIds: ["core-glide-mcp", "mcp-tools"] },
-    guardrails: { nodes: ["question", "scope", "token", "glide", "sensitive", "answer", "approval"], edge: ["scope", "glide", "data"], path: ["question", "answer"], sourceIds: ["mcp-tools", "glide-tables-api", "core-glide-mcp"] },
+  "mcp-fundamentals": sourceBackedProfile("application", {
+    "why-mcp": { nodes: ["host", "api-a", "api-b", "api-c", "mcp", "servers"], edge: ["host", "mcp", "control"], path: ["host", "servers"], sourceIds: ["mcp-architecture"] },
+    architecture: { nodes: ["person", "host", "client", "server", "external-system"], edge: ["client", "server", "control"], path: ["person", "external-system"], sourceIds: ["mcp-architecture", "mcp-lifecycle"] },
+    capabilities: { nodes: ["host", "server", "resources", "prompts", "tool", "result"], edge: ["server", "tool", "control"], path: ["host", "result"], sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"] },
+    "message-flow": { nodes: ["client", "server", "catalog", "request", "validation", "response"], edge: ["request", "validation", "control"], path: ["client", "response"], sourceIds: ["mcp-lifecycle", "mcp-tools"] },
+    boundaries: { nodes: ["host", "tool", "authorization", "server", "external-system", "audit"], edge: ["tool", "authorization", "control"], path: ["host", "external-system"], sourceIds: ["mcp-authorization", "mcp-tools"] },
   }),
 };

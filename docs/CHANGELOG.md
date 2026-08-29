@@ -1,12 +1,12 @@
 # Changelog
 
-## [0.257.0] - 2026-08-28
+## [0.257.0] - 2026-08-29
 
-### Core Glide MCP: datos operativos consultados con control
+### Fundamentos de Model Context Protocol
 
-- Nuevo explainer sobre cómo Codex consulta proyectos, actividades, tickets y clientes de Glide a través de herramientas MCP de solo lectura.
-- Las escenas separan datos dispersos, consulta controlada y validación humana; no presentan a la IA como operadora ni como fuente de verdad.
-- Incluye trazabilidad vigente, contrato técnico por escena y un escenario conceptual de alias ambiguo que no modifica Glide ni el MCP real.
+- Nuevo explainer neutral de MCP: qué problema resuelve, arquitectura host–cliente–servidor, capacidades y ciclo de mensajes.
+- Separa recursos, prompts y herramientas, sin confundir el descubrimiento de una herramienta con acceso o autorización.
+- Los límites de identidad, permisos, secretos, validación y revisión humana quedan explícitos; la simulación no ejecuta un MCP real.
 
 ## [0.256.0] - 2026-08-28
 
@@ -1579,6 +1579,9 @@
 - Hover sobre un nodo para resaltar sus conexiones y componentes relacionados.
 - Los elementos no relacionados se atenúan para concentrar la atención.
 - El resaltado funciona con pan, zoom y escenas independientes.
+
+Cambios relevantes del producto, en orden descendente. La misma información
+visible dentro de la aplicación vive en `src/content/changelog.ts`.
 
 ## [0.3.1] — 2026-08-04
 
