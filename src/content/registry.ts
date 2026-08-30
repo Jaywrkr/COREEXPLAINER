@@ -64,6 +64,7 @@ import { assertTechnicalIntegrityRegression } from "@/lib/technical-integrity/re
 import { assertTargetArchitectureRegression } from "@/lib/content-validation/targetRegressionFixtures";
 import { validateSolutionPatterns } from "@/lib/content-validation/patternValidation";
 import { solutionPatterns } from "./patterns";
+import { attachClientNarratives } from "./client-narratives";
 
 /**
  * Single registry of every explainer topic. This is what the /explainer
@@ -311,15 +312,19 @@ export const explainerTechnicalAuthority: Record<string, ReturnType<typeof asses
 /** Source-to-scene contracts resolved for each explainer; internal audit input. */
 export const explainerTechnicalRules: Record<string, import("./types").TechnicalAuthorityRule[]> = {};
 export const explainerRegistry: ExplainerDefinition[] = definitions.map((definition) => {
-  const profile = definition.meta.technicalIntegrity ?? technicalIntegrityProfiles[definition.slug];
+  const narratedDefinition = {
+    ...definition,
+    steps: attachClientNarratives(definition.slug, definition.steps),
+  };
+  const profile = narratedDefinition.meta.technicalIntegrity ?? technicalIntegrityProfiles[narratedDefinition.slug];
   if (!profile) {
     throw new Error(`Explainer '${definition.slug}' has no technical integrity profile`);
   }
   const enriched = {
-    ...definition,
+    ...narratedDefinition,
     meta: {
-      ...definition.meta,
-      technicalReview: enrichTechnicalReview(definition.meta.technicalReview),
+      ...narratedDefinition.meta,
+      technicalReview: enrichTechnicalReview(narratedDefinition.meta.technicalReview),
       technicalIntegrity: profile,
     },
   };
@@ -336,7 +341,7 @@ export const explainerRegistry: ExplainerDefinition[] = definitions.map((definit
     ...(crossVendorDeliveryRulePacks[definition.slug] ?? []),
   ];
   explainerTechnicalRules[definition.slug] = authorityRules;
-  const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug], definition.steps, authorityRules);
+  const authority = assessTechnicalAuthority(enriched.meta, technicalAuthorityProfiles[definition.slug], enriched.steps, authorityRules);
   if (!technicalAuthorityProfiles[definition.slug]) {
     throw new Error(`Explainer '${definition.slug}' has no technical authority profile`);
   }

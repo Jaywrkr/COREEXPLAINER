@@ -286,4 +286,19 @@ export interface ExplainerStep {
   caption: string;
   /** Stable source IDs supporting the claims and diagram in this step. */
   sourceIds: string[];
+  /**
+   * First-reading narrative for a person who does not know the technology.
+   * It is attached at the registry boundary so the technical copy remains
+   * available without becoming the default explanation.
+   */
+  clientNarrative?: ClientNarrative;
+}
+
+export interface ClientNarrative {
+  /** Optional simpler replacement for the authored technical scene title. */
+  title?: string;
+  /** One concrete idea that can be understood without prior knowledge. */
+  lead: string;
+  /** Optional plain-language consequence; falls back to businessImpact. */
+  impact?: string;
 }

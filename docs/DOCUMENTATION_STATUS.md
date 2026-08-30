@@ -1,6 +1,6 @@
 # Estado de la documentación
 
-**Sincronizado:** 30-08-2026 contra `codex/mcp-story-rebuild` (versión de trabajo `0.258.0`).
+**Sincronizado:** 30-08-2026 contra `codex/all-explainers-story-rebuild` (versión de trabajo `0.259.0`).
 
 Este índice evita una ambigüedad importante: una fecha de documentación viva
 indica cuándo se alineó con el producto; una fecha de auditoría o de fuente
@@ -12,6 +12,8 @@ indica cuándo ocurrió realmente esa revisión. No son intercambiables.
 - [AI workflow](../AI_WORKFLOW.md): instrucciones para futuras sesiones de IA.
 - [Estado del proyecto](./ai-context/project-state.md): situación, límites y
   siguiente punto de partida.
+- [Estándar de narrativa para cliente](./ai-context/client-narrative-standard.md):
+  primera lectura obligatoria y separación respecto del detalle técnico.
 - [Contexto del generador](./ai-context/architecture-generator.md) y
   [guía de Architecture Studio](./product/architecture-generator.md): contrato
   del canvas y de la generación con IA.
