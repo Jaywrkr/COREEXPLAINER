@@ -296,10 +296,10 @@ export const technicalIntegrityProfiles: Record<string, TechnicalIntegrityProfil
     limits: { nodes: ["runtime", "gateway", "mapping", "compatibility", "backend", "operator"], edge: ["mapping", "compatibility", "dependency"], path: ["runtime", "operator"], sourceIds: ["wm-interoperability", "wm-gateway", "wm-services"] },
   }),
   "mcp-fundamentals": sourceBackedProfile("application", {
-    "why-mcp": { nodes: ["host", "api-a", "api-b", "api-c", "mcp", "servers"], edge: ["host", "mcp", "control"], path: ["host", "servers"], sourceIds: ["mcp-architecture"] },
-    architecture: { nodes: ["person", "host", "client", "server", "external-system"], edge: ["client", "server", "control"], path: ["person", "external-system"], sourceIds: ["mcp-architecture", "mcp-lifecycle"] },
-    capabilities: { nodes: ["host", "server", "resources", "prompts", "tool", "result"], edge: ["server", "tool", "control"], path: ["host", "result"], sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"] },
-    "message-flow": { nodes: ["client", "server", "catalog", "request", "validation", "response"], edge: ["request", "validation", "control"], path: ["client", "response"], sourceIds: ["mcp-lifecycle", "mcp-tools"] },
-    boundaries: { nodes: ["host", "tool", "authorization", "server", "external-system", "audit"], edge: ["tool", "authorization", "control"], path: ["host", "external-system"], sourceIds: ["mcp-authorization", "mcp-tools"] },
+    "isolated-ai": { nodes: ["person", "assistant", "gap", "document-system"], edge: ["assistant", "gap", "failure"], path: ["person", "gap"], sourceIds: ["mcp-architecture"] },
+    "common-connector": { nodes: ["person", "assistant", "mcp-connection", "mcp-server", "connected-system"], edge: ["mcp-connection", "mcp-server", "control"], path: ["person", "connected-system"], sourceIds: ["mcp-architecture", "mcp-lifecycle"] },
+    "complete-journey": { nodes: ["question", "assistant", "search-tool", "mcp-server", "library", "source-result", "answer"], edge: ["search-tool", "mcp-server", "control"], path: ["question", "answer"], sourceIds: ["mcp-tools", "mcp-architecture"] },
+    capabilities: { nodes: ["mcp-server", "read-info", "use-guide", "request-action", "assistant"], edge: ["mcp-server", "request-action", "control"], path: ["mcp-server", "assistant"], sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"] },
+    "safe-access": { nodes: ["person", "assistant", "permission", "mcp-server", "connected-system", "answer"], edge: ["assistant", "permission", "control"], path: ["person", "answer"], sourceIds: ["mcp-authorization", "mcp-tools", "mcp-lifecycle"] },
   }),
 };

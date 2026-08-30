@@ -1,20 +1,44 @@
-# Storyboard — fundamentos de MCP
+# Storyboard — MCP explicado desde una necesidad humana
 
 ## Propósito
 
-Explicar el protocolo Model Context Protocol como una arquitectura de integración general. Este tema no representa proyectos, clientes, aplicaciones internas ni un servidor de CORESOLUTIONS.
+Una persona sin conocimientos técnicos debe terminar entendiendo tres ideas:
+
+1. La IA no entra por sí sola a sistemas externos.
+2. MCP ofrece una forma común y controlada de conectar esas capacidades.
+3. El servidor y los permisos siguen decidiendo qué se puede consultar o ejecutar.
+
+La terminología formal aparece después de comprender el recorrido, no antes.
 
 ## Recorrido visual
 
-1. **Problema:** cada sistema ofrece su propio contrato y obliga al host a crear una integración particular.
-2. **Arquitectura:** la persona usa un host de IA; el host crea un cliente MCP por conexión; el servidor MCP adapta un sistema externo.
-3. **Capacidades:** recursos entregan contexto, prompts aportan plantillas y herramientas representan funciones invocables con un esquema.
-4. **Mensajes:** cliente y servidor inicializan, descubren capacidades e intercambian solicitudes/respuestas estructuradas mediante JSON-RPC.
-5. **Límites:** permisos, secretos, validación de entradas, aprobación humana y auditoría siguen siendo responsabilidad de la integración.
+### 1. La IA está aislada
 
-## Mensajes que no se deben afirmar
+La persona pide buscar un documento. La IA entiende la pregunta, pero el documento está en otro sistema y no existe una conexión. La ausencia de camino es el problema visual.
 
-- MCP no da acceso automático a una API, base de datos o sistema.
-- MCP no autoriza acciones por sí solo ni reemplaza OAuth, tokens, políticas o aprobación humana.
-- Una herramienta descubierta no equivale a una herramienta permitida.
-- La simulación no ejecuta llamadas ni valida una instalación real.
+### 2. MCP crea el camino
+
+La aplicación de IA usa una conexión MCP; el servidor MCP adapta y controla el acceso al sistema. En detalle técnico, la aplicación es el host y mantiene un cliente MCP para esa conexión.
+
+### 3. La pregunta completa su recorrido
+
+Cada nodo está numerado: pregunta, IA, herramienta, servidor MCP, biblioteca, resultado y respuesta. Esta escena debe ser la demostración principal porque permite seguir causa y efecto sin conocer el protocolo.
+
+### 4. Qué puede ofrecer un servidor
+
+- Leer información: `resources`.
+- Usar una guía preparada: `prompts`.
+- Solicitar una función: `tools`.
+
+Los nombres cotidianos son principales; los términos MCP quedan como subtítulos y tooltips.
+
+### 5. El permiso conserva el control
+
+La conexión no equivale a autorización. La simulación permite interrumpir el permiso y muestra que la solicitud se detiene antes de consultar el sistema.
+
+## Mensajes prohibidos
+
+- MCP no da acceso automático a archivos, aplicaciones o dispositivos.
+- El modelo no se conecta directamente al sistema externo.
+- Descubrir una herramienta no significa que pueda ejecutarla.
+- JSON-RPC estructura mensajes, pero no reemplaza autenticación, autorización o auditoría.

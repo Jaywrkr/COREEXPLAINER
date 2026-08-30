@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.258.0] - 2026-08-30
+
+### MCP explicado desde una necesidad humana
+
+- El explainer empieza con una pregunta concreta y la imposibilidad de la IA de consultar por sí sola un sistema externo.
+- El recorrido principal numera cada salto entre pregunta, herramienta, servidor MCP, documento, resultado y respuesta.
+- La terminología formal se presenta después del concepto cotidiano; autorización y acceso permanecen como límites separados y simulables.
+
 ## [0.257.0] - 2026-08-29
 
 ### Fundamentos de Model Context Protocol

@@ -1,6 +1,6 @@
 # AI Workflow — CORESOLUTIONS Technical Explainer
 
-> **Sincronizado:** 29-08-2026 contra `main` (versión de trabajo `0.257.0`). Antes de modificar
+> **Sincronizado:** 30-08-2026 contra `codex/mcp-story-rebuild` (versión de trabajo `0.258.0`). Antes de modificar
 > contenido o código, consulta también
 > [`docs/DOCUMENTATION_STATUS.md`](./docs/DOCUMENTATION_STATUS.md) para no
 > sustituir fechas históricas o revisiones técnicas por una fecha de edición.
