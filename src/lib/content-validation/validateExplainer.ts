@@ -399,6 +399,16 @@ export function validateExplainerContent(input: ExplainerValidationInput): Expla
     } else if (step.paragraphs.some((paragraph) => !isNonEmptyText(paragraph))) {
       add(`${label}.paragraphs cannot contain empty text`);
     }
+    if (!step.clientNarrative || !isNonEmptyText(step.clientNarrative.lead)) {
+      add(`${label}.clientNarrative.lead must provide a plain-language first reading`);
+    } else {
+      if (step.clientNarrative.title !== undefined && !isNonEmptyText(step.clientNarrative.title)) {
+        add(`${label}.clientNarrative.title must be non-empty when provided`);
+      }
+      if (step.clientNarrative.impact !== undefined && !isNonEmptyText(step.clientNarrative.impact)) {
+        add(`${label}.clientNarrative.impact must be non-empty when provided`);
+      }
+    }
     if (!sceneIds.has(step.sceneId)) {
       add(`${label}.sceneId '${step.sceneId}' does not exist in the animation spec`);
     }

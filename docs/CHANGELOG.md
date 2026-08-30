@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.259.0] - 2026-08-30
+
+### Primera lectura humana en todos los explainers
+
+- Los 23 temas tienen ahora una narrativa breve y específica para modo Cliente: una situación reconocible, una transformación visible y una consecuencia concreta.
+- Se conserva el contenido técnico original para Detalle técnico, junto con fuentes, marcas, límites, escenarios y contratos del diagrama.
+- La validación de contenido impide registrar una escena que no tenga su primera lectura en lenguaje sencillo.
+
 ## [0.258.0] - 2026-08-30
 
 ### MCP explicado desde una necesidad humana

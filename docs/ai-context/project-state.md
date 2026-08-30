@@ -1,13 +1,16 @@
 # Estado del proyecto
 
-> **Estado operativo sincronizado:** 30-08-2026 contra `codex/mcp-story-rebuild`.
+> **Estado operativo sincronizado:** 30-08-2026 contra `codex/all-explainers-story-rebuild`.
 > La fecha de cada actualización inferior es el registro histórico de ese
 > cambio; no equivale a una nueva certificación técnica, de compatibilidad o
 > del entorno de un cliente.
 
 ## Punto de partida para la siguiente sesión
 
-- La versión de trabajo del repositorio es **0.258.0**.
+- La versión de trabajo del repositorio es **0.259.0**.
+- Los 23 explainers tienen una primera lectura específica en lenguaje humano.
+  El modo Cliente usa `clientNarrative`; Detalle técnico conserva los textos,
+  fuentes y límites originales. El registro bloquea escenas sin esa cobertura.
 - El catálogo incorpora `/explainer/mcp-fundamentals`: una explicación
   neutral de MCP y no de un caso de uso interno. Cubre problema, roles,
   capacidades, mensajes y límites de seguridad sin consultar ni operar datos.
@@ -51,6 +54,8 @@
 **Actualizacion v0.257.0 (29-08-2026):** se agrega el explainer neutral `/explainer/mcp-fundamentals`. Sus cinco escenas explican el estándar MCP y sus límites técnicos; no modelan proyectos, Glide, Core Planning ni una operación de CORESOLUTIONS.
 
 **Actualizacion v0.258.0 (30-08-2026):** el explainer MCP se reconstruye desde una necesidad humana. Primero muestra a la IA aislada, luego el conector y un recorrido numerado de consulta; host, cliente, resources, prompts, tools y JSON-RPC quedan como profundidad posterior. Se conserva la autorización como control independiente.
+
+**Actualizacion v0.259.0 (30-08-2026):** el patrón de primera lectura humana se aplica a los 23 explainers. Cada escena tiene una idea breve y concreta para Cliente, mientras la explicación original permanece en Detalle técnico. `attachClientNarratives` y el content gate impiden publicar pasos sin esa capa sencilla.
 
 **Actualizacion v0.253.0 (28-08-2026):** Architecture Studio puede descargar un paquete de diseño técnico en Markdown. Incluye inventario de bloques autorizados, conexiones y puertos lógicos, supuestos, riesgos, resultados de validación, preguntas de discovery y pendientes de ingeniería; no se presenta como BOM, HCL, diseño de bajo nivel ni aprobación de implementación.
 

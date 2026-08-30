@@ -1,6 +1,6 @@
 # AI Workflow — CORESOLUTIONS Technical Explainer
 
-> **Sincronizado:** 30-08-2026 contra `codex/mcp-story-rebuild` (versión de trabajo `0.258.0`). Antes de modificar
+> **Sincronizado:** 30-08-2026 contra `codex/all-explainers-story-rebuild` (versión de trabajo `0.259.0`). Antes de modificar
 > contenido o código, consulta también
 > [`docs/DOCUMENTATION_STATUS.md`](./docs/DOCUMENTATION_STATUS.md) para no
 > sustituir fechas históricas o revisiones técnicas por una fecha de edición.
@@ -25,6 +25,8 @@ que retome el desarrollo de este proyecto. Léelo primero, en este orden:
 8. **`docs/examples/vcf/`** — ejemplo de referencia completo (contenido +
    storyboard + animation-spec.json) usado por el prototipo en
    `/explainer/vcf`.
+9. **`docs/ai-context/client-narrative-standard.md`** — contrato de la primera
+   lectura humana que debe existir en todas las escenas.
 
 ## Reglas no negociables
 
@@ -54,6 +56,10 @@ que retome el desarrollo de este proyecto. Léelo primero, en este orden:
   `Sincronizado` y el índice `docs/DOCUMENTATION_STATUS.md` al día. Las fechas
   de auditorías, changelog, fuentes oficiales y revisiones técnicas describen
   hechos históricos: solo cambian cuando existe una nueva revisión real.
+- **Toda escena necesita una primera lectura para cliente.** Agrégala en
+  `src/content/client-narratives.ts`: debe describir una situación o cambio
+  visible sin exigir conocimiento previo. El contenido técnico permanece en
+  el archivo del tema y no debe copiarse dentro de esa narrativa.
 
 ## Cómo correr el proyecto
 

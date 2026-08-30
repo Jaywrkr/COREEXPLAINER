@@ -55,7 +55,8 @@ export function LeftPanel({
 }: LeftPanelProps) {
   const step = steps[current]!;
   const isTechnical = audienceMode === "technical";
-  const leadParagraph = step.paragraphs[0] ?? "";
+  const clientNarrative = step.clientNarrative;
+  const leadParagraph = clientNarrative?.lead ?? step.paragraphs[0] ?? "";
 
   return (
     <div className="flex h-full flex-col overflow-y-auto border-r border-core-border/[0.09] p-4 sm:p-5">
@@ -77,9 +78,9 @@ export function LeftPanel({
       <AudienceModeToggle mode={audienceMode} onChange={onAudienceModeChange} />
       {!isTechnical ? (
         <ClientStoryCard
-          stepTitle={step.title}
+          stepTitle={clientNarrative?.title ?? step.title}
           lead={leadParagraph}
-          businessImpact={step.businessImpact}
+          businessImpact={clientNarrative?.impact ?? step.businessImpact}
         />
       ) : null}
       {isTechnical ? (
