@@ -3,9 +3,9 @@ import type { TechnicalAuthorityRule } from "./types";
 /** Source-to-scene contracts owned by public standards and open communities. */
 export const standardsTechnicalRulePacks: Record<string, TechnicalAuthorityRule[]> = {
   "mcp-fundamentals": [
-    { id: "mcp-host-client-server", control: "The explainer must keep the host, its MCP client and the external MCP server as separate roles.", sourceIds: ["mcp-architecture", "mcp-lifecycle"], stepIds: ["why-mcp", "architecture", "message-flow"] },
-    { id: "mcp-capability-boundaries", control: "Tools, resources and prompts must remain distinct capabilities; tool invocation requires an explicit server-defined schema.", sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"], stepIds: ["capabilities", "message-flow"] },
-    { id: "mcp-authorization-boundary", control: "MCP discovery must not be presented as authorization to access or change an external system.", sourceIds: ["mcp-authorization", "mcp-tools"], stepIds: ["boundaries"] },
+    { id: "mcp-host-client-server", control: "The simple story must preserve the technical separation between the AI host, its MCP client connection and the external MCP server.", sourceIds: ["mcp-architecture", "mcp-lifecycle"], stepIds: ["isolated-ai", "common-connector", "complete-journey"] },
+    { id: "mcp-capability-boundaries", control: "Information, prompt templates and callable tools must remain distinct capabilities, even when presented first in plain language.", sourceIds: ["mcp-tools", "mcp-resources", "mcp-prompts"], stepIds: ["capabilities"] },
+    { id: "mcp-authorization-boundary", control: "Discovering or selecting a tool must not be presented as authorization to access the connected system.", sourceIds: ["mcp-authorization", "mcp-tools"], stepIds: ["safe-access"] },
   ],
   "zero-trust": [
     { id: "nist-zt-request-context", control: "Access claims must retain an explicit subject, resource, action and context evaluation boundary.", sourceIds: ["nist-800-207", "cisa-ztmm"], stepIds: ["request", "context", "limits"] },
